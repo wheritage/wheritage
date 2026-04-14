@@ -672,6 +672,203 @@ h2 em { font-style: italic; color: var(--or-vif); }
 .service-cta:hover { gap: 1rem; }
 .service-cta svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
 
+
+/* ── SECTION CAPTURE GUIDE ── */
+#capture-guide {
+  background: var(--noir2);
+  padding: 6rem 5rem;
+  border-top: 1px solid rgba(184,146,74,0.1);
+  border-bottom: 1px solid rgba(184,146,74,0.1);
+  display: flex;
+  justify-content: center;
+}
+.capture-box {
+  background: var(--sombre);
+  border: 1px solid rgba(184,146,74,0.25);
+  padding: 4rem;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.capture-box::before {
+  content: 'STRATÉGIE';
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8rem;
+  color: rgba(184,146,74,0.03);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.capture-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  color: var(--creme);
+  margin-bottom: 1rem;
+  position: relative;
+}
+.capture-desc {
+  font-size: 0.9rem;
+  color: var(--texte2);
+  margin-bottom: 2.5rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+.capture-form {
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+.capture-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: rgba(8,8,8,0.5);
+  border: 1px solid rgba(184,146,74,0.3);
+  color: var(--texte);
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+}
+.capture-input:focus { border-color: var(--or); }
+.capture-btn {
+  background: var(--or);
+  color: var(--noir);
+  border: none;
+  padding: 1rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.capture-btn:hover { background: var(--or-vif); }
+
+
+/* ── GUIDE CACHÉ (L'EMPIRE BLINDÉ) ── */
+#guide-content {
+  display: none; /* Masqué par défaut */
+  background: var(--sombre);
+  padding: 6rem 5rem;
+}
+#guide-content.active {
+  display: block;
+  animation: fadeIn 1s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.guide-container {
+  max-width: 750px;
+  margin: 0 auto;
+}
+.guide-header {
+  text-align: center;
+  margin-bottom: 5rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(184,146,74,0.15);
+}
+.guide-header h2 {
+  font-size: clamp(3rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+}
+.guide-header-sub {
+  color: var(--or);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+}
+.guide-header-author {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--texte3);
+}
+
+.guide-concept {
+  margin-bottom: 5rem;
+}
+.guide-concept-eyebrow {
+  color: var(--or);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: block;
+}
+.guide-concept h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  color: var(--creme);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+.guide-concept p {
+  font-size: 0.9rem;
+  color: var(--texte2);
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+}
+.guide-concept ul {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+.guide-concept li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--texte2);
+  line-height: 1.6;
+}
+.guide-concept li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 4px; height: 4px;
+  background: var(--or);
+  transform: rotate(45deg);
+}
+.guide-concept strong {
+  color: var(--texte);
+  font-weight: 500;
+}
+.guide-quote {
+  border-left: 2px solid var(--or);
+  padding-left: 1.5rem;
+  margin: 3rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--or-pale);
+  line-height: 1.4;
+}
+
+/* Embed Cal.com dans le guide */
+.guide-cta-box {
+  background: var(--noir);
+  border: 1px solid rgba(184,146,74,0.3);
+  padding: 4rem 3rem;
+  text-align: center;
+  margin-top: 6rem;
+}
+.guide-cta-box h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: var(--or);
+  margin-bottom: 1.5rem;
+}
+
+
 /* ── RACHAT SECTION ── */
 .rachat-section {
   background: var(--noir);
@@ -857,12 +1054,6 @@ footer {
 .footer-right { text-align: right; font-size: 0.65rem; color: var(--texte3); line-height: 1.8; }
 .footer-right a { color: var(--or-pale); text-decoration: none; }
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   nav { padding: 1.5rem 2rem; }
@@ -874,7 +1065,7 @@ footer {
   .hero-right { display: none; }
   .hero-title { font-size: clamp(3.2rem, 12vw, 5rem); }
 
-  section, #services, #temoignages, #contact, .manifeste, .rachat-section { padding: 4rem 2rem; }
+  section, #services, #temoignages, #contact, .manifeste, .rachat-section, #capture-guide, #guide-content { padding: 4rem 2rem; }
   #reservation { padding: 4rem 2rem; }
   .intro-band { padding: 3rem 2rem; grid-template-columns: 1fr; gap: 2rem; }
   .intro-item { padding: 0; }
@@ -888,6 +1079,11 @@ footer {
 
   .service-row-header { grid-template-columns: 60px 1fr auto; gap: 1.5rem; }
   .service-detail-inner { padding: 0 0 2rem 0; grid-template-columns: 1fr; gap: 1.5rem; }
+
+  .capture-box { padding: 3rem 2rem; }
+  .capture-form { flex-direction: column; }
+  .capture-title { font-size: 2.2rem; }
+  .guide-cta-box { padding: 3rem 1.5rem; }
 
   footer { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
   .footer-links { justify-content: center; flex-wrap: wrap; }
@@ -1227,6 +1423,105 @@ footer {
   </div>
 </section>
 
+<section id="guide" class="capture-section">
+  <div id="capture-guide">
+    <div class="capture-box reveal">
+      <h2 class="capture-title">L'Empire Blindé</h2>
+      <p class="capture-desc">Le guide du fondateur qui refuse de tout perdre. 3 stratégies que les entrepreneurs à 7 chiffres utilisent pour protéger ce qu'ils bâtissent — et que personne ne t'a jamais expliquées.</p>
+      
+      <form id="leadCaptureForm" class="capture-form" action="#">
+        <input type="email" class="capture-input" placeholder="Adresse courriel" required>
+        <button type="submit" class="capture-btn">Déverrouiller la stratégie</button>
+      </form>
+      <p style="font-size: 0.65rem; color: var(--texte3); margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 0.1em;">Lecture instantanée. Sans quitter la page.</p>
+    </div>
+  </div>
+</section>
+
+<section id="guide-content">
+  <div class="guide-container">
+    
+    <div class="guide-header">
+      <h2>L'EMPIRE BLINDÉ</h2>
+      <p class="guide-header-sub">Le guide du fondateur qui refuse de tout perdre</p>
+      <p class="guide-header-author">Walid Harchaoui · CSF — W Héritage · Montréal</p>
+    </div>
+
+    <div class="guide-concept">
+      <span class="guide-concept-eyebrow">Concept 01</span>
+      <h3>Ton revenu est fragile. Ton empire peut être blindé.</h3>
+      <p>Tu es le moteur de ta business. Tout repose sur toi — tes revenus, tes clients, ta réputation. Et si ce moteur tombe en panne ?</p>
+      <p>La plupart des entrepreneurs ont une réponse honnête à cette question : ils n'ont pas de plan. Ils ont des économies. Quelques mois de runway. Et l'espoir que ça n'arrive pas. Ce n'est pas une stratégie. C'est un pari.</p>
+      <p>L'assurance invalidité est le fond de roulement personnel que 90% des entrepreneurs n'ont pas. Voici ce qui arrive sans elle :</p>
+      <ul>
+        <li><strong>Mois 1 :</strong> tu puises dans tes économies personnelles.</li>
+        <li><strong>Mois 2 :</strong> tu touches au capital que tu voulais préserver pour investir.</li>
+        <li><strong>Mois 3 :</strong> tu prends des décisions que tu vas regretter longtemps.</li>
+        <li>Ta business continue d'avoir des charges. Tes clients n'attendent pas. La pression monte.</li>
+      </ul>
+      <p><strong>Ce que tu dois comprendre :</strong> l'assurance invalidité remplace ton revenu si tu ne peux plus travailler — maladie, accident, épuisement. Ce n'est pas un produit d'assurance. C'est ton fond de roulement personnel. La ligne de crédit que tu n'auras jamais à rembourser parce que tu t'es protégé à temps.</p>
+      <p>Les primes sont au plus bas quand tu es jeune et en santé. Chaque mois que tu attends, tu paies plus cher — si tu es encore éligible.</p>
+      <div class="guide-quote">"La question n'est pas si quelque chose va t'arriver. C'est si tu seras prêt quand ça arrivera."</div>
+    </div>
+
+    <div class="guide-concept">
+      <span class="guide-concept-eyebrow">Concept 02</span>
+      <h3>L'assurance vie que les 1% utilisent — pas pour mourir. Pour vivre mieux.</h3>
+      <p>Si tu penses que l'assurance vie, c'est une dépense — ton banquier t'a menti. Voici la réalité que personne ne t'explique, parce qu'elle ne profite pas aux institutions.</p>
+      <p>L'assurance vie permanente avec valeur de rachat fonctionne sur 3 mécanismes puissants :</p>
+      <p><strong>Mécanisme 1 — La valeur de rachat</strong><br>
+      Chaque prime que tu verses accumule une valeur à l'intérieur du contrat. Cette valeur croît à l'abri de l'impôt. Tu peux y accéder de ton vivant — pas seulement à ton décès. C'est un actif réel, pas une promesse.</p>
+      <p><strong>Mécanisme 2 — Le levier financier</strong><br>
+      Des institutions prêtent contre la valeur de ta police sans que tu la liquides. Tu gardes ta protection. Tu gardes ta croissance. Et tu as du capital disponible pour investir ailleurs. Comme utiliser ta maison comme garantie — sans la vendre.</p>
+      <p><strong>Mécanisme 3 — Le capital-décès hors succession</strong><br>
+      Versé immédiatement à tes bénéficiaires, libre d'impôt, sans délai de règlement successoral. Ta famille et tes associés ont accès au capital le jour même. Pas dans 6 mois après que les avocats ont réglé la succession.</p>
+      <p><strong>Ce que ça change concrètement :</strong></p>
+      <ul>
+        <li>Tu fais croître du capital sans payer d'impôt sur la croissance.</li>
+        <li>Tu as accès à ce capital de ton vivant, sans le liquider.</li>
+        <li>Tu protèges ta famille et ta business en même temps.</li>
+        <li>À ton décès, le transfert est immédiat, discret, sans impôt.</li>
+      </ul>
+      <p>Ce n'est pas compliqué. C'est méconnu — parce que ça ne génère pas de commissions récurrentes pour les banques qui te conseillent.</p>
+      <div class="guide-quote">"Ce n'est pas une dépense. C'est le blindage de ton empire."</div>
+    </div>
+
+    <div class="guide-concept">
+      <span class="guide-concept-eyebrow">Concept 03</span>
+      <h3>La fiscalité est le plus gros vol légal de ta business. Voici comment l'arrêter.</h3>
+      <p>L'impôt est souvent la dépense la plus sous-estimée dans un plan financier. Non pas parce qu'elle est petite — mais parce qu'elle est invisible. Elle part avant que tu voies ton argent.</p>
+      <p>Voici les 3 erreurs fiscales les plus coûteuses pour les entrepreneurs québécois :</p>
+      <p><strong>Erreur 1 — Tout mettre dans le CELI par défaut</strong><br>
+      Le CELI est un outil dans une stratégie. Utilisé seul, sans considérer ta structure corporative, tu passes à côté d'options bien plus puissantes. Pour un entrepreneur incorporé, il existe des véhicules qui offrent une croissance à l'abri de l'impôt avec une flexibilité supérieure. Le CELI fait partie d'une structure — il n'est pas la structure.</p>
+      <p><strong>Erreur 2 — Rémunération non optimisée</strong><br>
+      Dividendes versus salaire — ce n'est pas anodin. Selon ta situation, ta province et tes revenus, la mauvaise combinaison peut te coûter des milliers en impôts inutiles chaque année. La plupart des entrepreneurs improvise. Les meilleurs structurent. La bonne combinaison se calcule — et elle change selon les années.</p>
+      <p><strong>Erreur 3 — Ignorer l'assurance comme outil fiscal</strong><br>
+      L'assurance vie permanente est l'un des seuls véhicules qui te permet de faire croître du capital à l'abri de l'impôt, tout en restant accessible de ton vivant. La plupart des entrepreneurs ne savent même pas que ça existe comme stratégie fiscale. Ils la voient comme une charge — pas comme un outil d'optimisation.</p>
+      <p><strong>La réalité :</strong> si tu as une structure corporative, si tu te paies en dividendes, si tu mets tout dans ton CELI sans stratégie globale — tu laisses probablement des milliers de dollars sur la table chaque année. Pas par négligence. Par manque d'information.</p>
+      <div class="guide-quote">"La question n'est pas si tu paies trop d'impôts. C'est combien — et depuis combien de temps."</div>
+    </div>
+
+    <div class="guide-cta-box">
+      <h3>La Prochaine Étape</h3>
+      <p style="color: var(--texte2); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2rem;">Tu viens de lire les 3 concepts. Mais voilà ce que ce guide ne peut pas faire : calculer exactement ce que <strong>toi</strong> — avec ta structure, ton revenu et tes objectifs — tu dois mettre en place.<br><br>
+      C'est pour ça que j'offre une session stratégique de 15 minutes. Sans engagement. Sans bullshit. On regarde ta situation. On identifie les vrais trous dans ton armure. Et je te dis exactement quoi faire.<br><br>
+      <strong style="color: var(--texte);">Cette session n'est pas un appel de vente. C'est une analyse brute de ta structure pour identifier tes fuites financières — et ce que tu peux faire cette semaine pour les colmater.</strong></p>
+      
+      <div style="height: 600px; overflow:hidden; border-radius: 4px;">
+        <iframe 
+          src="https://cal.com/wheritage/rencontre-strategique-15min" 
+          width="100%" 
+          height="100%" 
+          frameborder="0"
+          title="Réserver une rencontre stratégique de 15 min">
+        </iframe>
+      </div>
+      <p style="font-size: 0.7rem; color: var(--texte3); margin-top: 2rem; text-transform: uppercase; letter-spacing: 0.1em;">Walid Harchaoui · CSF · Membre de l'AMF · Montréal</p>
+    </div>
+
+  </div>
+</section>
+
 <div style="background: var(--noir); position: relative; height: 80px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
   <div style="position: relative; z-index: 2; display: flex; align-items: center; gap: 2rem;">
     <div style="width: 60px; height: 1px; background: linear-gradient(to right, transparent, rgba(184,146,74,0.4));"></div>
@@ -1322,7 +1617,7 @@ footer {
     <div class="temo-card reveal">
       <span class="temo-open-quote">"</span>
       <div class="temo-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
-      <p class="temo-text">Walid a transformé ma façon de voir mes finances. Je pensais que l'assurance était une dépense — j'ai découvert que c'était un investissement. Aujourd'hui, j'ai un plan de retraite dont je suis fier.</p>
+      <p class="temo-text">Walid a transformé ma façon de voir mes finances. Je pensais que l'assurance était une dépense — j'ai découvert que c'tétait un investissement. Aujourd'hui, j'ai un plan de retraite dont je suis fier.</p>
       <p class="temo-author">Marc-Antoine Blouin</p>
       <p class="temo-role">Entrepreneur, Montréal</p>
     </div>
@@ -1581,9 +1876,7 @@ document.querySelectorAll('.glow-line').forEach(el => glowObs.observe(el));
 // ── SERVICE TOGGLE ──
 function toggleService(row) {
   const isActive = row.classList.contains('active');
-  // Close all open rows
   document.querySelectorAll('.service-row.active').forEach(r => r.classList.remove('active'));
-  // Open clicked row if it wasn't open
   if (!isActive) row.classList.add('active');
 }
 
@@ -1601,7 +1894,50 @@ function closeMobile() {
   document.body.style.overflow = '';
 }
 
-// ── CONTACT FORM ──
+// ── CAPTURE DU GUIDE (AUTOMATISATION EMAIL & AFFICHAGE) ──
+const leadForm = document.getElementById('leadCaptureForm');
+const guideContent = document.getElementById('guide-content');
+
+if(leadForm) {
+  leadForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const btn = leadForm.querySelector('.capture-btn');
+    const emailInput = leadForm.querySelector('input[type="email"]');
+    btn.textContent = "Déverrouillage...";
+    btn.disabled = true;
+
+    // Envoi silencieux du courriel via ta clé Web3Forms existante
+    try {
+      await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: "6a1ef05e-eb74-4517-93e3-f708369154f0", // Ta clé
+          subject: "NOUVEAU LEAD : Guide L'Empire Blindé",
+          email: emailInput.value,
+          from_name: "W Héritage Capture"
+        })
+      });
+    } catch (err) {
+      console.log("Erreur d'envoi", err);
+    }
+
+    // Afficher le guide
+    guideContent.classList.add('active');
+    btn.textContent = "Guide déverrouillé ✓";
+    btn.style.background = "var(--or)";
+    btn.style.color = "var(--noir)";
+    emailInput.disabled = true;
+
+    // Scroll automatique avec un léger délai pour laisser l'animation commencer
+    setTimeout(() => {
+      guideContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  });
+}
+
+// ── CONTACT FORM EXISTANT ──
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', async function(e) {
