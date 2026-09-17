@@ -5,11 +5,11 @@ import { Container } from "./container";
 
 const easeOutStrong = [0.23, 1, 0.32, 1] as const;
 
-const kw = "text-accent";
-const str = "text-verified";
-const cmt = "text-ink-tertiary";
-const fn = "text-ink";
-const punct = "text-ink-tertiary";
+const kw = "text-graphite-accent";
+const str = "text-graphite-verified";
+const cmt = "text-graphite-fg-secondary";
+const fn = "text-graphite-fg";
+const punct = "text-graphite-fg-secondary";
 
 export function ForBuilders() {
   return (

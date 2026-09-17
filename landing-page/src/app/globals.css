@@ -34,6 +34,7 @@
   --graphite-fg-secondary: #b3aa97;
   --graphite-line: rgba(243, 239, 230, 0.14);
   --graphite-accent: #e08a3e;
+  --graphite-verified: #7fb88a;
 
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -65,6 +66,7 @@
   --color-graphite-fg-secondary: var(--graphite-fg-secondary);
   --color-graphite-line: var(--graphite-line);
   --color-graphite-accent: var(--graphite-accent);
+  --color-graphite-verified: var(--graphite-verified);
 
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
