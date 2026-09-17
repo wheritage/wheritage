@@ -1,0 +1,133 @@
+@import "tailwindcss";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+
+:root {
+  --paper: #f7f4ec;
+  --paper-raised: #fbf9f4;
+  --paper-sunken: #efeae0;
+
+  --ink: #18140f;
+  --ink-secondary: #5b5346;
+  --ink-tertiary: #8d8471;
+  --ink-muted: #c2bba8;
+
+  --line: rgba(24, 20, 15, 0.12);
+  --line-soft: rgba(24, 20, 15, 0.07);
+  --line-strong: rgba(24, 20, 15, 0.3);
+
+  --accent: #9a4b14;
+  --accent-hover: #7e3d10;
+  --accent-soft: rgba(154, 75, 20, 0.1);
+
+  --verified: #3f6b45;
+  --verified-soft: rgba(63, 107, 69, 0.12);
+
+  --graphite: #17140f;
+  --graphite-raised: #201c15;
+  --graphite-fg: #f3efe6;
+  --graphite-fg-secondary: #b3aa97;
+  --graphite-line: rgba(243, 239, 230, 0.14);
+  --graphite-accent: #e08a3e;
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunken: var(--paper-sunken);
+
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-tertiary: var(--ink-tertiary);
+  --color-ink-muted: var(--ink-muted);
+
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-line-strong: var(--line-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-verified: var(--verified);
+  --color-verified-soft: var(--verified-soft);
+
+  --color-graphite: var(--graphite);
+  --color-graphite-raised: var(--graphite-raised);
+  --color-graphite-fg: var(--graphite-fg);
+  --color-graphite-fg-secondary: var(--graphite-fg-secondary);
+  --color-graphite-line: var(--graphite-line);
+  --color-graphite-accent: var(--graphite-accent);
+
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --ease-out-strong: var(--ease-out-strong);
+
+  --animate-ledger-scroll: ledger-scroll 32s linear infinite;
+  --animate-fade-up: fade-up 600ms var(--ease-out-strong) forwards;
+}
+
+@keyframes ledger-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
