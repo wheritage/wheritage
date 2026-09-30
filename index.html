@@ -202,6 +202,8 @@
 .auto-strip small { font-size: .58rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
 .auto-strip h3 { font-size: 1.6rem; margin: .3rem 0 .3rem; }
 .auto-strip p { font-size: .8rem; color: var(--texte2); }
+.auto-btns { display: flex; flex-direction: column; gap: .6rem; }
+.auto-btns .btn { justify-content: space-between; }
 
 /* ── TÉMOIGNAGES ── */
 .temo-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ligne); border-left: 1px solid var(--ligne); }
@@ -376,7 +378,7 @@
             <li>Assurance maladies graves — capital versé au diagnostic d'une maladie couverte</li>
             <li>Assurance invalidité — remplacement de revenu en cas d'incapacité de travail</li>
             <li>Assurance soins de longue durée — préservez votre autonomie et épargnez vos proches</li>
-            <li>Analyse des besoins en assurance personnalisée et sans frais</li>
+            <li>Analyse des besoins en assurance personnalisée, adaptée à votre réalité</li>
           </ul>
           <ul lang="en">
             <li>Term life insurance (10, 20, 30 years) — affordable protection for the critical years</li>
@@ -384,7 +386,7 @@
             <li>Critical illness insurance — a lump sum paid on diagnosis of a covered illness</li>
             <li>Disability insurance — income replacement if you can't work</li>
             <li>Long-term care insurance — protect your independence and spare your family</li>
-            <li>Personalized insurance needs analysis, at no cost</li>
+            <li>Personalized insurance needs analysis, tailored to your reality</li>
           </ul>
         </div></div></div>
       </div>
@@ -755,7 +757,7 @@
         <h3><span lang="fr">Payez-vous trop cher pour vos assurances ?</span><span lang="en">Paying too much for your insurance?</span></h3>
         <p><span lang="fr">Obtenez votre soumission en ligne en quelques minutes. On regarde ensuite si vous économisez — et ce qui reste à protéger.</span><span lang="en">Get your online quote in a few minutes. Then we look at whether you save — and what's left to protect.</span></p>
       </div>
-      <a href="https://ia.ca/assurance-auto" data-quote target="_blank" rel="noopener" class="btn btn-gold"><span lang="fr">Obtenir ma soumission</span><span lang="en">Get my quote</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+      <div class="auto-btns"><a href="#" data-quote="auto" target="_blank" rel="noopener" class="btn btn-gold"><span lang="fr">Soumission auto</span><span lang="en">Auto quote</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a href="#" data-quote="home" target="_blank" rel="noopener" class="btn btn-line"><span lang="fr">Soumission habitation</span><span lang="en">Home quote</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></div>
     </div>
   </div>
 </section>
@@ -801,7 +803,7 @@
     <div>
       <p class="eyebrow reveal"><span lang="fr">Réservez</span><span lang="en">Book</span></p>
       <h2><span lang="fr" class="split">Choisissez votre<br>moment <em>idéal</em></span><span lang="en" class="split">Pick the<br>time that <em>suits you</em></span></h2>
-      <p class="lead reveal" style="margin-top:1.2rem"><span lang="fr">Sélectionnez une date et une plage horaire. La consultation initiale est offerte, sans frais et sans engagement.</span><span lang="en">Choose a date and a time slot. The first consultation is free, with no commitment.</span></p>
+      <p class="lead reveal" style="margin-top:1.2rem"><span lang="fr">Sélectionnez une date et une plage horaire. Une première rencontre pour comprendre votre situation — sans engagement.</span><span lang="en">Choose a date and a time slot. A first meeting to understand your situation — no commitment.</span></p>
       <div class="modes" data-stagger>
         <div class="mode reveal"><span class="ic"><svg viewBox="0 0 15 15"><rect x="2" y="2" width="11" height="11"/><path d="M2 6h11M5 2v4M10 2v4"/></svg></span><div><b lang="fr">En personne</b><b lang="en">In person</b><span lang="fr">Bureau à Montréal — adresse confirmée par courriel</span><span lang="en">Montreal office — address confirmed by email</span></div></div>
         <div class="mode reveal"><span class="ic"><svg viewBox="0 0 15 15"><rect x="1" y="3" width="13" height="9"/><path d="M5 14h5M7.5 12v2"/></svg></span><div><b lang="fr">Vidéoconférence</b><b lang="en">Video call</b><span lang="fr">Microsoft Teams — lien envoyé avant le rendez-vous</span><span lang="en">Microsoft Teams — link sent before the meeting</span></div></div>
@@ -820,7 +822,7 @@
     <div>
       <p class="eyebrow reveal">Contact</p>
       <h2><span lang="fr" class="split">Votre héritage<br>commence <em>ici.</em></span><span lang="en" class="split">Your legacy<br>starts <em>here.</em></span></h2>
-      <p class="lead reveal" style="margin:1.2rem 0 2.6rem"><span lang="fr">La première consultation est offerte, sans frais et sans engagement.</span><span lang="en">The first consultation is free, with no commitment.</span></p>
+      <p class="lead reveal" style="margin:1.2rem 0 2.6rem"><span lang="fr">Une première rencontre pour comprendre votre situation — sans engagement.</span><span lang="en">A first meeting to understand your situation — no commitment.</span></p>
       <div class="c-row reveal"><span class="ic"><svg viewBox="0 0 16 16"><path d="M3 2H6L7.5 5.5L6 7C6.9 8.8 8.2 10 10 11L11.5 9.5L15 11V14C15 14.55 14.55 15 14 15C7 15 2 10 1 3C1 2.45 1.45 2 2 2H3Z"/></svg></span><div><small lang="fr">Téléphone</small><small lang="en">Phone</small><a href="tel:5142967511">(514) 296-7511</a></div></div>
       <div class="c-row reveal"><span class="ic"><svg viewBox="0 0 16 16"><path d="M2 3h12v10H2z"/><path d="M2 3.5 8 8.5l6-5"/></svg></span><div><small lang="fr">Courriel</small><small lang="en">Email</small><a href="mailto:walid.harchaoui@agc.ia.ca">walid.harchaoui@agc.ia.ca</a></div></div>
       <div class="c-row reveal"><span class="ic"><svg viewBox="0 0 16 16"><circle cx="8" cy="6.5" r="2.5"/><path d="M8 1C5.2 1 3 3.2 3 6c0 3.8 5 9 5 9s5-5.2 5-9c0-2.8-2.2-5-5-5Z"/></svg></span><div><small lang="fr">Bureau</small><small lang="en">Office</small><p lang="fr">Montréal, Québec — en personne ou en ligne</p><p lang="en">Montreal, Quebec — in person or online</p></div></div>
@@ -860,7 +862,7 @@
 <script>
 (function () {
   // Lien de soumission auto/habitation centralisé
-  document.querySelectorAll('[data-quote]').forEach(function (a) { a.href = WH.config.quoteUrl; });
+  document.querySelectorAll('[data-quote]').forEach(function (a) { a.href = a.getAttribute('data-quote') === 'home' ? WH.config.quoteHomeUrl : WH.config.quoteAutoUrl; });
 
   // Accordéon des services
   document.querySelectorAll('.svc-head').forEach(function (h) {
