@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr"
+  data-title-fr="Simulateur d'épargne | W Héritage"
+  data-title-en="Savings simulator | W Héritage">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulateur d'épargne | W Héritage</title>
+<meta name="description" content="Visualisez comment un montant épargné chaque semaine, aux deux semaines ou chaque mois peut croître dans le temps — et l'effet réel d'une protection de l'épargne.">
+<meta name="theme-color" content="#080808">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(){var l='fr';try{var q=new URLSearchParams(location.search).get('lang');l=q||localStorage.getItem('wh-lang')||'fr';}catch(e){}l=l==='en'?'en':'fr';var h=document.documentElement;h.setAttribute('data-lang',l);h.lang=l;})();</script>
+<style>
+.calc-hero { padding: 11rem var(--pad-x) 4.5rem; text-align: center; position: relative; overflow: hidden; background: #060504; }
+.calc-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 70% at 50% 0%, rgba(201,168,76,.13), transparent 70%); }
+.calc-hero canvas.dust { position: absolute; inset: 0; width: 100%; height: 100%; }
+.calc-hero > * { position: relative; }
+.calc-hero .k { font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--or); font-weight: 500; margin-bottom: 1rem; }
+.calc-hero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); letter-spacing: .08em; text-transform: uppercase; font-weight: 300; }
+.calc-hero h1 .dim { color: var(--texte3); }
+.calc-hero .rule { width: 84px; height: 1px; background: var(--or); margin: 1.8rem auto; transform: scaleX(0); transition: transform 1.4s var(--ease-out) .4s; }
+.ready .calc-hero .rule { transform: scaleX(1); }
+.calc-hero p { font-size: .9rem; color: var(--texte2); max-width: 580px; margin: 0 auto; line-height: 1.85; }
+
+.calc-wrap { max-width: 1000px; margin: 0 auto; padding: 0 var(--pad-x) 7rem; }
+.card { border: 1px solid var(--ligne); background: var(--noir2); padding: 2.6rem 2.4rem; }
+.row { margin-bottom: 2rem; }
+.row .lbl { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte2); margin-bottom: .9rem; font-weight: 500; }
+.row .lbl em { font-style: normal; text-transform: none; letter-spacing: .02em; color: var(--creme); font-weight: 500; }
+.slide { display: flex; align-items: center; gap: 1.4rem; }
+.slide input[type="range"] { flex: 1; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 2.6rem; }
+.sep { height: 1px; background: var(--ligne); margin: .4rem 0 1.8rem; }
+.opt { margin-bottom: 1.6rem; }
+.opt-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease-out); }
+.opt-body > div { overflow: hidden; }
+.opt.open .opt-body { grid-template-rows: 1fr; }
+.opt-inner { padding: 1.6rem 0 .4rem 3.6rem; }
+.opt-inner .note { font-size: .7rem; color: var(--texte3); line-height: 1.7; margin-top: -.6rem; }
+.chart-box { margin-top: 1rem; }
+.legend .v { color: var(--creme); font-weight: 600; }
+.stats { margin-top: 2.2rem; }
+.stat-row.four { grid-template-columns: repeat(4, 1fr); }
+.stat-row .sub { display: block; font-size: .64rem; color: var(--texte3); margin-top: .3rem; }
+.foot-note { text-align: center; margin-top: 2rem; }
+.calc-cta { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; margin-top: 3.5rem; border: 1px solid var(--ligne-fort); padding: 2.2rem 2.4rem; background: linear-gradient(110deg, rgba(201,168,76,.07), transparent 60%); }
+.calc-cta h3 { margin-bottom: .3rem; }
+.calc-cta p { font-size: .8rem; color: var(--texte2); }
+
+@media (max-width: 760px) {
+  .card { padding: 2rem 1.2rem; }
+  .two { grid-template-columns: 1fr; gap: 0; }
+  .opt-inner { padding-left: 0; }
+  .stat-row.four { grid-template-columns: 1fr 1fr; }
+  .stat-row.four > div:nth-child(2) { border-right: 0; }
+  .stat-row.four > div:nth-child(-n+2) { border-bottom: 1px solid var(--ligne); }
+  .calc-cta { grid-template-columns: 1fr; }
+  .slide { flex-wrap: wrap; gap: .7rem; }
+  .slide input[type="range"] { order: 2; flex: 1 1 100%; }
+  .slide .num-box { order: 1; margin-left: auto; min-width: 130px; }
+}
+@media (max-width: 640px) { .stat-row.four { grid-template-columns: 1fr; } .stat-row.four > div { border-right: 0 !important; border-bottom: 1px solid var(--ligne); } }
+</style>
+</head>
+<body data-page="calc">
+<script src="assets/site.js"></script>
+
+<header class="calc-hero">
+  <canvas class="dust" aria-hidden="true"></canvas>
+  <p class="k reveal"><span lang="fr">Outil interactif</span><span lang="en">Interactive tool</span></p>
+  <h1><span lang="fr" class="split">Simulateur <span class="dim">d'épargne</span></span><span lang="en" class="split">Savings <span class="dim">simulator</span></span></h1>
+  <div class="rule"></div>
+  <p class="reveal" style="--d:.5"><span lang="fr">Visualisez comment un montant épargné périodiquement peut croître dans le temps — et l'effet réel d'y ajouter une protection de l'épargne.</span><span lang="en">See how an amount saved regularly can grow over time — and the real effect of adding protection to your savings.</span></p>
+</header>
+
+<main class="calc-wrap">
+  <div class="card reveal" style="--d:.2">
+
+    <div class="row">
+      <p class="lbl"><span lang="fr">Fréquence d'épargne</span><span lang="en">Saving frequency</span></p>
+      <div class="seg" id="freq">
+        <button type="button" data-n="52" class="on"><span lang="fr">Hebdomadaire</span><span lang="en">Weekly</span></button>
+        <button type="button" data-n="26"><span lang="fr">Aux 2 semaines</span><span lang="en">Every 2 weeks</span></button>
+        <button type="button" data-n="12"><span lang="fr">Mensuelle</span><span lang="en">Monthly</span></button>
+      </div>
+    </div>
+
+    <div class="row">
+      <p class="lbl"><span lang="fr">Montant de départ <em>déjà investi aujourd'hui</em></span><span lang="en">Starting amount <em>already invested today</em></span></p>
+      <div class="slide"><input type="range" id="start" min="0" max="250000" step="1000" value="0" aria-label="Montant de départ"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-for="start" value="0" aria-label="Montant de départ"></label></div>
+    </div>
+
+    <div class="two">
+      <div class="row">
+        <p class="lbl"><span lang="fr">Montant épargné <em id="perLbl">par semaine</em></span><span lang="en">Amount saved <em id="perLblEn">per week</em></span></p>
+        <div class="slide"><input type="range" id="amt" min="0" max="1000" step="5" value="100" aria-label="Montant épargné"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-for="amt" value="100" aria-label="Montant épargné"></label></div>
+      </div>
+      <div class="row">
+        <p class="lbl"><span lang="fr">Rendement annuel présumé</span><span lang="en">Assumed annual return</span></p>
+        <div class="slide"><input type="range" id="rate" min="0" max="12" step="0.25" value="7" aria-label="Rendement annuel présumé"><label class="num-box" style="min-width:90px"><input type="text" inputmode="decimal" data-for="rate" value="7" aria-label="Rendement"><span class="suf">%</span></label></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <p class="lbl"><span lang="fr">Période de temps</span><span lang="en">Time period</span></p>
+      <div class="slide"><input type="range" id="years" min="1" max="50" step="1" value="20" aria-label="Période"><label class="num-box" style="min-width:90px"><input type="text" inputmode="numeric" data-for="years" value="20" aria-label="Années"><span class="suf" lang="fr">ans</span><span class="suf" lang="en">yrs</span></label></div>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="opt" id="optProt">
+      <label class="switch"><input type="checkbox" id="prot"><span class="track"></span><span><b lang="fr">Ajouter la courbe « avec protection de l'épargne »</b><b lang="en">Add the “with savings protection” curve</b><small lang="fr">Illustre l'effet d'une stratégie de protection sur votre épargne périodique</small><small lang="en">Shows the effect of a protection strategy on your regular savings</small></span></label>
+      <div class="opt-body"><div><div class="opt-inner">
+        <div class="two">
+          <div class="row">
+            <p class="lbl"><span lang="fr">Imprévu (arrêt de revenu) à l'année</span><span lang="en">Setback (income stops) in year</span></p>
+            <div class="slide"><input type="range" id="evYear" min="1" max="19" step="1" value="8"><label class="num-box" style="min-width:80px"><input type="text" inputmode="numeric" data-for="evYear" value="8"></label></div>
+          </div>
+          <div class="row">
+            <p class="lbl"><span lang="fr">Durée de l'arrêt</span><span lang="en">Length of the setback</span></p>
+            <div class="slide"><input type="range" id="evDur" min="1" max="12" step="1" value="5"><label class="num-box" style="min-width:90px"><input type="text" inputmode="numeric" data-for="evDur" value="5"><span class="suf" lang="fr">ans</span><span class="suf" lang="en">yrs</span></label></div>
+          </div>
+        </div>
+        <p class="note"><span lang="fr">Sans protection, les dépôts s'arrêtent pendant l'imprévu (invalidité, maladie grave). Avec une protection, les dépôts se poursuivent — l'assurance prend le relais. Le coût de la protection n'est pas inclus : il dépend de votre profil.</span><span lang="en">Without protection, deposits stop during the setback (disability, critical illness). With protection, deposits continue — the insurance takes over. The cost of the protection isn't included: it depends on your profile.</span></p>
+      </div></div></div>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="opt" id="optWd">
+      <label class="switch"><input type="checkbox" id="wd"><span class="track"></span><span><b lang="fr">Simuler un retrait</b><b lang="en">Simulate a withdrawal</b><small lang="fr">Visualisez l'effet d'un retrait ponctuel à une année donnée</small><small lang="en">See the effect of a one-time withdrawal in a given year</small></span></label>
+      <div class="opt-body"><div><div class="opt-inner">
+        <div class="two">
+          <div class="row">
+            <p class="lbl"><span lang="fr">Année du retrait</span><span lang="en">Year of withdrawal</span></p>
+            <div class="slide"><input type="range" id="wdYear" min="1" max="20" step="1" value="10"><label class="num-box" style="min-width:80px"><input type="text" inputmode="numeric" data-for="wdYear" value="10"></label></div>
+          </div>
+          <div class="row">
+            <p class="lbl"><span lang="fr">Montant du retrait</span><span lang="en">Withdrawal amount</span></p>
+            <div class="slide"><input type="range" id="wdAmt" min="0" max="200000" step="1000" value="25000"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-for="wdAmt" value="25000"></label></div>
+          </div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="chart-box"><div id="calcChart"></div></div>
+    <div class="legend" id="legend"></div>
+
+    <div class="stats"><div class="stat-row" id="stats"></div></div>
+
+    <p class="disclaimer center foot-note"><span lang="fr">Ce simulateur est fourni à titre illustratif seulement et ne constitue pas un conseil financier personnalisé. Le rendement est une hypothèse que vous choisissez ; les rendements réels varient selon les marchés et les produits choisis, et ne sont pas garantis. Impôts et frais non inclus.</span><span lang="en">This simulator is for illustration only and is not personalized financial advice. The return is an assumption you choose; actual returns vary with markets and the products chosen, and are not guaranteed. Taxes and fees not included.</span></p>
+  </div>
+
+  <div class="calc-cta reveal">
+    <div><h3><span lang="fr">Et votre vrai plan ?</span><span lang="en">What about your real plan?</span></h3><p lang="fr">Le bon véhicule (CELI, REER, non enregistré, vie participative) change le résultat après impôt. On le regarde ensemble.</p><p lang="en">The right vehicle (TFSA, RRSP, non-registered, participating life) changes the after-tax result. Let's look at it together.</p></div>
+    <a href="index.html#reservation" class="btn btn-gold"><span lang="fr">Réserver un appel</span><span lang="en">Book a call</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+  </div>
+</main>
+
+<script src="assets/charts.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var S = { n: 52, start: 0, amt: 100, rate: 7, years: 20, prot: false, evYear: 8, evDur: 5, wd: false, wdYear: 10, wdAmt: 25000 };
+  var AMT_MAX = { 52: 1000, 26: 2000, 12: 4000 };
+  var data;
+
+  /* ── Calcul : dépôts en début de période, taux effectif annuel converti par période ── */
+  function simulate(opts) {
+    var n = S.n, i = Math.pow(1 + S.rate / 100, 1 / n) - 1;
+    var bal = S.start, dep = S.start, withdrawn = 0;
+    var vals = [bal], deps = [dep];
+    for (var y = 1; y <= S.years; y++) {
+      var paused = opts.event && y > S.evYear && y <= S.evYear + S.evDur;
+      for (var k = 0; k < n; k++) {
+        if (!paused) { bal += S.amt; dep += S.amt; }
+        bal *= (1 + i);
+      }
+      // retrait ponctuel à la fin de l'année choisie
+      if (S.wd && y === S.wdYear) { var w = Math.min(bal, S.wdAmt); bal -= w; withdrawn += w; }
+      vals.push(bal); deps.push(dep);
+    }
+    return { vals: vals, deps: deps, final: bal, dep: dep, withdrawn: withdrawn };
+  }
+
+  var chart = WHChart($('calcChart'), {
+    label: 'Simulateur d\'épargne',
+    height: 380,
+    series: [
+      { key: 'deps', color: 'rgba(237,232,223,.3)', width: 1.3, dash: '3 5' },
+      { key: 'prot', color: '#C9A84C', width: 2.4, fill: .18 },
+      { key: 'base', color: '#EDE8DF', width: 2.2 }
+    ],
+    yFmt: function (v) { return WH.moneyShort(v); },
+    xFmt: function (x) { return x; },
+    markers: function () {
+      var m = [];
+      if (S.prot) m.push({ i: S.evYear, label: WH.t('Imprévu', 'Setback') });
+      if (S.wd) m.push({ i: S.wdYear, label: WH.t('Retrait', 'Withdrawal') });
+      return m;
+    },
+    tip: function (i) {
+      var h = '<div class="tt-h">' + WH.t('Année ', 'Year ') + i + '</div>';
+      h += row(S.prot ? WH.t('Épargne seule (imprévu)', 'Savings only (setback)') : WH.t('Épargne seule', 'Savings only'), data.base.vals[i], '#EDE8DF');
+      if (S.prot) h += row(WH.t('Avec protection', 'With protection'), data.prot.vals[i], '#C9A84C');
+      h += row(WH.t('Dépôts cumulés', 'Total deposits'), data.base.deps[i], 'rgba(237,232,223,.45)');
+      return h;
+    }
+  });
+  function row(l, v, c) { return '<div class="tt-r"><span><i style="background:' + c + '"></i>' + l + '</span><b>' + WH.money(v) + '</b></div>'; }
+  function cell(l, v, sub, gold) { return '<div><small>' + l + '</small><b' + (gold ? ' class="gold"' : '') + '>' + v + '</b>' + (sub ? '<span class="sub">' + sub + '</span>' : '') + '</div>'; }
+
+  function render(instant) {
+    var base = simulate({ event: S.prot }), prot = S.prot ? simulate({ event: false }) : null;
+    data = { base: base, prot: prot };
+    var x = []; for (var y = 0; y <= S.years; y++) x.push(y);
+    var d = { x: x, series: { base: base.vals, deps: base.deps } };
+    if (prot) d.series.prot = prot.vals;
+    chart.set(d, instant);
+
+    // légende
+    var lg = '<span><i style="background:#EDE8DF"></i>' + (S.prot ? WH.t('Épargne seule (imprévu)', 'Savings only (setback)') : WH.t('Épargne seule', 'Savings only')) + ' — <b class="v">' + WH.money(base.final) + '</b></span>';
+    if (prot) lg += '<span><i style="background:#C9A84C"></i>' + WH.t('Avec protection', 'With protection') + ' — <b class="v">' + WH.money(prot.final) + '</b></span>';
+    lg += '<span><i style="background:rgba(237,232,223,.35)"></i>' + WH.t('Dépôts cumulés', 'Total deposits') + '</span>';
+    $('legend').innerHTML = lg;
+
+    // statistiques
+    var growth = base.final + base.withdrawn - base.dep;
+    var st = $('stats'), h = '';
+    h += cell(WH.t('Total des dépôts', 'Total deposits'), WH.money(base.dep), S.prot ? WH.t('dépôts interrompus ' + S.evDur + ' an' + (S.evDur > 1 ? 's' : ''), 'deposits paused ' + S.evDur + ' yr' + (S.evDur > 1 ? 's' : '')) : '');
+    h += cell(WH.t('Valeur projetée — épargne seule', 'Projected value — savings only'), WH.money(base.final), S.wd ? WH.t('après retrait de ', 'after withdrawing ') + WH.money(base.withdrawn) : '');
+    h += cell(WH.t('Croissance générée', 'Growth generated'), WH.money(growth));
+    if (prot) {
+      h += cell(WH.t('Valeur avec protection', 'Value with protection'), WH.money(prot.final), WH.t('écart : +', 'difference: +') + WH.money(prot.final - base.final), true);
+    }
+    st.className = 'stat-row' + (prot ? ' four' : '');
+    st.innerHTML = h;
+  }
+
+  /* ── Liaison curseurs ↔ champs numériques ── */
+  function parseNum(s) { var v = parseFloat(String(s).replace(/\s/g, '').replace(/ /g, '').replace(',', '.')); return isNaN(v) ? 0 : v; }
+  function fmtBox(id, v) { return (id === 'rate') ? String(v).replace('.', WH.lang() === 'fr' ? ',' : '.') : WH.num(v); }
+  function setVal(id, v, fromBox) {
+    var r = $(id), min = +r.min, lim = { start: 5e6, amt: 1e5, wdAmt: 5e6 }[id], max = lim || +r.max;
+    v = Math.max(min, Math.min(max, v));
+    if (id === 'years' || id === 'evYear' || id === 'evDur' || id === 'wdYear') v = Math.round(v);
+    S[id] = v;
+    r.value = Math.min(+r.max, v); WH.paintRange(r);
+    var box = document.querySelector('[data-for="' + id + '"]');
+    if (box && (!fromBox || document.activeElement !== box)) box.value = fmtBox(id, v);
+  }
+  function syncBounds() {
+    var ey = $('evYear'), ed = $('evDur'), wy = $('wdYear'), am = $('amt');
+    ey.max = Math.max(1, S.years - 1); if (S.evYear > +ey.max) setVal('evYear', +ey.max);
+    ed.max = Math.max(1, S.years - S.evYear); if (S.evDur > +ed.max) setVal('evDur', +ed.max);
+    wy.max = S.years; if (S.wdYear > S.years) setVal('wdYear', S.years);
+    am.max = AMT_MAX[S.n];
+    [ey, ed, wy, am].forEach(function (r) { r.value = Math.min(+r.max, S[r.id]); WH.paintRange(r); });
+  }
+  ['start', 'amt', 'rate', 'years', 'evYear', 'evDur', 'wdYear', 'wdAmt'].forEach(function (id) {
+    $(id).addEventListener('input', function () { setVal(id, +this.value); syncBounds(); render(); });
+    var box = document.querySelector('[data-for="' + id + '"]');
+    if (!box) return;
+    box.addEventListener('input', function () { setVal(id, parseNum(box.value), true); syncBounds(); render(); });
+    box.addEventListener('blur', function () { box.value = fmtBox(id, S[id]); });
+    box.addEventListener('focus', function () { box.select(); });
+  });
+  document.querySelectorAll('#freq button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#freq button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on');
+      var old = S.n; S.n = +b.getAttribute('data-n');
+      // garde le même effort annuel en changeant de fréquence
+      setVal('amt', Math.round(S.amt * old / S.n / 5) * 5);
+      labels(); syncBounds(); render();
+    });
+  });
+  function labels() {
+    $('perLbl').textContent = { 52: 'par semaine', 26: 'aux 2 semaines', 12: 'par mois' }[S.n];
+    $('perLblEn').textContent = { 52: 'per week', 26: 'every 2 weeks', 12: 'per month' }[S.n];
+  }
+  $('prot').addEventListener('change', function () { S.prot = this.checked; $('optProt').classList.toggle('open', S.prot); render(); });
+  $('wd').addEventListener('change', function () { S.wd = this.checked; $('optWd').classList.toggle('open', S.wd); render(); });
+  document.addEventListener('wh:lang', function () {
+    document.querySelectorAll('[data-for]').forEach(function (b) { b.value = fmtBox(b.getAttribute('data-for'), S[b.getAttribute('data-for')]); });
+    render(true);
+  });
+
+  labels(); syncBounds();
+  document.querySelectorAll('[data-for]').forEach(function (b) { b.value = fmtBox(b.getAttribute('data-for'), S[b.getAttribute('data-for')]); });
+  render(true);
+})();
+</script>
+</body>
+</html>
