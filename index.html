@@ -66,31 +66,74 @@
 .manifeste .photo img { width: 100%; height: 115%; object-fit: cover; object-position: center 20%; filter: grayscale(.35) contrast(1.08) brightness(.9); }
 .manifeste .photo::after { content: ''; position: absolute; inset: 0; border: 1px solid rgba(201,168,76,.25); pointer-events: none; }
 
-/* ── SERVICES ── */
-.svc-list { border-top: 1px solid var(--ligne); }
-.svc { border-bottom: 1px solid var(--ligne); }
-.svc-head { width: 100%; text-align: left; display: grid; grid-template-columns: 90px 1fr 44px; gap: 2.5rem; align-items: center; padding: 2.4rem 0; position: relative; }
-.svc-head::after { content: ''; position: absolute; left: 0; bottom: -1px; height: 1px; width: 100%; background: var(--or); transform: scaleX(0); transform-origin: left; transition: transform .7s var(--ease-out); }
-.svc:hover .svc-head::after, .svc.open .svc-head::after { transform: scaleX(1); }
-.svc-num { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; color: rgba(201,168,76,.28); transition: color .4s; line-height: 1; }
-.svc:hover .svc-num, .svc.open .svc-num { color: var(--or); }
-.svc-name, .svc-desc { display: block; }
-.svc-name { font-family: var(--serif); font-size: 1.7rem; font-weight: 400; color: var(--creme); line-height: 1.2; margin-bottom: .35rem; transition: transform .5s var(--ease-out); }
-.svc:hover .svc-name { transform: translateX(8px); }
-.svc-desc { font-size: .8rem; color: var(--texte2); max-width: 620px; line-height: 1.75; }
-.svc-tog { width: 44px; height: 44px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; transition: background .4s, border-color .4s; }
-.svc-tog svg { width: 16px; height: 16px; stroke: var(--or); fill: none; stroke-width: 1.4; transition: transform .5s var(--ease-out); }
-.svc.open .svc-tog { background: rgba(201,168,76,.1); border-color: var(--or); }
-.svc.open .svc-tog svg { transform: rotate(135deg); }
-.svc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s var(--ease-out); }
-.svc.open .svc-body { grid-template-rows: 1fr; }
-.svc-body > div { overflow: hidden; }
-.svc-inner { padding: 0 0 2.8rem 130px; display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; }
-.svc-inner p { font-size: .84rem; color: var(--texte2); line-height: 1.9; margin-bottom: 1rem; }
-.svc-inner ul { list-style: none; }
-.svc-inner li { display: flex; gap: .8rem; padding: .7rem 0; border-bottom: 1px solid rgba(201,168,76,.07); font-size: .8rem; color: var(--texte2); line-height: 1.6; }
-.svc-inner li::before { content: ''; width: 4px; height: 4px; background: var(--or); transform: rotate(45deg); flex-shrink: 0; margin-top: .55rem; }
+/* ── SERVICES : cinq piliers ── */
+#services { overflow: hidden; }
+.pillars { display: grid; grid-template-columns: 380px 1fr; border: 1px solid var(--ligne); background: var(--noir2); position: relative; }
+.pl-nav { border-right: 1px solid var(--ligne); display: flex; flex-direction: column; }
+.pl-tab { position: relative; display: grid; grid-template-columns: 54px 1fr; gap: 1rem; align-items: center; text-align: left; padding: 1.7rem 1.8rem; border-bottom: 1px solid var(--ligne); transition: background .5s; overflow: hidden; }
+.pl-tab:last-child { border-bottom: 0; }
+.pl-tab::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--or); transform: scaleY(0); transform-origin: top; transition: transform .6s var(--ease-out); }
+.pl-tab:hover { background: rgba(201,168,76,.04); }
+.pl-tab.on { background: linear-gradient(90deg, rgba(201,168,76,.1), rgba(201,168,76,.02)); }
+.pl-tab.on::before { transform: scaleY(1); }
+.pl-n { font-family: var(--serif); font-size: 1.9rem; font-weight: 300; line-height: 1; color: rgba(201,168,76,.35); transition: color .4s; }
+.pl-tab.on .pl-n, .pl-tab:hover .pl-n { color: var(--or); }
+.pl-t b { display: block; font-family: var(--serif); font-size: 1.28rem; font-weight: 400; color: var(--texte2); line-height: 1.2; transition: color .4s, transform .5s var(--ease-out); }
+.pl-tab.on .pl-t b { color: var(--creme); }
+.pl-tab:hover .pl-t b { transform: translateX(4px); }
+.pl-t small { display: block; font-size: .56rem; letter-spacing: .24em; text-transform: uppercase; color: var(--texte3); margin-top: .35rem; }
+.pl-tab.on .pl-t small { color: var(--or); }
+.pl-bar { position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: var(--or); transform: scaleX(0); transform-origin: left; opacity: .7; }
+.pl-tab.on.timing .pl-bar { animation: plTimer var(--dur, 8s) linear forwards; }
+@keyframes plTimer { to { transform: scaleX(1); } }
 
+.pl-stage { position: relative; display: grid; }
+.pl-panel { grid-area: 1 / 1; position: relative; padding: 3.4rem 3.6rem 3rem; display: flex; flex-direction: column; visibility: hidden; overflow: hidden; }
+.pl-panel.on { visibility: visible; z-index: 1; }
+.pl-ghost { position: absolute; right: 1.2rem; bottom: -3.4rem; font-family: var(--serif); font-weight: 300; font-size: 15rem; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,.08); pointer-events: none; transform: translateY(20px); opacity: 0; transition: transform 1.4s var(--ease-out), opacity 1.2s; }
+.pl-panel.show .pl-ghost { transform: none; opacity: 1; }
+.pl-head { display: flex; gap: 1.8rem; align-items: flex-start; margin-bottom: 1.6rem; position: relative; }
+.pl-icon { width: 70px; height: 70px; flex-shrink: 0; fill: none; stroke: var(--or); stroke-width: 1.1; stroke-linejoin: round; stroke-linecap: round; }
+.pl-icon * { stroke-dasharray: 260; stroke-dashoffset: 260; }
+.pl-panel.show .pl-icon * { transition: stroke-dashoffset 1.6s var(--ease-out) .1s; stroke-dashoffset: 0; }
+.pl-kicker { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: var(--or); margin-bottom: .8rem; }
+.pl-lead { font-size: clamp(1.9rem, 2.8vw, 2.7rem); font-weight: 300; line-height: 1.15; max-width: 620px; }
+.pl-body { font-size: 1rem; color: var(--texte2); line-height: 1.85; max-width: 640px; margin-bottom: 2.2rem; position: relative; }
+.pl-cards { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2.4rem; position: relative; }
+.pl-cards li { border: 1px solid var(--ligne); background: rgba(8,8,8,.55); padding: 1.3rem 1.2rem 1.4rem; position: relative; transition: border-color .4s, transform .5s var(--ease-out), background .4s; }
+.pl-cards li::before { content: ''; display: block; width: 7px; height: 7px; border: 1px solid var(--or); transform: rotate(45deg); margin-bottom: 1rem; transition: background .4s; }
+.pl-cards li:hover { border-color: var(--ligne-fort); transform: translateY(-4px); background: rgba(201,168,76,.05); }
+.pl-cards li:hover::before { background: var(--or); }
+.pl-cards b { display: block; font-size: .92rem; font-weight: 500; color: var(--creme); margin-bottom: .4rem; line-height: 1.35; }
+.pl-cards span { display: block; font-size: .84rem; color: var(--texte2); line-height: 1.6; }
+.pl-cta { align-self: flex-start; margin-top: auto; }
+/* entrée échelonnée */
+.pl-head, .pl-body, .pl-cta { opacity: 0; transform: translateY(18px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.pl-body { transition-delay: .08s; } .pl-cta { transition-delay: .5s; }
+.pl-cards li { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease-out) calc(.14s + var(--c) * .06s), transform .7s var(--ease-out) calc(.14s + var(--c) * .06s), border-color .4s, background .4s; }
+.pl-panel.show .pl-head, .pl-panel.show .pl-body, .pl-panel.show .pl-cta, .pl-panel.show .pl-cards li { opacity: 1; transform: none; }
+.pl-panel.show .pl-cards li:hover { transform: translateY(-4px); }
+
+@media (max-width: 1180px) { .pillars { grid-template-columns: 300px 1fr; } .pl-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 860px) {
+  .pillars { grid-template-columns: 1fr; }
+  .pl-nav { flex-direction: row; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--ligne); scrollbar-width: none; scroll-snap-type: x mandatory; }
+  .pl-nav::-webkit-scrollbar { display: none; }
+  .pl-tab { flex: 0 0 auto; grid-template-columns: auto; gap: .3rem; padding: 1.1rem 1.3rem; border-bottom: 0; border-right: 1px solid var(--ligne); scroll-snap-align: start; }
+  .pl-tab::before { top: auto; right: 0; width: auto; height: 2px; bottom: 0; transform: scaleX(0); transform-origin: left; }
+  .pl-tab.on::before { transform: scaleX(1); }
+  .pl-n { font-size: 1.2rem; }
+  .pl-t b { font-size: 1.05rem; white-space: nowrap; }
+  .pl-t small { display: none; }
+  .pl-bar { display: none; }
+  .pl-panel { padding: 2.4rem 1.4rem 2.2rem; display: none; }
+  .pl-panel.on { display: flex; }
+  .pl-ghost { font-size: 9rem; bottom: -2rem; right: .4rem; }
+  .pl-head { flex-direction: column; gap: 1.2rem; }
+  .pl-icon { width: 54px; height: 54px; }
+  .pl-cards { grid-template-columns: 1fr; gap: .7rem; }
+  .pl-cta { margin-top: .4rem; }
+}
 /* ── MÉTHODE (aperçu) ── */
 .steps { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 1rem; }
 .steps .rail { position: absolute; top: 27px; left: 12.5%; right: 12.5%; height: 1px; background: rgba(201,168,76,.15); }
@@ -249,8 +292,6 @@
   .hero-photo .badge { left: -1rem; }
   .manifeste, .par-teaser, .rdv, .contact-grid { grid-template-columns: 1fr; gap: 3.5rem; }
   .manifeste .photo { max-width: 420px; }
-  .svc-head { grid-template-columns: 56px 1fr 40px; gap: 1.2rem; }
-  .svc-inner { padding: 0 0 2rem 0; grid-template-columns: 1fr; gap: 1.5rem; }
   .steps { grid-template-columns: 1fr 1fr; row-gap: 3.5rem; }
   .steps .rail { display: none; }
   .temo-grid { grid-template-columns: 1fr; }
@@ -345,190 +386,100 @@
 
 <!-- ═══════════════ SERVICES ═══════════════ -->
 <section class="section bg-sombre" id="services">
+  <div class="ghost-word" style="right:-3vw;top:6%" aria-hidden="true" data-parallax="0.06">Expertise</div>
   <div class="wrap">
     <div class="section-head">
       <div>
         <p class="eyebrow reveal">Expertise</p>
         <h2><span lang="fr" class="split">Cinq piliers pour<br>un avenir <em>serein</em></span><span lang="en" class="split">Five pillars for<br>a <em>secure</em> future</span></h2>
       </div>
-      <p class="lead reveal" style="max-width:380px"><span lang="fr">Des solutions conçues autour de votre réalité — pas des produits génériques. Ouvrez chaque pilier pour en savoir plus.</span><span lang="en">Solutions designed around your reality — not generic products. Open each pillar to learn more.</span></p>
+      <p class="lead reveal" style="max-width:380px"><span lang="fr">Des solutions conçues autour de votre réalité — pas des produits génériques. Choisissez un pilier.</span><span lang="en">Solutions designed around your reality — not generic products. Pick a pillar.</span></p>
     </div>
 
-    <div class="svc-list" data-stagger>
-      <!-- 01 -->
-      <div class="svc reveal">
-        <button class="svc-head" type="button" aria-expanded="false">
-          <span class="svc-num">01</span>
-          <span><span class="svc-name" lang="fr">Assurance vie et invalidité</span><span class="svc-name" lang="en">Life and disability insurance</span>
-            <span class="svc-desc" lang="fr">Protégez vos proches contre l'imprévisible. Vie temporaire, vie entière, maladies graves — la couverture adaptée à votre réalité.</span>
-            <span class="svc-desc" lang="en">Protect your loved ones from the unexpected. Term life, whole life, critical illness — coverage that fits your reality.</span></span>
-          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
+    <div class="pillars reveal" id="pillars">
+      <div class="pl-nav" role="tablist" aria-label="Services">
+        <button type="button" role="tab" class="pl-tab on" id="pl-tab-0" aria-controls="pl-panel-0" aria-selected="true" data-i="0">
+          <span class="pl-n">01</span>
+          <span class="pl-t"><b lang="fr">Assurance vie et invalidité</b><b lang="en">Life & disability insurance</b><small lang="fr">Le socle</small><small lang="en">The foundation</small></span>
+          <i class="pl-bar"></i>
         </button>
-        <div class="svc-body"><div><div class="svc-inner">
-          <div>
-            <p lang="fr">L'assurance vie et invalidité est le socle de toute stratégie financière solide. Elle garantit que vos proches seront protégés financièrement advenant un décès prématuré, une maladie grave ou une invalidité prolongée.</p>
-            <p lang="fr">J'analyse votre situation familiale, vos dettes, vos revenus et vos obligations pour recommander la couverture précise — ni trop, ni trop peu — au meilleur coût possible.</p>
-            <p lang="en">Life and disability insurance is the foundation of any solid financial strategy. It makes sure your family is financially protected in the event of an early death, a serious illness or a long-term disability.</p>
-            <p lang="en">I look at your family situation, debts, income and obligations to recommend the right coverage — not too much, not too little — at the best possible cost.</p>
-            <a href="#contact" class="link-arrow"><span lang="fr">Discuter de ma couverture</span><span lang="en">Discuss my coverage</span></a>
-          </div>
-          <ul lang="fr">
-            <li>Assurance vie temporaire (10, 20, 30 ans) — protection abordable pour les années cruciales</li>
-            <li>Assurance vie entière — protection permanente avec valeur de rachat croissante</li>
-            <li>Assurance maladies graves — capital versé au diagnostic d'une maladie couverte</li>
-            <li>Assurance invalidité — remplacement de revenu en cas d'incapacité de travail</li>
-            <li>Assurance soins de longue durée — préservez votre autonomie et épargnez vos proches</li>
-            <li>Analyse des besoins en assurance personnalisée, adaptée à votre réalité</li>
-          </ul>
-          <ul lang="en">
-            <li>Term life insurance (10, 20, 30 years) — affordable protection for the critical years</li>
-            <li>Whole life insurance — permanent protection with a growing cash value</li>
-            <li>Critical illness insurance — a lump sum paid on diagnosis of a covered illness</li>
-            <li>Disability insurance — income replacement if you can't work</li>
-            <li>Long-term care insurance — protect your independence and spare your family</li>
-            <li>Personalized insurance needs analysis, tailored to your reality</li>
-          </ul>
-        </div></div></div>
+        <button type="button" role="tab" class="pl-tab" id="pl-tab-1" aria-controls="pl-panel-1" aria-selected="false" data-i="1">
+          <span class="pl-n">02</span>
+          <span class="pl-t"><b lang="fr">Planification de la retraite</b><b lang="en">Retirement planning</b><small lang="fr">La liberté</small><small lang="en">Freedom</small></span>
+          <i class="pl-bar"></i>
+        </button>
+        <button type="button" role="tab" class="pl-tab" id="pl-tab-2" aria-controls="pl-panel-2" aria-selected="false" data-i="2">
+          <span class="pl-n">03</span>
+          <span class="pl-t"><b lang="fr">Gestion de patrimoine</b><b lang="en">Wealth management</b><small lang="fr">La croissance</small><small lang="en">Growth</small></span>
+          <i class="pl-bar"></i>
+        </button>
+        <button type="button" role="tab" class="pl-tab" id="pl-tab-3" aria-controls="pl-panel-3" aria-selected="false" data-i="3">
+          <span class="pl-n">04</span>
+          <span class="pl-t"><b lang="fr">Protection fiscale</b><b lang="en">Tax protection</b><small lang="fr">L'efficacité</small><small lang="en">Efficiency</small></span>
+          <i class="pl-bar"></i>
+        </button>
+        <button type="button" role="tab" class="pl-tab" id="pl-tab-4" aria-controls="pl-panel-4" aria-selected="false" data-i="4">
+          <span class="pl-n">05</span>
+          <span class="pl-t"><b lang="fr">Assurance vie participative</b><b lang="en">Participating life insurance</b><small lang="fr">L'héritage</small><small lang="en">Legacy</small></span>
+          <i class="pl-bar"></i>
+        </button>
       </div>
-      <!-- 02 -->
-      <div class="svc reveal">
-        <button class="svc-head" type="button" aria-expanded="false">
-          <span class="svc-num">02</span>
-          <span><span class="svc-name" lang="fr">Planification de la retraite</span><span class="svc-name" lang="en">Retirement planning</span>
-            <span class="svc-desc" lang="fr">REER, FERR, RRQ, retraite anticipée — un plan solide adapté au style de vie que vous visez.</span>
-            <span class="svc-desc" lang="en">RRSP, RRIF, QPP/CPP, early retirement — a solid plan built around the lifestyle you're aiming for.</span></span>
-          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
-        </button>
-        <div class="svc-body"><div><div class="svc-inner">
-          <div>
-            <p lang="fr">La retraite, c'est votre projet le plus important. On bâtit une feuille de route qui tient compte de votre âge cible, du style de vie souhaité, de vos actifs actuels et de vos sources de revenus futures.</p>
-            <p lang="fr">Avec une projection claire, vous savez combien épargner chaque mois pour atteindre l'indépendance financière — et quand.</p>
-            <p lang="en">Retirement is your biggest project. We build a roadmap around your target age, the lifestyle you want, your current assets and your future income sources.</p>
-            <p lang="en">With a clear projection, you know how much to save each month to reach financial independence — and when.</p>
-            <a href="calculateur.html" class="link-arrow"><span lang="fr">Essayer le simulateur</span><span lang="en">Try the simulator</span></a>
+      <div class="pl-stage">
+        <article class="pl-panel on" role="tabpanel" id="pl-panel-0" aria-labelledby="pl-tab-0">
+          <div class="pl-ghost" aria-hidden="true">01</div>
+          <div class="pl-head">
+            <svg class="pl-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 54 14v16c0 14-9.5 23-22 28C19.5 53 10 44 10 30V14Z"/><path d="M22 31l7 7 13-14"/></svg>
+            <div><p class="pl-kicker"><span>01</span> · <span lang="fr">Le socle</span><span lang="en">The foundation</span></p>
+            <h3 class="pl-lead"><span lang="fr">Si votre revenu s'arrête, <em>tout s'arrête.</em></span><span lang="en">If your income stops, <em>everything stops.</em></span></h3></div>
           </div>
-          <ul lang="fr">
-            <li>Analyse de votre retraite projetée (RRQ, régimes de retraite d'employeur)</li>
-            <li>Optimisation du REER : cotisations, moments, retraits stratégiques</li>
-            <li>Conversion REER → FERR et planification des décaissements</li>
-            <li>Retraite anticipée : capital nécessaire et stratégie pour l'atteindre</li>
-            <li>Coordination des revenus de retraite pour réduire l'impôt</li>
-            <li>Révision annuelle du plan selon l'évolution de votre situation</li>
-          </ul>
-          <ul lang="en">
-            <li>Analysis of your projected retirement (QPP/CPP, employer pension plans)</li>
-            <li>RRSP optimization: contributions, timing, strategic withdrawals</li>
-            <li>RRSP → RRIF conversion and drawdown planning</li>
-            <li>Early retirement: the capital you need and how to get there</li>
-            <li>Coordinating retirement income to reduce tax</li>
-            <li>Annual plan review as your situation evolves</li>
-          </ul>
-        </div></div></div>
-      </div>
-      <!-- 03 -->
-      <div class="svc reveal">
-        <button class="svc-head" type="button" aria-expanded="false">
-          <span class="svc-num">03</span>
-          <span><span class="svc-name" lang="fr">Gestion de patrimoine</span><span class="svc-name" lang="en">Wealth management</span>
-            <span class="svc-desc" lang="fr">Faites fructifier votre patrimoine avec une stratégie diversifiée, cohérente avec votre tolérance au risque.</span>
-            <span class="svc-desc" lang="en">Grow your wealth with a diversified strategy that matches your risk tolerance.</span></span>
-          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
-        </button>
-        <div class="svc-body"><div><div class="svc-inner">
-          <div>
-            <p lang="fr">Gérer son patrimoine, c'est bien plus que choisir des fonds. C'est aligner vos placements avec vos valeurs, vos objectifs de vie et votre horizon — tout en tenant compte de votre fiscalité.</p>
-            <p lang="fr">La stratégie intègre tous vos actifs (REER, CELI, non enregistré, immobilier) dans une vision cohérente et optimisée.</p>
-            <p lang="en">Managing wealth is much more than picking funds. It's aligning your savings with your values, your life goals and your time horizon — while taking your tax situation into account.</p>
-            <p lang="en">The strategy brings all your assets (RRSP, TFSA, non-registered, real estate) into one coherent, optimized plan.</p>
-            <a href="#contact" class="link-arrow"><span lang="fr">Évaluer mon patrimoine</span><span lang="en">Review my wealth</span></a>
+          <p class="pl-body"><span lang="fr">On analyse votre famille, vos dettes, vos revenus et vos obligations pour bâtir la protection précise — ni trop, ni trop peu — au meilleur coût.</span><span lang="en">We look at your family, debts, income and obligations to build the right protection — not too much, not too little — at the best cost.</span></p>
+          <ul class="pl-cards"><li style="--c:0"><b lang="fr">Vie temporaire</b><b lang="en">Term life</b><span lang="fr">10, 20 ou 30 ans : une protection abordable pour les années cruciales.</span><span lang="en">10, 20 or 30 years: affordable protection for the critical years.</span></li><li style="--c:1"><b lang="fr">Vie entière</b><b lang="en">Whole life</b><span lang="fr">Une protection permanente, avec une valeur de rachat qui grandit.</span><span lang="en">Permanent protection, with a cash value that grows.</span></li><li style="--c:2"><b lang="fr">Maladies graves</b><b lang="en">Critical illness</b><span lang="fr">Un montant versé au diagnostic d'une maladie couverte.</span><span lang="en">A lump sum paid on diagnosis of a covered illness.</span></li><li style="--c:3"><b lang="fr">Invalidité</b><b lang="en">Disability</b><span lang="fr">Votre revenu remplacé si vous ne pouvez plus travailler.</span><span lang="en">Your income replaced if you can no longer work.</span></li><li style="--c:4"><b lang="fr">Soins de longue durée</b><b lang="en">Long-term care</b><span lang="fr">Préservez votre autonomie et épargnez vos proches.</span><span lang="en">Protect your independence and spare your family.</span></li><li style="--c:5"><b lang="fr">Analyse des besoins</b><b lang="en">Needs analysis</b><span lang="fr">La couverture chiffrée selon votre réalité, pas une moyenne.</span><span lang="en">Coverage sized to your reality, not an average.</span></li></ul>
+          <a href="#contact" class="btn btn-line pl-cta"><span lang="fr">Discuter de ma couverture</span><span lang="en">Discuss my coverage</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        </article>
+        <article class="pl-panel" role="tabpanel" id="pl-panel-1" aria-labelledby="pl-tab-1" aria-hidden="true">
+          <div class="pl-ghost" aria-hidden="true">02</div>
+          <div class="pl-head">
+            <svg class="pl-icon" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="38" r="12"/><path d="M6 50h52M32 14v6M14 22l4 4M50 22l-4 4M8 38h6M50 38h6"/></svg>
+            <div><p class="pl-kicker"><span>02</span> · <span lang="fr">La liberté</span><span lang="en">Freedom</span></p>
+            <h3 class="pl-lead"><span lang="fr">Votre projet le plus important. <em>Traitons-le comme tel.</em></span><span lang="en">Your biggest project. <em>Let's treat it that way.</em></span></h3></div>
           </div>
-          <ul lang="fr">
-            <li>Bilan patrimonial complet : actifs, dettes, besoins, projets</li>
-            <li>Profil d'investisseur et répartition d'actifs personnalisée</li>
-            <li>Sélection de fonds selon votre profil risque / rendement</li>
-            <li>Rééquilibrage périodique</li>
-            <li>Stratégie intégrée : CELI, REER, non enregistré</li>
-            <li>Transmission du patrimoine et planification successorale de base</li>
-          </ul>
-          <ul lang="en">
-            <li>Complete wealth review: assets, debts, needs, projects</li>
-            <li>Investor profile and personalized asset allocation</li>
-            <li>Fund selection based on your risk / return profile</li>
-            <li>Periodic rebalancing</li>
-            <li>Integrated strategy: TFSA, RRSP, non-registered</li>
-            <li>Wealth transfer and basic estate planning</li>
-          </ul>
-        </div></div></div>
-      </div>
-      <!-- 04 -->
-      <div class="svc reveal">
-        <button class="svc-head" type="button" aria-expanded="false">
-          <span class="svc-num">04</span>
-          <span><span class="svc-name" lang="fr">Protection fiscale</span><span class="svc-name" lang="en">Tax protection</span>
-            <span class="svc-desc" lang="fr">Optimisez légalement votre fiscalité grâce au CELI, au fractionnement de revenu et à des stratégies adaptées aux entrepreneurs.</span>
-            <span class="svc-desc" lang="en">Legally optimize your taxes with the TFSA, income splitting and strategies built for business owners.</span></span>
-          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
-        </button>
-        <div class="svc-body"><div><div class="svc-inner">
-          <div>
-            <p lang="fr">L'impôt est souvent la dépense la plus sous-estimée d'un plan financier. On identifie les occasions légales de réduire votre facture fiscale — aujourd'hui et pour les années à venir.</p>
-            <p lang="fr">En combinant les bons véhicules d'épargne et une stratégie de retrait réfléchie, les économies peuvent atteindre des dizaines de milliers de dollars sur une vie.</p>
-            <p lang="en">Tax is often the most underestimated expense in a financial plan. We find the legal ways to reduce your tax bill — today and in the years ahead.</p>
-            <p lang="en">By combining the right savings vehicles with a thoughtful withdrawal strategy, the savings can add up to tens of thousands of dollars over a lifetime.</p>
-            <a href="#contact" class="link-arrow"><span lang="fr">Analyser ma situation fiscale</span><span lang="en">Review my tax situation</span></a>
+          <p class="pl-body"><span lang="fr">Une feuille de route claire : combien épargner chaque mois, dans quel véhicule, et à quel âge vous serez libre.</span><span lang="en">A clear roadmap: how much to save each month, in which vehicle, and at what age you'll be free.</span></p>
+          <ul class="pl-cards"><li style="--c:0"><b lang="fr">Régimes publics et d'employeur</b><b lang="en">Public and employer plans</b><span lang="fr">Ce que vous recevrez vraiment de la RRQ et de vos régimes.</span><span lang="en">What you'll actually receive from QPP/CPP and your plans.</span></li><li style="--c:1"><b lang="fr">Optimisation du REER</b><b lang="en">RRSP optimization</b><span lang="fr">Cotisations, moments et retraits stratégiques.</span><span lang="en">Contributions, timing and strategic withdrawals.</span></li><li style="--c:2"><b lang="fr">REER → FERR</b><b lang="en">RRSP → RRIF</b><span lang="fr">Une conversion et des décaissements planifiés.</span><span lang="en">A planned conversion and drawdown.</span></li><li style="--c:3"><b lang="fr">Retraite anticipée</b><b lang="en">Early retirement</b><span lang="fr">Le capital nécessaire et la route pour l'atteindre.</span><span lang="en">The capital you need and the road to get there.</span></li><li style="--c:4"><b lang="fr">Revenus coordonnés</b><b lang="en">Coordinated income</b><span lang="fr">Des sources de revenus agencées pour réduire l'impôt.</span><span lang="en">Income sources arranged to reduce tax.</span></li><li style="--c:5"><b lang="fr">Révision annuelle</b><b lang="en">Annual review</b><span lang="fr">Le plan suit l'évolution de votre vie.</span><span lang="en">The plan keeps up with your life.</span></li></ul>
+          <a href="calculateur.html" class="btn btn-line pl-cta"><span lang="fr">Essayer le simulateur</span><span lang="en">Try the simulator</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        </article>
+        <article class="pl-panel" role="tabpanel" id="pl-panel-2" aria-labelledby="pl-tab-2" aria-hidden="true">
+          <div class="pl-ghost" aria-hidden="true">03</div>
+          <div class="pl-head">
+            <svg class="pl-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 54h48M14 54V36M26 54V26M38 54V32M50 54V14"/><path d="M12 28 26 16l12 8 14-14"/></svg>
+            <div><p class="pl-kicker"><span>03</span> · <span lang="fr">La croissance</span><span lang="en">Growth</span></p>
+            <h3 class="pl-lead"><span lang="fr">Faire fructifier, <em>sans perdre la vue d'ensemble.</em></span><span lang="en">Grow it, <em>without losing the big picture.</em></span></h3></div>
           </div>
-          <ul lang="fr">
-            <li>Maximisation du CELI : cotisations, retraits stratégiques</li>
-            <li>Fractionnement de revenu entre conjoints à la retraite</li>
-            <li>Cotisations REER en fin de carrière (déductions optimales)</li>
-            <li>L'assurance vie comme outil d'efficacité fiscale</li>
-            <li>Retraits planifiés pour limiter la récupération des prestations gouvernementales</li>
-            <li>Coordination avec votre comptable pour une stratégie cohérente</li>
-          </ul>
-          <ul lang="en">
-            <li>TFSA maximization: contributions, strategic withdrawals</li>
-            <li>Pension income splitting between spouses in retirement</li>
-            <li>Late-career RRSP contributions (optimal deductions)</li>
-            <li>Life insurance as a tax-efficiency tool</li>
-            <li>Planned withdrawals to limit government benefit clawbacks</li>
-            <li>Coordination with your accountant for one coherent strategy</li>
-          </ul>
-        </div></div></div>
-      </div>
-      <!-- 05 -->
-      <div class="svc reveal">
-        <button class="svc-head" type="button" aria-expanded="false">
-          <span class="svc-num">05</span>
-          <span><span class="svc-name" lang="fr">Assurance vie participative</span><span class="svc-name" lang="en">Participating life insurance</span>
-            <span class="svc-desc" lang="fr">Transformez votre assurance en actif vivant : valeur de rachat, levier financier, transmission hors succession.</span>
-            <span class="svc-desc" lang="en">Turn your insurance into a living asset: cash value, financial leverage, a transfer outside the estate.</span></span>
-          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
-        </button>
-        <div class="svc-body"><div><div class="svc-inner">
-          <div>
-            <p lang="fr">L'assurance vie avec valeur de rachat est l'un des outils les plus puissants — et les moins connus — de la planification au Canada. Elle combine protection permanente, croissance à l'abri de l'impôt et accès au capital.</p>
-            <p lang="fr">Chaque prime contribue à bâtir un actif réel — accessible de votre vivant, transmissible sans impôt et utilisable comme garantie bancaire.</p>
-            <p lang="en">Life insurance with a cash value is one of the most powerful — and least understood — planning tools in Canada. It combines permanent protection, tax-sheltered growth and access to capital.</p>
-            <p lang="en">Every premium helps build a real asset — accessible during your lifetime, transferable tax-free and usable as bank collateral.</p>
-            <a href="vie-participative.html" class="link-arrow"><span lang="fr">Explorer la simulation interactive</span><span lang="en">Explore the interactive simulation</span></a>
+          <p class="pl-body"><span lang="fr">Tous vos actifs — REER, CELI, non enregistré, immobilier — réunis dans une stratégie cohérente, alignée sur votre horizon et votre tolérance au risque.</span><span lang="en">All your assets — RRSP, TFSA, non-registered, real estate — brought into one coherent strategy that matches your time horizon and risk tolerance.</span></p>
+          <ul class="pl-cards"><li style="--c:0"><b lang="fr">Bilan patrimonial</b><b lang="en">Wealth review</b><span lang="fr">Actifs, dettes, besoins et projets, sur une seule page.</span><span lang="en">Assets, debts, needs and projects, on a single page.</span></li><li style="--c:1"><b lang="fr">Profil d'investisseur</b><b lang="en">Investor profile</b><span lang="fr">Une répartition d'actifs faite pour vous.</span><span lang="en">An asset allocation built for you.</span></li><li style="--c:2"><b lang="fr">Sélection de fonds</b><b lang="en">Fund selection</b><span lang="fr">Choisis selon votre profil risque / rendement.</span><span lang="en">Chosen for your risk / return profile.</span></li><li style="--c:3"><b lang="fr">Rééquilibrage</b><b lang="en">Rebalancing</b><span lang="fr">Le portefeuille garde son cap dans le temps.</span><span lang="en">Your portfolio stays on course over time.</span></li><li style="--c:4"><b lang="fr">Stratégie intégrée</b><b lang="en">Integrated strategy</b><span lang="fr">CELI, REER et non enregistré qui travaillent ensemble.</span><span lang="en">TFSA, RRSP and non-registered working together.</span></li><li style="--c:5"><b lang="fr">Transmission</b><b lang="en">Wealth transfer</b><span lang="fr">Les bases de votre planification successorale.</span><span lang="en">The foundations of your estate plan.</span></li></ul>
+          <a href="#contact" class="btn btn-line pl-cta"><span lang="fr">Évaluer mon patrimoine</span><span lang="en">Review my wealth</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        </article>
+        <article class="pl-panel" role="tabpanel" id="pl-panel-3" aria-labelledby="pl-tab-3" aria-hidden="true">
+          <div class="pl-ghost" aria-hidden="true">04</div>
+          <div class="pl-head">
+            <svg class="pl-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 58 32 32 58 6 32Z"/><path d="M24 40l16-16"/><circle cx="25" cy="25" r="3"/><circle cx="39" cy="39" r="3"/></svg>
+            <div><p class="pl-kicker"><span>04</span> · <span lang="fr">L'efficacité</span><span lang="en">Efficiency</span></p>
+            <h3 class="pl-lead"><span lang="fr">L'impôt est la dépense <em>la plus sous-estimée</em> de votre plan.</span><span lang="en">Tax is the <em>most underestimated</em> expense in your plan.</span></h3></div>
           </div>
-          <ul lang="fr">
-            <li>Croissance de la valeur de rachat à l'abri de l'impôt dans le contrat</li>
-            <li>Capital accessible de votre vivant par avance sur police</li>
-            <li>Complément de retraite sans gonfler votre revenu imposable</li>
-            <li>Capital-décès libre d'impôt versé hors succession</li>
-            <li>Garantie de prêt bancaire (levier financier)</li>
-            <li>Stratégie de choix pour les travailleurs autonomes et propriétaires d'entreprise</li>
-          </ul>
-          <ul lang="en">
-            <li>Tax-sheltered growth of the cash value inside the policy</li>
-            <li>Capital accessible during your lifetime through policy loans</li>
-            <li>Retirement top-up without inflating your taxable income</li>
-            <li>Tax-free death benefit paid outside the estate</li>
-            <li>Bank loan collateral (financial leverage)</li>
-            <li>A go-to strategy for self-employed people and business owners</li>
-          </ul>
-        </div></div></div>
+          <p class="pl-body"><span lang="fr">On identifie les leviers légaux pour réduire votre facture fiscale — aujourd'hui et pour les années à venir, en coordination avec votre comptable.</span><span lang="en">We find the legal levers to reduce your tax bill — today and in the years ahead, in coordination with your accountant.</span></p>
+          <ul class="pl-cards"><li style="--c:0"><b lang="fr">CELI maximisé</b><b lang="en">TFSA maximized</b><span lang="fr">Cotisations et retraits placés au bon moment.</span><span lang="en">Contributions and withdrawals at the right time.</span></li><li style="--c:1"><b lang="fr">Fractionnement</b><b lang="en">Income splitting</b><span lang="fr">Le revenu de retraite partagé entre conjoints.</span><span lang="en">Retirement income shared between spouses.</span></li><li style="--c:2"><b lang="fr">REER de fin de carrière</b><b lang="en">Late-career RRSP</b><span lang="fr">Des déductions au moment où elles valent le plus.</span><span lang="en">Deductions when they are worth the most.</span></li><li style="--c:3"><b lang="fr">L'assurance comme levier</b><b lang="en">Insurance as a lever</b><span lang="fr">Un outil d'efficacité fiscale souvent ignoré.</span><span lang="en">An often-overlooked tax-efficiency tool.</span></li><li style="--c:4"><b lang="fr">Prestations préservées</b><b lang="en">Benefits preserved</b><span lang="fr">Des retraits planifiés pour limiter la récupération.</span><span lang="en">Planned withdrawals to limit clawbacks.</span></li><li style="--c:5"><b lang="fr">Coordination</b><b lang="en">Coordination</b><span lang="fr">Une stratégie cohérente avec votre comptable.</span><span lang="en">One coherent strategy with your accountant.</span></li></ul>
+          <a href="#contact" class="btn btn-line pl-cta"><span lang="fr">Analyser ma situation fiscale</span><span lang="en">Review my tax situation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        </article>
+        <article class="pl-panel" role="tabpanel" id="pl-panel-4" aria-labelledby="pl-tab-4" aria-hidden="true">
+          <div class="pl-ghost" aria-hidden="true">05</div>
+          <div class="pl-head">
+            <svg class="pl-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 56 22 32 60 8 22Z"/><path d="M8 22h48M22 22l10 38 10-38M20 22l12-18 12 18"/></svg>
+            <div><p class="pl-kicker"><span>05</span> · <span lang="fr">L'héritage</span><span lang="en">Legacy</span></p>
+            <h3 class="pl-lead"><span lang="fr">Transformer votre assurance <em>en actif vivant.</em></span><span lang="en">Turn your insurance <em>into a living asset.</em></span></h3></div>
+          </div>
+          <p class="pl-body"><span lang="fr">Protection permanente, croissance à l'abri de l'impôt et accès au capital — l'un des outils les plus puissants, et les moins connus, de la planification au Canada.</span><span lang="en">Permanent protection, tax-sheltered growth and access to capital — one of the most powerful, and least understood, planning tools in Canada.</span></p>
+          <ul class="pl-cards"><li style="--c:0"><b lang="fr">Croissance à l'abri</b><b lang="en">Sheltered growth</b><span lang="fr">La valeur de rachat croît à l'abri de l'impôt dans le contrat.</span><span lang="en">The cash value grows tax-sheltered inside the policy.</span></li><li style="--c:1"><b lang="fr">Accès au capital</b><b lang="en">Access to capital</b><span lang="fr">Une avance sur police, sans racheter le contrat.</span><span lang="en">A policy loan, without surrendering the policy.</span></li><li style="--c:2"><b lang="fr">Complément de retraite</b><b lang="en">Retirement top-up</b><span lang="fr">Sans gonfler votre revenu imposable.</span><span lang="en">Without inflating your taxable income.</span></li><li style="--c:3"><b lang="fr">Capital-décès libre d'impôt</b><b lang="en">Tax-free death benefit</b><span lang="fr">Versé à vos bénéficiaires, hors succession.</span><span lang="en">Paid to your beneficiaries, outside the estate.</span></li><li style="--c:4"><b lang="fr">Levier bancaire</b><b lang="en">Bank leverage</b><span lang="fr">La police sert de garantie pour un prêt.</span><span lang="en">The policy serves as collateral for a loan.</span></li><li style="--c:5"><b lang="fr">Pour entrepreneurs</b><b lang="en">For business owners</b><span lang="fr">Une stratégie de choix pour les sociétés et travailleurs autonomes.</span><span lang="en">A go-to strategy for corporations and the self-employed.</span></li></ul>
+          <a href="vie-participative.html" class="btn btn-line pl-cta"><span lang="fr">Explorer la simulation interactive</span><span lang="en">Explore the interactive simulation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        </article>
       </div>
     </div>
   </div>
@@ -864,14 +815,47 @@
   // Lien de soumission auto/habitation centralisé
   document.querySelectorAll('[data-quote]').forEach(function (a) { a.href = a.getAttribute('data-quote') === 'home' ? WH.config.quoteHomeUrl : WH.config.quoteAutoUrl; });
 
-  // Accordéon des services
-  document.querySelectorAll('.svc-head').forEach(function (h) {
-    h.addEventListener('click', function () {
-      var row = h.parentElement, open = !row.classList.contains('open');
-      document.querySelectorAll('.svc.open').forEach(function (r) { r.classList.remove('open'); r.querySelector('.svc-head').setAttribute('aria-expanded', 'false'); });
-      if (open) { row.classList.add('open'); h.setAttribute('aria-expanded', 'true'); }
+  // Cinq piliers : onglets animés, rotation douce tant que le visiteur n'a pas choisi
+  (function () {
+    var root = document.getElementById('pillars'); if (!root) return;
+    var tabs = [].slice.call(root.querySelectorAll('.pl-tab')), panels = [].slice.call(root.querySelectorAll('.pl-panel'));
+    var cur = 0, timer = null, auto = true, inView = false, DUR = 8000;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function select(i, fromUser) {
+      if (fromUser) { auto = false; clearTimeout(timer); tabs.forEach(function (t) { t.classList.remove('timing'); }); }
+      if (i === cur && panels[i].classList.contains('show')) return;
+      var old = panels[cur];
+      old.classList.remove('show', 'on'); old.setAttribute('aria-hidden', 'true');
+      tabs[cur].classList.remove('on', 'timing'); tabs[cur].setAttribute('aria-selected', 'false'); tabs[cur].tabIndex = -1;
+      cur = i;
+      var p = panels[i]; p.removeAttribute('aria-hidden'); p.classList.add('on');
+      tabs[i].classList.add('on'); tabs[i].setAttribute('aria-selected', 'true'); tabs[i].tabIndex = 0;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { p.classList.add('show'); }); });
+      if (matchMedia('(max-width: 860px)').matches && fromUser) tabs[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      schedule();
+    }
+    function schedule() {
+      clearTimeout(timer);
+      if (!auto || !inView || reduce) return;
+      var t = tabs[cur]; t.classList.remove('timing'); void t.offsetWidth; t.style.setProperty('--dur', DUR + 'ms'); t.classList.add('timing');
+      timer = setTimeout(function () { select((cur + 1) % tabs.length, false); }, DUR);
+    }
+    tabs.forEach(function (t, i) {
+      t.tabIndex = i === 0 ? 0 : -1;
+      t.addEventListener('click', function () { select(i, true); });
+      t.addEventListener('keydown', function (e) {
+        var d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+        if (d) { e.preventDefault(); var n = (i + d + tabs.length) % tabs.length; tabs[n].focus(); select(n, true); }
+      });
     });
-  });
+    // pause au survol du contenu
+    root.querySelector('.pl-stage').addEventListener('pointerenter', function () { if (auto) { clearTimeout(timer); tabs[cur].classList.remove('timing'); } });
+    root.querySelector('.pl-stage').addEventListener('pointerleave', function () { schedule(); });
+    new IntersectionObserver(function (en) {
+      inView = en[0].isIntersecting;
+      if (inView) { panels[cur].classList.add('show'); schedule(); } else { clearTimeout(timer); tabs[cur].classList.remove('timing'); }
+    }, { threshold: .35 }).observe(root);
+  })();
 
   // Rail des reels
   var rail = document.getElementById('reels');
