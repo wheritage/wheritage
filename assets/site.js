@@ -7,8 +7,9 @@
 
   /* ── Réglages du site : modifier ici seulement ── */
   var CONFIG = {
-    // Lien de soumission auto / habitation (remplacer par ton lien référent personnel si tu en as un)
-    quoteUrl: 'https://ia.ca/assurance-auto',
+    // Liens de soumission personnels (code référent uid=g9kics)
+    quoteAutoUrl: 'https://assurance.ia.ca/auto/?uid=g9kics&redirect=false',
+    quoteHomeUrl: 'https://assurance.ia.ca/soumissions-habitation/?uid=g9kics&redirect=false',
     calUrl: 'https://cal.com/wheritage',
     calQuickUrl: 'https://cal.com/wheritage/rencontre-strategique-15min',
     phone: '(514) 296-7511',
@@ -142,7 +143,8 @@
         '<a href="index.html">' + bi('Accueil', 'Home') + '</a>' +
         NAV.map(function (n) { return '<a href="' + n.href + '">' + bi(n.fr, n.en) + '</a>'; }).join('') +
         '<a href="index.html#reservation" class="mm-small">' + bi('Réserver un appel', 'Book a call') + '</a>' +
-        '<a href="' + CONFIG.quoteUrl + '" target="_blank" rel="noopener" class="mm-small">' + bi('Soumission auto / habitation', 'Auto / home quote') + '</a>' +
+        '<a href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener" class="mm-small">' + bi('Soumission auto', 'Auto quote') + '</a>' +
+        '<a href="' + CONFIG.quoteHomeUrl + '" target="_blank" rel="noopener" class="mm-small">' + bi('Soumission habitation', 'Home quote') + '</a>' +
       '</div>';
     var intro = document.getElementById('intro');
     var ref = intro ? intro.nextSibling : document.body.firstChild;
@@ -165,7 +167,8 @@
         '<div><h4>' + bi('Outils', 'Tools') + '</h4><ul>' +
           '<li><a href="vie-participative.html">' + bi('Simulation vie participative', 'Participating life simulation') + '</a></li>' +
           '<li><a href="calculateur.html">' + bi('Simulateur d\'épargne', 'Savings simulator') + '</a></li>' +
-          '<li><a href="' + CONFIG.quoteUrl + '" target="_blank" rel="noopener">' + bi('Soumission auto / habitation', 'Auto / home quote') + '</a></li></ul></div>' +
+          '<li><a href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener">' + bi('Soumission auto', 'Auto insurance quote') + '</a></li>' +
+          '<li><a href="' + CONFIG.quoteHomeUrl + '" target="_blank" rel="noopener">' + bi('Soumission habitation', 'Home insurance quote') + '</a></li></ul></div>' +
         '<div><h4>Contact</h4><ul>' +
           '<li><a href="tel:' + CONFIG.tel + '">' + CONFIG.phone + '</a></li>' +
           '<li><a href="mailto:' + CONFIG.email + '">' + CONFIG.email + '</a></li>' +
@@ -179,13 +182,12 @@
     document.body.appendChild(foot);
 
     if (!sstore('wh-qp-x') && !document.body.hasAttribute('data-no-pill')) {
-      var pill = document.createElement('a');
+      var pill = document.createElement('div');
       pill.className = 'quote-pill';
-      pill.href = CONFIG.quoteUrl;
-      pill.target = '_blank';
-      pill.rel = 'noopener';
       pill.innerHTML = '<span class="qp-ico"><svg viewBox="0 0 16 16"><path d="M2 10.5 3.6 6.4A1.5 1.5 0 0 1 5 5.5h6a1.5 1.5 0 0 1 1.4.9L14 10.5v2.5h-2v-1.2H4V13H2z"/><circle cx="4.8" cy="10.3" r=".8"/><circle cx="11.2" cy="10.3" r=".8"/></svg></span>' +
-        '<span><b>' + bi('Auto / Habitation', 'Auto / Home') + '</b><small>' + bi('Soumission en quelques minutes', 'Get a quote in minutes') + '</small></span>' +
+        '<span><b>' + bi('Soumission', 'Get a quote') + '</b><small>' + bi('En quelques minutes', 'In a few minutes') + '</small></span>' +
+        '<a class="qp-go" href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener">Auto</a>' +
+        '<a class="qp-go" href="' + CONFIG.quoteHomeUrl + '" target="_blank" rel="noopener">' + bi('Habitation', 'Home') + '</a>' +
         '<button class="qp-x" type="button" aria-label="Fermer">×</button>';
       document.body.appendChild(pill);
       pill.querySelector('.qp-x').addEventListener('click', function (e) {

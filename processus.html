@@ -72,16 +72,19 @@
 
 /* ── Pyramide des priorités ── */
 .pyr-wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 5rem; align-items: center; }
-.pyramid { display: flex; flex-direction: column-reverse; align-items: center; gap: 6px; }
-.pyr { position: relative; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: filter .4s;
-  transform: scaleX(0); transform-origin: center; transition: transform 1s var(--ease-out), filter .4s; transition-delay: calc(var(--k) * .14s); }
+.pyramid { position: relative; width: 100%; max-width: 540px; aspect-ratio: 1 / .92; margin: 0 auto; }
+.pyr { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: rgba(201,168,76,calc(.1 + var(--k) * .035));
+  transform: scaleX(0); transform-origin: center;
+  transition: transform 1s var(--ease-out) calc(var(--k) * .14s), background .35s ease; }
 .pyramid.in .pyr { transform: scaleX(1); }
-.pyr::before { content: ''; position: absolute; inset: 0; background: rgba(201,168,76,calc(.07 + var(--k) * .025)); border: 1px solid var(--ligne-fort); clip-path: polygon(var(--inset) 0, calc(100% - var(--inset)) 0, 100% 100%, 0 100%); transition: background .4s; }
-.pyr:hover::before, .pyr.on::before { background: rgba(201,168,76,.28); }
-.pyr.on::before { background: var(--or); }
-.pyr span { position: relative; font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; color: var(--creme); font-weight: 500; transition: color .3s; }
+.pyr:hover { background: rgba(201,168,76,.32); }
+.pyr.on { background: var(--or); }
+.pyr span { position: relative; font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; color: var(--creme); font-weight: 500; transition: color .3s; white-space: nowrap; padding-left: .22em; }
 .pyr.on span { color: var(--noir); }
-.pyr em { position: absolute; left: -2.8rem; font-family: var(--serif); font-style: normal; font-size: .95rem; color: var(--or); }
+.pyr.top span { font-size: .56rem; letter-spacing: .14em; }
+.pyr-num { position: absolute; transform: translate(-100%, 50%); padding-right: 1.1rem; font-family: var(--serif); font-size: 1rem; color: var(--or); opacity: 0; transition: opacity .6s ease calc(.4s + var(--k) * .14s); pointer-events: none; }
+.pyramid.in .pyr-num { opacity: 1; }
 .pyr-info { border: 1px solid var(--ligne); padding: 2.6rem; min-height: 280px; background: var(--sombre); position: relative; }
 .pyr-info small { font-size: .58rem; letter-spacing: .26em; text-transform: uppercase; color: var(--or); }
 .pyr-info h3 { font-size: 2.2rem; margin: .6rem 0 1rem; }
@@ -123,7 +126,7 @@
   .pyr-wrap { grid-template-columns: 1fr; gap: 3rem; }
   .never { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 640px) { .never { grid-template-columns: 1fr; } .pyr { height: 60px; } .pyr em { left: -1.6rem; } .pyramid { padding-left: 1.6rem; } }
+@media (max-width: 640px) { .never { grid-template-columns: 1fr; } .pyr span { font-size: .54rem; letter-spacing: .14em; } .pyr.top span { font-size: .48rem; letter-spacing: .08em; } .pyramid { width: calc(100% - 1.6rem); margin-left: 1.6rem; } }
 </style>
 </head>
 <body data-page="processus">
@@ -138,7 +141,7 @@
     <p class="lead reveal" style="--d:.6"><span lang="fr">Pas de produit avant le diagnostic. Pas de signature avant la compréhension. Voici exactement comment on travaille ensemble — du premier appel au suivi, année après année.</span><span lang="en">No product before the diagnosis. No signature before you understand. Here's exactly how we work together — from the first call to the follow-up, year after year.</span></p>
     <div class="hero-meta reveal" style="--d:.8">
       <div><b>4</b><span lang="fr">Étapes claires</span><span lang="en">Clear steps</span></div>
-      <div><b>0 $</b><span lang="fr">Première consultation</span><span lang="en">First consultation</span></div>
+      <div><b lang="fr">Sur mesure</b><b lang="en">Tailored</b><span lang="fr">Aucune solution générique</span><span lang="en">No generic solutions</span></div>
       <div><b lang="fr">À vie</b><b lang="en">For life</b><span lang="fr">Suivi</span><span lang="en">Follow-up</span></div>
     </div>
   </div>
@@ -256,11 +259,11 @@
       <h2 style="margin-bottom:1.4rem"><span lang="fr" class="split">On bâtit <em>de la base</em><br>vers le sommet.</span><span lang="en" class="split">We build <em>from the base</em><br>to the top.</span></h2>
       <p class="lead reveal" style="margin-bottom:3rem"><span lang="fr">Chaque étage repose sur celui d'en dessous. Cliquez sur un niveau pour voir ce qu'il couvre.</span><span lang="en">Each level rests on the one below. Click a level to see what it covers.</span></p>
       <div class="pyramid" id="pyramid">
-        <div class="pyr on" style="--k:0;--inset:6%;width:100%" data-i="0"><em>1</em><span lang="fr">Protection</span><span lang="en">Protection</span></div>
-        <div class="pyr" style="--k:1;--inset:7.5%;width:84%" data-i="1"><em>2</em><span lang="fr">Flux de trésorerie</span><span lang="en">Cash flow</span></div>
-        <div class="pyr" style="--k:2;--inset:9%;width:68%" data-i="2"><em>3</em><span lang="fr">Projets</span><span lang="en">Projects</span></div>
-        <div class="pyr" style="--k:3;--inset:11%;width:52%" data-i="3"><em>4</em><span lang="fr">Croissance</span><span lang="en">Growth</span></div>
-        <div class="pyr" style="--k:4;--inset:14%;width:36%" data-i="4"><em>5</em><span lang="fr">Spéculation</span><span lang="en">Speculation</span></div>
+        <div class="pyr on" style="--k:0" data-i="0"><span lang="fr">Protection</span><span lang="en">Protection</span></div>
+        <div class="pyr" style="--k:1" data-i="1"><span lang="fr">Flux de trésorerie</span><span lang="en">Cash flow</span></div>
+        <div class="pyr" style="--k:2" data-i="2"><span lang="fr">Projets</span><span lang="en">Projects</span></div>
+        <div class="pyr" style="--k:3" data-i="3"><span lang="fr">Croissance</span><span lang="en">Growth</span></div>
+        <div class="pyr" style="--k:4" data-i="4"><span lang="fr">Spéculation</span><span lang="en">Speculation</span></div>
       </div>
     </div>
     <div class="pyr-info reveal-r" id="pyrInfo" aria-live="polite"></div>
@@ -295,8 +298,8 @@
         <p lang="fr">Ça dépend de la complexité de votre dossier. Une situation simple peut se régler en une ou deux rencontres. Une structure corporative avec plusieurs actionnaires en demandera davantage. Je vous le dis clairement dès le départ.</p>
         <p lang="en">It depends on how complex your situation is. A simple file can be handled in one or two meetings. A corporate structure with several shareholders will take more. I'll tell you clearly from the start.</p></details>
       <details><summary><span lang="fr">Combien ça coûte ?</span><span lang="en">How much does it cost?</span><i></i></summary>
-        <p lang="fr">La consultation initiale est offerte, sans engagement. Si une solution est mise en place, je suis généralement rémunéré par le fournisseur du produit. Je vous explique mon mode de rémunération en toute transparence, avant toute décision.</p>
-        <p lang="en">The first consultation is free, with no commitment. If a solution is put in place, I'm generally paid by the product provider. I explain how I'm paid, openly, before you decide anything.</p></details>
+        <p lang="fr">Je vous explique mon mode de rémunération en toute transparence dès la première rencontre — avant toute décision. Si une solution est mise en place, je suis généralement rémunéré par le fournisseur du produit.</p>
+        <p lang="en">I explain how I'm paid, openly, from the very first meeting — before you decide anything. If a solution is put in place, I'm generally paid by the product provider.</p></details>
       <details><summary><span lang="fr">Dois-je préparer quelque chose ?</span><span lang="en">Do I need to prepare anything?</span><i></i></summary>
         <p lang="fr">Pour le premier appel, rien. Pour l'ABF, je vous envoie une courte liste : relevés de placements, polices d'assurance existantes, états financiers de votre société si vous êtes incorporé.</p>
         <p lang="en">For the first call, nothing. For the needs analysis, I'll send you a short list: investment statements, existing insurance policies, and your company's financial statements if you're incorporated.</p></details>
@@ -352,6 +355,62 @@
     setActive(Math.min(panels.length - 1, Math.round(p * (panels.length - 1))));
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  /* ── Aimantation : un geste = une étape, jamais coincé entre deux ── */
+  var reduceMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var animating = false, lastWheel = 0, gestureUsed = false, snapTimer = null, restIdx = 0;
+  var LAST = panels.length - 1;
+  function maxScroll() { return sec.offsetHeight - innerHeight; }
+  function panelY(k) { return sec.getBoundingClientRect().top + scrollY + (k / LAST) * maxScroll(); }
+  function curIdx() { return Math.min(1, Math.max(0, -sec.getBoundingClientRect().top / maxScroll())) * LAST; }
+  function pinned() { var r = sec.getBoundingClientRect(); return r.top <= 2 && r.bottom >= innerHeight - 2; }
+  function glide(k) {
+    var y1 = panelY(k), y0 = scrollY, d = y1 - y0, t0 = performance.now(), dur = reduceMo ? 1 : 900;
+    animating = true; gestureUsed = true;
+    var html = document.documentElement; html.style.scrollBehavior = 'auto';
+    (function f(t) {
+      var p = Math.min(1, (t - t0) / dur), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      scrollTo(0, y0 + d * e);
+      if (p < 1) requestAnimationFrame(f);
+      else { animating = false; restIdx = k; html.style.scrollBehavior = ''; }
+    })(t0);
+  }
+  function step(dir, e) {
+    if (!mq.matches || !pinned()) return false;
+    var cur = curIdx();
+    var base = dir > 0 ? Math.floor(cur + 0.02) : Math.ceil(cur - 0.02), target = base + dir;
+    if (target < 0 || target > LAST) return false; // on laisse sortir de la section
+    if (e) e.preventDefault();
+    if (!animating && !gestureUsed) glide(target);
+    return true;
+  }
+  window.addEventListener('wheel', function (e) {
+    var now = performance.now();
+    if (now - lastWheel > 220) gestureUsed = false; // nouvelle impulsion
+    lastWheel = now;
+    if (Math.abs(e.deltaY) < 2) return;
+    step(e.deltaY > 0 ? 1 : -1, e);
+  }, { passive: false });
+  window.addEventListener('keydown', function (e) {
+    if (/input|textarea|select/i.test((e.target && e.target.tagName) || '')) return;
+    var dir = { ArrowDown: 1, PageDown: 1, ' ': 1, ArrowUp: -1, PageUp: -1 }[e.key];
+    if (!dir) return;
+    gestureUsed = false;
+    step(e.shiftKey && e.key === ' ' ? -1 : dir, e);
+  });
+  // Barre de défilement, tactile, etc. : on termine le mouvement sur l'étape suivante dans le sens du geste
+  window.addEventListener('scroll', function () {
+    if (!mq.matches || animating) return;
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(function () {
+      if (animating || !pinned()) return;
+      var cur = curIdx();
+      if (Math.abs(cur - Math.round(cur)) < 0.01) { restIdx = Math.round(cur); return; }
+      var target = cur > restIdx ? Math.ceil(cur - 0.1) : Math.floor(cur + 0.1);
+      gestureUsed = false;
+      glide(Math.max(0, Math.min(LAST, target)));
+    }, 140);
+  }, { passive: true });
+
   window.addEventListener('resize', layout);
   mq.addEventListener ? mq.addEventListener('change', layout) : mq.addListener(layout);
   layout();
@@ -380,6 +439,28 @@
     var d = LEVELS[sel][WH.lang()];
     info.innerHTML = '<div class="fade"><small>' + d[0] + '</small><h3>' + d[1] + '</h3><p>' + d[2] + '</p></div>';
   }
+  // Géométrie d'un vrai triangle : chaque étage suit les mêmes pentes, le dernier se termine en pointe
+  var GAP = 1.6, nums = [];
+  pyr.querySelectorAll('.pyr').forEach(function (el, k) {
+    var num = document.createElement('span');
+    num.className = 'pyr-num'; num.textContent = k + 1; num.style.setProperty('--k', k);
+    pyr.appendChild(num); nums.push(num);
+  });
+  function shapePyramid() {
+    var narrow = pyr.clientWidth < 460;
+    var B = narrow ? [0, 16, 32, 48, 64, 100] : [0, 18, 36, 54, 72, 100];
+    pyr.querySelectorAll('.pyr').forEach(function (el, k) {
+      var yb = B[k], yt = B[k + 1] - (k < 4 ? GAP : 0);
+      el.style.bottom = yb + '%';
+      el.style.height = (yt - yb) + '%';
+      el.style.clipPath = 'polygon(' + (yb / 2) + '% 100%, ' + (100 - yb / 2) + '% 100%, ' + (100 - yt / 2) + '% 0, ' + (yt / 2) + '% 0)';
+      if (k === 4) { el.classList.add('top'); el.style.alignItems = 'flex-end'; el.style.paddingBottom = narrow ? '6%' : '9%'; }
+      var ym = k === 4 ? yb + 7 : (yb + yt) / 2;
+      nums[k].style.left = (ym / 2) + '%'; nums[k].style.bottom = ym + '%';
+    });
+  }
+  shapePyramid();
+  window.addEventListener('resize', shapePyramid);
   pyr.querySelectorAll('.pyr').forEach(function (el) {
     el.setAttribute('role', 'button'); el.setAttribute('tabindex', '0');
     function pick() { pyr.querySelectorAll('.pyr').forEach(function (x) { x.classList.remove('on'); }); el.classList.add('on'); sel = +el.getAttribute('data-i'); renderInfo(); }
