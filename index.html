@@ -1,1977 +1,936 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-lang="fr"
+  data-title-fr="W Héritage | Walid Harchaoui — Conseiller en sécurité financière"
+  data-title-en="W Héritage | Walid Harchaoui — Financial Security Advisor">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>W Heritage | Walid Harchaoui — Conseiller en Sécurité Financière</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<title>W Héritage | Walid Harchaoui — Conseiller en sécurité financière</title>
+<meta name="description" content="Walid Harchaoui, conseiller en sécurité financière à Montréal (QC + ON). Assurance, retraite, patrimoine, fiscalité et vie participative — stratège, pas vendeur.">
+<meta name="theme-color" content="#080808">
+<meta property="og:title" content="W Héritage — Walid Harchaoui, CSF">
+<meta property="og:description" content="Bâtir l'héritage qui dure. Protection, structure et patrimoine pour entrepreneurs et familles.">
+<meta property="og:image" content="walid-photo.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(){var l='fr';try{var q=new URLSearchParams(location.search).get('lang');l=q||localStorage.getItem('wh-lang')||'fr';}catch(e){}l=l==='en'?'en':'fr';var h=document.documentElement;h.setAttribute('data-lang',l);h.lang=l;})();</script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --or: #B8924A;
-  --or-vif: #D4A85A;
-  --or-pale: #E8CFA0;
-  --noir: #080808;
-  --noir2: #111010;
-  --sombre: #1A1815;
-  --sombre2: #221F1B;
-  --encre: #2E2A24;
-  --texte: #EDE8DF;
-  --texte2: #9E9080;
-  --texte3: #6B6055;
-  --creme: #F7F2EA;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: var(--noir);
-  color: var(--texte);
-  font-weight: 300;
-  line-height: 1.7;
-  overflow-x: hidden;
-  cursor: auto;
-}
-
-/* ── NAV ── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 500;
-  padding: 2rem 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: all 0.4s;
-}
-nav.scrolled {
-  padding: 1.2rem 5rem;
-  background: rgba(8,8,8,0.96);
-  border-bottom: 1px solid rgba(184,146,74,0.12);
-  backdrop-filter: blur(16px);
-}
-
-/* Mobile menu */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 4px;
-  background: none;
-  border: none;
-}
-.hamburger span {
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--or);
-  transition: all 0.3s;
-}
-.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-.mobile-menu {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(8,8,8,0.98);
-  z-index: 490;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-}
-.mobile-menu.open { display: flex; }
-.mobile-menu a {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
-  font-weight: 300;
-  color: var(--texte);
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  transition: color 0.3s;
-}
-.mobile-menu a:hover { color: var(--or); }
-
-.logo-wrap { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
-.logo-mark {
-  width: 36px; height: 36px;
-  border: 1px solid rgba(184,146,74,0.6);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--or);
-  letter-spacing: 0.05em;
-}
-.logo-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: var(--texte);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-.logo-text span { color: var(--or); }
-
-nav ul { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
-nav ul a {
-  color: var(--texte2);
-  text-decoration: none;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 400;
-  transition: color 0.3s;
-}
-nav ul a:hover { color: var(--or); }
-.nav-cta {
-  border: 1px solid rgba(184,146,74,0.5) !important;
-  color: var(--or) !important;
-  padding: 0.6rem 1.5rem;
-  transition: all 0.3s !important;
-}
-.nav-cta:hover {
-  background: var(--or) !important;
-  color: var(--noir) !important;
-}
-
 /* ── HERO ── */
-.hero {
-  position: relative;
-  height: 100vh;
-  min-height: 700px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: #050503;
-}
+.hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; background: #050403; padding: 8rem var(--pad-x) 5rem; }
+.hero-bg { position: absolute; inset: 0;
+  background: radial-gradient(ellipse 75% 60% at 65% 40%, rgba(201,168,76,.15), transparent 65%),
+              radial-gradient(ellipse 40% 50% at 8% 85%, rgba(201,168,76,.07), transparent 60%),
+              linear-gradient(160deg, #0C0A06 0%, #050403 55%, #0A0806 100%); }
+.hero canvas.dust { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero .ghost-word { right: -3vw; top: 50%; margin-top: -.5em; }
+.hero-grid { position: relative; z-index: 2; width: 100%; max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr .9fr; gap: 5rem; align-items: center; }
+.hero h1 { font-size: clamp(3.6rem, 7.6vw, 8rem); line-height: .94; letter-spacing: -.012em; }
+.hero h1 .indent { display: block; padding-left: 2.2rem; }
+.hero .lead { margin: 2rem 0 2.6rem; max-width: 430px; }
+.hero-actions { display: flex; align-items: center; gap: 1.8rem; flex-wrap: wrap; }
+.hero-photo { position: relative; max-width: 440px; justify-self: center; width: 100%; }
+.hero-photo .frame { position: relative; aspect-ratio: 3/4; overflow: hidden; border: 1px solid rgba(201,168,76,.22); }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: contrast(1.05) brightness(.94); transform: scale(1.12); transition: transform 2.6s var(--ease-out); }
+.hero-photo .frame.in img { transform: scale(1); }
+.hero-photo .frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 55%, rgba(5,4,3,.55)); }
+.corner { position: absolute; width: 26px; height: 26px; border: 0 solid var(--or); z-index: 3; }
+.corner.tl { top: -9px; left: -9px; border-top-width: 1px; border-left-width: 1px; }
+.corner.tr { top: -9px; right: -9px; border-top-width: 1px; border-right-width: 1px; }
+.corner.bl { bottom: -9px; left: -9px; border-bottom-width: 1px; border-left-width: 1px; }
+.corner.br { bottom: -9px; right: -9px; border-bottom-width: 1px; border-right-width: 1px; }
+.hero-photo .badge { position: absolute; left: -2.2rem; bottom: 2.2rem; z-index: 4; background: rgba(8,8,8,.9); border: 1px solid var(--ligne-fort); padding: 1rem 1.3rem; backdrop-filter: blur(8px); }
+.hero-photo .badge b { display: block; font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--or); line-height: 1.1; }
+.hero-photo .badge span { font-size: .56rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte2); }
+.hero-photo .cap { position: absolute; right: 0; bottom: -1.9rem; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); }
 
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  opacity: 0.35;
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: overlay;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(184,146,74,0.13) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(184,146,74,0.06) 0%, transparent 60%),
-    linear-gradient(160deg, #0C0A06 0%, #050503 50%, #0A0806 100%);
-  z-index: 0;
-}
-
-.hero-word-bg {
-  position: absolute;
-  right: -3rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(12rem, 22vw, 22rem);
-  font-weight: 300;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(184,146,74,0.08);
-  letter-spacing: -0.02em;
-  line-height: 1;
-  z-index: 0;
-  pointer-events: none;
-  white-space: nowrap;
-  animation: fadeUp 1.5s 0.1s both;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  padding: 0 5rem;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 4rem;
-}
-
-.hero-eyebrow {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--or);
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  animation: fadeUp 0.8s 0.1s both;
-}
-.hero-eyebrow::before {
-  content: '';
-  display: block;
-  width: 40px; height: 1px;
-  background: var(--or);
-}
-
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(4rem, 7.5vw, 8rem);
-  font-weight: 300;
-  line-height: 0.95;
-  color: var(--creme);
-  animation: fadeUp 0.9s 0.2s both;
-  letter-spacing: -0.01em;
-}
-.hero-title em { font-style: italic; color: var(--or-vif); display: block; }
-.hero-title .accent-line { display: block; margin-left: 2rem; }
-
-.hero-sub {
-  font-size: 0.82rem;
-  color: var(--texte2);
-  max-width: 380px;
-  margin: 1.8rem 0 2.2rem;
-  line-height: 1.85;
-  animation: fadeUp 0.9s 0.35s both;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  animation: fadeUp 0.9s 0.45s both;
-}
-
-.btn-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: var(--or);
-  color: var(--noir);
-  padding: 0.9rem 2rem;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.3s;
-}
-.btn-gold:hover { background: var(--or-vif); transform: translateY(-2px); }
-.btn-gold svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--texte2);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color 0.3s;
-  font-weight: 400;
-}
-.btn-ghost:hover { color: var(--or); }
-.btn-ghost::after {
-  content: '';
-  display: block;
-  width: 24px; height: 1px;
-  background: currentColor;
-  transition: width 0.3s;
-}
-.btn-ghost:hover::after { width: 40px; }
-
-/* ── HERO PHOTO (right side) ── */
-.hero-right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeUp 1s 0.5s both;
-}
-
-.hero-photo-frame {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-}
-
-.hero-photo-corner {
-  position: absolute;
-  width: 24px; height: 24px;
-  border-color: var(--or);
-  border-style: solid;
-  border-width: 0;
-  z-index: 2;
-}
-.hero-photo-corner.tl { top: -8px; left: -8px; border-top-width: 1px; border-left-width: 1px; }
-.hero-photo-corner.tr { top: -8px; right: -8px; border-top-width: 1px; border-right-width: 1px; }
-.hero-photo-corner.bl { bottom: -8px; left: -8px; border-bottom-width: 1px; border-left-width: 1px; }
-.hero-photo-corner.br { bottom: -8px; right: -8px; border-bottom-width: 1px; border-right-width: 1px; }
-
-.hero-photo-wrap {
-  width: 100%;
-  aspect-ratio: 3/4;
-  overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(184,146,74,0.2);
-}
-
-.hero-photo-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  filter: contrast(1.05) brightness(0.95);
-}
-
-.hero-photo-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 60%, rgba(5,5,3,0.4) 100%);
-  pointer-events: none;
-}
-
-.hero-photo-caption {
-  position: absolute;
-  bottom: -1.8rem;
-  right: 0;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--texte3);
-}
-
-/* ── SCROLL INDICATOR ── */
-.hero-scroll {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  animation: fadeUp 1s 0.9s both;
-}
-.scroll-line {
-  width: 1px; height: 50px;
-  background: linear-gradient(to bottom, transparent, var(--or));
-  animation: scrollDrop 2s ease-in-out infinite;
-}
-.scroll-label {
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--texte3);
-}
-@keyframes scrollDrop {
-  0%, 100% { transform: scaleY(1); opacity: 0.6; }
-  50% { transform: scaleY(1.3); opacity: 1; }
-}
-
-/* ── TRANSITIONS ── */
-.wave-sep {
-  display: block; width: 100%; overflow: hidden;
-  line-height: 0; position: relative; z-index: 5;
-}
-.wave-sep svg { display: block; width: 100%; }
-
-.glow-line {
-  width: 100%; height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(184,146,74,0) 20%, rgba(184,146,74,0.6) 50%, rgba(184,146,74,0) 80%, transparent 100%);
-  background-size: 200% 100%;
-  opacity: 0; transition: opacity 0.5s;
-}
-.glow-line.lit { opacity: 1; animation: shimmer 2s ease-in-out 1; }
-@keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-
-.orn-sep {
-  display: flex; align-items: center; justify-content: center;
-  gap: 1.5rem; height: auto; width: 100%; max-width: 600px; margin: 0 auto;
-}
-.orn-line { flex: 1; height: 1px; max-width: 200px; background: linear-gradient(to right, transparent, rgba(184,146,74,0.35)); }
-.orn-line.rev { background: linear-gradient(to left, transparent, rgba(184,146,74,0.35)); }
-.orn-diamond { width: 8px; height: 8px; background: var(--or); transform: rotate(45deg); flex-shrink: 0; opacity: 0.7; box-shadow: 0 0 12px rgba(184,146,74,0.4); }
-.orn-sep-inner { display: flex; align-items: center; gap: 0.6rem; }
-.orn-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(184,146,74,0.5); }
-
-/* ── SCROLL PROGRESS ── */
-#scroll-progress {
-  position: fixed; top: 0; left: 0;
-  height: 2px; width: 0%;
-  background: linear-gradient(to right, transparent, var(--or), var(--or-vif));
-  z-index: 9997; transition: width 0.1s linear;
-}
-
-/* ── REVEAL ── */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.9s ease, transform 0.9s ease; }
-.reveal-left.visible { opacity: 1; transform: translateX(0); }
-.reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.9s ease, transform 0.9s ease; }
-.reveal-right.visible { opacity: 1; transform: translateX(0); }
-
-/* ── STATS BAND ── */
-.intro-band {
-  background: var(--sombre);
-  padding: 3rem 5rem;
-  display: grid;
-  grid-template-columns: 1fr 2px 1fr 2px 1fr;
-  gap: 0;
-}
-.intro-divider { background: rgba(184,146,74,0.15); }
-.intro-item { padding: 0 4rem; text-align: center; }
-.intro-item:first-child { padding-left: 0; }
-.intro-item:last-child { padding-right: 0; }
-.intro-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--or); line-height: 1; margin-bottom: 0.5rem; }
-.intro-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--texte2); }
+/* ── STATS ── */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--sombre); border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); }
+.stats > div { padding: 3.2rem 2rem; text-align: center; border-right: 1px solid var(--ligne); }
+.stats > div:last-child { border-right: 0; }
+.stats b { display: block; font-family: var(--serif); font-size: 3.6rem; font-weight: 300; color: var(--or); line-height: 1; margin-bottom: .6rem; }
+.stats span { font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte2); }
 
 /* ── MANIFESTE ── */
-.manifeste {
-  padding: 5rem 5rem;
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 5rem;
-  align-items: center;
-  background: var(--noir);
-  position: relative;
-  overflow: hidden;
-}
-.manifeste::before {
-  content: 'HERITAGE';
-  position: absolute;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18rem;
-  font-weight: 300;
-  color: rgba(184,146,74,0.03);
-  right: -2rem; top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  pointer-events: none;
-  letter-spacing: 0.1em;
-}
-.manifeste-num { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--or); font-weight: 300; margin-bottom: 2rem; letter-spacing: 0.1em; }
-.manifeste-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.3; color: var(--creme); margin-bottom: 1.5rem; }
-.manifeste-quote em { font-style: italic; color: var(--or-vif); }
-.manifeste-body { font-size: 0.85rem; color: var(--texte2); line-height: 1.9; max-width: 400px; }
-.manifeste-sig { margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; }
-.sig-line { width: 40px; height: 1px; background: var(--or); }
-.sig-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 400; color: var(--or); letter-spacing: 0.05em; }
-.sig-title { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texte3); margin-top: 0.15rem; }
-
-/* Photo in manifeste section */
-.manifeste-right { position: relative; }
-.manifeste-photo-frame {
-  width: 100%;
-  aspect-ratio: 3/4;
-  position: relative;
-  overflow: hidden;
-}
-.manifeste-photo-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  filter: contrast(1.05) brightness(0.92);
-}
-.manifeste-photo-frame::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(184,146,74,0.25);
-  z-index: 2;
-  pointer-events: none;
-}
-.manifeste-photo-frame::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 55%, rgba(8,8,8,0.45) 100%);
-  z-index: 1;
-  pointer-events: none;
-}
-.manifeste-corner {
-  position: absolute;
-  width: 20px; height: 20px;
-  border-color: var(--or);
-  border-style: solid;
-  border-width: 0;
-  z-index: 3;
-}
-.manifeste-corner.tl { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
-.manifeste-corner.tr { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
-.manifeste-corner.bl { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
-.manifeste-corner.br { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
-.manifeste-caption {
-  position: absolute;
-  bottom: -1.5rem; right: 0;
-  font-size: 0.65rem; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--texte3);
-}
+.manifeste { display: grid; grid-template-columns: 1.2fr .8fr; gap: 6rem; align-items: center; overflow: hidden; }
+.manifeste .ghost-word { right: -4vw; top: 50%; margin-top: -.5em; }
+.manifeste blockquote { font-family: var(--serif); font-weight: 300; font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.22; color: var(--creme); margin-bottom: 2rem; }
+.manifeste blockquote em { color: var(--or-vif); }
+.manifeste .lead { max-width: 480px; }
+.sig { display: flex; align-items: center; gap: 1rem; margin: 2.6rem 0 2.2rem; }
+.sig i { width: 40px; height: 1px; background: var(--or); }
+.sig b { display: block; font-family: var(--serif); font-size: 1.1rem; font-weight: 500; color: var(--or); }
+.sig span { font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--texte3); }
+.manifeste .photo { position: relative; aspect-ratio: 3/4; overflow: hidden; }
+.manifeste .photo img { width: 100%; height: 115%; object-fit: cover; object-position: center 20%; filter: grayscale(.35) contrast(1.08) brightness(.9); }
+.manifeste .photo::after { content: ''; position: absolute; inset: 0; border: 1px solid rgba(201,168,76,.25); pointer-events: none; }
 
 /* ── SERVICES ── */
-#services {
-  background: var(--sombre);
-  padding: 5rem 5rem;
-}
-.services-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 3rem;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.section-eyebrow {
-  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--or); margin-bottom: 1rem;
-  display: flex; align-items: center; gap: 1rem;
-}
-.section-eyebrow::before {
-  content: ''; display: block;
-  width: 30px; height: 1px; background: var(--or);
-}
-h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  font-weight: 300; color: var(--creme); line-height: 1.15;
-}
-h2 em { font-style: italic; color: var(--or-vif); }
-.section-intro { font-size: 0.83rem; color: var(--texte2); max-width: 380px; line-height: 1.85; }
+.svc-list { border-top: 1px solid var(--ligne); }
+.svc { border-bottom: 1px solid var(--ligne); }
+.svc-head { width: 100%; text-align: left; display: grid; grid-template-columns: 90px 1fr 44px; gap: 2.5rem; align-items: center; padding: 2.4rem 0; position: relative; }
+.svc-head::after { content: ''; position: absolute; left: 0; bottom: -1px; height: 1px; width: 100%; background: var(--or); transform: scaleX(0); transform-origin: left; transition: transform .7s var(--ease-out); }
+.svc:hover .svc-head::after, .svc.open .svc-head::after { transform: scaleX(1); }
+.svc-num { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; color: rgba(201,168,76,.28); transition: color .4s; line-height: 1; }
+.svc:hover .svc-num, .svc.open .svc-num { color: var(--or); }
+.svc-name, .svc-desc { display: block; }
+.svc-name { font-family: var(--serif); font-size: 1.7rem; font-weight: 400; color: var(--creme); line-height: 1.2; margin-bottom: .35rem; transition: transform .5s var(--ease-out); }
+.svc:hover .svc-name { transform: translateX(8px); }
+.svc-desc { font-size: .8rem; color: var(--texte2); max-width: 620px; line-height: 1.75; }
+.svc-tog { width: 44px; height: 44px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; transition: background .4s, border-color .4s; }
+.svc-tog svg { width: 16px; height: 16px; stroke: var(--or); fill: none; stroke-width: 1.4; transition: transform .5s var(--ease-out); }
+.svc.open .svc-tog { background: rgba(201,168,76,.1); border-color: var(--or); }
+.svc.open .svc-tog svg { transform: rotate(135deg); }
+.svc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s var(--ease-out); }
+.svc.open .svc-body { grid-template-rows: 1fr; }
+.svc-body > div { overflow: hidden; }
+.svc-inner { padding: 0 0 2.8rem 130px; display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+.svc-inner p { font-size: .84rem; color: var(--texte2); line-height: 1.9; margin-bottom: 1rem; }
+.svc-inner ul { list-style: none; }
+.svc-inner li { display: flex; gap: .8rem; padding: .7rem 0; border-bottom: 1px solid rgba(201,168,76,.07); font-size: .8rem; color: var(--texte2); line-height: 1.6; }
+.svc-inner li::before { content: ''; width: 4px; height: 4px; background: var(--or); transform: rotate(45deg); flex-shrink: 0; margin-top: .55rem; }
 
-.services-list { display: flex; flex-direction: column; }
+/* ── MÉTHODE (aperçu) ── */
+.steps { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 1rem; }
+.steps .rail { position: absolute; top: 27px; left: 12.5%; right: 12.5%; height: 1px; background: rgba(201,168,76,.15); }
+.steps .rail i { position: absolute; inset: 0; background: linear-gradient(90deg, var(--or-sombre), var(--or)); transform: scaleX(0); transform-origin: left; transition: transform 2.2s var(--ease-out) .3s; }
+.steps.in .rail i { transform: scaleX(1); }
+.step { text-align: center; padding: 0 1.4rem; position: relative; }
+.step .node { width: 54px; height: 54px; margin: 0 auto 2rem; position: relative; display: flex; align-items: center; justify-content: center; }
+.step .node::before { content: ''; position: absolute; inset: 8px; border: 1px solid var(--or); transform: rotate(45deg) scale(.4); opacity: 0; background: var(--noir); transition: transform .9s var(--ease-out), opacity .6s; transition-delay: calc(.5s + var(--k) * .45s); }
+.steps.in .step .node::before { transform: rotate(45deg) scale(1); opacity: 1; }
+.step .node span { position: relative; font-family: var(--serif); font-size: 1rem; color: var(--or); opacity: 0; transition: opacity .6s; transition-delay: calc(.8s + var(--k) * .45s); }
+.steps.in .step .node span { opacity: 1; }
+.step small { display: block; font-size: .6rem; letter-spacing: .3em; color: var(--or); margin-bottom: .6rem; }
+.step h3 { font-size: 1.45rem; margin-bottom: .8rem; }
+.step p { font-size: .78rem; color: var(--texte2); line-height: 1.75; }
+.step, .step h3, .step p, .step small { opacity: 0; transform: translateY(16px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); transition-delay: calc(.7s + var(--k) * .45s); }
+.steps.in .step, .steps.in .step h3, .steps.in .step p, .steps.in .step small { opacity: 1; transform: none; }
+.center-cta { text-align: center; margin-top: 4rem; }
 
-/* Service row with expandable panel */
-.service-row {
-  border-bottom: 1px solid rgba(184,146,74,0.1);
-  position: relative;
-  cursor: pointer;
-}
-.service-row:first-child { border-top: 1px solid rgba(184,146,74,0.1); }
+/* ── VIE PARTICIPATIVE (aperçu) ── */
+.par-teaser { display: grid; grid-template-columns: 1.05fr .95fr; gap: 5rem; align-items: center; }
+.chart-card { background: var(--sombre2); border: 1px solid var(--ligne); padding: 2.2rem; position: relative; }
+.chart-card small.t { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte3); display: block; margin-bottom: 1.4rem; }
+.chart-card svg .p-main { stroke-dasharray: 700; stroke-dashoffset: 700; transition: stroke-dashoffset 2.6s var(--ease-out) .2s; }
+.chart-card svg .p-sub { stroke-dasharray: 500; stroke-dashoffset: 500; transition: stroke-dashoffset 2.2s var(--ease-out) .4s; }
+.chart-card svg .p-fill { opacity: 0; transition: opacity 1.4s ease 1.4s; }
+.chart-card svg .p-dot { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0); transition: opacity .4s, transform .6s var(--ease-out); }
+.chart-card.in svg .p-main, .chart-card.in svg .p-sub { stroke-dashoffset: 0; }
+.chart-card.in svg .p-fill { opacity: 1; }
+.chart-card.in svg .p-dot { opacity: 1; transform: scale(1); }
+.chart-card.in svg .d1 { transition-delay: 1.2s; } .chart-card.in svg .d2 { transition-delay: 1.9s; } .chart-card.in svg .d3 { transition-delay: 2.5s; }
+.chart-legend { display: flex; gap: 1.6rem; margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--ligne); font-size: .7rem; color: var(--texte2); flex-wrap: wrap; }
+.chart-legend i { display: inline-block; width: 16px; height: 2px; margin-right: .5rem; vertical-align: middle; }
+.benefits { margin: 2rem 0 2.4rem; }
+.benefit { display: flex; gap: 1.1rem; padding: 1.1rem 0; border-bottom: 1px solid rgba(201,168,76,.08); }
+.benefit:last-child { border-bottom: 0; }
+.benefit .ic { width: 28px; height: 28px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.benefit .ic svg { width: 11px; height: 11px; stroke: var(--or); fill: none; stroke-width: 2; }
+.benefit b { display: block; font-size: .84rem; font-weight: 500; color: var(--creme); margin-bottom: .15rem; }
+.benefit span { font-size: .77rem; color: var(--texte2); line-height: 1.7; }
 
-.service-row-header {
-  display: grid;
-  grid-template-columns: 80px 1fr auto;
-  align-items: center;
-  gap: 3rem;
-  padding: 2.5rem 0;
-  position: relative;
-  transition: all 0.3s;
-}
-.service-row-header::after {
-  content: '';
-  position: absolute;
-  left: 0; bottom: 0;
-  width: 0; height: 1px;
-  background: var(--or);
-  transition: width 0.5s ease;
-}
-.service-row.active .service-row-header::after,
-.service-row:hover .service-row-header::after { width: 100%; }
-.service-row.active .svc-num { color: var(--or); }
-.service-row:hover .svc-num { color: var(--or); }
+/* ── Bandeau simulateur ── */
+.calc-band { display: grid; grid-template-columns: auto 1fr auto; gap: 3rem; align-items: center; border: 1px solid var(--ligne); background: linear-gradient(110deg, rgba(201,168,76,.06), transparent 60%); padding: 2.6rem 3rem; }
+.calc-band .bars { display: flex; align-items: flex-end; gap: 6px; height: 64px; }
+.calc-band .bars i { width: 10px; background: linear-gradient(to top, var(--or-sombre), var(--or)); transform: scaleY(0); transform-origin: bottom; transition: transform 1.2s var(--ease-out); transition-delay: calc(var(--k) * .08s); }
+.calc-band.in .bars i { transform: scaleY(1); }
+.calc-band h3 { margin-bottom: .4rem; }
+.calc-band p { font-size: .8rem; color: var(--texte2); }
 
-.svc-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem; font-weight: 300;
-  color: rgba(184,146,74,0.2);
-  transition: color 0.4s; line-height: 1;
-}
-.svc-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem; font-weight: 400;
-  color: var(--creme); margin-bottom: 0.4rem; line-height: 1.2;
-}
-.svc-desc {
-  font-size: 0.8rem; color: var(--texte2);
-  line-height: 1.75; max-width: 580px;
-}
-.svc-toggle {
-  width: 40px; height: 40px;
-  border: 1px solid rgba(184,146,74,0.3);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.4s;
-  color: var(--or);
-}
-.svc-toggle svg {
-  width: 16px; height: 16px;
-  stroke: var(--or); fill: none; stroke-width: 1.5;
-  transition: transform 0.4s;
-}
-.service-row.active .svc-toggle { background: rgba(184,146,74,0.1); border-color: rgba(184,146,74,0.6); }
-.service-row.active .svc-toggle svg { transform: rotate(45deg); }
+/* ── RÉSEAUX ── */
+.reels-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 3rem; flex-wrap: wrap; }
+.rail-ctrl { display: flex; gap: .6rem; }
+.rail-ctrl button { width: 48px; height: 48px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; transition: background .3s, border-color .3s; }
+.rail-ctrl button:hover { background: rgba(201,168,76,.1); border-color: var(--or); }
+.rail-ctrl svg { width: 16px; height: 16px; stroke: var(--or); fill: none; stroke-width: 1.4; }
+.reels { display: flex; gap: 1.6rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1.4rem; scrollbar-width: thin; scrollbar-color: var(--or-sombre) transparent; margin-right: calc(var(--pad-x) * -1); padding-right: var(--pad-x); }
+.reels::-webkit-scrollbar { height: 3px; } .reels::-webkit-scrollbar-thumb { background: var(--or-sombre); }
+.reel { flex: 0 0 340px; scroll-snap-align: start; }
+.reel .reel-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .9rem; gap: 1rem; }
+.reel .reel-top b { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--creme); line-height: 1.2; }
+.reel .reel-top span { font-size: .56rem; letter-spacing: .22em; color: var(--or); text-transform: uppercase; white-space: nowrap; }
+.reel .frame { border: 1px solid var(--ligne); background: var(--sombre2); height: 600px; overflow: hidden; position: relative; transition: border-color .4s; }
+.reel:hover .frame { border-color: var(--ligne-fort); }
+.reel .frame::before { content: ''; position: absolute; inset: 0; display: flex; background: linear-gradient(110deg, transparent 30%, rgba(201,168,76,.06) 50%, transparent 70%) var(--sombre2); background-size: 200% 100%; animation: shimmer 1.8s linear infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.reel iframe { position: relative; width: 100%; height: 100%; border: 0; background: transparent; }
+.reels-foot { display: flex; justify-content: center; margin-top: 2.6rem; }
 
-/* Expandable detail panel */
-.service-detail {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease, padding 0.4s ease;
-}
-.service-row.active .service-detail {
-  max-height: 600px;
-}
-.service-detail-inner {
-  padding: 0 0 2.5rem 100px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
-}
-.service-detail-text {
-  font-size: 0.83rem;
-  color: var(--texte2);
-  line-height: 1.9;
-}
-.service-detail-text p { margin-bottom: 1rem; }
-.service-detail-text p:last-child { margin-bottom: 0; }
-.service-detail-points { list-style: none; }
-.service-detail-points li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.65rem 0;
-  border-bottom: 1px solid rgba(184,146,74,0.07);
-  font-size: 0.8rem;
-  color: var(--texte2);
-  line-height: 1.6;
-}
-.service-detail-points li:last-child { border-bottom: none; }
-.service-detail-points li::before {
-  content: '';
-  display: block;
-  width: 4px; height: 4px;
-  background: var(--or);
-  transform: rotate(45deg);
-  flex-shrink: 0;
-  margin-top: 7px;
-}
-.service-cta {
-  margin-top: 1.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--or);
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: gap 0.3s;
-}
-.service-cta:hover { gap: 1rem; }
-.service-cta svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+/* ── GUIDE ── */
+.guide-capture { display: flex; justify-content: center; }
+.capture { width: 100%; max-width: 860px; text-align: center; border: 1px solid var(--ligne-fort); background: var(--sombre); padding: 4.5rem 4rem; position: relative; overflow: hidden; }
+.capture::before, .capture::after { content: ''; position: absolute; width: 60px; height: 60px; border: 0 solid var(--or); }
+.capture::before { top: 14px; left: 14px; border-top-width: 1px; border-left-width: 1px; }
+.capture::after { bottom: 14px; right: 14px; border-bottom-width: 1px; border-right-width: 1px; }
+.capture .book { width: 92px; margin: 0 auto 2rem; }
+.capture h2 { margin-bottom: 1rem; }
+.capture p.lead { margin: 0 auto 2.4rem; }
+.capture form { display: flex; gap: .8rem; max-width: 520px; margin: 0 auto; }
+.capture form input { flex: 1; }
+.capture .note { font-size: .6rem; color: var(--texte3); margin-top: 1.4rem; letter-spacing: .14em; text-transform: uppercase; }
+#guide-content { display: none; }
+#guide-content.active { display: block; animation: guideIn 1.2s var(--ease-out) both; }
+@keyframes guideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+.guide { max-width: 780px; margin: 0 auto; }
+.guide-header { text-align: center; padding-bottom: 3rem; margin-bottom: 4.5rem; border-bottom: 1px solid var(--ligne); }
+.guide-header h2 { font-size: clamp(2.8rem, 5vw, 4.2rem); margin-bottom: .8rem; letter-spacing: .04em; }
+.guide-header .sub { font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--or); margin-bottom: 1.6rem; }
+.guide-header .by { font-size: .64rem; letter-spacing: .18em; text-transform: uppercase; color: var(--texte3); }
+.concept { margin-bottom: 5rem; }
+.concept .k { display: block; font-size: .64rem; letter-spacing: .26em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; }
+.concept h3 { font-size: 2.1rem; margin-bottom: 1.8rem; line-height: 1.2; }
+.concept p { font-size: .9rem; color: var(--texte2); line-height: 1.95; margin-bottom: 1.4rem; }
+.concept ul { list-style: none; margin-bottom: 1.4rem; }
+.concept li { position: relative; padding-left: 1.5rem; margin-bottom: .8rem; font-size: .9rem; color: var(--texte2); line-height: 1.7; }
+.concept li::before { content: ''; position: absolute; left: 0; top: .6rem; width: 4px; height: 4px; background: var(--or); transform: rotate(45deg); }
+.concept strong { color: var(--texte); font-weight: 500; }
+.concept .quote { border-left: 1px solid var(--or); padding-left: 1.6rem; margin: 2.8rem 0; font-family: var(--serif); font-style: italic; font-size: 1.45rem; color: var(--or-pale); line-height: 1.45; }
+.guide-cta { background: var(--noir); border: 1px solid var(--ligne-fort); padding: 4rem 3rem; text-align: center; }
+.guide-cta h3 { color: var(--or); margin-bottom: 1.4rem; }
+.guide-cta p { color: var(--texte2); font-size: .9rem; line-height: 1.85; margin-bottom: 1rem; }
+.guide-cta .cal { height: 640px; margin-top: 2rem; border: 1px solid var(--ligne); }
+.guide-cta .cal iframe { width: 100%; height: 100%; border: 0; }
 
-
-/* ── SECTION CAPTURE GUIDE ── */
-#capture-guide {
-  background: var(--noir2);
-  padding: 6rem 5rem;
-  border-top: 1px solid rgba(184,146,74,0.1);
-  border-bottom: 1px solid rgba(184,146,74,0.1);
-  display: flex;
-  justify-content: center;
-}
-.capture-box {
-  background: var(--sombre);
-  border: 1px solid rgba(184,146,74,0.25);
-  padding: 4rem;
-  max-width: 800px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.capture-box::before {
-  content: 'STRATÉGIE';
-  position: absolute;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 8rem;
-  color: rgba(184,146,74,0.03);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-.capture-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.8rem;
-  color: var(--creme);
-  margin-bottom: 1rem;
-  position: relative;
-}
-.capture-desc {
-  font-size: 0.9rem;
-  color: var(--texte2);
-  margin-bottom: 2.5rem;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-}
-.capture-form {
-  display: flex;
-  gap: 1rem;
-  max-width: 500px;
-  margin: 0 auto;
-  position: relative;
-}
-.capture-input {
-  flex: 1;
-  padding: 1rem 1.5rem;
-  background: rgba(8,8,8,0.5);
-  border: 1px solid rgba(184,146,74,0.3);
-  color: var(--texte);
-  font-family: 'Montserrat', sans-serif;
-  outline: none;
-}
-.capture-input:focus { border-color: var(--or); }
-.capture-btn {
-  background: var(--or);
-  color: var(--noir);
-  border: none;
-  padding: 1rem 2rem;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: all 0.3s;
-  white-space: nowrap;
-}
-.capture-btn:hover { background: var(--or-vif); }
-
-
-/* ── GUIDE CACHÉ (L'EMPIRE BLINDÉ) ── */
-#guide-content {
-  display: none; /* Masqué par défaut */
-  background: var(--sombre);
-  padding: 6rem 5rem;
-}
-#guide-content.active {
-  display: block;
-  animation: fadeIn 1s ease forwards;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.guide-container {
-  max-width: 750px;
-  margin: 0 auto;
-}
-.guide-header {
-  text-align: center;
-  margin-bottom: 5rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid rgba(184,146,74,0.15);
-}
-.guide-header h2 {
-  font-size: clamp(3rem, 5vw, 4rem);
-  margin-bottom: 1rem;
-}
-.guide-header-sub {
-  color: var(--or);
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.4rem;
-  margin-bottom: 2rem;
-}
-.guide-header-author {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--texte3);
-}
-
-.guide-concept {
-  margin-bottom: 5rem;
-}
-.guide-concept-eyebrow {
-  color: var(--or);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  display: block;
-}
-.guide-concept h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
-  color: var(--creme);
-  margin-bottom: 2rem;
-  line-height: 1.2;
-}
-.guide-concept p {
-  font-size: 0.9rem;
-  color: var(--texte2);
-  line-height: 1.9;
-  margin-bottom: 1.5rem;
-}
-.guide-concept ul {
-  list-style: none;
-  margin-bottom: 1.5rem;
-}
-.guide-concept li {
-  position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 0.8rem;
-  font-size: 0.9rem;
-  color: var(--texte2);
-  line-height: 1.6;
-}
-.guide-concept li::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 8px;
-  width: 4px; height: 4px;
-  background: var(--or);
-  transform: rotate(45deg);
-}
-.guide-concept strong {
-  color: var(--texte);
-  font-weight: 500;
-}
-.guide-quote {
-  border-left: 2px solid var(--or);
-  padding-left: 1.5rem;
-  margin: 3rem 0;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.4rem;
-  color: var(--or-pale);
-  line-height: 1.4;
-}
-
-/* Embed Cal.com dans le guide */
-.guide-cta-box {
-  background: var(--noir);
-  border: 1px solid rgba(184,146,74,0.3);
-  padding: 4rem 3rem;
-  text-align: center;
-  margin-top: 6rem;
-}
-.guide-cta-box h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
-  color: var(--or);
-  margin-bottom: 1.5rem;
-}
-
-
-/* ── RACHAT SECTION ── */
-.rachat-section {
-  background: var(--noir);
-  padding: 5rem 5rem;
-  position: relative; overflow: hidden;
-}
-.rachat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem; align-items: center;
-}
-.chart-area {
-  background: var(--sombre2);
-  border: 1px solid rgba(184,146,74,0.15);
-  padding: 2rem; position: relative;
-}
-.chart-label-top { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--texte3); margin-bottom: 1.5rem; }
-.chart-lines { position: relative; height: 200px; }
-.chart-lines svg { width: 100%; height: 100%; overflow: visible; }
-.chart-annotation { display: flex; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(184,146,74,0.1); }
-.annot-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem; color: var(--texte2); }
-.annot-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.rachat-benefits { margin-top: 2rem; }
-.benefit-item { display: flex; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid rgba(184,146,74,0.08); align-items: flex-start; }
-.benefit-item:last-child { border-bottom: none; }
-.benefit-icon { width: 28px; height: 28px; border: 1px solid rgba(184,146,74,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-.benefit-icon svg { width: 12px; height: 12px; stroke: var(--or); fill: none; stroke-width: 2; }
-.benefit-title { font-size: 0.85rem; font-weight: 500; color: var(--creme); margin-bottom: 0.2rem; }
-.benefit-desc { font-size: 0.78rem; color: var(--texte2); line-height: 1.7; }
+/* ── AUTO / HABITATION ── */
+.auto-strip { display: grid; grid-template-columns: auto 1fr auto; gap: 2.4rem; align-items: center; padding: 2.2rem 3rem; border: 1px solid var(--ligne); background: var(--noir2); position: relative; overflow: hidden; }
+.auto-strip::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--or); transform: scaleY(0); transform-origin: top; transition: transform 1.2s var(--ease-out); }
+.auto-strip.in::before { transform: scaleY(1); }
+.auto-strip .ic { width: 58px; height: 58px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; }
+.auto-strip .ic svg { width: 26px; height: 26px; stroke: var(--or); fill: none; stroke-width: 1.1; }
+.auto-strip small { font-size: .58rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
+.auto-strip h3 { font-size: 1.6rem; margin: .3rem 0 .3rem; }
+.auto-strip p { font-size: .8rem; color: var(--texte2); }
 
 /* ── TÉMOIGNAGES ── */
-#temoignages { background: var(--sombre); padding: 5rem 5rem; }
-.temo-header { text-align: center; margin-bottom: 2.5rem; }
-.temo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(184,146,74,0.1); }
-.temo-card { background: var(--sombre); padding: 3rem 2.5rem; position: relative; transition: background 0.3s; }
-.temo-card:hover { background: var(--encre); }
-.temo-open-quote { font-family: 'Cormorant Garamond', serif; font-size: 5rem; color: var(--or); line-height: 0.7; opacity: 0.25; margin-bottom: 1.5rem; display: block; }
-.temo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: var(--texte); line-height: 1.75; margin-bottom: 2rem; font-weight: 300; }
-.temo-author { font-size: 0.75rem; font-weight: 500; color: var(--or); letter-spacing: 0.08em; text-transform: uppercase; }
-.temo-role { font-size: 0.7rem; color: var(--texte3); margin-top: 0.2rem; }
-.temo-stars { display: flex; gap: 3px; margin-bottom: 1.2rem; }
-.star { width: 10px; height: 10px; background: var(--or); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.temo-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ligne); border-left: 1px solid var(--ligne); }
+.temo { background: var(--sombre); box-shadow: inset -1px -1px 0 var(--ligne); padding: 3rem 2.6rem; transition: background .4s; }
+.temo:hover { background: var(--encre); }
+.temo .q { font-family: var(--serif); font-size: 5rem; line-height: .6; color: var(--or); opacity: .3; display: block; margin-bottom: 1.2rem; }
+.temo .stars { display: flex; gap: 4px; margin-bottom: 1.3rem; }
+.temo .stars i { width: 10px; height: 10px; background: var(--or); clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); }
+.temo p { font-family: var(--serif); font-style: italic; font-size: 1.1rem; line-height: 1.7; color: var(--texte); margin-bottom: 2rem; }
+.temo b { display: block; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--or); font-weight: 500; }
+.temo span { font-size: .7rem; color: var(--texte3); }
 
-/* ── CERTIFICATIONS ── */
-.cert-strip {
-  background: var(--sombre2);
-  border-top: 1px solid rgba(184,146,74,0.08);
-  border-bottom: 1px solid rgba(184,146,74,0.08);
-  padding: 1.4rem 5rem;
-  display: flex; align-items: center; gap: 0; overflow: hidden;
-}
-.cert-label-strip { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--texte3); white-space: nowrap; margin-right: 2.5rem; }
-.cert-items { display: flex; gap: 0; flex-wrap: wrap; }
-.cert-pill { font-size: 0.68rem; color: var(--or-pale); letter-spacing: 0.05em; padding: 0 2rem; border-left: 1px solid rgba(184,146,74,0.2); }
+.cert { display: flex; align-items: center; gap: 2.4rem; padding: 1.5rem var(--pad-x); background: var(--sombre2); border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); flex-wrap: wrap; }
+.cert > span { font-size: .56rem; letter-spacing: .24em; text-transform: uppercase; color: var(--texte3); }
+.cert div { display: flex; flex-wrap: wrap; }
+.cert div span { font-size: .7rem; color: var(--or-pale); padding: .2rem 1.8rem; border-left: 1px solid rgba(201,168,76,.22); }
 
-/* ── RÉSERVATION ── */
-#reservation {
-  background: var(--noir2);
-  padding: 5rem 5rem;
-  position: relative; overflow: hidden;
-}
-#reservation::before {
-  content: 'RENDEZ-VOUS';
-  position: absolute;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 12rem; font-weight: 300;
-  color: rgba(184,146,74,0.025);
-  left: -2rem; top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap; pointer-events: none; letter-spacing: 0.1em;
-}
-.rdv-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 4rem; align-items: start;
-  position: relative; z-index: 1;
-}
-.rdv-intro { margin-bottom: 2.5rem; }
-.rdv-intro p { font-size: 0.83rem; color: var(--texte2); line-height: 1.85; margin-top: 1rem; max-width: 380px; }
-.rdv-modes { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2.5rem; }
-.rdv-mode { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border: 1px solid rgba(184,146,74,0.12); transition: border-color 0.3s, background 0.3s; }
-.rdv-mode:hover { border-color: rgba(184,146,74,0.35); background: rgba(184,146,74,0.04); }
-.rdv-mode-icon { width: 36px; height: 36px; border: 1px solid rgba(184,146,74,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.rdv-mode-icon svg { width: 15px; height: 15px; stroke: var(--or); fill: none; stroke-width: 1.5; }
-.rdv-mode-title { font-size: 0.82rem; font-weight: 500; color: var(--creme); margin-bottom: 0.1rem; }
-.rdv-mode-sub { font-size: 0.72rem; color: var(--texte3); }
+/* ── RÉSERVATION / CONTACT ── */
+.rdv { display: grid; grid-template-columns: .9fr 1.3fr; gap: 4.5rem; align-items: start; }
+.modes { display: flex; flex-direction: column; gap: .8rem; margin-top: 2.6rem; }
+.mode { display: flex; align-items: center; gap: 1rem; padding: 1.05rem 1.2rem; border: 1px solid var(--ligne); transition: border-color .3s, background .3s; }
+.mode:hover { border-color: var(--ligne-fort); background: rgba(201,168,76,.03); }
+.mode .ic { width: 38px; height: 38px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.mode .ic svg { width: 15px; height: 15px; stroke: var(--or); fill: none; stroke-width: 1.4; }
+.mode b { display: block; font-size: .82rem; font-weight: 500; color: var(--creme); }
+.mode span { font-size: .72rem; color: var(--texte3); }
+.booking { border: 1px solid var(--ligne); background: var(--sombre); position: relative; height: 720px; }
+.booking::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--or), transparent); z-index: 2; }
+.booking iframe { width: 100%; height: 100%; border: 0; }
+.contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 5rem; }
+.c-row { display: flex; gap: 1.3rem; align-items: center; margin-bottom: 1.8rem; }
+.c-row .ic { width: 46px; height: 46px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.c-row .ic svg { width: 16px; height: 16px; stroke: var(--or); fill: none; stroke-width: 1.4; }
+.c-row small { display: block; font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte3); }
+.c-row a, .c-row p { font-size: .92rem; color: var(--or-pale); text-decoration: none; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.fg { margin-bottom: 1.1rem; }
+.form-ok { display: none; margin-top: 1rem; padding: 1rem 1.2rem; border-left: 1px solid var(--or); background: rgba(201,168,76,.07); font-size: .82rem; color: var(--or-pale); }
 
-/* Booking embed */
-.booking-wrap {
-  border: 1px solid rgba(184,146,74,0.15);
-  overflow: hidden;
-  background: var(--sombre);
-  position: relative;
-}
-.booking-wrap iframe {
-  width: 100%;
-  height: 700px;
-  border: none;
-  display: block;
-}
-.booking-wrap::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--or), transparent);
-}
-
-/* ── CONTACT ── */
-#contact {
-  background: var(--noir2);
-  padding: 5rem 5rem;
-  position: relative; overflow: hidden;
-}
-#contact::before {
-  content: 'W';
-  position: absolute;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 40rem; font-weight: 300;
-  color: rgba(184,146,74,0.025);
-  right: -5rem; top: 50%;
-  transform: translateY(-50%);
-  line-height: 1; pointer-events: none;
-}
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0; max-width: 680px;
-}
-.contact-info-block { margin-top: 3rem; }
-.contact-row { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2.5rem; }
-.contact-icon-box { width: 44px; height: 44px; border: 1px solid rgba(184,146,74,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.contact-icon-box svg { width: 16px; height: 16px; stroke: var(--or); fill: none; stroke-width: 1.5; }
-.contact-lbl { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--texte3); margin-bottom: 0.35rem; }
-.contact-val { font-size: 0.9rem; color: var(--texte); font-weight: 400; }
-.contact-val a { color: var(--or-pale); text-decoration: none; }
-.form-wrap {
-  position: relative; z-index: 1;
-  margin-top: 3rem; padding-top: 3rem;
-  border-top: 1px solid rgba(184,146,74,0.15);
-}
-.form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; color: var(--creme); margin-bottom: 2rem; letter-spacing: 0.02em; }
-.form-group { margin-bottom: 1.1rem; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-bottom: 1.1rem; }
-label { display: block; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--texte3); margin-bottom: 0.5rem; }
-input, textarea, select {
-  width: 100%; background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(184,146,74,0.15);
-  color: var(--texte); padding: 0.9rem 1.1rem;
-  font-family: 'Montserrat', sans-serif; font-size: 0.83rem; font-weight: 300;
-  outline: none; transition: border-color 0.3s, background 0.3s;
-  border-radius: 0; appearance: none;
-}
-input::placeholder, textarea::placeholder { color: var(--texte3); }
-input:focus, textarea:focus, select:focus { border-color: rgba(184,146,74,0.5); background: rgba(184,146,74,0.03); }
-select option { background: #1A1815; }
-textarea { resize: vertical; min-height: 110px; }
-.btn-submit {
-  display: inline-flex; align-items: center; gap: 0.8rem;
-  background: transparent; border: 1px solid rgba(184,146,74,0.5);
-  color: var(--or); padding: 0.95rem 2.2rem;
-  font-family: 'Montserrat', sans-serif; font-size: 0.68rem;
-  font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
-  cursor: pointer; transition: all 0.35s; margin-top: 0.5rem;
-}
-.btn-submit:hover { background: var(--or); color: var(--noir); border-color: var(--or); }
-.btn-submit svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; transition: transform 0.3s; }
-.btn-submit:hover svg { transform: translateX(4px); }
-
-/* ── FOOTER ── */
-footer {
-  background: var(--noir);
-  border-top: 1px solid rgba(184,146,74,0.1);
-  padding: 3rem 5rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 3rem; align-items: center;
-}
-.footer-copy { font-size: 0.68rem; color: var(--texte3); line-height: 1.7; }
-.footer-links { display: flex; gap: 2.5rem; justify-content: center; }
-.footer-links a { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texte3); text-decoration: none; transition: color 0.3s; }
-.footer-links a:hover { color: var(--or); }
-.footer-right { text-align: right; font-size: 0.65rem; color: var(--texte3); line-height: 1.8; }
-.footer-right a { color: var(--or-pale); text-decoration: none; }
-
-/* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
-  nav { padding: 1.5rem 2rem; }
-  nav.scrolled { padding: 1rem 2rem; }
-  nav ul { display: none; }
-  .hamburger { display: flex; }
-
-  .hero-content { grid-template-columns: 1fr; padding: 0 2rem 5rem; }
-  .hero-right { display: none; }
-  .hero-title { font-size: clamp(3.2rem, 12vw, 5rem); }
-
-  section, #services, #temoignages, #contact, .manifeste, .rachat-section, #capture-guide, #guide-content { padding: 4rem 2rem; }
-  #reservation { padding: 4rem 2rem; }
-  .intro-band { padding: 3rem 2rem; grid-template-columns: 1fr; gap: 2rem; }
-  .intro-item { padding: 0; }
-  .intro-divider { display: none; }
-
-  .manifeste { grid-template-columns: 1fr; gap: 3rem; }
-  .manifeste::before { display: none; }
-  .rachat-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+  .hero-photo { max-width: 340px; }
+  .hero-photo .badge { left: -1rem; }
+  .manifeste, .par-teaser, .rdv, .contact-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+  .manifeste .photo { max-width: 420px; }
+  .svc-head { grid-template-columns: 56px 1fr 40px; gap: 1.2rem; }
+  .svc-inner { padding: 0 0 2rem 0; grid-template-columns: 1fr; gap: 1.5rem; }
+  .steps { grid-template-columns: 1fr 1fr; row-gap: 3.5rem; }
+  .steps .rail { display: none; }
   .temo-grid { grid-template-columns: 1fr; }
-  .rdv-grid { grid-template-columns: 1fr; gap: 3rem; }
-
-  .service-row-header { grid-template-columns: 60px 1fr auto; gap: 1.5rem; }
-  .service-detail-inner { padding: 0 0 2rem 0; grid-template-columns: 1fr; gap: 1.5rem; }
-
-  .capture-box { padding: 3rem 2rem; }
-  .capture-form { flex-direction: column; }
-  .capture-title { font-size: 2.2rem; }
-  .guide-cta-box { padding: 3rem 1.5rem; }
-
-  footer { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
-  .footer-links { justify-content: center; flex-wrap: wrap; }
-  .footer-right { text-align: center; }
-  .cert-strip { padding: 1.2rem 2rem; flex-wrap: wrap; }
-  .temo-grid { gap: 2px; }
+  .calc-band, .auto-strip { grid-template-columns: 1fr; gap: 1.6rem; padding: 2.2rem 1.8rem; }
+  .capture { padding: 3.5rem 1.6rem; }
+  .capture form { flex-direction: column; }
+}
+@media (max-width: 640px) {
+  .stats { grid-template-columns: 1fr; }
+  .stats > div { border-right: 0; border-bottom: 1px solid var(--ligne); padding: 2.2rem 1rem; }
+  .steps { grid-template-columns: 1fr; }
+  .reel { flex-basis: 84vw; }
+  .form-row { grid-template-columns: 1fr; }
+  .hero h1 .indent { padding-left: 1rem; }
+  .booking { height: 640px; }
+  .cert div span { padding: .2rem .9rem; }
 }
 </style>
 </head>
-<body>
+<body data-page="home">
+<script src="assets/site.js"></script>
 
-<div id="scroll-progress"></div>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#approche" onclick="closeMobile()">Philosophie</a>
-  <a href="#services" onclick="closeMobile()">Services</a>
-  <a href="#temoignages" onclick="closeMobile()">Témoignages</a>
-  <a href="#reservation" onclick="closeMobile()">Réserver</a>
-  <a href="#contact" onclick="closeMobile()">Consultation</a>
-</div>
-
-<nav id="navbar">
-  <a href="/" class="logo-wrap">
-    <div class="logo-mark">W</div>
-    <div>
-      <div class="logo-text">W <span>Heritage</span></div>
-    </div>
-  </a>
-  <ul>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#approche">Philosophie</a></li>
-    <li><a href="#temoignages">Témoignages</a></li>
-    <li><a href="#reservation">Réserver</a></li>
-    <li><a href="#contact" class="nav-cta">Consultation</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobile()">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<section class="hero">
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-word-bg">Héritage</div>
+  <canvas class="dust" aria-hidden="true"></canvas>
+  <div class="ghost-word" data-parallax="-0.12" aria-hidden="true">Héritage</div>
 
-  <div class="hero-content">
-    <div class="hero-left">
-      <p class="hero-eyebrow">Walid Harchaoui · CSF</p>
-      <h1 class="hero-title">
-        Bâtir<br>
-        <em>l'héritage</em>
-        <span class="accent-line">qui dure.</span>
-      </h1>
-      <p class="hero-sub">Conseiller en sécurité financière à Montréal — assurance, retraite, patrimoine, fiscalité. Une stratégie bâtie pour vous, et pour ceux que vous aimez.</p>
-      <div class="hero-actions">
-        <a href="#reservation" class="btn-gold">
-          Réserver une consultation
-          <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-        </a>
-        <a href="#services" class="btn-ghost">Nos services</a>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="hero-photo-frame">
-        <div class="hero-photo-corner tl"></div>
-        <div class="hero-photo-corner tr"></div>
-        <div class="hero-photo-corner bl"></div>
-        <div class="hero-photo-corner br"></div>
-        <div class="hero-photo-wrap">
-          <img src="walid-photo.jpg" alt="Walid Harchaoui — Conseiller en sécurité financière" loading="eager">
-        </div>
-        <p class="hero-photo-caption">Walid Harchaoui · CSF · Montréal</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-scroll">
-    <span class="scroll-label">Défiler</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
-
-<div class="wave-sep" style="background: var(--noir); margin-bottom: -2px;">
-  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;">
-    <path d="M0,0 C240,55 480,55 720,30 C960,5 1200,5 1440,50 L1440,60 L0,60Z" fill="#1A1815"/>
-    <path d="M0,0 C240,55 480,55 720,30 C960,5 1200,5 1440,50" fill="none" stroke="rgba(184,146,74,0.2)" stroke-width="1"/>
-  </svg>
-</div>
-
-<div class="intro-band">
-  <div class="intro-item">
-    <div class="intro-num">5+</div>
-    <div class="intro-label">Années d'expérience</div>
-  </div>
-  <div class="intro-divider"></div>
-  <div class="intro-item">
-    <div class="intro-num">400+</div>
-    <div class="intro-label">Familles accompagnées</div>
-  </div>
-  <div class="intro-divider"></div>
-  <div class="intro-item">
-    <div class="intro-num">98%</div>
-    <div class="intro-label">Taux de satisfaction</div>
-  </div>
-</div>
-
-<div style="background: var(--noir); padding: 3rem 0; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; position: relative; z-index: 5;">
-  <div class="glow-line"></div>
-  <div class="orn-sep">
-    <div class="orn-line rev"></div>
-    <div class="orn-sep-inner">
-      <div class="orn-dot"></div>
-      <div class="orn-diamond"></div>
-      <div style="font-family: 'Cormorant Garamond', serif; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(184,146,74,0.5);">W Heritage</div>
-      <div class="orn-diamond"></div>
-      <div class="orn-dot"></div>
-    </div>
-    <div class="orn-line"></div>
-  </div>
-  <div class="glow-line"></div>
-</div>
-
-<section class="manifeste" id="approche">
-  <div class="reveal-left">
-    <div class="manifeste-num">— Philosophie</div>
-    <p class="manifeste-quote">
-      La vraie richesse, c'est la <em>liberté</em> que vous laissez à ceux que vous aimez.
-    </p>
-    <p class="manifeste-body">
-      Chez W Heritage, nous croyons que chaque décision financière est une décision de vie. Notre rôle n'est pas simplement de vendre des produits — c'est de comprendre votre histoire, vos ambitions, et de construire avec vous une stratégie qui traversera le temps.
-      <br><br>
-      Avec une approche humaine, rigoureuse et entièrement personnalisée, Walid Harchaoui vous guide à chaque étape de votre parcours financier.
-    </p>
-    <div class="manifeste-sig">
-      <div class="sig-line"></div>
-      <div>
-        <div class="sig-name">Walid Harchaoui</div>
-        <div class="sig-title">CSF — Conseiller en Sécurité Financière</div>
-      </div>
-    </div>
-  </div>
-  <div class="manifeste-right reveal">
-    <div class="manifeste-photo-frame">
-      <div class="manifeste-corner tl"></div>
-      <div class="manifeste-corner tr"></div>
-      <div class="manifeste-corner bl"></div>
-      <div class="manifeste-corner br"></div>
-      <img src="walid-photo.jpg" alt="Walid Harchaoui" loading="lazy">
-    </div>
-    <p class="manifeste-caption">Portrait — W Heritage, Montréal</p>
-  </div>
-</section>
-
-<div class="wave-sep" style="background: var(--noir); margin-bottom: -2px;">
-  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:70px;">
-    <path d="M0,60 C360,0 720,0 1080,40 C1260,60 1380,65 1440,60 L1440,70 L0,70Z" fill="#1A1815"/>
-    <path d="M0,60 C360,0 720,0 1080,40 C1260,60 1380,65 1440,60" fill="none" stroke="rgba(184,146,74,0.18)" stroke-width="1"/>
-  </svg>
-</div>
-
-<section id="services">
-  <div class="services-top">
+  <div class="hero-grid">
     <div>
-      <p class="section-eyebrow">Expertise</p>
-      <h2>Cinq piliers pour<br>un avenir <em>serein</em></h2>
-    </div>
-    <p class="section-intro">Des solutions conçues autour de votre réalité — pas des produits génériques. Cliquez sur chaque service pour en savoir plus.</p>
-  </div>
-
-  <div class="services-list">
-
-    <div class="service-row reveal" onclick="toggleService(this)">
-      <div class="service-row-header">
-        <div class="svc-num">01</div>
-        <div class="svc-body">
-          <p class="svc-name">Assurance vie et invalidité</p>
-          <p class="svc-desc">Protégez vos proches contre l'imprévisible. Vie temporaire, vie entière, maladies graves — nous trouvons la couverture adaptée à votre réalité.</p>
-        </div>
-        <div class="svc-toggle">
-          <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
-        </div>
+      <p class="eyebrow reveal">Walid Harchaoui · CSF · Montréal</p>
+      <h1>
+        <span lang="fr" class="split">Bâtir<br><em>l'héritage</em><br><span class="indent">qui dure.</span></span>
+        <span lang="en" class="split">Build<br><em>the legacy</em><br><span class="indent">that lasts.</span></span>
+      </h1>
+      <p class="lead reveal" style="--d:.5">
+        <span lang="fr">Conseiller en sécurité financière — assurance, retraite, patrimoine et fiscalité. Une stratégie bâtie pour vous, et pour ceux que vous aimez.</span>
+        <span lang="en">Financial security advisor — insurance, retirement, wealth and tax. A strategy built for you, and for the people you love.</span>
+      </p>
+      <div class="hero-actions reveal" style="--d:.7">
+        <a href="#reservation" class="btn btn-gold"><span lang="fr">Réserver une consultation</span><span lang="en">Book a consultation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        <a href="processus.html" class="link-arrow"><span lang="fr">Découvrir la méthode</span><span lang="en">See the method</span></a>
       </div>
-      <div class="service-detail">
-        <div class="service-detail-inner">
-          <div class="service-detail-text">
-            <p>L'assurance vie et invalidité est le socle de toute stratégie financière solide. Elle garantit que vos proches seront protégés financièrement advenant un décès prématuré, une maladie grave ou une invalidité prolongée.</p>
-            <p>Walid analyse votre situation familiale, vos dettes, vos revenus et vos obligations pour vous recommander la couverture précise — ni trop, ni trop peu — au meilleur coût possible.</p>
-            <a href="#contact" class="service-cta">
-              Discuter de ma couverture
-              <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-            </a>
+    </div>
+
+    <div class="hero-photo reveal" style="--d:.3">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame clip-reveal" style="--d:.2">
+        <img src="walid-photo.jpg" alt="Walid Harchaoui — conseiller en sécurité financière" loading="eager">
+      </div>
+      <div class="badge reveal" style="--d:1.1"><b>QC + ON</b><span lang="fr">Autorisé dans deux provinces</span><span lang="en">Licensed in two provinces</span></div>
+      <p class="cap">Walid Harchaoui · CSF</p>
+    </div>
+  </div>
+  <div class="scroll-cue"><span lang="fr">Défiler</span><span lang="en">Scroll</span><i></i></div>
+</header>
+
+<!-- ═══════════════ STATS ═══════════════ -->
+<section class="stats" aria-label="En chiffres">
+  <div><b data-count="5" data-suffix="+">0</b><span lang="fr">Années d'expérience</span><span lang="en">Years of experience</span></div>
+  <div><b data-count="400" data-suffix="+">0</b><span lang="fr">Familles accompagnées</span><span lang="en">Families served</span></div>
+  <div><b data-count="98" data-suffix="%">0</b><span lang="fr">Taux de satisfaction</span><span lang="en">Satisfaction rate</span></div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span lang="fr">Protection</span><span lang="fr">Structure</span><span lang="fr">Patrimoine</span><span lang="fr">Fiscalité</span><span lang="fr">Retraite</span><span lang="fr">Héritage</span>
+    <span lang="fr">Protection</span><span lang="fr">Structure</span><span lang="fr">Patrimoine</span><span lang="fr">Fiscalité</span><span lang="fr">Retraite</span><span lang="fr">Héritage</span>
+    <span lang="en">Protection</span><span lang="en">Structure</span><span lang="en">Wealth</span><span lang="en">Tax strategy</span><span lang="en">Retirement</span><span lang="en">Legacy</span>
+    <span lang="en">Protection</span><span lang="en">Structure</span><span lang="en">Wealth</span><span lang="en">Tax strategy</span><span lang="en">Retirement</span><span lang="en">Legacy</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PHILOSOPHIE ═══════════════ -->
+<section class="section bg-noir manifeste" id="approche">
+  <div class="ghost-word" data-parallax="0.08" aria-hidden="true">Vision</div>
+  <div>
+    <p class="eyebrow reveal"><span lang="fr">Philosophie</span><span lang="en">Philosophy</span></p>
+    <blockquote>
+      <span lang="fr" class="split">La vraie richesse, c'est la <em>liberté</em> que vous laissez à ceux que vous aimez.</span>
+      <span lang="en" class="split">True wealth is the <em>freedom</em> you leave to the people you love.</span>
+    </blockquote>
+    <p class="lead reveal">
+      <span lang="fr">Chaque décision financière est une décision de vie. Mon rôle n'est pas de vendre des produits — c'est de comprendre votre histoire, vos ambitions, et de bâtir avec vous une stratégie qui traverse le temps.</span>
+      <span lang="en">Every financial decision is a life decision. My job isn't to sell products — it's to understand your story, your ambitions, and to build a strategy with you that stands the test of time.</span>
+    </p>
+    <div class="sig reveal"><i></i><div><b>Walid Harchaoui</b><span lang="fr">Conseiller en sécurité financière</span><span lang="en">Financial security advisor</span></div></div>
+    <a href="a-propos.html" class="link-arrow reveal"><span lang="fr">Qui est Walid</span><span lang="en">Meet Walid</span></a>
+  </div>
+  <div class="photo clip-reveal"><img src="walid-photo.jpg" alt="Portrait de Walid Harchaoui" loading="lazy" data-parallax="0.06"></div>
+</section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section class="section bg-sombre" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow reveal">Expertise</p>
+        <h2><span lang="fr" class="split">Cinq piliers pour<br>un avenir <em>serein</em></span><span lang="en" class="split">Five pillars for<br>a <em>secure</em> future</span></h2>
+      </div>
+      <p class="lead reveal" style="max-width:380px"><span lang="fr">Des solutions conçues autour de votre réalité — pas des produits génériques. Ouvrez chaque pilier pour en savoir plus.</span><span lang="en">Solutions designed around your reality — not generic products. Open each pillar to learn more.</span></p>
+    </div>
+
+    <div class="svc-list" data-stagger>
+      <!-- 01 -->
+      <div class="svc reveal">
+        <button class="svc-head" type="button" aria-expanded="false">
+          <span class="svc-num">01</span>
+          <span><span class="svc-name" lang="fr">Assurance vie et invalidité</span><span class="svc-name" lang="en">Life and disability insurance</span>
+            <span class="svc-desc" lang="fr">Protégez vos proches contre l'imprévisible. Vie temporaire, vie entière, maladies graves — la couverture adaptée à votre réalité.</span>
+            <span class="svc-desc" lang="en">Protect your loved ones from the unexpected. Term life, whole life, critical illness — coverage that fits your reality.</span></span>
+          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
+        </button>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div>
+            <p lang="fr">L'assurance vie et invalidité est le socle de toute stratégie financière solide. Elle garantit que vos proches seront protégés financièrement advenant un décès prématuré, une maladie grave ou une invalidité prolongée.</p>
+            <p lang="fr">J'analyse votre situation familiale, vos dettes, vos revenus et vos obligations pour recommander la couverture précise — ni trop, ni trop peu — au meilleur coût possible.</p>
+            <p lang="en">Life and disability insurance is the foundation of any solid financial strategy. It makes sure your family is financially protected in the event of an early death, a serious illness or a long-term disability.</p>
+            <p lang="en">I look at your family situation, debts, income and obligations to recommend the right coverage — not too much, not too little — at the best possible cost.</p>
+            <a href="#contact" class="link-arrow"><span lang="fr">Discuter de ma couverture</span><span lang="en">Discuss my coverage</span></a>
           </div>
-          <ul class="service-detail-points">
+          <ul lang="fr">
             <li>Assurance vie temporaire (10, 20, 30 ans) — protection abordable pour les années cruciales</li>
             <li>Assurance vie entière — protection permanente avec valeur de rachat croissante</li>
-            <li>Assurance maladies graves — capital versé au diagnostic de maladies couvertes</li>
+            <li>Assurance maladies graves — capital versé au diagnostic d'une maladie couverte</li>
             <li>Assurance invalidité — remplacement de revenu en cas d'incapacité de travail</li>
             <li>Assurance soins de longue durée — préservez votre autonomie et épargnez vos proches</li>
             <li>Analyse des besoins en assurance personnalisée et sans frais</li>
           </ul>
-        </div>
+          <ul lang="en">
+            <li>Term life insurance (10, 20, 30 years) — affordable protection for the critical years</li>
+            <li>Whole life insurance — permanent protection with a growing cash value</li>
+            <li>Critical illness insurance — a lump sum paid on diagnosis of a covered illness</li>
+            <li>Disability insurance — income replacement if you can't work</li>
+            <li>Long-term care insurance — protect your independence and spare your family</li>
+            <li>Personalized insurance needs analysis, at no cost</li>
+          </ul>
+        </div></div></div>
       </div>
-    </div>
-
-    <div class="service-row reveal" onclick="toggleService(this)">
-      <div class="service-row-header">
-        <div class="svc-num">02</div>
-        <div class="svc-body">
-          <p class="svc-name">Planification de la retraite</p>
-          <p class="svc-desc">REER, FERR, RRQ, retraite anticipée — construisons ensemble un plan solide adapté au style de vie que vous méritez.</p>
-        </div>
-        <div class="svc-toggle">
-          <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
-        </div>
-      </div>
-      <div class="service-detail">
-        <div class="service-detail-inner">
-          <div class="service-detail-text">
-            <p>La retraite, c'est votre projet le plus important. Walid élabore avec vous une feuille de route financière qui tient compte de votre âge cible, de votre style de vie souhaité, de vos actifs actuels et de vos sources de revenus futures.</p>
-            <p>Grâce à une projection précise, vous saurez exactement combien épargner chaque mois pour atteindre l'indépendance financière — et quand.</p>
-            <a href="#contact" class="service-cta">
-              Planifier ma retraite
-              <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-            </a>
+      <!-- 02 -->
+      <div class="svc reveal">
+        <button class="svc-head" type="button" aria-expanded="false">
+          <span class="svc-num">02</span>
+          <span><span class="svc-name" lang="fr">Planification de la retraite</span><span class="svc-name" lang="en">Retirement planning</span>
+            <span class="svc-desc" lang="fr">REER, FERR, RRQ, retraite anticipée — un plan solide adapté au style de vie que vous visez.</span>
+            <span class="svc-desc" lang="en">RRSP, RRIF, QPP/CPP, early retirement — a solid plan built around the lifestyle you're aiming for.</span></span>
+          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
+        </button>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div>
+            <p lang="fr">La retraite, c'est votre projet le plus important. On bâtit une feuille de route qui tient compte de votre âge cible, du style de vie souhaité, de vos actifs actuels et de vos sources de revenus futures.</p>
+            <p lang="fr">Avec une projection claire, vous savez combien épargner chaque mois pour atteindre l'indépendance financière — et quand.</p>
+            <p lang="en">Retirement is your biggest project. We build a roadmap around your target age, the lifestyle you want, your current assets and your future income sources.</p>
+            <p lang="en">With a clear projection, you know how much to save each month to reach financial independence — and when.</p>
+            <a href="calculateur.html" class="link-arrow"><span lang="fr">Essayer le simulateur</span><span lang="en">Try the simulator</span></a>
           </div>
-          <ul class="service-detail-points">
-            <li>Analyse de votre retraite actuelle projetée (RRQ, régimes de retraite employeur)</li>
-            <li>Optimisation du REER : cotisations, timing, retraits stratégiques</li>
-            <li>Stratégie de conversion REER → FERR et planification des décaissements</li>
-            <li>Retraite anticipée : calcul du capital nécessaire et stratégie d'atteinte</li>
-            <li>Coordination des revenus de retraite pour minimiser l'impôt</li>
+          <ul lang="fr">
+            <li>Analyse de votre retraite projetée (RRQ, régimes de retraite d'employeur)</li>
+            <li>Optimisation du REER : cotisations, moments, retraits stratégiques</li>
+            <li>Conversion REER → FERR et planification des décaissements</li>
+            <li>Retraite anticipée : capital nécessaire et stratégie pour l'atteindre</li>
+            <li>Coordination des revenus de retraite pour réduire l'impôt</li>
             <li>Révision annuelle du plan selon l'évolution de votre situation</li>
           </ul>
-        </div>
+          <ul lang="en">
+            <li>Analysis of your projected retirement (QPP/CPP, employer pension plans)</li>
+            <li>RRSP optimization: contributions, timing, strategic withdrawals</li>
+            <li>RRSP → RRIF conversion and drawdown planning</li>
+            <li>Early retirement: the capital you need and how to get there</li>
+            <li>Coordinating retirement income to reduce tax</li>
+            <li>Annual plan review as your situation evolves</li>
+          </ul>
+        </div></div></div>
       </div>
-    </div>
-
-    <div class="service-row reveal" onclick="toggleService(this)">
-      <div class="service-row-header">
-        <div class="svc-num">03</div>
-        <div class="svc-body">
-          <p class="svc-name">Gestion de patrimoine</p>
-          <p class="svc-desc">Faites fructifier votre patrimoine avec une stratégie de placement diversifiée, cohérente avec votre tolérance au risque.</p>
-        </div>
-        <div class="svc-toggle">
-          <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
-        </div>
-      </div>
-      <div class="service-detail">
-        <div class="service-detail-inner">
-          <div class="service-detail-text">
-            <p>Gérer son patrimoine, c'est bien plus que choisir des fonds communs. C'est aligner vos placements avec vos valeurs, vos objectifs de vie et votre horizon temporel — tout en tenant compte de votre fiscalité personnelle.</p>
-            <p>Walid vous propose une stratégie globale qui intègre tous vos actifs (REER, CELI, non-enregistré, immobilier) dans une vision cohérente et optimisée.</p>
-            <a href="#contact" class="service-cta">
-              Évaluer mon patrimoine
-              <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-            </a>
+      <!-- 03 -->
+      <div class="svc reveal">
+        <button class="svc-head" type="button" aria-expanded="false">
+          <span class="svc-num">03</span>
+          <span><span class="svc-name" lang="fr">Gestion de patrimoine</span><span class="svc-name" lang="en">Wealth management</span>
+            <span class="svc-desc" lang="fr">Faites fructifier votre patrimoine avec une stratégie diversifiée, cohérente avec votre tolérance au risque.</span>
+            <span class="svc-desc" lang="en">Grow your wealth with a diversified strategy that matches your risk tolerance.</span></span>
+          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
+        </button>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div>
+            <p lang="fr">Gérer son patrimoine, c'est bien plus que choisir des fonds. C'est aligner vos placements avec vos valeurs, vos objectifs de vie et votre horizon — tout en tenant compte de votre fiscalité.</p>
+            <p lang="fr">La stratégie intègre tous vos actifs (REER, CELI, non enregistré, immobilier) dans une vision cohérente et optimisée.</p>
+            <p lang="en">Managing wealth is much more than picking funds. It's aligning your savings with your values, your life goals and your time horizon — while taking your tax situation into account.</p>
+            <p lang="en">The strategy brings all your assets (RRSP, TFSA, non-registered, real estate) into one coherent, optimized plan.</p>
+            <a href="#contact" class="link-arrow"><span lang="fr">Évaluer mon patrimoine</span><span lang="en">Review my wealth</span></a>
           </div>
-          <ul class="service-detail-points">
+          <ul lang="fr">
             <li>Bilan patrimonial complet : actifs, dettes, besoins, projets</li>
-            <li>Profil d'investisseur et allocation d'actifs personnalisée</li>
-            <li>Sélection de fonds selon votre profil risque/rendement</li>
-            <li>Rééquilibrage périodique du portefeuille</li>
-            <li>Stratégie de placement intégrée : CELI, REER, non-enregistré</li>
+            <li>Profil d'investisseur et répartition d'actifs personnalisée</li>
+            <li>Sélection de fonds selon votre profil risque / rendement</li>
+            <li>Rééquilibrage périodique</li>
+            <li>Stratégie intégrée : CELI, REER, non enregistré</li>
             <li>Transmission du patrimoine et planification successorale de base</li>
           </ul>
-        </div>
+          <ul lang="en">
+            <li>Complete wealth review: assets, debts, needs, projects</li>
+            <li>Investor profile and personalized asset allocation</li>
+            <li>Fund selection based on your risk / return profile</li>
+            <li>Periodic rebalancing</li>
+            <li>Integrated strategy: TFSA, RRSP, non-registered</li>
+            <li>Wealth transfer and basic estate planning</li>
+          </ul>
+        </div></div></div>
       </div>
-    </div>
-
-    <div class="service-row reveal" onclick="toggleService(this)">
-      <div class="service-row-header">
-        <div class="svc-num">04</div>
-        <div class="svc-body">
-          <p class="svc-name">Protection fiscale</p>
-          <p class="svc-desc">Optimisez légalement votre situation fiscale grâce au CELI, au fractionnement de revenu et à des stratégies d'économies d'impôt adaptées.</p>
-        </div>
-        <div class="svc-toggle">
-          <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
-        </div>
-      </div>
-      <div class="service-detail">
-        <div class="service-detail-inner">
-          <div class="service-detail-text">
-            <p>L'impôt est souvent la dépense la plus sous-estimée dans un plan financier. Walid identifie les occasions légales de réduire votre facture fiscale — aujourd'hui et pour les années à venir.</p>
-            <p>En combinant les bons véhicules d'épargne avec une stratégie de retrait optimale, il est possible d'économiser des dizaines de milliers de dollars sur la durée d'une vie.</p>
-            <a href="#contact" class="service-cta">
-              Analyser ma situation fiscale
-              <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-            </a>
+      <!-- 04 -->
+      <div class="svc reveal">
+        <button class="svc-head" type="button" aria-expanded="false">
+          <span class="svc-num">04</span>
+          <span><span class="svc-name" lang="fr">Protection fiscale</span><span class="svc-name" lang="en">Tax protection</span>
+            <span class="svc-desc" lang="fr">Optimisez légalement votre fiscalité grâce au CELI, au fractionnement de revenu et à des stratégies adaptées aux entrepreneurs.</span>
+            <span class="svc-desc" lang="en">Legally optimize your taxes with the TFSA, income splitting and strategies built for business owners.</span></span>
+          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
+        </button>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div>
+            <p lang="fr">L'impôt est souvent la dépense la plus sous-estimée d'un plan financier. On identifie les occasions légales de réduire votre facture fiscale — aujourd'hui et pour les années à venir.</p>
+            <p lang="fr">En combinant les bons véhicules d'épargne et une stratégie de retrait réfléchie, les économies peuvent atteindre des dizaines de milliers de dollars sur une vie.</p>
+            <p lang="en">Tax is often the most underestimated expense in a financial plan. We find the legal ways to reduce your tax bill — today and in the years ahead.</p>
+            <p lang="en">By combining the right savings vehicles with a thoughtful withdrawal strategy, the savings can add up to tens of thousands of dollars over a lifetime.</p>
+            <a href="#contact" class="link-arrow"><span lang="fr">Analyser ma situation fiscale</span><span lang="en">Review my tax situation</span></a>
           </div>
-          <ul class="service-detail-points">
-            <li>Maximisation du CELI : cotisations annuelles, retraits stratégiques, filiations</li>
+          <ul lang="fr">
+            <li>Maximisation du CELI : cotisations, retraits stratégiques</li>
             <li>Fractionnement de revenu entre conjoints à la retraite</li>
-            <li>Stratégies de cotisations REER en fin de carrière (déductions optimales)</li>
-            <li>Utilisation de l'assurance vie comme outil d'efficacité fiscale</li>
-            <li>Planification des retraits pour minimiser la récupération des prestations gouvernementales</li>
-            <li>Coordination avec votre comptable pour une stratégie globale cohérente</li>
+            <li>Cotisations REER en fin de carrière (déductions optimales)</li>
+            <li>L'assurance vie comme outil d'efficacité fiscale</li>
+            <li>Retraits planifiés pour limiter la récupération des prestations gouvernementales</li>
+            <li>Coordination avec votre comptable pour une stratégie cohérente</li>
           </ul>
-        </div>
+          <ul lang="en">
+            <li>TFSA maximization: contributions, strategic withdrawals</li>
+            <li>Pension income splitting between spouses in retirement</li>
+            <li>Late-career RRSP contributions (optimal deductions)</li>
+            <li>Life insurance as a tax-efficiency tool</li>
+            <li>Planned withdrawals to limit government benefit clawbacks</li>
+            <li>Coordination with your accountant for one coherent strategy</li>
+          </ul>
+        </div></div></div>
       </div>
-    </div>
-
-    <div class="service-row reveal" onclick="toggleService(this)">
-      <div class="service-row-header">
-        <div class="svc-num">05</div>
-        <div class="svc-body">
-          <p class="svc-name">Assurance vie à valeur de rachat</p>
-          <p class="svc-desc">Transformez votre assurance en actif vivant. La valeur de rachat peut financer votre retraite, réduire l'impôt, ou servir de levier financier.</p>
-        </div>
-        <div class="svc-toggle">
-          <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
-        </div>
-      </div>
-      <div class="service-detail">
-        <div class="service-detail-inner">
-          <div class="service-detail-text">
-            <p>L'assurance vie avec valeur de rachat est l'un des instruments financiers les plus puissants et les moins connus au Canada. Elle combine protection permanente, croissance à l'abri de l'impôt et flexibilité d'accès au capital.</p>
-            <p>Contrairement à une assurance traditionnelle, chaque prime versée contribue à bâtir un actif réel — accessible de votre vivant, transmissible sans impôt, et utilisable comme garantie de prêt bancaire.</p>
-            <a href="#contact" class="service-cta">
-              Découvrir cette stratégie
-              <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-            </a>
+      <!-- 05 -->
+      <div class="svc reveal">
+        <button class="svc-head" type="button" aria-expanded="false">
+          <span class="svc-num">05</span>
+          <span><span class="svc-name" lang="fr">Assurance vie participative</span><span class="svc-name" lang="en">Participating life insurance</span>
+            <span class="svc-desc" lang="fr">Transformez votre assurance en actif vivant : valeur de rachat, levier financier, transmission hors succession.</span>
+            <span class="svc-desc" lang="en">Turn your insurance into a living asset: cash value, financial leverage, a transfer outside the estate.</span></span>
+          <span class="svc-tog"><svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg></span>
+        </button>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div>
+            <p lang="fr">L'assurance vie avec valeur de rachat est l'un des outils les plus puissants — et les moins connus — de la planification au Canada. Elle combine protection permanente, croissance à l'abri de l'impôt et accès au capital.</p>
+            <p lang="fr">Chaque prime contribue à bâtir un actif réel — accessible de votre vivant, transmissible sans impôt et utilisable comme garantie bancaire.</p>
+            <p lang="en">Life insurance with a cash value is one of the most powerful — and least understood — planning tools in Canada. It combines permanent protection, tax-sheltered growth and access to capital.</p>
+            <p lang="en">Every premium helps build a real asset — accessible during your lifetime, transferable tax-free and usable as bank collateral.</p>
+            <a href="vie-participative.html" class="link-arrow"><span lang="fr">Explorer la simulation interactive</span><span lang="en">Explore the interactive simulation</span></a>
           </div>
-          <ul class="service-detail-points">
-            <li>Croissance de la valeur de rachat libre d'impôt à l'intérieur du contrat</li>
-            <li>Capital accessible de votre vivant via avances sur police (sans impôt sur le retrait)</li>
-            <li>Complément de retraite sans augmenter votre revenu imposable</li>
-            <li>Capital-décès versé aux bénéficiaires libre d'impôt, hors succession</li>
-            <li>Utilisation comme garantie de prêt bancaire (levier financier)</li>
-            <li>Stratégie idéale pour les travailleurs autonomes et propriétaires d'entreprise</li>
+          <ul lang="fr">
+            <li>Croissance de la valeur de rachat à l'abri de l'impôt dans le contrat</li>
+            <li>Capital accessible de votre vivant par avance sur police</li>
+            <li>Complément de retraite sans gonfler votre revenu imposable</li>
+            <li>Capital-décès libre d'impôt versé hors succession</li>
+            <li>Garantie de prêt bancaire (levier financier)</li>
+            <li>Stratégie de choix pour les travailleurs autonomes et propriétaires d'entreprise</li>
           </ul>
-        </div>
+          <ul lang="en">
+            <li>Tax-sheltered growth of the cash value inside the policy</li>
+            <li>Capital accessible during your lifetime through policy loans</li>
+            <li>Retirement top-up without inflating your taxable income</li>
+            <li>Tax-free death benefit paid outside the estate</li>
+            <li>Bank loan collateral (financial leverage)</li>
+            <li>A go-to strategy for self-employed people and business owners</li>
+          </ul>
+        </div></div></div>
       </div>
     </div>
-
   </div>
 </section>
 
-<section id="guide" class="capture-section">
-  <div id="capture-guide">
-    <div class="capture-box reveal">
-      <h2 class="capture-title">L'Empire Blindé</h2>
-      <p class="capture-desc">Le guide du fondateur qui refuse de tout perdre. 3 stratégies que les entrepreneurs à 7 chiffres utilisent pour protéger ce qu'ils bâtissent — et que personne ne t'a jamais expliquées.</p>
-      
-      <form id="leadCaptureForm" class="capture-form" action="#">
-        <input type="email" class="capture-input" placeholder="Adresse courriel" required>
-        <button type="submit" class="capture-btn">Déverrouiller la stratégie</button>
+<!-- ═══════════════ LA MÉTHODE (aperçu) ═══════════════ -->
+<section class="section bg-noir" id="methode">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow center reveal"><span lang="fr">La méthode</span><span lang="en">The method</span></p>
+      <h2><span lang="fr" class="split">Quatre étapes. <em>Aucune improvisation.</em></span><span lang="en" class="split">Four steps. <em>No improvisation.</em></span></h2>
+    </div>
+    <div class="steps" data-stagger>
+      <div class="rail"><i></i></div>
+      <div class="step" style="--k:0"><div class="node"><span>I</span></div><small>ADM</small><h3 lang="fr">Analyse de marché</h3><h3 lang="en">Market analysis</h3><p lang="fr">Le contexte avant les solutions : fiscalité, inflation, risques — ce qui se passe vraiment.</p><p lang="en">Context before solutions: taxes, inflation, risk — what's really going on.</p></div>
+      <div class="step" style="--k:1"><div class="node"><span>II</span></div><small>ABF</small><h3 lang="fr">Analyse des besoins</h3><h3 lang="en">Needs analysis</h3><p lang="fr">Où vous êtes, où vous voulez aller, et ce qui protège votre famille entre les deux.</p><p lang="en">Where you are, where you want to go, and what protects your family in between.</p></div>
+      <div class="step" style="--k:2"><div class="node"><span>III</span></div><small>SOLUTIONS</small><h3 lang="fr">Présentation</h3><h3 lang="en">Presentation</h3><p lang="fr">Une stratégie sur mesure, des scénarios comparés. Vous décidez, sans pression.</p><p lang="en">A tailored strategy, scenarios side by side. You decide, with no pressure.</p></div>
+      <div class="step" style="--k:3"><div class="node"><span>IV</span></div><small lang="fr">SUIVI</small><small lang="en">FOLLOW-UP</small><h3 lang="fr">Suivi constant</h3><h3 lang="en">Ongoing follow-up</h3><p lang="fr">Révision annuelle et ajustements à chaque étape de vie. Je ne disparais pas après la signature.</p><p lang="en">Annual reviews and adjustments at every life stage. I don't disappear after you sign.</p></div>
+    </div>
+    <div class="center-cta reveal"><a href="processus.html" class="btn btn-line"><span lang="fr">Voir la méthode en détail</span><span lang="en">See the method in detail</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></div>
+  </div>
+</section>
+
+<div class="orn" aria-hidden="true"><i></i><b></b><span>W Héritage</span><b></b><i></i></div>
+
+<!-- ═══════════════ VIE PARTICIPATIVE (aperçu) ═══════════════ -->
+<section class="section bg-noir" style="padding-top:2rem">
+  <div class="wrap par-teaser">
+    <div class="chart-card reveal-l" id="parCard">
+      <small class="t"><span lang="fr">Croissance de la valeur de rachat — illustration</span><span lang="en">Cash value growth — illustration</span></small>
+      <svg viewBox="0 0 400 210" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="52" x2="400" y2="52" stroke="rgba(201,168,76,.1)"/><line x1="0" y1="104" x2="400" y2="104" stroke="rgba(201,168,76,.1)"/><line x1="0" y1="156" x2="400" y2="156" stroke="rgba(201,168,76,.1)"/>
+        <path class="p-fill" d="M0 196 Q60 176 120 150 Q200 112 280 72 Q340 42 400 18 L400 210 L0 210Z" fill="rgba(201,168,76,.1)"/>
+        <path class="p-sub" d="M0 196 Q80 190 160 185 Q240 180 320 175 L400 172" stroke="rgba(237,232,223,.35)" stroke-width="1.4" fill="none" stroke-dasharray="4 4"/>
+        <path class="p-main" d="M0 196 Q60 176 120 150 Q200 112 280 72 Q340 42 400 18" stroke="#C9A84C" stroke-width="2" fill="none"/>
+        <circle class="p-dot d1" cx="120" cy="150" r="4" fill="#C9A84C"/><circle class="p-dot d2" cx="280" cy="72" r="4" fill="#C9A84C"/><circle class="p-dot d3" cx="398" cy="19" r="5" fill="#DDBE68"/>
+      </svg>
+      <div class="chart-legend"><span><i style="background:#C9A84C"></i><span lang="fr">Valeur de rachat</span><span lang="en">Cash value</span></span><span><i style="background:rgba(237,232,223,.35)"></i><span lang="fr">Épargne sans stratégie</span><span lang="en">Savings without a strategy</span></span></div>
+    </div>
+    <div>
+      <p class="eyebrow reveal"><span lang="fr">Stratégie exclusive</span><span lang="en">Signature strategy</span></p>
+      <h2><span lang="fr" class="split">L'assurance qui<br>travaille pour <em>vous</em></span><span lang="en" class="split">Insurance that<br>works for <em>you</em></span></h2>
+      <div class="benefits" data-stagger>
+        <div class="benefit reveal"><span class="ic"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span><div><b lang="fr">Clientèle fortunée</b><b lang="en">High-net-worth families</b><span lang="fr">Liquidité pour l'impôt au décès, croissance à l'abri de l'impôt une fois le REER et le CELI maximisés.</span><span lang="en">Liquidity for tax at death, tax-sheltered growth once your RRSP and TFSA are maxed.</span></div></div>
+        <div class="benefit reveal"><span class="ic"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span><div><b lang="fr">Entreprises</b><b lang="en">Businesses</b><span lang="fr">L'argent qui dort dans votre société devient un actif garanti, un levier bancaire et un transfert libre d'impôt.</span><span lang="en">Idle cash in your corporation becomes a guaranteed asset, bank leverage and a tax-free transfer.</span></div></div>
+        <div class="benefit reveal"><span class="ic"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span><div><b lang="fr">Vos enfants</b><b lang="en">Your children</b><span lang="fr">Un actif qui grandit avec eux : assurabilité garantie, capital pour les études ou une première maison.</span><span lang="en">An asset that grows with them: guaranteed insurability, capital for school or a first home.</span></div></div>
+      </div>
+      <a href="vie-participative.html" class="btn btn-gold reveal"><span lang="fr">Explorer la simulation</span><span lang="en">Explore the simulation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    </div>
+  </div>
+
+  <div class="wrap" style="margin-top:5rem">
+    <a href="calculateur.html" class="calc-band reveal spot" style="text-decoration:none">
+      <div class="bars" aria-hidden="true"><i style="height:22%;--k:0"></i><i style="height:30%;--k:1"></i><i style="height:38%;--k:2"></i><i style="height:48%;--k:3"></i><i style="height:60%;--k:4"></i><i style="height:74%;--k:5"></i><i style="height:88%;--k:6"></i><i style="height:100%;--k:7"></i></div>
+      <div><h3><span lang="fr">Simulateur d'épargne</span><span lang="en">Savings simulator</span></h3><p lang="fr">Voyez ce qu'un montant épargné chaque semaine ou chaque mois peut devenir — et l'effet réel d'une protection de l'épargne.</p><p lang="en">See what a weekly or monthly amount can grow into — and the real effect of protecting your savings.</p></div>
+      <span class="link-arrow"><span lang="fr">Lancer</span><span lang="en">Open</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════ RÉSEAUX ═══════════════ -->
+<section class="section bg-sombre" id="reseaux">
+  <div class="wrap">
+    <div class="reels-head">
+      <div>
+        <p class="eyebrow reveal"><span lang="fr">Sur les réseaux</span><span lang="en">On social</span></p>
+        <h2><span lang="fr" class="split">La stratégie, <em>en clips.</em></span><span lang="en" class="split">Strategy, <em>in clips.</em></span></h2>
+        <p class="lead reveal" style="margin-top:1rem"><span lang="fr">Des capsules courtes sur l'assurance, la fiscalité et la structure — sans jargon, sans pitch.</span><span lang="en">Short clips on insurance, tax and structure — no jargon, no pitch. (In French.)</span></p>
+      </div>
+      <div class="rail-ctrl reveal">
+        <button type="button" data-rail="-1" data-aria-fr="Précédent" data-aria-en="Previous" aria-label="Précédent"><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg></button>
+        <button type="button" data-rail="1" data-aria-fr="Suivant" data-aria-en="Next" aria-label="Suivant"><svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></button>
+      </div>
+    </div>
+    <div class="reels" id="reels" data-stagger>
+      <div class="reel reveal"><div class="reel-top"><b lang="fr">Fais ça propre.</b><b lang="en">Keep it clean.</b><span>01</span></div><div class="frame"><iframe data-src="https://www.instagram.com/reel/Da1Fxm9jDnE/embed/" title="Reel Instagram — Walid Harchaoui" scrolling="no" allowtransparency="true" loading="lazy"></iframe></div></div>
+      <div class="reel reveal"><div class="reel-top"><b lang="fr">24 ans. Certifié AMF.</b><b lang="en">24. AMF-certified.</b><span>02</span></div><div class="frame"><iframe data-src="https://www.instagram.com/reel/DY49O8gkhP7/embed/" title="Reel Instagram — Walid Harchaoui" scrolling="no" allowtransparency="true" loading="lazy"></iframe></div></div>
+      <div class="reel reveal"><div class="reel-top"><b lang="fr">Choisir son conseiller</b><b lang="en">Choosing an advisor</b><span>03</span></div><div class="frame"><iframe data-src="https://www.instagram.com/reel/DY-Nv0olae_/embed/" title="Reel Instagram — Walid Harchaoui" scrolling="no" allowtransparency="true" loading="lazy"></iframe></div></div>
+      <div class="reel reveal"><div class="reel-top"><b lang="fr">Plus que le minimum</b><b lang="en">More than the minimum</b><span>04</span></div><div class="frame"><iframe data-src="https://www.instagram.com/reel/DZP-IhADeJe/embed/" title="Reel Instagram — Walid Harchaoui" scrolling="no" allowtransparency="true" loading="lazy"></iframe></div></div>
+      <div class="reel reveal"><div class="reel-top"><b lang="fr">« Ta situation est correcte. »</b><b lang="en">“You're fine.”</b><span>05</span></div><div class="frame"><iframe data-src="https://www.instagram.com/reel/DaIrAoIjVs2/embed/" title="Reel Instagram — Walid Harchaoui" scrolling="no" allowtransparency="true" loading="lazy"></iframe></div></div>
+      <div class="reel reveal"><div class="reel-top"><b lang="fr">Tes dettes, ta famille</b><b lang="en">Your debts, your family</b><span>06</span></div><div class="frame"><iframe data-src="https://www.instagram.com/reel/Dbo0EHsDKOA/embed/" title="Reel Instagram — Walid Harchaoui" scrolling="no" allowtransparency="true" loading="lazy"></iframe></div></div>
+    </div>
+    <div class="reels-foot reveal"><a href="https://www.instagram.com/walidh.csf" target="_blank" rel="noopener" class="btn btn-line"><span lang="fr">Suivre @walidh.csf</span><span lang="en">Follow @walidh.csf</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ═══════════════ GUIDE — L'EMPIRE BLINDÉ ═══════════════ -->
+<section class="section bg-noir2" id="guide">
+  <div class="guide-capture">
+    <div class="capture reveal">
+      <svg class="book" viewBox="0 0 92 110" fill="none" aria-hidden="true"><rect x="10" y="4" width="72" height="100" stroke="#C9A84C"/><rect x="16" y="10" width="60" height="88" stroke="rgba(201,168,76,.35)"/><path d="M46 36 L60 50 L46 64 L32 50 Z" stroke="#C9A84C"/><path d="M39 45 L42.5 55 L46 48 L49.5 55 L53 45" stroke="#C9A84C" stroke-width="1.3"/><line x1="30" y1="76" x2="62" y2="76" stroke="rgba(201,168,76,.5)"/><line x1="36" y1="82" x2="56" y2="82" stroke="rgba(201,168,76,.3)"/></svg>
+      <p class="eyebrow center"><span lang="fr">Guide gratuit</span><span lang="en">Free guide</span></p>
+      <h2><span lang="fr">L'Empire Blindé</span><span lang="en">The Armored Empire</span></h2>
+      <p class="lead"><span lang="fr">Le guide du fondateur qui refuse de tout perdre. 3 stratégies que les entrepreneurs à 7 chiffres utilisent pour protéger ce qu'ils bâtissent — et que personne ne t'a jamais expliquées.</span><span lang="en">The guide for founders who refuse to lose it all. 3 strategies seven-figure entrepreneurs use to protect what they build — that nobody ever explained to you.</span></p>
+      <form id="leadCaptureForm" action="#">
+        <input type="email" required autocomplete="email" data-ph-fr="Adresse courriel" data-ph-en="Email address" placeholder="Adresse courriel" aria-label="Courriel">
+        <button type="submit" class="btn btn-gold" data-txt-fr="Déverrouiller la stratégie" data-txt-en="Unlock the strategy">Déverrouiller la stratégie</button>
       </form>
-      <p style="font-size: 0.65rem; color: var(--texte3); margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 0.1em;">Lecture instantanée. Sans quitter la page.</p>
+      <p class="note"><span lang="fr">Lecture instantanée. Sans quitter la page.</span><span lang="en">Read instantly. Right here on the page.</span></p>
     </div>
   </div>
 </section>
 
-<section id="guide-content">
-  <div class="guide-container">
-    
+<section class="section bg-sombre" id="guide-content">
+  <div class="guide">
     <div class="guide-header">
-      <h2>L'EMPIRE BLINDÉ</h2>
-      <p class="guide-header-sub">Le guide du fondateur qui refuse de tout perdre</p>
-      <p class="guide-header-author">Walid Harchaoui · CSF — W Héritage · Montréal</p>
+      <h2><span lang="fr">L'EMPIRE BLINDÉ</span><span lang="en">THE ARMORED EMPIRE</span></h2>
+      <p class="sub"><span lang="fr">Le guide du fondateur qui refuse de tout perdre</span><span lang="en">The guide for founders who refuse to lose it all</span></p>
+      <p class="by">Walid Harchaoui · CSF — W Héritage · Montréal</p>
     </div>
 
-    <div class="guide-concept">
-      <span class="guide-concept-eyebrow">Concept 01</span>
+    <div class="concept" lang="fr">
+      <span class="k">Concept 01</span>
       <h3>Ton revenu est fragile. Ton empire peut être blindé.</h3>
       <p>Tu es le moteur de ta business. Tout repose sur toi — tes revenus, tes clients, ta réputation. Et si ce moteur tombe en panne ?</p>
       <p>La plupart des entrepreneurs ont une réponse honnête à cette question : ils n'ont pas de plan. Ils ont des économies. Quelques mois de runway. Et l'espoir que ça n'arrive pas. Ce n'est pas une stratégie. C'est un pari.</p>
-      <p>L'assurance invalidité est le fond de roulement personnel que 90% des entrepreneurs n'ont pas. Voici ce qui arrive sans elle :</p>
+      <p>L'assurance invalidité est le fonds de roulement personnel que la plupart des entrepreneurs n'ont pas. Voici ce qui arrive sans elle :</p>
       <ul>
         <li><strong>Mois 1 :</strong> tu puises dans tes économies personnelles.</li>
         <li><strong>Mois 2 :</strong> tu touches au capital que tu voulais préserver pour investir.</li>
         <li><strong>Mois 3 :</strong> tu prends des décisions que tu vas regretter longtemps.</li>
         <li>Ta business continue d'avoir des charges. Tes clients n'attendent pas. La pression monte.</li>
       </ul>
-      <p><strong>Ce que tu dois comprendre :</strong> l'assurance invalidité remplace ton revenu si tu ne peux plus travailler — maladie, accident, épuisement. Ce n'est pas un produit d'assurance. C'est ton fond de roulement personnel. La ligne de crédit que tu n'auras jamais à rembourser parce que tu t'es protégé à temps.</p>
-      <p>Les primes sont au plus bas quand tu es jeune et en santé. Chaque mois que tu attends, tu paies plus cher — si tu es encore éligible.</p>
-      <div class="guide-quote">"La question n'est pas si quelque chose va t'arriver. C'est si tu seras prêt quand ça arrivera."</div>
+      <p><strong>Ce que tu dois comprendre :</strong> l'assurance invalidité remplace ton revenu si tu ne peux plus travailler — maladie, accident, épuisement. Ce n'est pas un produit d'assurance. C'est ton fonds de roulement personnel. La ligne de crédit que tu n'auras jamais à rembourser parce que tu t'es protégé à temps.</p>
+      <p>Les primes sont au plus bas quand tu es jeune et en santé. Chaque mois que tu attends, tu paies plus cher — si tu es encore admissible.</p>
+      <div class="quote">« La question n'est pas si quelque chose va t'arriver. C'est si tu seras prêt quand ça arrivera. »</div>
+    </div>
+    <div class="concept" lang="en">
+      <span class="k">Concept 01</span>
+      <h3>Your income is fragile. Your empire can be armored.</h3>
+      <p>You are the engine of your business. Everything rests on you — your income, your clients, your reputation. What happens if that engine breaks down?</p>
+      <p>Most entrepreneurs have an honest answer: they don't have a plan. They have savings. A few months of runway. And the hope it won't happen. That isn't a strategy. It's a bet.</p>
+      <p>Disability insurance is the personal working capital most entrepreneurs don't have. Here's what happens without it:</p>
+      <ul>
+        <li><strong>Month 1:</strong> you dip into your personal savings.</li>
+        <li><strong>Month 2:</strong> you touch the capital you meant to invest.</li>
+        <li><strong>Month 3:</strong> you make decisions you'll regret for a long time.</li>
+        <li>Your business still has expenses. Your clients don't wait. The pressure builds.</li>
+      </ul>
+      <p><strong>What you need to understand:</strong> disability insurance replaces your income if you can no longer work — illness, accident, burnout. It isn't just an insurance product. It's your personal working capital. The line of credit you'll never have to repay because you protected yourself in time.</p>
+      <p>Premiums are at their lowest when you're young and healthy. Every month you wait, you pay more — if you still qualify.</p>
+      <div class="quote">“The question isn't whether something will happen to you. It's whether you'll be ready when it does.”</div>
     </div>
 
-    <div class="guide-concept">
-      <span class="guide-concept-eyebrow">Concept 02</span>
-      <h3>L'assurance vie que les 1% utilisent — pas pour mourir. Pour vivre mieux.</h3>
-      <p>Si tu penses que l'assurance vie, c'est une dépense — ton banquier t'a menti. Voici la réalité que personne ne t'explique, parce qu'elle ne profite pas aux institutions.</p>
+    <div class="concept" lang="fr">
+      <span class="k">Concept 02</span>
+      <h3>L'assurance vie que les 1 % utilisent — pas pour mourir. Pour vivre mieux.</h3>
+      <p>Si tu penses que l'assurance vie, c'est une dépense — personne ne t'a expliqué le reste. Voici la réalité.</p>
       <p>L'assurance vie permanente avec valeur de rachat fonctionne sur 3 mécanismes puissants :</p>
-      <p><strong>Mécanisme 1 — La valeur de rachat</strong><br>
-      Chaque prime que tu verses accumule une valeur à l'intérieur du contrat. Cette valeur croît à l'abri de l'impôt. Tu peux y accéder de ton vivant — pas seulement à ton décès. C'est un actif réel, pas une promesse.</p>
-      <p><strong>Mécanisme 2 — Le levier financier</strong><br>
-      Des institutions prêtent contre la valeur de ta police sans que tu la liquides. Tu gardes ta protection. Tu gardes ta croissance. Et tu as du capital disponible pour investir ailleurs. Comme utiliser ta maison comme garantie — sans la vendre.</p>
-      <p><strong>Mécanisme 3 — Le capital-décès hors succession</strong><br>
-      Versé immédiatement à tes bénéficiaires, libre d'impôt, sans délai de règlement successoral. Ta famille et tes associés ont accès au capital le jour même. Pas dans 6 mois après que les avocats ont réglé la succession.</p>
+      <p><strong>Mécanisme 1 — La valeur de rachat</strong><br>Chaque prime que tu verses accumule une valeur à l'intérieur du contrat. Cette valeur croît à l'abri de l'impôt. Tu peux y accéder de ton vivant — pas seulement à ton décès. C'est un actif réel, pas une promesse.</p>
+      <p><strong>Mécanisme 2 — Le levier financier</strong><br>Des institutions prêtent contre la valeur de ta police sans que tu la liquides. Tu gardes ta protection. Tu gardes ta croissance. Et tu as du capital disponible pour investir ailleurs. Comme utiliser ta maison comme garantie — sans la vendre.</p>
+      <p><strong>Mécanisme 3 — Le capital-décès hors succession</strong><br>Versé à tes bénéficiaires, libre d'impôt, sans attendre le règlement de la succession. Ta famille et tes associés ont accès au capital rapidement — pas dans six mois, après les avocats.</p>
       <p><strong>Ce que ça change concrètement :</strong></p>
       <ul>
         <li>Tu fais croître du capital sans payer d'impôt sur la croissance.</li>
         <li>Tu as accès à ce capital de ton vivant, sans le liquider.</li>
         <li>Tu protèges ta famille et ta business en même temps.</li>
-        <li>À ton décès, le transfert est immédiat, discret, sans impôt.</li>
+        <li>À ton décès, le transfert est rapide, discret, sans impôt.</li>
       </ul>
-      <p>Ce n'est pas compliqué. C'est méconnu — parce que ça ne génère pas de commissions récurrentes pour les banques qui te conseillent.</p>
-      <div class="guide-quote">"Ce n'est pas une dépense. C'est le blindage de ton empire."</div>
+      <p>Ce n'est pas compliqué. C'est méconnu.</p>
+      <div class="quote">« Ce n'est pas une dépense. C'est le blindage de ton empire. »</div>
+      <p><a href="vie-participative.html" class="link-arrow">Voir la simulation interactive</a></p>
+    </div>
+    <div class="concept" lang="en">
+      <span class="k">Concept 02</span>
+      <h3>The life insurance the 1% use — not to die. To live better.</h3>
+      <p>If you think life insurance is an expense, nobody explained the rest to you. Here's the reality.</p>
+      <p>Permanent life insurance with a cash value runs on 3 powerful mechanisms:</p>
+      <p><strong>Mechanism 1 — The cash value</strong><br>Every premium you pay builds value inside the policy. That value grows tax-sheltered. You can access it during your lifetime — not only at death. It's a real asset, not a promise.</p>
+      <p><strong>Mechanism 2 — Financial leverage</strong><br>Lenders will lend against your policy's value without you cashing it in. You keep your protection. You keep your growth. And you have capital available to invest elsewhere. Like using your house as collateral — without selling it.</p>
+      <p><strong>Mechanism 3 — A death benefit outside the estate</strong><br>Paid to your beneficiaries tax-free, without waiting for the estate to settle. Your family and partners get access to capital quickly — not six months later, after the lawyers.</p>
+      <p><strong>What it changes in practice:</strong></p>
+      <ul>
+        <li>You grow capital without paying tax on the growth.</li>
+        <li>You can access that capital during your lifetime without cashing it in.</li>
+        <li>You protect your family and your business at the same time.</li>
+        <li>At death, the transfer is fast, discreet and tax-free.</li>
+      </ul>
+      <p>It isn't complicated. It's just little known.</p>
+      <div class="quote">“It isn't an expense. It's the armor on your empire.”</div>
+      <p><a href="vie-participative.html" class="link-arrow">See the interactive simulation</a></p>
     </div>
 
-    <div class="guide-concept">
-      <span class="guide-concept-eyebrow">Concept 03</span>
+    <div class="concept" lang="fr">
+      <span class="k">Concept 03</span>
       <h3>La fiscalité est le plus gros vol légal de ta business. Voici comment l'arrêter.</h3>
       <p>L'impôt est souvent la dépense la plus sous-estimée dans un plan financier. Non pas parce qu'elle est petite — mais parce qu'elle est invisible. Elle part avant que tu voies ton argent.</p>
       <p>Voici les 3 erreurs fiscales les plus coûteuses pour les entrepreneurs québécois :</p>
-      <p><strong>Erreur 1 — Tout mettre dans le CELI par défaut</strong><br>
-      Le CELI est un outil dans une stratégie. Utilisé seul, sans considérer ta structure corporative, tu passes à côté d'options bien plus puissantes. Pour un entrepreneur incorporé, il existe des véhicules qui offrent une croissance à l'abri de l'impôt avec une flexibilité supérieure. Le CELI fait partie d'une structure — il n'est pas la structure.</p>
-      <p><strong>Erreur 2 — Rémunération non optimisée</strong><br>
-      Dividendes versus salaire — ce n'est pas anodin. Selon ta situation, ta province et tes revenus, la mauvaise combinaison peut te coûter des milliers en impôts inutiles chaque année. La plupart des entrepreneurs improvise. Les meilleurs structurent. La bonne combinaison se calcule — et elle change selon les années.</p>
-      <p><strong>Erreur 3 — Ignorer l'assurance comme outil fiscal</strong><br>
-      L'assurance vie permanente est l'un des seuls véhicules qui te permet de faire croître du capital à l'abri de l'impôt, tout en restant accessible de ton vivant. La plupart des entrepreneurs ne savent même pas que ça existe comme stratégie fiscale. Ils la voient comme une charge — pas comme un outil d'optimisation.</p>
+      <p><strong>Erreur 1 — Tout mettre dans le CELI par défaut</strong><br>Le CELI est un outil dans une stratégie. Utilisé seul, sans considérer ta structure corporative, tu passes à côté d'options plus puissantes. Pour un entrepreneur incorporé, il existe des véhicules qui offrent une croissance à l'abri de l'impôt avec plus de flexibilité. Le CELI fait partie d'une structure — il n'est pas la structure.</p>
+      <p><strong>Erreur 2 — Rémunération non optimisée</strong><br>Dividendes versus salaire — ce n'est pas anodin. Selon ta situation, ta province et tes revenus, la mauvaise combinaison peut te coûter des milliers en impôts inutiles chaque année. La plupart des entrepreneurs improvisent. Les meilleurs structurent. La bonne combinaison se calcule — et elle change selon les années.</p>
+      <p><strong>Erreur 3 — Ignorer l'assurance comme outil fiscal</strong><br>L'assurance vie permanente est l'un des rares véhicules qui permet de faire croître du capital à l'abri de l'impôt, tout en restant accessible de ton vivant. La plupart des entrepreneurs la voient comme une charge — pas comme un outil d'optimisation.</p>
       <p><strong>La réalité :</strong> si tu as une structure corporative, si tu te paies en dividendes, si tu mets tout dans ton CELI sans stratégie globale — tu laisses probablement des milliers de dollars sur la table chaque année. Pas par négligence. Par manque d'information.</p>
-      <div class="guide-quote">"La question n'est pas si tu paies trop d'impôts. C'est combien — et depuis combien de temps."</div>
+      <div class="quote">« La question n'est pas si tu paies trop d'impôts. C'est combien — et depuis combien de temps. »</div>
+    </div>
+    <div class="concept" lang="en">
+      <span class="k">Concept 03</span>
+      <h3>Tax is the biggest legal theft from your business. Here's how to stop it.</h3>
+      <p>Tax is often the most underestimated expense in a financial plan. Not because it's small — because it's invisible. It leaves before you ever see your money.</p>
+      <p>Here are the 3 most expensive tax mistakes business owners make:</p>
+      <p><strong>Mistake 1 — Putting everything in the TFSA by default</strong><br>The TFSA is one tool in a strategy. Used alone, without looking at your corporate structure, you miss more powerful options. For an incorporated business owner, there are vehicles that offer tax-sheltered growth with more flexibility. The TFSA is part of a structure — it isn't the structure.</p>
+      <p><strong>Mistake 2 — Unoptimized compensation</strong><br>Dividends versus salary isn't a small detail. Depending on your situation, your province and your income, the wrong mix can cost you thousands in unnecessary tax every year. Most business owners improvise. The best ones structure. The right mix can be calculated — and it changes from year to year.</p>
+      <p><strong>Mistake 3 — Ignoring insurance as a tax tool</strong><br>Permanent life insurance is one of the few vehicles that lets you grow capital tax-sheltered while keeping it accessible during your lifetime. Most business owners see it as a cost — not as an optimization tool.</p>
+      <p><strong>The reality:</strong> if you have a corporate structure, pay yourself in dividends and put everything in your TFSA without an overall strategy, you're probably leaving thousands of dollars on the table every year. Not out of negligence. Out of missing information.</p>
+      <div class="quote">“The question isn't whether you pay too much tax. It's how much — and for how long.”</div>
     </div>
 
-    <div class="guide-cta-box">
-      <h3>La Prochaine Étape</h3>
-      <p style="color: var(--texte2); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2rem;">Tu viens de lire les 3 concepts. Mais voilà ce que ce guide ne peut pas faire : calculer exactement ce que <strong>toi</strong> — avec ta structure, ton revenu et tes objectifs — tu dois mettre en place.<br><br>
-      C'est pour ça que j'offre une session stratégique de 15 minutes. Sans engagement. Sans bullshit. On regarde ta situation. On identifie les vrais trous dans ton armure. Et je te dis exactement quoi faire.<br><br>
-      <strong style="color: var(--texte);">Cette session n'est pas un appel de vente. C'est une analyse brute de ta structure pour identifier tes fuites financières — et ce que tu peux faire cette semaine pour les colmater.</strong></p>
-      
-      <div style="height: 600px; overflow:hidden; border-radius: 4px;">
-        <iframe 
-          src="https://cal.com/wheritage/rencontre-strategique-15min" 
-          width="100%" 
-          height="100%" 
-          frameborder="0"
-          title="Réserver une rencontre stratégique de 15 min">
-        </iframe>
-      </div>
-      <p style="font-size: 0.7rem; color: var(--texte3); margin-top: 2rem; text-transform: uppercase; letter-spacing: 0.1em;">Walid Harchaoui · CSF · Membre de l'AMF · Montréal</p>
+    <div class="guide-cta">
+      <h3><span lang="fr">La prochaine étape</span><span lang="en">The next step</span></h3>
+      <p lang="fr">Tu viens de lire les 3 concepts. Mais ce guide ne peut pas calculer exactement ce que <strong>toi</strong> — avec ta structure, ton revenu et tes objectifs — tu dois mettre en place.</p>
+      <p lang="fr">C'est pour ça que j'offre une session stratégique de 15 minutes. Sans engagement. On regarde ta situation, on identifie les vrais trous dans ton armure, et je te dis exactement quoi faire.</p>
+      <p lang="en">You've just read the 3 concepts. But this guide can't calculate exactly what <strong>you</strong> — with your structure, your income and your goals — need to put in place.</p>
+      <p lang="en">That's why I offer a 15-minute strategy session. No commitment. We look at your situation, find the real gaps in your armor, and I tell you exactly what to do.</p>
+      <div class="cal"><iframe data-src="https://cal.com/wheritage/rencontre-strategique-15min" title="Réserver une rencontre stratégique de 15 min" loading="lazy"></iframe></div>
+      <p class="disclaimer center" style="margin-top:1.6rem">Walid Harchaoui · CSF · <span lang="fr">Membre de la Chambre de la sécurité financière</span><span lang="en">Member of the Chambre de la sécurité financière</span> · Montréal</p>
     </div>
-
   </div>
 </section>
 
-<div style="background: var(--noir); position: relative; height: 80px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-  <div style="position: relative; z-index: 2; display: flex; align-items: center; gap: 2rem;">
-    <div style="width: 60px; height: 1px; background: linear-gradient(to right, transparent, rgba(184,146,74,0.4));"></div>
-    <div style="font-family: 'Cormorant Garamond', serif; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(184,146,74,0.45);">Stratégie exclusive</div>
-    <div style="width: 60px; height: 1px; background: linear-gradient(to left, transparent, rgba(184,146,74,0.4));"></div>
+<!-- ═══════════════ AUTO / HABITATION ═══════════════ -->
+<section class="section bg-noir tight" id="auto-habitation">
+  <div class="wrap">
+    <div class="auto-strip reveal">
+      <div class="ic"><svg viewBox="0 0 28 28"><path d="M3 18 5.8 11a2.6 2.6 0 0 1 2.4-1.6h11.6A2.6 2.6 0 0 1 22.2 11L25 18v4.5h-3.4v-2H6.4v2H3z"/><circle cx="8.3" cy="17.6" r="1.3"/><circle cx="19.7" cy="17.6" r="1.3"/><path d="M14 2.5 18.5 6"/><path d="M14 2.5 9.5 6"/></svg></div>
+      <div>
+        <small><span lang="fr">Assurance auto &amp; habitation</span><span lang="en">Auto &amp; home insurance</span></small>
+        <h3><span lang="fr">Payez-vous trop cher pour vos assurances ?</span><span lang="en">Paying too much for your insurance?</span></h3>
+        <p><span lang="fr">Obtenez votre soumission en ligne en quelques minutes. On regarde ensuite si vous économisez — et ce qui reste à protéger.</span><span lang="en">Get your online quote in a few minutes. Then we look at whether you save — and what's left to protect.</span></p>
+      </div>
+      <a href="https://ia.ca/assurance-auto" data-quote target="_blank" rel="noopener" class="btn btn-gold"><span lang="fr">Obtenir ma soumission</span><span lang="en">Get my quote</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TÉMOIGNAGES ═══════════════ -->
+<section class="section bg-sombre" id="temoignages">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow center reveal"><span lang="fr">Ils témoignent</span><span lang="en">Testimonials</span></p>
+      <h2><span lang="fr" class="split">Des vies <em>transformées</em></span><span lang="en" class="split">Lives <em>transformed</em></span></h2>
+    </div>
+    <div class="temo-grid" data-stagger>
+      <div class="temo reveal spot"><span class="q">“</span><div class="stars"><i></i><i></i><i></i><i></i><i></i></div>
+        <p lang="fr">Walid a transformé ma façon de voir mes finances. Je pensais que l'assurance était une dépense — j'ai découvert que c'était un investissement. Aujourd'hui, j'ai un plan de retraite dont je suis fier.</p>
+        <p lang="en">Walid changed the way I see my finances. I thought insurance was an expense — I found out it was an investment. Today I have a retirement plan I'm proud of.</p>
+        <b>Marc-Antoine Blouin</b><span lang="fr">Entrepreneur, Montréal</span><span lang="en">Entrepreneur, Montreal</span></div>
+      <div class="temo reveal spot"><span class="q">“</span><div class="stars"><i></i><i></i><i></i><i></i><i></i></div>
+        <p lang="fr">Après le décès de mon mari, j'étais complètement perdue. Walid a pris le temps nécessaire pour tout réorganiser avec patience et bienveillance. Son expertise m'a redonné confiance en l'avenir.</p>
+        <p lang="en">After my husband passed away, I was completely lost. Walid took the time to reorganize everything with patience and kindness. His expertise gave me back my confidence in the future.</p>
+        <b>Sylvie Racine</b><span lang="fr">Retraitée, Laval</span><span lang="en">Retiree, Laval</span></div>
+      <div class="temo reveal spot"><span class="q">“</span><div class="stars"><i></i><i></i><i></i><i></i><i></i></div>
+        <p lang="fr">La stratégie d'assurance vie avec valeur de rachat que Walid m'a proposée a changé la donne. Je n'avais jamais entendu parler de ça. C'est du conseil de qualité supérieure.</p>
+        <p lang="en">The cash-value life insurance strategy Walid proposed was a game changer. I'd never heard of it. That's top-tier advice.</p>
+        <b>Karim Benali</b><span lang="fr">Ingénieur, Brossard</span><span lang="en">Engineer, Brossard</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="cert">
+  <span><span lang="fr">Certifications</span><span lang="en">Credentials</span></span>
+  <div>
+    <span lang="fr">CSF — Conseiller en sécurité financière</span><span lang="en">CSF — Financial security advisor</span>
+    <span lang="fr">Autorisé au Québec et en Ontario</span><span lang="en">Licensed in Quebec and Ontario</span>
+    <span lang="fr">Chambre de la sécurité financière</span><span lang="en">Chambre de la sécurité financière</span>
+    <span>AGC — Assurance &amp; Gestion de Capital</span>
   </div>
 </div>
 
-<section class="rachat-section">
-  <div class="rachat-grid">
-    <div class="reveal">
-      <div class="chart-area">
-        <p class="chart-label-top">Croissance de la valeur de rachat — illustration</p>
-        <div class="chart-lines">
-          <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <line x1="0" y1="50" x2="400" y2="50" stroke="rgba(184,146,74,0.1)" stroke-width="1"/>
-            <line x1="0" y1="100" x2="400" y2="100" stroke="rgba(184,146,74,0.1)" stroke-width="1"/>
-            <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(184,146,74,0.1)" stroke-width="1"/>
-            <path d="M0 190 Q80 185 160 180 Q240 175 320 170 L400 168 L400 200 L0 200Z" fill="rgba(184,146,74,0.05)"/>
-            <path d="M0 190 Q80 185 160 180 Q240 175 320 170 L400 168" stroke="rgba(184,146,74,0.3)" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
-            <path d="M0 190 Q60 170 120 145 Q200 110 280 70 Q340 40 400 20 L400 200 L0 200Z" fill="rgba(184,146,74,0.12)"/>
-            <path d="M0 190 Q60 170 120 145 Q200 110 280 70 Q340 40 400 20" stroke="#B8924A" stroke-width="2" fill="none"/>
-            <circle cx="120" cy="145" r="4" fill="#B8924A"/>
-            <circle cx="280" cy="70" r="4" fill="#B8924A"/>
-            <circle cx="400" cy="20" r="5" fill="#D4A85A"/>
-            <text x="135" y="140" fill="#B8924A" font-size="9" font-family="Montserrat,sans-serif" opacity="0.8">Valeur accessible</text>
-            <text x="295" y="65" fill="#D4A85A" font-size="9" font-family="Montserrat,sans-serif" opacity="0.9">Croissance libre d'impôt</text>
-          </svg>
-        </div>
-        <div class="chart-annotation">
-          <div class="annot-item">
-            <div class="annot-dot" style="background: #B8924A;"></div>
-            Valeur de rachat
-          </div>
-          <div class="annot-item">
-            <div class="annot-dot" style="background: rgba(184,146,74,0.3); border: 1px dashed #B8924A;"></div>
-            Assurance standard
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- ═══════════════ RÉSERVATION ═══════════════ -->
+<section class="section bg-noir2" id="reservation">
+  <div class="ghost-word" style="left:-2vw;top:14%" aria-hidden="true" data-parallax="0.1">Rendez-vous</div>
+  <div class="wrap rdv">
     <div>
-      <p class="section-eyebrow">Stratégie exclusive</p>
-      <h2>L'assurance qui<br>travaille pour <em>vous</em></h2>
-      <p class="section-intro" style="margin-bottom: 0;">L'assurance vie avec valeur de rachat est l'un des outils les plus puissants — et les moins connus — de la planification financière au Canada.</p>
-      <div class="rachat-benefits">
-        <div class="benefit-item">
-          <div class="benefit-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div>
-            <p class="benefit-title">Capital accessible de votre vivant</p>
-            <p class="benefit-desc">Utilisez la valeur accumulée comme levier financier — sans vendre vos actifs ni payer d'impôt sur le retrait.</p>
-          </div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div>
-            <p class="benefit-title">Croissance à l'abri de l'impôt</p>
-            <p class="benefit-desc">La valeur de rachat croît en franchise d'impôt à l'intérieur du contrat — un avantage fiscal considérable sur le long terme.</p>
-          </div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div>
-            <p class="benefit-title">Complément de retraite stratégique</p>
-            <p class="benefit-desc">Financez une partie de votre retraite avec vos avances sur police, sans toucher à vos REER ni augmenter votre revenu imposable.</p>
-          </div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div>
-            <p class="benefit-title">Transmission de patrimoine optimisée</p>
-            <p class="benefit-desc">Le capital-décès est versé à vos bénéficiaires libre d'impôt, hors succession — un héritage protégé et immédiat.</p>
-          </div>
-        </div>
+      <p class="eyebrow reveal"><span lang="fr">Réservez</span><span lang="en">Book</span></p>
+      <h2><span lang="fr" class="split">Choisissez votre<br>moment <em>idéal</em></span><span lang="en" class="split">Pick the<br>time that <em>suits you</em></span></h2>
+      <p class="lead reveal" style="margin-top:1.2rem"><span lang="fr">Sélectionnez une date et une plage horaire. La consultation initiale est offerte, sans frais et sans engagement.</span><span lang="en">Choose a date and a time slot. The first consultation is free, with no commitment.</span></p>
+      <div class="modes" data-stagger>
+        <div class="mode reveal"><span class="ic"><svg viewBox="0 0 15 15"><rect x="2" y="2" width="11" height="11"/><path d="M2 6h11M5 2v4M10 2v4"/></svg></span><div><b lang="fr">En personne</b><b lang="en">In person</b><span lang="fr">Bureau à Montréal — adresse confirmée par courriel</span><span lang="en">Montreal office — address confirmed by email</span></div></div>
+        <div class="mode reveal"><span class="ic"><svg viewBox="0 0 15 15"><rect x="1" y="3" width="13" height="9"/><path d="M5 14h5M7.5 12v2"/></svg></span><div><b lang="fr">Vidéoconférence</b><b lang="en">Video call</b><span lang="fr">Microsoft Teams — lien envoyé avant le rendez-vous</span><span lang="en">Microsoft Teams — link sent before the meeting</span></div></div>
+        <div class="mode reveal"><span class="ic"><svg viewBox="0 0 15 15"><path d="M3 2H6L7.5 5.5L6 7C6.9 8.8 8.2 10 10 11L11.5 9.5L14 11V14C14 14.5 13.5 15 13 15C6 15 1 10 1 3C1 2.5 1.5 2 2 2H3Z"/></svg></span><div><b lang="fr">Appel téléphonique</b><b lang="en">Phone call</b><span lang="fr">Je vous rappelle au numéro de votre choix</span><span lang="en">I'll call you at the number of your choice</span></div></div>
       </div>
     </div>
+    <div class="booking reveal-r"><iframe data-src="https://cal.com/wheritage" title="Réserver une consultation avec Walid Harchaoui" loading="lazy" allow="camera; microphone"></iframe></div>
   </div>
 </section>
 
-<div class="wave-sep" style="background: var(--noir); margin-bottom: -2px;">
-  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:80px;">
-    <path d="M0,40 C200,80 400,80 600,50 C800,20 1000,10 1200,35 C1320,50 1400,60 1440,55 L1440,80 L0,80Z" fill="#1A1815"/>
-    <path d="M0,40 C200,80 400,80 600,50 C800,20 1000,10 1200,35 C1320,50 1400,60 1440,55" fill="none" stroke="rgba(184,146,74,0.2)" stroke-width="1"/>
-  </svg>
-</div>
+<div class="orn bg-noir2" aria-hidden="true" style="padding:1rem 0 0"><i></i><b></b><span lang="fr">ou écrivez-moi</span><span lang="en">or write to me</span><b></b><i></i></div>
 
-<section id="temoignages">
-  <div class="temo-header">
-    <p class="section-eyebrow" style="justify-content: center;">Ils témoignent</p>
-    <h2>Des vies <em>transformées</em></h2>
-  </div>
-  <div class="temo-grid">
-    <div class="temo-card reveal">
-      <span class="temo-open-quote">"</span>
-      <div class="temo-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
-      <p class="temo-text">Walid a transformé ma façon de voir mes finances. Je pensais que l'assurance était une dépense — j'ai découvert que c'tétait un investissement. Aujourd'hui, j'ai un plan de retraite dont je suis fier.</p>
-      <p class="temo-author">Marc-Antoine Blouin</p>
-      <p class="temo-role">Entrepreneur, Montréal</p>
-    </div>
-    <div class="temo-card reveal">
-      <span class="temo-open-quote">"</span>
-      <div class="temo-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
-      <p class="temo-text">Après le décès de mon mari, j'étais complètement perdue. Walid a pris le temps nécessaire pour réorganiser tout avec patience et bienveillance. Son expertise m'a redonné confiance en l'avenir.</p>
-      <p class="temo-author">Sylvie Racine</p>
-      <p class="temo-role">Retraitée, Laval</p>
-    </div>
-    <div class="temo-card reveal">
-      <span class="temo-open-quote">"</span>
-      <div class="temo-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
-      <p class="temo-text">La stratégie d'assurance vie avec valeur de rachat que Walid m'a proposée a changé la donne. Je n'avais jamais entendu parler de ça. C'est du conseil de qualité supérieure.</p>
-      <p class="temo-author">Karim Benali</p>
-      <p class="temo-role">Ingénieur, Brossard</p>
-    </div>
-  </div>
-</section>
-
-<div style="background: var(--sombre); padding: 2rem 0; display: flex; align-items: center; justify-content: center;">
-  <div style="display: flex; align-items: center; gap: 1rem; opacity: 0.5;">
-    <div style="width: 80px; height: 1px; background: linear-gradient(to right, transparent, var(--or));"></div>
-    <div style="width: 4px; height: 4px; background: var(--or); transform: rotate(45deg);"></div>
-    <div style="width: 4px; height: 4px; background: var(--or); transform: rotate(45deg);"></div>
-    <div style="width: 4px; height: 4px; background: var(--or); transform: rotate(45deg);"></div>
-    <div style="width: 80px; height: 1px; background: linear-gradient(to left, transparent, var(--or));"></div>
-  </div>
-</div>
-
-<div class="cert-strip">
-  <span class="cert-label-strip">Certifications</span>
-  <div class="cert-items">
-    <span class="cert-pill">CSF — Conseiller en sécurité financière</span>
-    <span class="cert-pill">Membre de l'AMF</span>
-    <span class="cert-pill">Chambre de la sécurité financière</span>
-    <span class="cert-pill">AGC — Assurance &amp; Gestion de Capital</span>
-  </div>
-</div>
-
-<div class="wave-sep" style="background: var(--sombre2); margin-bottom: -2px;">
-  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;">
-    <path d="M0,55 C240,5 480,5 720,30 C960,55 1200,60 1440,40 L1440,60 L0,60Z" fill="#111010"/>
-    <path d="M0,55 C240,5 480,5 720,30 C960,55 1200,60 1440,40" fill="none" stroke="rgba(184,146,74,0.15)" stroke-width="1"/>
-  </svg>
-</div>
-
-<section id="reservation">
-  <div class="rdv-grid">
-    <div class="reveal-left">
-      <div class="rdv-intro">
-        <p class="section-eyebrow">Réservez</p>
-        <h2>Choisissez votre<br>moment <em>idéal</em></h2>
-        <p>Sélectionnez une date et une plage horaire qui vous convient. La consultation initiale est offerte, sans frais et sans engagement.</p>
-      </div>
-      <div class="rdv-modes">
-        <div class="rdv-mode">
-          <div class="rdv-mode-icon">
-            <svg viewBox="0 0 15 15"><rect x="2" y="2" width="11" height="11" rx="1"/><path d="M2 6h11M5 2v4M10 2v4"/></svg>
-          </div>
-          <div>
-            <p class="rdv-mode-title">En personne</p>
-            <p class="rdv-mode-sub">Bureau à Montréal — adresse confirmée par courriel</p>
-          </div>
-        </div>
-        <div class="rdv-mode">
-          <div class="rdv-mode-icon">
-            <svg viewBox="0 0 15 15"><rect x="1" y="3" width="13" height="9" rx="1"/><path d="M5 12l2 2h1l2-2M7.5 3V1"/></svg>
-          </div>
-          <div>
-            <p class="rdv-mode-title">Vidéoconférence</p>
-            <p class="rdv-mode-sub">Microsoft Teams — lien envoyé avant le rendez-vous</p>
-          </div>
-        </div>
-        <div class="rdv-mode">
-          <div class="rdv-mode-icon">
-            <svg viewBox="0 0 15 15"><path d="M3 2H6L7.5 5.5L6 7C6.9 8.8 8.2 10 10 11L11.5 9.5L14 11V14C14 14.5 13.5 15 13 15C6 15 1 10 1 3C1 2.5 1.5 2 2 2H3Z"/></svg>
-          </div>
-          <div>
-            <p class="rdv-mode-title">Appel téléphonique</p>
-            <p class="rdv-mode-sub">Walid vous rappelle au numéro de votre choix</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="reveal-right">
-      <div class="booking-wrap">
-        <iframe
-          src="https://cal.com/wheritage"
-          title="Réserver une consultation avec Walid Harchaoui"
-          loading="lazy"
-          allow="camera; microphone; geolocation">
-        </iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div style="background: var(--noir2); padding: 3rem 0; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
-  <div class="glow-line"></div>
-  <div style="display: flex; align-items: center; gap: 1.5rem; opacity: 0.45;">
-    <div style="width: 100px; height: 1px; background: linear-gradient(to right, transparent, var(--or));"></div>
-    <div style="font-family: 'Cormorant Garamond', serif; font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--or);">ou envoyez un message</div>
-    <div style="width: 100px; height: 1px; background: linear-gradient(to left, transparent, var(--or));"></div>
-  </div>
-  <div class="glow-line"></div>
-</div>
-
-<section id="contact">
-  <div class="contact-grid">
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section class="section bg-noir2" id="contact">
+  <div class="wrap contact-grid">
     <div>
-      <p class="section-eyebrow">Contact</p>
-      <h2>Votre héritage<br>commence <em>ici.</em></h2>
-      <p class="section-intro" style="margin-top: 1rem;">La première consultation est offerte, sans frais et sans engagement. Prenez le premier pas vers une sécurité financière durable.</p>
-
-      <div class="contact-info-block">
-        <div class="contact-row">
-          <div class="contact-icon-box">
-            <svg viewBox="0 0 16 16"><path d="M3 2H6L7.5 5.5L6 7C6.9 8.8 8.2 10 10 11L11.5 9.5L15 11V14C15 14.55 14.55 15 14 15C7 15 2 10 1 3C1 2.45 1.45 2 2 2H3Z"/></svg>
-          </div>
-          <div>
-            <p class="contact-lbl">Téléphone</p>
-            <p class="contact-val"><a href="tel:5142967511">(514) 296-7511</a></p>
-          </div>
-        </div>
-        <div class="contact-row">
-          <div class="contact-icon-box">
-            <svg viewBox="0 0 16 16"><path d="M2 4C2 3.45 2.45 3 3 3H13C13.55 3 14 3.45 14 4V12C14 12.55 13.55 13 13 13H3C2.45 13 2 12.55 2 12V4Z"/><path d="M2 4L8 8.5L14 4"/></svg>
-          </div>
-          <div>
-            <p class="contact-lbl">Courriel</p>
-            <p class="contact-val"><a href="mailto:walid.harchaoui@agc.ia.ca">walid.harchaoui@agc.ia.ca</a></p>
-          </div>
-        </div>
-        <div class="contact-row">
-          <div class="contact-icon-box">
-            <svg viewBox="0 0 16 16"><circle cx="8" cy="7" r="3"/><path d="M8 1C5.24 1 3 3.24 3 6C3 9.75 8 15 8 15S13 9.75 13 6C13 3.24 10.76 1 8 1Z"/></svg>
-          </div>
-          <div>
-            <p class="contact-lbl">Bureau</p>
-            <p class="contact-val">Montréal, Québec<br>Rendez-vous en personne ou en ligne</p>
-          </div>
-        </div>
+      <p class="eyebrow reveal">Contact</p>
+      <h2><span lang="fr" class="split">Votre héritage<br>commence <em>ici.</em></span><span lang="en" class="split">Your legacy<br>starts <em>here.</em></span></h2>
+      <p class="lead reveal" style="margin:1.2rem 0 2.6rem"><span lang="fr">La première consultation est offerte, sans frais et sans engagement.</span><span lang="en">The first consultation is free, with no commitment.</span></p>
+      <div class="c-row reveal"><span class="ic"><svg viewBox="0 0 16 16"><path d="M3 2H6L7.5 5.5L6 7C6.9 8.8 8.2 10 10 11L11.5 9.5L15 11V14C15 14.55 14.55 15 14 15C7 15 2 10 1 3C1 2.45 1.45 2 2 2H3Z"/></svg></span><div><small lang="fr">Téléphone</small><small lang="en">Phone</small><a href="tel:5142967511">(514) 296-7511</a></div></div>
+      <div class="c-row reveal"><span class="ic"><svg viewBox="0 0 16 16"><path d="M2 3h12v10H2z"/><path d="M2 3.5 8 8.5l6-5"/></svg></span><div><small lang="fr">Courriel</small><small lang="en">Email</small><a href="mailto:walid.harchaoui@agc.ia.ca">walid.harchaoui@agc.ia.ca</a></div></div>
+      <div class="c-row reveal"><span class="ic"><svg viewBox="0 0 16 16"><circle cx="8" cy="6.5" r="2.5"/><path d="M8 1C5.2 1 3 3.2 3 6c0 3.8 5 9 5 9s5-5.2 5-9c0-2.8-2.2-5-5-5Z"/></svg></span><div><small lang="fr">Bureau</small><small lang="en">Office</small><p lang="fr">Montréal, Québec — en personne ou en ligne</p><p lang="en">Montreal, Quebec — in person or online</p></div></div>
+    </div>
+    <form action="https://api.web3forms.com/submit" method="POST" id="contactForm" class="reveal">
+      <input type="hidden" name="access_key" value="6a1ef05e-eb74-4517-93e3-f708369154f0">
+      <input type="hidden" name="subject" value="Nouveau message — W Héritage">
+      <input type="hidden" name="from_name" value="W Héritage — site web">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+      <div class="form-row">
+        <div class="fg"><label class="f" for="prenom"><span lang="fr">Prénom</span><span lang="en">First name</span></label><input type="text" id="prenom" name="prenom" required autocomplete="given-name"></div>
+        <div class="fg"><label class="f" for="nom"><span lang="fr">Nom</span><span lang="en">Last name</span></label><input type="text" id="nom" name="nom" required autocomplete="family-name"></div>
       </div>
-    </div>
-
-    <div class="form-wrap">
-      <p class="form-title">Envoyez-moi un message</p>
-      <form action="https://api.web3forms.com/submit" method="POST" id="contactForm">
-        <input type="hidden" name="access_key" value="6a1ef05e-eb74-4517-93e3-f708369154f0">
-        <input type="hidden" name="subject" value="Nouveau message — W Heritage">
-        <input type="hidden" name="redirect" value="false">
-        <input type="hidden" name="from_name" value="W Heritage Site">
-        <input type="checkbox" name="botcheck" style="display:none;">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" name="prenom" placeholder="Marie" required>
-          </div>
-          <div class="form-group">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" placeholder="Tremblay" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="courriel">Courriel</label>
-          <input type="email" id="courriel" name="courriel" placeholder="marie@example.com" required>
-        </div>
-        <div class="form-group">
-          <label for="telephone">Téléphone</label>
-          <input type="tel" id="telephone" name="telephone" placeholder="(514) 555-0000">
-        </div>
-        <div class="form-group">
-          <label for="sujet">Sujet</label>
-          <select id="sujet" name="sujet" required>
-            <option value="" disabled selected>Choisissez un sujet</option>
-            <option>Assurance vie et invalidité</option>
-            <option>Planification de la retraite</option>
-            <option>Gestion de patrimoine</option>
-            <option>Protection fiscale</option>
-            <option>Assurance vie à valeur de rachat</option>
-            <option>Autre</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="message">Message (optionnel)</label>
-          <textarea id="message" name="message" placeholder="Décrivez brièvement votre situation ou vos questions…"></textarea>
-        </div>
-        <button class="btn-submit" id="submitBtn" type="submit">
-          Envoyer ma demande
-          <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-        </button>
-        <p style="font-size: 0.65rem; color: var(--texte3); margin-top: 1rem; line-height: 1.7;">Vos informations sont strictement confidentielles et ne seront jamais partagées. En accord avec les règles de l'AMF.</p>
-        <div id="formSuccess" style="display:none; margin-top:1rem; padding:1rem; border-left:2px solid var(--or); background:rgba(184,146,74,0.07);">
-          <p style="font-size:0.82rem; color:var(--or-pale);">✓ Message envoyé ! Walid vous répondra dans les 24 heures.</p>
-        </div>
-      </form>
-    </div>
+      <div class="form-row">
+        <div class="fg"><label class="f" for="courriel"><span lang="fr">Courriel</span><span lang="en">Email</span></label><input type="email" id="courriel" name="courriel" required autocomplete="email"></div>
+        <div class="fg"><label class="f" for="telephone"><span lang="fr">Téléphone</span><span lang="en">Phone</span></label><input type="tel" id="telephone" name="telephone" autocomplete="tel"></div>
+      </div>
+      <div class="fg"><label class="f" for="sujet"><span lang="fr">Sujet</span><span lang="en">Topic</span></label>
+        <select id="sujet" name="sujet" required>
+          <option value="" disabled selected data-txt-fr="Choisissez un sujet" data-txt-en="Choose a topic">Choisissez un sujet</option>
+          <option value="Assurance vie et invalidité" data-txt-fr="Assurance vie et invalidité" data-txt-en="Life and disability insurance">Assurance vie et invalidité</option>
+          <option value="Planification de la retraite" data-txt-fr="Planification de la retraite" data-txt-en="Retirement planning">Planification de la retraite</option>
+          <option value="Gestion de patrimoine" data-txt-fr="Gestion de patrimoine" data-txt-en="Wealth management">Gestion de patrimoine</option>
+          <option value="Protection fiscale" data-txt-fr="Protection fiscale" data-txt-en="Tax protection">Protection fiscale</option>
+          <option value="Assurance vie participative" data-txt-fr="Assurance vie participative" data-txt-en="Participating life insurance">Assurance vie participative</option>
+          <option value="Assurance auto / habitation" data-txt-fr="Assurance auto / habitation" data-txt-en="Auto / home insurance">Assurance auto / habitation</option>
+          <option value="Autre" data-txt-fr="Autre" data-txt-en="Other">Autre</option>
+        </select></div>
+      <div class="fg"><label class="f" for="message"><span lang="fr">Message (optionnel)</span><span lang="en">Message (optional)</span></label><textarea id="message" name="message" data-ph-fr="Décrivez brièvement votre situation ou vos questions…" data-ph-en="Briefly describe your situation or your questions…"></textarea></div>
+      <button class="btn btn-gold" id="submitBtn" type="submit"><span lang="fr">Envoyer ma demande</span><span lang="en">Send my request</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></button>
+      <p class="disclaimer" style="margin-top:1rem"><span lang="fr">Vos informations sont strictement confidentielles et ne seront jamais partagées.</span><span lang="en">Your information is strictly confidential and will never be shared.</span></p>
+      <div class="form-ok" id="formSuccess"><span lang="fr">✓ Message envoyé. Je vous réponds dans les 24 heures.</span><span lang="en">✓ Message sent. I'll get back to you within 24 hours.</span></div>
+    </form>
   </div>
 </section>
-
-<footer>
-  <div class="footer-brand">
-    <a href="#" class="logo-wrap" style="margin-bottom: 0.6rem;">
-      <div class="logo-mark">W</div>
-      <div><div class="logo-text">W <span>Heritage</span></div></div>
-    </a>
-    <p class="footer-copy">© 2025 W Heritage — Walid Harchaoui<br>Conseiller en sécurité financière</p>
-  </div>
-  <div class="footer-links">
-    <a href="#">Politique de confidentialité</a>
-    <a href="#">Mentions légales</a>
-    <a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <div class="footer-right">
-    <p><a href="tel:5142967511">(514) 296-7511</a></p>
-    <p><a href="mailto:walid.harchaoui@agc.ia.ca">walid.harchaoui@agc.ia.ca</a></p>
-    <p style="margin-top: 0.5rem;">Montréal, Québec</p>
-  </div>
-</footer>
 
 <script>
-// ── NAV SCROLL ──
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
+(function () {
+  // Lien de soumission auto/habitation centralisé
+  document.querySelectorAll('[data-quote]').forEach(function (a) { a.href = WH.config.quoteUrl; });
 
-// ── SCROLL PROGRESS ──
-const progressBar = document.getElementById('scroll-progress');
-window.addEventListener('scroll', () => {
-  const total = document.documentElement.scrollHeight - window.innerHeight;
-  progressBar.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
-}, { passive: true });
-
-// ── SCROLL REVEAL ──
-const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObs.unobserve(entry.target);
-    }
+  // Accordéon des services
+  document.querySelectorAll('.svc-head').forEach(function (h) {
+    h.addEventListener('click', function () {
+      var row = h.parentElement, open = !row.classList.contains('open');
+      document.querySelectorAll('.svc.open').forEach(function (r) { r.classList.remove('open'); r.querySelector('.svc-head').setAttribute('aria-expanded', 'false'); });
+      if (open) { row.classList.add('open'); h.setAttribute('aria-expanded', 'true'); }
+    });
   });
-}, { threshold: 0.1 });
-allReveals.forEach(el => revealObs.observe(el));
 
-// ── GLOW LINES ──
-const glowObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); glowObs.unobserve(e.target); } });
-}, { threshold: 0.5 });
-document.querySelectorAll('.glow-line').forEach(el => glowObs.observe(el));
-
-// ── SERVICE TOGGLE ──
-function toggleService(row) {
-  const isActive = row.classList.contains('active');
-  document.querySelectorAll('.service-row.active').forEach(r => r.classList.remove('active'));
-  if (!isActive) row.classList.add('active');
-}
-
-// ── MOBILE MENU ──
-function toggleMobile() {
-  const menu = document.getElementById('mobileMenu');
-  const btn = document.getElementById('hamburger');
-  const isOpen = menu.classList.toggle('open');
-  btn.classList.toggle('open', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-}
-function closeMobile() {
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// ── CAPTURE DU GUIDE (AUTOMATISATION EMAIL & AFFICHAGE) ──
-const leadForm = document.getElementById('leadCaptureForm');
-const guideContent = document.getElementById('guide-content');
-
-if(leadForm) {
-  leadForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const btn = leadForm.querySelector('.capture-btn');
-    const emailInput = leadForm.querySelector('input[type="email"]');
-    btn.textContent = "Déverrouillage...";
-    btn.disabled = true;
-
-    // Envoi silencieux du courriel via ta clé Web3Forms existante
-    try {
-      await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          access_key: "6a1ef05e-eb74-4517-93e3-f708369154f0", // Ta clé
-          subject: "NOUVEAU LEAD : Guide L'Empire Blindé",
-          email: emailInput.value,
-          from_name: "W Héritage Capture"
-        })
-      });
-    } catch (err) {
-      console.log("Erreur d'envoi", err);
-    }
-
-    // Afficher le guide
-    guideContent.classList.add('active');
-    btn.textContent = "Guide déverrouillé ✓";
-    btn.style.background = "var(--or)";
-    btn.style.color = "var(--noir)";
-    emailInput.disabled = true;
-
-    // Scroll automatique avec un léger délai pour laisser l'animation commencer
-    setTimeout(() => {
-      guideContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 150);
+  // Rail des reels
+  var rail = document.getElementById('reels');
+  document.querySelectorAll('[data-rail]').forEach(function (b) {
+    b.addEventListener('click', function () { rail.scrollBy({ left: parseInt(b.getAttribute('data-rail'), 10) * (rail.querySelector('.reel').offsetWidth + 26), behavior: 'smooth' }); });
   });
-}
 
-// ── CONTACT FORM EXISTANT ──
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-  contactForm.addEventListener('submit', async function(e) {
+  // Graphique d'aperçu (animation au défilement)
+  var card = document.getElementById('parCard');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { card.classList.add('in'); io.disconnect(); } }, { threshold: .35 });
+    document.addEventListener('wh:ready', function () { io.observe(card); });
+  } else card.classList.add('in');
+
+  // Guide : capture courriel → affichage du guide
+  var guide = document.getElementById('guide-content');
+  var leadForm = document.getElementById('leadCaptureForm');
+  function unlock(scroll) {
+    guide.classList.add('active');
+    var lazy = guide.querySelector('iframe[data-src]');
+    if (lazy) { lazy.src = lazy.getAttribute('data-src'); lazy.removeAttribute('data-src'); }
+    var btn = leadForm.querySelector('button');
+    btn.setAttribute('data-txt-fr', 'Guide déverrouillé ✓'); btn.setAttribute('data-txt-en', 'Guide unlocked ✓');
+    btn.textContent = WH.t('Guide déverrouillé ✓', 'Guide unlocked ✓'); btn.disabled = true;
+    leadForm.querySelector('input').disabled = true;
+    if (scroll) setTimeout(function () { guide.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 200);
+  }
+  try { if (localStorage.getItem('wh-guide') === '1') unlock(false); } catch (e) {}
+  leadForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    const origHTML = btn.innerHTML;
-    btn.textContent = 'Envoi en cours…';
-    btn.disabled = true;
-    try {
-      const formData = new FormData(contactForm);
-      const obj = {};
-      formData.forEach((v, k) => { obj[k] = v; });
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(obj)
-      });
-      const json = await res.json();
-      if (json.success) {
-        btn.innerHTML = 'Message envoyé ✓';
-        btn.style.background = 'var(--or)';
-        btn.style.color = 'var(--noir)';
+    var email = leadForm.querySelector('input').value;
+    var btn = leadForm.querySelector('button');
+    btn.textContent = WH.t('Déverrouillage…', 'Unlocking…'); btn.disabled = true;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ access_key: '6a1ef05e-eb74-4517-93e3-f708369154f0', subject: "NOUVEAU LEAD : Guide L'Empire Blindé", email: email, langue: WH.lang(), from_name: 'W Héritage — capture guide' })
+    }).catch(function () {}).finally(function () {
+      try { localStorage.setItem('wh-guide', '1'); } catch (e) {}
+      unlock(true);
+    });
+  });
+
+  // Formulaire de contact
+  var cf = document.getElementById('contactForm');
+  cf.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = document.getElementById('submitBtn'), orig = btn.innerHTML;
+    btn.textContent = WH.t('Envoi en cours…', 'Sending…'); btn.disabled = true;
+    var obj = {}; new FormData(cf).forEach(function (v, k) { obj[k] = v; });
+    obj.langue = WH.lang();
+    fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(obj) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j.success) throw new Error('fail');
+        btn.textContent = WH.t('Message envoyé ✓', 'Message sent ✓');
         document.getElementById('formSuccess').style.display = 'block';
-        contactForm.reset();
-      } else {
-        throw new Error('Erreur');
-      }
-    } catch {
-      btn.innerHTML = origHTML;
-      btn.disabled = false;
-      alert('Une erreur est survenue. Veuillez réessayer.');
-    }
+        cf.reset();
+      })
+      .catch(function () { btn.innerHTML = orig; btn.disabled = false; alert(WH.t('Une erreur est survenue. Veuillez réessayer ou m\'écrire directement.', 'Something went wrong. Please try again or email me directly.')); });
   });
-}
+})();
 </script>
 </body>
 </html>

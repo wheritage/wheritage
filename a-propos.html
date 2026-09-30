@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr"
+  data-title-fr="Qui est Walid Harchaoui | W Héritage"
+  data-title-en="Meet Walid Harchaoui | W Héritage">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qui est Walid Harchaoui | W Héritage</title>
+<meta name="description" content="Walid Harchaoui, 24 ans, conseiller en sécurité financière autorisé au Québec et en Ontario. Son parcours, ses principes et sa façon de travailler.">
+<meta name="theme-color" content="#080808">
+<meta property="og:image" content="walid-photo.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(){var l='fr';try{var q=new URLSearchParams(location.search).get('lang');l=q||localStorage.getItem('wh-lang')||'fr';}catch(e){}l=l==='en'?'en':'fr';var h=document.documentElement;h.setAttribute('data-lang',l);h.lang=l;})();</script>
+<style>
+.about-hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1.15fr .85fr; gap: 4rem; align-items: end; padding: 9rem var(--pad-x) 5rem; overflow: hidden; background: #060504; }
+.about-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 75% 35%, rgba(201,168,76,.14), transparent 65%); }
+.about-hero canvas.dust { position: absolute; inset: 0; width: 100%; height: 100%; }
+.about-hero > * { position: relative; z-index: 2; }
+.name { font-family: var(--serif); font-weight: 300; color: var(--creme); line-height: .9; letter-spacing: -.01em; font-size: clamp(3.6rem, 9.5vw, 9.2rem); margin-bottom: 2.2rem; }
+.name .row { display: block; overflow: hidden; }
+.name .row + .row { padding-left: 8%; }
+.name .ch { display: inline-block; transform: translateY(110%) rotate(6deg); transform-origin: left bottom; transition: transform 1.2s var(--ease-out); transition-delay: calc(var(--i) * .045s); }
+.name.in .ch { transform: none; }
+.name .row:last-child .ch { color: var(--or-vif); font-style: italic; }
+.about-hero .lead { font-size: .95rem; max-width: 520px; }
+.tags { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 2.4rem; }
+.tags span { border: 1px solid var(--ligne-fort); padding: .5rem .9rem; font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--or-pale); }
+.portrait { position: relative; align-self: center; }
+.portrait .frame { aspect-ratio: 4/5; overflow: hidden; border: 1px solid rgba(201,168,76,.25); }
+.portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: contrast(1.06) brightness(.94); transform: scale(1.15); transition: transform 2.8s var(--ease-out); }
+.portrait .frame.in img { transform: scale(1); }
+.portrait .sign { position: absolute; right: -1rem; bottom: -1.6rem; font-family: var(--serif); font-style: italic; font-size: 2.4rem; color: var(--or); opacity: .85; transform: rotate(-6deg); }
+.corner { position: absolute; width: 26px; height: 26px; border: 0 solid var(--or); z-index: 3; }
+.corner.tl { top: -9px; left: -9px; border-top-width: 1px; border-left-width: 1px; }
+.corner.br { bottom: -9px; right: -9px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* Chapitres */
+.chapter { display: grid; grid-template-columns: 220px 1fr; gap: 4rem; }
+.chapter-num { position: sticky; top: 7rem; align-self: start; }
+.chapter-num b { display: block; font-family: var(--serif); font-size: 5rem; font-weight: 300; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--or); }
+.chapter-num span { font-size: .6rem; letter-spacing: .26em; text-transform: uppercase; color: var(--texte3); }
+.story p { font-family: var(--serif); font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 300; line-height: 1.55; color: var(--texte); margin-bottom: 1.6rem; max-width: 820px; }
+.story p em { color: var(--or-vif); }
+.story p.small { font-family: var(--sans); font-size: .9rem; color: var(--texte2); line-height: 1.9; }
+
+.pull { text-align: center; padding: 9rem var(--pad-x); position: relative; overflow: hidden; background: var(--noir2); border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); }
+.pull .ghost-word { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.pull blockquote { position: relative; font-family: var(--serif); font-weight: 300; font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: 1.15; color: var(--creme); max-width: 1000px; margin: 0 auto; }
+.pull blockquote em { color: var(--or-vif); }
+.pull cite { display: block; margin-top: 2.2rem; font-style: normal; font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--or); }
+
+.principles { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--ligne); border-left: 1px solid var(--ligne); }
+.principle { background: var(--noir); box-shadow: inset -1px -1px 0 var(--ligne); padding: 3.4rem 3rem; min-height: 290px; display: flex; flex-direction: column; transition: background .5s; }
+.principle:hover { background: var(--sombre); }
+.principle small { font-size: .58rem; letter-spacing: .26em; color: var(--or); margin-bottom: 1.6rem; }
+.principle h3 { font-size: 1.9rem; margin-bottom: 1rem; }
+.principle p { font-size: .86rem; color: var(--texte2); line-height: 1.85; }
+.principle .ln { margin-top: auto; padding-top: 2rem; }
+.principle .ln i { display: block; height: 1px; width: 40px; background: var(--or); transition: width .8s var(--ease-out); }
+.principle:hover .ln i { width: 100%; }
+
+.beyond { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.bcard { border: 1px solid var(--ligne); padding: 2.8rem 2.2rem; position: relative; background: linear-gradient(180deg, rgba(201,168,76,.04), transparent 50%); }
+.bcard .ic { width: 52px; height: 52px; margin-bottom: 2rem; }
+.bcard .ic svg { width: 100%; height: 100%; stroke: var(--or); fill: none; stroke-width: 1; }
+.bcard .ic svg * { stroke-dasharray: 200; stroke-dashoffset: 200; transition: stroke-dashoffset 2s var(--ease-out) .3s; }
+.bcard.in .ic svg * { stroke-dashoffset: 0; }
+.bcard h3 { font-size: 1.6rem; margin-bottom: .9rem; }
+.bcard p { font-size: .84rem; color: var(--texte2); line-height: 1.85; }
+
+.creds { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.cred-list { border-top: 1px solid var(--ligne); }
+.cred { display: grid; grid-template-columns: 170px 1fr; gap: 2rem; padding: 1.4rem 0; border-bottom: 1px solid var(--ligne); }
+.cred small { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); padding-top: .25rem; }
+.cred b { font-weight: 400; font-size: .92rem; color: var(--creme); }
+.cred span { display: block; font-size: .76rem; color: var(--texte2); margin-top: .2rem; }
+
+.serve { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--ligne); }
+.serve > div { padding: 2.6rem 2.2rem; border-right: 1px solid var(--ligne); }
+.serve > div:last-child { border-right: 0; }
+.serve b { display: block; font-family: var(--serif); font-size: 1.5rem; font-weight: 400; color: var(--creme); margin-bottom: .6rem; }
+.serve p { font-size: .8rem; color: var(--texte2); line-height: 1.8; }
+
+.meet { display: grid; grid-template-columns: .8fr 1.2fr; gap: 5rem; align-items: center; }
+.meet .phone { width: 100%; max-width: 360px; justify-self: center; border: 1px solid var(--ligne-fort); padding: 12px; background: var(--noir); position: relative; }
+.meet .phone::before { content: ''; position: absolute; inset: -14px; border: 1px solid var(--ligne); pointer-events: none; }
+.meet .phone .frame { height: 620px; overflow: hidden; background: var(--sombre2); }
+.meet .phone iframe { width: 100%; height: 100%; border: 0; }
+
+@media (max-width: 1024px) {
+  .about-hero { grid-template-columns: 1fr; padding-top: 8rem; align-items: start; }
+  .portrait { max-width: 360px; order: -1; margin-top: 1rem; }
+  .chapter { grid-template-columns: 1fr; gap: 1.5rem; }
+  .chapter-num { position: static; }
+  .chapter-num b { font-size: 3.4rem; }
+  .principles, .creds, .meet { grid-template-columns: 1fr; gap: 3rem; }
+  .beyond, .serve { grid-template-columns: 1fr; }
+  .serve > div { border-right: 0; border-bottom: 1px solid var(--ligne); }
+  .serve > div:last-child { border-bottom: 0; }
+  .principle { padding: 2.6rem 1.8rem; min-height: 0; }
+}
+@media (max-width: 640px) { .cred { grid-template-columns: 1fr; gap: .4rem; } .meet .phone .frame { height: 560px; } }
+</style>
+</head>
+<body data-page="about">
+<script src="assets/site.js"></script>
+
+<header class="about-hero">
+  <canvas class="dust" aria-hidden="true"></canvas>
+  <div>
+    <p class="eyebrow reveal"><span lang="fr">Qui est Walid</span><span lang="en">Meet Walid</span></p>
+    <h1 class="name" id="name" aria-label="Walid Harchaoui"><span class="row">Walid</span><span class="row">Harchaoui</span></h1>
+    <p class="lead reveal" style="--d:.9">
+      <span lang="fr">Conseiller en sécurité financière, 24 ans, autorisé au Québec et en Ontario. J'aide les entrepreneurs, les professionnels et les familles à protéger ce qu'ils bâtissent — et à le transmettre.</span>
+      <span lang="en">Financial security advisor, 24, licensed in Quebec and Ontario. I help business owners, professionals and families protect what they build — and pass it on.</span>
+    </p>
+    <div class="tags reveal" style="--d:1.1"><span>CSF</span><span>QC + ON</span><span>Montréal</span><span>FR · EN · AR</span></div>
+  </div>
+  <div class="portrait reveal" style="--d:.4">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <div class="frame clip-reveal" style="--d:.3"><img src="walid-photo.jpg" alt="Walid Harchaoui" loading="eager"></div>
+    <span class="sign" aria-hidden="true">W.</span>
+  </div>
+</header>
+
+<!-- Chapitre 01 : l'origine -->
+<section class="section bg-noir">
+  <div class="wrap chapter">
+    <div class="chapter-num reveal"><b>01</b><span lang="fr">Pourquoi ce métier</span><span lang="en">Why I do this</span></div>
+    <div class="story">
+      <p class="reveal" lang="fr">À 24 ans, j'ai compris une chose que personne ne m'avait clairement expliquée : <em>travailler fort ne suffit pas.</em> Ce qui compte, c'est ce qu'on garde.</p>
+      <p class="reveal" lang="fr">J'ai vu des gens faire des centaines de milliers de dollars par année et tout perdre du jour au lendemain. Pas parce qu'ils manquaient d'ambition. <em>Parce qu'ils manquaient de structure.</em></p>
+      <p class="reveal" lang="fr">J'ai vu des entrepreneurs travailler quinze ans pour bâtir quelque chose — et tout mettre en danger à cause d'un papier manquant, d'une convention jamais financée, d'une protection qu'on remettait à plus tard.</p>
+      <p class="reveal small" lang="fr">C'est pour ça que W Héritage existe. Mon rôle : être le stratège que vous n'avez pas encore dans votre équipe. Pas un vendeur. Pas un courtier qui disparaît après la signature. Un partenaire à long terme, qui optimise, protège et construit avec vous.</p>
+
+      <p class="reveal" lang="en">At 24, I understood something nobody had ever clearly explained to me: <em>working hard isn't enough.</em> What matters is what you keep.</p>
+      <p class="reveal" lang="en">I've seen people earn hundreds of thousands a year and lose everything overnight. Not because they lacked ambition. <em>Because they lacked structure.</em></p>
+      <p class="reveal" lang="en">I've seen business owners spend fifteen years building something — and put it all at risk over a missing document, a shareholder agreement that was never funded, a protection they kept putting off.</p>
+      <p class="reveal small" lang="en">That's why W Héritage exists. My role: to be the strategist you don't have on your team yet. Not a salesman. Not a broker who vanishes after you sign. A long-term partner who optimizes, protects and builds with you.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pull">
+  <div class="ghost-word" aria-hidden="true">Structure</div>
+  <blockquote>
+    <span lang="fr" class="split">« C'est pas ce que tu bâtis qui compte. C'est ce que tu <em>laisses.</em> »</span>
+    <span lang="en" class="split">“It's not what you build that counts. It's what you <em>leave behind.</em>”</span>
+  </blockquote>
+  <cite class="reveal">— Walid Harchaoui</cite>
+</section>
+
+<!-- Chapitre 02 : principes -->
+<section class="section bg-noir">
+  <div class="wrap">
+    <div class="chapter" style="margin-bottom:3.5rem">
+      <div class="chapter-num reveal"><b>02</b><span lang="fr">Ce en quoi je crois</span><span lang="en">What I believe</span></div>
+      <h2><span lang="fr" class="split">Quatre principes.<br><em>Non négociables.</em></span><span lang="en" class="split">Four principles.<br><em>Non-negotiable.</em></span></h2>
+    </div>
+    <div class="principles" data-stagger>
+      <div class="principle spot reveal"><small>I</small><h3 lang="fr">Stratège, pas vendeur</h3><h3 lang="en">A strategist, not a salesman</h3>
+        <p lang="fr">Je ne commence jamais par un produit. Je commence par votre structure, vos objectifs et vos angles morts. La solution vient après — si elle est nécessaire.</p>
+        <p lang="en">I never start with a product. I start with your structure, your goals and your blind spots. The solution comes after — if it's needed at all.</p><div class="ln"><i></i></div></div>
+      <div class="principle spot reveal"><small>II</small><h3 lang="fr">20 % parler, 80 % écouter</h3><h3 lang="en">Talk 20%, listen 80%</h3>
+        <p lang="fr">Un expert parle 20 % du temps. Le reste, il écoute. À la première rencontre, c'est vous qui parlez : ce qui vous garde réveillé la nuit, ce que vous voulez bâtir, qui vous voulez protéger.</p>
+        <p lang="en">An expert talks 20% of the time. The rest, he listens. At our first meeting, you do the talking: what keeps you up at night, what you want to build, who you want to protect.</p><div class="ln"><i></i></div></div>
+      <div class="principle spot reveal"><small>III</small><h3 lang="fr">La vérité avant le confort</h3><h3 lang="en">Truth before comfort</h3>
+        <p lang="fr">« Inquiétez-vous pas, c'est correct » est la phrase la plus dangereuse qu'un conseiller peut dire. Je ne suis pas là pour vous flatter. Je suis là pour vous blinder. Si quelque chose cloche, je vous le dis.</p>
+        <p lang="en">“Don't worry, you're fine” is the most dangerous thing an advisor can say. I'm not here to flatter you. I'm here to armor you. If something's off, I'll tell you.</p><div class="ln"><i></i></div></div>
+      <div class="principle spot reveal"><small>IV</small><h3 lang="fr">Là pour le long terme</h3><h3 lang="en">Here for the long run</h3>
+        <p lang="fr">Votre vie change : une entreprise, un enfant, une vente, une retraite. Votre stratégie doit suivre. Révision annuelle, ajustements à chaque étape — je reste joignable.</p>
+        <p lang="en">Your life changes: a business, a child, a sale, retirement. Your strategy has to keep up. Annual reviews, adjustments at every stage — and I stay reachable.</p><div class="ln"><i></i></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span lang="fr">Discipline</span><span lang="fr">Précision</span><span lang="fr">Transparence</span><span lang="fr">Excellence</span><span lang="fr">Héritage</span>
+    <span lang="fr">Discipline</span><span lang="fr">Précision</span><span lang="fr">Transparence</span><span lang="fr">Excellence</span><span lang="fr">Héritage</span>
+    <span lang="en">Discipline</span><span lang="en">Precision</span><span lang="en">Transparency</span><span lang="en">Excellence</span><span lang="en">Legacy</span>
+    <span lang="en">Discipline</span><span lang="en">Precision</span><span lang="en">Transparency</span><span lang="en">Excellence</span><span lang="en">Legacy</span>
+  </div>
+</div>
+
+<!-- Chapitre 03 : au-delà du bureau -->
+<section class="section bg-sombre">
+  <div class="wrap">
+    <div class="chapter" style="margin-bottom:3.5rem">
+      <div class="chapter-num reveal"><b>03</b><span lang="fr">Au-delà du bureau</span><span lang="en">Beyond the office</span></div>
+      <h2><span lang="fr" class="split">La même rigueur,<br><em>partout.</em></span><span lang="en" class="split">The same rigor,<br><em>everywhere.</em></span></h2>
+    </div>
+    <div class="beyond" data-stagger>
+      <div class="bcard reveal">
+        <div class="ic"><svg viewBox="0 0 52 52"><path d="M6 26h6M40 26h6M12 18v16M40 18v16M16 22v8M36 22v8M16 26h20"/></svg></div>
+        <h3>Discipline</h3>
+        <p lang="fr">La préparation d'une compétition de culturisme m'a appris qu'aucun résultat ne vient sans structure — semaine après semaine, sans raccourci. Vos finances fonctionnent exactement pareil.</p>
+        <p lang="en">Preparing for a bodybuilding competition taught me that no result comes without structure — week after week, no shortcuts. Your finances work exactly the same way.</p>
+      </div>
+      <div class="bcard reveal">
+        <div class="ic"><svg viewBox="0 0 52 52"><rect x="5" y="14" width="42" height="28"/><circle cx="26" cy="28" r="8"/><path d="M18 14l3-5h10l3 5"/></svg></div>
+        <h3 lang="fr">L'œil</h3><h3 lang="en">The eye</h3>
+        <p lang="fr">Mon parcours en photographie m'a donné l'obsession du détail et de la composition. Un bon plan financier se compose comme une image : chaque élément à sa place, rien de superflu.</p>
+        <p lang="en">My background in photography gave me an obsession with detail and composition. A good financial plan is composed like an image: every element in its place, nothing superfluous.</p>
+      </div>
+      <div class="bcard reveal">
+        <div class="ic"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="20"/><path d="M6 26h40M26 6c-7 7-7 33 0 40M26 6c7 7 7 33 0 40"/></svg></div>
+        <h3 lang="fr">Trois langues</h3><h3 lang="en">Three languages</h3>
+        <p lang="fr">Je vous accompagne en français, en anglais ou en arabe — au Québec comme en Ontario. Parce qu'une stratégie se comprend mieux dans sa propre langue.</p>
+        <p lang="en">I work with you in French, English or Arabic — in Quebec and in Ontario. Because a strategy is easier to understand in your own language.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Rencontrez-moi en 60 secondes -->
+<section class="section bg-noir">
+  <div class="wrap meet">
+    <div class="phone reveal"><div class="frame"><iframe data-src="https://www.instagram.com/reel/DY49O8gkhP7/embed/" title="Walid Harchaoui — présentation" scrolling="no" loading="lazy"></iframe></div></div>
+    <div>
+      <p class="eyebrow reveal"><span lang="fr">En 60 secondes</span><span lang="en">In 60 seconds</span></p>
+      <h2><span lang="fr" class="split">Entendez-le<br><em>de ma bouche.</em></span><span lang="en" class="split">Hear it<br><em>from me.</em></span></h2>
+      <p class="lead reveal" style="margin:1.4rem 0 2.4rem"><span lang="fr">24 ans. Certifié. Autorisé au Québec et en Ontario. Ce que j'ai vu sur le terrain, et pourquoi la structure passe avant tout.</span><span lang="en">24. Certified. Licensed in Quebec and Ontario. What I've seen in the field, and why structure comes first. (Video in French.)</span></p>
+      <div class="serve" data-stagger>
+        <div class="reveal"><b lang="fr">Entrepreneurs</b><b lang="en">Business owners</b><p lang="fr">Incorporés, en croissance, sans structure de protection claire.</p><p lang="en">Incorporated, growing, without a clear protection structure.</p></div>
+        <div class="reveal"><b lang="fr">Professionnels</b><b lang="en">Professionals</b><p lang="fr">Revenus élevés, peu de temps, besoin d'un plan qui tient.</p><p lang="en">High income, little time, need a plan that holds.</p></div>
+        <div class="reveal"><b lang="fr">Familles</b><b lang="en">Families</b><p lang="fr">Protéger aujourd'hui, transmettre demain.</p><p lang="en">Protect today, pass it on tomorrow.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Titres et affiliations -->
+<section class="section bg-noir2">
+  <div class="wrap creds">
+    <div>
+      <p class="eyebrow reveal"><span lang="fr">Titres et encadrement</span><span lang="en">Credentials</span></p>
+      <h2><span lang="fr" class="split">Encadré,<br><em>certifié, joignable.</em></span><span lang="en" class="split">Regulated,<br><em>certified, reachable.</em></span></h2>
+      <p class="lead reveal" style="margin-top:1.4rem"><span lang="fr">Chaque recommandation est encadrée par les règles de la profession. Vous savez exactement à qui vous parlez.</span><span lang="en">Every recommendation follows the profession's rules. You know exactly who you're dealing with.</span></p>
+    </div>
+    <div class="cred-list" data-stagger>
+      <div class="cred reveal"><small lang="fr">Titre</small><small lang="en">Title</small><div><b lang="fr">Conseiller en sécurité financière (CSF)</b><b lang="en">Financial security advisor (CSF)</b><span lang="fr">Membre de la Chambre de la sécurité financière · encadré par l'AMF</span><span lang="en">Member of the Chambre de la sécurité financière · regulated by the AMF</span></div></div>
+      <div class="cred reveal"><small lang="fr">Territoire</small><small lang="en">Territory</small><div><b lang="fr">Québec et Ontario</b><b lang="en">Quebec and Ontario</b><span lang="fr">Également autorisé en Ontario (ARSF)</span><span lang="en">Also licensed in Ontario (FSRA)</span></div></div>
+      <div class="cred reveal"><small lang="fr">Cabinet</small><small lang="en">Firm</small><div><b>AGC — Assurance &amp; Gestion de Capital</b><span>Team 91</span></div></div>
+      <div class="cred reveal"><small lang="fr">Bureau</small><small lang="en">Office</small><div><b>Montréal</b><span lang="fr">Rencontres en personne, en vidéo ou par téléphone</span><span lang="en">Meetings in person, by video or by phone</span></div></div>
+      <div class="cred reveal"><small lang="fr">Langues</small><small lang="en">Languages</small><div><b lang="fr">Français · Anglais · Arabe</b><b lang="en">French · English · Arabic</b></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="ghost-word" aria-hidden="true">Héritage</div>
+  <p class="eyebrow center reveal"><span lang="fr">Première rencontre</span><span lang="en">First meeting</span></p>
+  <h2><span lang="fr" class="split">Parlons de ce que vous <em>bâtissez.</em></span><span lang="en" class="split">Let's talk about what you're <em>building.</em></span></h2>
+  <p class="reveal"><span lang="fr">15 minutes. Sans engagement. Vous parlez, j'écoute — et je vous dis franchement ce que je vois.</span><span lang="en">15 minutes. No commitment. You talk, I listen — and I tell you honestly what I see.</span></p>
+  <a href="index.html#reservation" class="btn btn-gold reveal"><span lang="fr">Réserver un appel</span><span lang="en">Book a call</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+</section>
+
+<script>
+(function () {
+  // Nom lettre par lettre, déclenché à l'ouverture du rideau
+  var name = document.getElementById('name'), i = 0;
+  name.querySelectorAll('.row').forEach(function (row) {
+    var txt = row.textContent; row.textContent = '';
+    for (var k = 0; k < txt.length; k++) { var s = document.createElement('span'); s.className = 'ch'; s.textContent = txt[k]; s.style.setProperty('--i', i++); s.setAttribute('aria-hidden', 'true'); row.appendChild(s); }
+  });
+  function go() { setTimeout(function () { name.classList.add('in'); }, 120); }
+  if (document.documentElement.classList.contains('ready')) go(); else document.addEventListener('wh:ready', go);
+})();
+</script>
+</body>
+</html>

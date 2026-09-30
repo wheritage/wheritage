@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr"
+  data-title-fr="Assurance vie participative — simulation interactive | W Héritage"
+  data-title-en="Participating life insurance — interactive simulation | W Héritage">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assurance vie participative — simulation interactive | W Héritage</title>
+<meta name="description" content="Comprendre l'assurance vie entière avec participation : valeurs garanties, participations, capital-décès libre d'impôt. Simulation interactive pour clientèle fortunée, entreprises et enfants.">
+<meta name="theme-color" content="#080808">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(){var l='fr';try{var q=new URLSearchParams(location.search).get('lang');l=q||localStorage.getItem('wh-lang')||'fr';}catch(e){}l=l==='en'?'en':'fr';var h=document.documentElement;h.setAttribute('data-lang',l);h.lang=l;})();</script>
+<style>
+/* ── Mécanisme ── */
+.mech { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 1rem; }
+.mech svg.flow { position: absolute; left: 12.5%; right: 12.5%; top: 30px; width: 75%; height: 4px; overflow: visible; }
+.mech .m { text-align: center; position: relative; }
+.mech .m .ring { width: 60px; height: 60px; margin: 0 auto 1.8rem; position: relative; display: flex; align-items: center; justify-content: center; background: var(--noir); }
+.mech .m .ring::before { content: ''; position: absolute; inset: 6px; border: 1px solid var(--or); transform: rotate(45deg); background: var(--noir); }
+.mech .m .ring svg { position: relative; width: 20px; height: 20px; stroke: var(--or); fill: none; stroke-width: 1.3; }
+.mech .m small { display: block; font-size: .56rem; letter-spacing: .26em; color: var(--or); margin-bottom: .5rem; }
+.mech .m h3 { font-size: 1.35rem; margin-bottom: .7rem; }
+.mech .m p { font-size: .78rem; color: var(--texte2); line-height: 1.75; }
+.mech .m .tag { display: inline-block; margin-top: .9rem; font-size: .54rem; letter-spacing: .2em; text-transform: uppercase; padding: .35rem .6rem; border: 1px solid var(--ligne-fort); color: var(--or-pale); }
+.mech .m .tag.ng { border-style: dashed; color: var(--texte2); }
+
+/* ── Simulateur ── */
+.sim { border: 1px solid var(--ligne); background: var(--noir2); }
+.profiles { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--ligne); }
+.profiles button { padding: 1.5rem 1.4rem; text-align: left; border-right: 1px solid var(--ligne); position: relative; transition: background .4s; }
+.profiles button:last-child { border-right: 0; }
+.profiles button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--or); transform: scaleX(0); transition: transform .6s var(--ease-out); }
+.profiles button.on { background: rgba(201,168,76,.06); }
+.profiles button.on::after { transform: scaleX(1); }
+.profiles small { display: block; font-size: .54rem; letter-spacing: .24em; color: var(--or); margin-bottom: .35rem; }
+.profiles b { display: block; font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--creme); line-height: 1.2; }
+.profiles span.s { display: block; font-size: .7rem; color: var(--texte3); margin-top: .2rem; }
+.sim-body { display: grid; grid-template-columns: 340px 1fr; }
+.controls { padding: 2.2rem 2rem; border-right: 1px solid var(--ligne); display: flex; flex-direction: column; gap: 1.7rem; }
+.ctl-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; gap: 1rem; }
+.ctl-top label { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte2); }
+.ctl-top output { font-family: var(--serif); font-size: 1.25rem; color: var(--creme); white-space: nowrap; }
+.ctl-note { font-size: .64rem; color: var(--texte3); margin-top: .35rem; line-height: 1.5; }
+.chart-side { padding: 2rem 2.2rem 1.6rem; min-width: 0; }
+.chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.chart-head small { font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); }
+.chart-head .face { font-size: .74rem; color: var(--texte2); }
+.chart-head .face b { color: var(--or-pale); font-weight: 500; }
+.legend-btns { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; margin: 1rem 0 1.4rem; }
+.legend-btns button { display: inline-flex; align-items: center; gap: .55rem; font-size: .7rem; color: var(--texte2); padding: .25rem 0; transition: opacity .3s; }
+.legend-btns button i { width: 18px; height: 0; border-top: 2px solid; }
+.legend-btns button.off { opacity: .35; text-decoration: line-through; }
+.insight { margin-top: 1.4rem; padding: 1.2rem 1.4rem; border-left: 1px solid var(--or); background: rgba(201,168,76,.05); font-family: var(--serif); font-size: 1.2rem; line-height: 1.5; color: var(--texte); }
+.insight b { color: var(--or-vif); font-weight: 500; }
+.stat-row.four { grid-template-columns: repeat(4, 1fr); margin-top: 1.4rem; }
+.stat-row small em { font-style: normal; color: var(--or-pale); }
+.stat-row .sub { display: block; font-size: .66rem; color: var(--texte3); margin-top: .3rem; }
+.sim-foot { border-top: 1px solid var(--ligne); padding: 1.3rem 2rem; }
+
+/* ── Cas d'usage ── */
+.use { display: grid; grid-template-columns: 1fr 1fr; gap: 5.5rem; align-items: center; }
+.use.flip > :first-child { order: 2; }
+.use .num { font-family: var(--serif); font-size: 1rem; color: var(--or); letter-spacing: .2em; margin-bottom: 1rem; display: block; }
+.use h2 { margin-bottom: 1.6rem; }
+.use p { font-size: .88rem; color: var(--texte2); line-height: 1.95; margin-bottom: 1.1rem; }
+.use ul { list-style: none; margin-top: 1.6rem; border-top: 1px solid var(--ligne); }
+.use li { display: grid; grid-template-columns: 22px 1fr; gap: .6rem; padding: .95rem 0; border-bottom: 1px solid var(--ligne); font-size: .84rem; color: var(--texte2); line-height: 1.7; }
+.use li::before { content: ''; width: 6px; height: 6px; border: 1px solid var(--or); transform: rotate(45deg); margin-top: .5rem; }
+.use li b { color: var(--creme); font-weight: 500; }
+.visual { border: 1px solid var(--ligne); background: linear-gradient(160deg, rgba(201,168,76,.05), transparent 55%); padding: 2.6rem 2.2rem; }
+.visual small.t { display: block; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-bottom: 1.8rem; }
+
+/* Visuel succession : deux barres */
+.estate { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: end; height: 300px; }
+.estate .col { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.estate .bar { display: flex; flex-direction: column-reverse; height: 82%; border: 1px solid var(--ligne); }
+.estate .seg { display: flex; align-items: center; justify-content: center; text-align: center; font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; padding: .3rem; transform: scaleY(0); transform-origin: bottom; transition: transform 1.2s var(--ease-out); }
+.visual.in .estate .seg { transform: scaleY(1); }
+.estate .seg.heirs { background: rgba(201,168,76,.18); color: var(--or-pale); }
+.estate .seg.tax { background: repeating-linear-gradient(135deg, rgba(237,232,223,.08) 0 6px, transparent 6px 12px); color: var(--texte2); }
+.estate .seg.ins { background: var(--or); color: var(--noir); font-weight: 500; }
+.estate .col > b { display: block; text-align: center; font-family: var(--serif); font-weight: 400; font-size: 1.1rem; color: var(--creme); margin-top: 1rem; }
+.estate .col > span { display: block; text-align: center; font-size: .66rem; color: var(--texte3); margin-top: .2rem; }
+
+/* Visuel entreprise : flux vertical */
+.cflow { display: flex; flex-direction: column; gap: 0; }
+.cflow .n { display: grid; grid-template-columns: 46px 1fr; gap: 1.2rem; align-items: center; position: relative; padding: .85rem 0; opacity: 0; transform: translateX(-14px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); transition-delay: calc(var(--k) * .28s + .2s); }
+.visual.in .cflow .n { opacity: 1; transform: none; }
+.cflow .n .d { width: 46px; height: 46px; position: relative; display: flex; align-items: center; justify-content: center; }
+.cflow .n .d::before { content: ''; position: absolute; inset: 7px; border: 1px solid var(--or); transform: rotate(45deg); background: var(--noir2); }
+.cflow .n .d span { position: relative; font-family: var(--serif); font-size: .95rem; color: var(--or); }
+.cflow .n:not(:last-child)::after { content: ''; position: absolute; left: 22.5px; top: calc(50% + 23px); height: calc(100% - 46px); width: 1px; background: linear-gradient(var(--or), rgba(201,168,76,.2)); }
+.cflow .n b { display: block; font-size: .84rem; font-weight: 500; color: var(--creme); }
+.cflow .n p { font-size: .74rem; color: var(--texte2); margin: 0; line-height: 1.6; }
+.cflow .n.hl b { color: var(--or-vif); }
+
+/* Visuel enfants : ligne du temps */
+.tl { position: relative; padding: 1rem 0 0; }
+.tl .axis { position: relative; height: 1px; background: rgba(201,168,76,.15); margin: 3.8rem 0 0; }
+.tl .axis i { position: absolute; inset: 0; background: var(--or); transform: scaleX(0); transform-origin: left; transition: transform 2.4s var(--ease-out) .2s; }
+.visual.in .tl .axis i { transform: scaleX(1); }
+.tl .pt { position: absolute; top: -5px; width: 11px; height: 11px; margin-left: -5.5px; border: 1px solid var(--or); background: var(--noir2); transform: rotate(45deg) scale(0); transition: transform .6s var(--ease-out); transition-delay: calc(.3s + var(--k) * .45s); }
+.visual.in .tl .pt { transform: rotate(45deg) scale(1); }
+.tl .pt.gold { background: var(--or); }
+.tl .lbl { position: absolute; width: 120px; margin-left: -60px; text-align: center; opacity: 0; transition: opacity .8s; transition-delay: calc(.5s + var(--k) * .45s); }
+.visual.in .tl .lbl { opacity: 1; }
+.tl .lbl.up { bottom: 18px; } .tl .lbl.dn { top: 18px; }
+.tl .lbl b { display: block; font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--or); }
+.tl .lbl span { display: block; font-size: .64rem; color: var(--texte2); line-height: 1.4; }
+.tl .spacer { height: 7rem; }
+
+/* ── Tableau comparatif ── */
+.cmp-wrap { overflow-x: auto; border: 1px solid var(--ligne); }
+.cmp { width: 100%; border-collapse: collapse; min-width: 820px; }
+.cmp th, .cmp td { padding: 1.1rem 1.2rem; text-align: left; border-bottom: 1px solid var(--ligne); font-size: .78rem; line-height: 1.55; vertical-align: top; }
+.cmp thead th { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; color: var(--creme); background: var(--sombre); }
+.cmp tbody th { font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--texte3); font-weight: 500; width: 16%; }
+.cmp td { color: var(--texte2); }
+.cmp .hl { background: rgba(201,168,76,.07); color: var(--or-pale); }
+.cmp thead .hl { color: var(--or); background: rgba(201,168,76,.12); }
+.cmp tr:last-child th, .cmp tr:last-child td { border-bottom: 0; }
+
+@media (max-width: 1100px) { .sim-body { grid-template-columns: 1fr; } .controls { border-right: 0; border-bottom: 1px solid var(--ligne); display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2rem; } .controls .full { grid-column: 1 / -1; } }
+@media (max-width: 1024px) {
+  .mech { grid-template-columns: 1fr 1fr; row-gap: 3rem; } .mech svg.flow { display: none; }
+  .use, .use.flip { grid-template-columns: 1fr; gap: 3rem; } .use.flip > :first-child { order: 0; }
+  .stat-row.four { grid-template-columns: 1fr 1fr; }
+  .stat-row.four > div:nth-child(2) { border-right: 0; }
+  .stat-row.four > div:nth-child(-n+2) { border-bottom: 1px solid var(--ligne); }
+}
+@media (max-width: 640px) {
+  .mech { grid-template-columns: 1fr; }
+  .profiles { grid-template-columns: 1fr; } .profiles button { border-right: 0; border-bottom: 1px solid var(--ligne); }
+  .controls { grid-template-columns: 1fr; padding: 1.8rem 1.4rem; }
+  .chart-side { padding: 1.6rem 1rem; }
+  .stat-row.four { grid-template-columns: 1fr; } .stat-row.four > div { border-right: 0 !important; border-bottom: 1px solid var(--ligne); }
+  .visual { padding: 2rem 1.3rem; }
+  .tl .lbl { width: 84px; margin-left: -42px; } .tl .lbl span { font-size: .58rem; }
+  .estate { height: 260px; gap: 1rem; }
+}
+</style>
+</head>
+<body data-page="par">
+<script src="assets/site.js"></script>
+
+<header class="page-hero">
+  <canvas class="dust" aria-hidden="true"></canvas>
+  <div class="ghost-word" aria-hidden="true" data-parallax="-0.1">Patrimoine</div>
+  <div class="page-hero-inner">
+    <p class="eyebrow reveal"><span lang="fr">Assurance vie entière avec participation</span><span lang="en">Participating whole life insurance</span></p>
+    <h1><span lang="fr" class="split">L'actif que les familles<br>fortunées <em>gardent à l'abri.</em></span><span lang="en" class="split">The asset wealthy<br>families <em>keep sheltered.</em></span></h1>
+    <p class="lead reveal" style="--d:.6"><span lang="fr">Une protection à vie, des valeurs garanties, une croissance à l'abri de l'impôt et un capital transmis sans impôt. Pour une famille, une entreprise ou un enfant — voici comment elle fonctionne, et ce qu'elle peut devenir.</span><span lang="en">Lifetime protection, guaranteed values, tax-sheltered growth and capital passed on tax-free. For a family, a business or a child — here's how it works, and what it can become.</span></p>
+    <div class="hero-meta reveal" style="--d:.8">
+      <div><b lang="fr">Garanties</b><b lang="en">Guaranteed</b><span lang="fr">Primes, valeurs, capital</span><span lang="en">Premiums, values, coverage</span></div>
+      <div><b lang="fr">À l'abri</b><b lang="en">Sheltered</b><span lang="fr">Croissance non imposée</span><span lang="en">Untaxed growth</span></div>
+      <div><b lang="fr">Hors succession</b><b lang="en">Outside the estate</b><span lang="fr">Capital-décès libre d'impôt</span><span lang="en">Tax-free death benefit</span></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span lang="fr">Défiler</span><span lang="en">Scroll</span><i></i></div>
+</header>
+
+<!-- ═══════════ COMMENT ÇA FONCTIONNE ═══════════ -->
+<section class="section bg-noir">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow center reveal"><span lang="fr">Le mécanisme</span><span lang="en">How it works</span></p>
+      <h2><span lang="fr" class="split">Quatre rouages. <em>Un seul actif.</em></span><span lang="en" class="split">Four gears. <em>One asset.</em></span></h2>
+    </div>
+    <div class="mech" data-stagger>
+      <svg class="flow" viewBox="0 0 1000 4" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="2" x2="1000" y2="2" stroke="rgba(201,168,76,.25)" stroke-width="1"/>
+        <circle r="3" cy="2" fill="#DDBE68"><animate attributeName="cx" from="0" to="1000" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="5s" repeatCount="indefinite"/></circle>
+      </svg>
+      <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><path d="M3 10h14M10 3v14"/></svg></div><small>01</small>
+        <h3 lang="fr">Les primes</h3><h3 lang="en">Premiums</h3>
+        <p lang="fr">Fixes et garanties. Payables sur 10 ans, 20 ans ou à vie — selon la stratégie.</p><p lang="en">Fixed and guaranteed. Payable over 10 years, 20 years or for life — depending on the strategy.</p>
+        <span class="tag" lang="fr">Garanti</span><span class="tag" lang="en">Guaranteed</span></div>
+      <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><path d="M3 16h14M5 16V9M10 16V5M15 16V2"/></svg></div><small>02</small>
+        <h3 lang="fr">La valeur de rachat</h3><h3 lang="en">Cash value</h3>
+        <p lang="fr">Un actif qui s'accumule dans le contrat, à l'abri de l'impôt. Accessible de votre vivant.</p><p lang="en">An asset that builds up inside the policy, sheltered from tax. Accessible during your lifetime.</p>
+        <span class="tag" lang="fr">Valeurs minimales garanties</span><span class="tag" lang="en">Guaranteed minimum values</span></div>
+      <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6"/><path d="M10 7v6M7 10h6"/></svg></div><small>03</small>
+        <h3 lang="fr">Les participations</h3><h3 lang="en">Dividends</h3>
+        <p lang="fr">Versées selon les résultats du compte de participation. Réinvesties, elles achètent de l'assurance libérée qui grossit la police.</p><p lang="en">Paid from the results of the participating account. Reinvested, they buy paid-up insurance that grows the policy.</p>
+        <span class="tag ng" lang="fr">Non garanti</span><span class="tag ng" lang="en">Not guaranteed</span></div>
+      <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><path d="M10 2 18 10 10 18 2 10Z"/></svg></div><small>04</small>
+        <h3 lang="fr">Le capital-décès</h3><h3 lang="en">Death benefit</h3>
+        <p lang="fr">Croissant avec les participations. Versé libre d'impôt à vos bénéficiaires, hors succession.</p><p lang="en">Grows with the dividends. Paid tax-free to your beneficiaries, outside the estate.</p>
+        <span class="tag" lang="fr">Libre d'impôt</span><span class="tag" lang="en">Tax-free</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SIMULATEUR ═══════════ -->
+<section class="section bg-sombre" id="simulation">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow reveal"><span lang="fr">Simulation interactive</span><span lang="en">Interactive simulation</span></p>
+        <h2><span lang="fr" class="split">Voyez votre police<br><em>prendre de la valeur.</em></span><span lang="en" class="split">Watch your policy<br><em>gain value.</em></span></h2>
+      </div>
+      <p class="lead reveal" style="max-width:420px"><span lang="fr">Choisissez un profil, ajustez les paramètres, puis survolez ou touchez le graphique pour lire chaque année.</span><span lang="en">Pick a profile, adjust the settings, then hover or tap the chart to read any year.</span></p>
+    </div>
+
+    <div class="sim reveal">
+      <div class="profiles" role="tablist">
+        <button type="button" role="tab" data-p="hnw" class="on"><small>I</small><b lang="fr">Patrimoine privé</b><b lang="en">Private wealth</b><span class="s" lang="fr">Clientèle fortunée · succession</span><span class="s" lang="en">High-net-worth · estate</span></button>
+        <button type="button" role="tab" data-p="corp"><small>II</small><b lang="fr">Entreprise</b><b lang="en">Business</b><span class="s" lang="fr">Police détenue par la société</span><span class="s" lang="en">Corporate-owned policy</span></button>
+        <button type="button" role="tab" data-p="kids"><small>III</small><b lang="fr">Enfants</b><b lang="en">Children</b><span class="s" lang="fr">Créer du patrimoine pour eux</span><span class="s" lang="en">Build wealth for them</span></button>
+      </div>
+      <div class="sim-body">
+        <div class="controls">
+          <div>
+            <div class="ctl-top"><label for="age"><span lang="fr">Âge de l'assuré</span><span lang="en">Age of the insured</span></label><output id="ageOut"></output></div>
+            <input type="range" id="age" min="0" max="70" step="1" value="50">
+          </div>
+          <div>
+            <div class="ctl-top"><label for="prem"><span lang="fr">Prime annuelle</span><span lang="en">Annual premium</span></label><output id="premOut"></output></div>
+            <input type="range" id="prem" min="1000" max="150000" step="500" value="50000">
+          </div>
+          <div class="full">
+            <div class="ctl-top"><label><span lang="fr">Durée des primes</span><span lang="en">Premium period</span></label></div>
+            <div class="seg" id="pay"><button type="button" data-v="10" class="on"><span lang="fr">10 ans</span><span lang="en">10 yrs</span></button><button type="button" data-v="20"><span lang="fr">20 ans</span><span lang="en">20 yrs</span></button><button type="button" data-v="0"><span lang="fr">À vie</span><span lang="en">For life</span></button></div>
+          </div>
+          <div>
+            <div class="ctl-top"><label for="rate"><span lang="fr">Participations — hypothèse</span><span lang="en">Dividends — assumption</span></label><output id="rateOut"></output></div>
+            <input type="range" id="rate" min="3" max="7" step="0.25" value="5">
+            <p class="ctl-note"><span lang="fr">Taux hypothétique du barème de participations. Non garanti — il varie d'une année à l'autre.</span><span lang="en">Hypothetical dividend scale rate. Not guaranteed — it changes from year to year.</span></p>
+          </div>
+          <div>
+            <div class="ctl-top"><label for="view"><span lang="fr">Lire les valeurs à</span><span lang="en">Read the values at</span></label><output id="viewOut"></output></div>
+            <input type="range" id="view" min="1" max="85" step="1" value="85">
+          </div>
+        </div>
+
+        <div class="chart-side">
+          <div class="chart-head">
+            <small><span lang="fr">Illustration hypothétique simplifiée · par âge</span><span lang="en">Simplified hypothetical illustration · by age</span></small>
+            <span class="face"><span lang="fr">Capital assuré initial :</span><span lang="en">Initial face amount:</span> <b id="faceOut"></b></span>
+          </div>
+          <div id="parChart"></div>
+          <div class="legend-btns" id="legend"></div>
+          <div class="stat-row four" id="stats"></div>
+          <p class="insight" id="insight"></p>
+        </div>
+      </div>
+      <div class="sim-foot">
+        <p class="disclaimer"><span lang="fr">Simulation éducative, non contractuelle. Les valeurs sont calculées avec un modèle simplifié et des hypothèses générales ; elles ne constituent ni une illustration officielle d'un assureur, ni une projection de rendement, ni un conseil personnalisé. Les participations ne sont pas garanties et dépendent notamment des résultats du compte de participation. Le coût réel dépend de l'âge, du sexe, de l'usage du tabac, de l'état de santé et du contrat choisi. Une illustration officielle est remise lors de l'analyse.</span><span lang="en">Educational simulation, not a contract. Values come from a simplified model with general assumptions; they are not an insurer's official illustration, a return projection or personalized advice. Dividends are not guaranteed and depend on the results of the participating account, among other factors. Actual cost depends on age, sex, tobacco use, health and the policy chosen. An official illustration is provided during the analysis.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ I — CLIENTÈLE FORTUNÉE ═══════════ -->
+<section class="section bg-noir" id="patrimoine">
+  <div class="wrap use">
+    <div>
+      <span class="num reveal">I · <span lang="fr">PATRIMOINE PRIVÉ</span><span lang="en">PRIVATE WEALTH</span></span>
+      <h2><span lang="fr" class="split">Pour la clientèle fortunée : <em>transmettre sans vendre.</em></span><span lang="en" class="split">For high-net-worth families: <em>pass it on without selling.</em></span></h2>
+      <p class="reveal" lang="fr">Au décès, le fisc considère que vos actifs sont vendus. Immeubles, portefeuille, actions de votre société : le gain en capital devient imposable, et votre REER ou FERR s'ajoute au revenu de l'année — sauf transfert au conjoint. Sans liquidité prévue, vos héritiers vendent — souvent au mauvais moment.</p>
+      <p class="reveal" lang="en">At death, the tax authorities treat your assets as sold. Real estate, portfolio, shares of your company: the capital gain becomes taxable, and your RRSP or RRIF is added to that year's income — unless it rolls over to a spouse. Without planned liquidity, your heirs sell — often at the wrong time.</p>
+      <p class="reveal" lang="fr">La police participative place une liquidité garantie exactement là où elle sera nécessaire, et fait croître en parallèle un actif à l'abri de l'impôt une fois vos REER et CELI maximisés.</p>
+      <p class="reveal" lang="en">A participating policy puts guaranteed liquidity exactly where it will be needed, while growing a tax-sheltered asset once your RRSP and TFSA are maxed out.</p>
+      <ul data-stagger>
+        <li class="reveal" lang="fr"><span><b>Liquidité successorale</b> — l'impôt au décès est réglé par le capital-décès, pas par la vente de vos actifs.</span></li>
+        <li class="reveal" lang="en"><span><b>Estate liquidity</b> — tax at death is paid by the death benefit, not by selling your assets.</span></li>
+        <li class="reveal" lang="fr"><span><b>Croissance à l'abri de l'impôt</b> — au-delà des plafonds REER et CELI, dans les limites d'une police exonérée.</span></li>
+        <li class="reveal" lang="en"><span><b>Tax-sheltered growth</b> — beyond RRSP and TFSA limits, within the limits of an exempt policy.</span></li>
+        <li class="reveal" lang="fr"><span><b>Équité entre héritiers</b> — un enfant reprend l'entreprise, les autres reçoivent l'équivalent en capital.</span></li>
+        <li class="reveal" lang="en"><span><b>Fairness between heirs</b> — one child takes over the business, the others receive the equivalent in capital.</span></li>
+        <li class="reveal" lang="fr"><span><b>Composante stable</b> — des valeurs garanties qui ne suivent pas les humeurs de la bourse.</span></li>
+        <li class="reveal" lang="en"><span><b>A stable component</b> — guaranteed values that don't follow the market's mood swings.</span></li>
+        <li class="reveal" lang="fr"><span><b>Legs philanthropique</b> et, dans certaines conditions, <b>protection contre les créanciers</b> lorsque le bénéficiaire est un membre de la famille.</span></li>
+        <li class="reveal" lang="en"><span><b>Charitable legacy</b> and, under certain conditions, <b>creditor protection</b> when the beneficiary is a family member.</span></li>
+      </ul>
+    </div>
+    <div class="visual reveal-r" id="vEstate">
+      <small class="t"><span lang="fr">Même succession, deux issues — schéma</span><span lang="en">Same estate, two outcomes — diagram</span></small>
+      <div class="estate">
+        <div class="col">
+          <div class="bar" style="height:59%"><div class="seg heirs" style="flex:62"><span lang="fr">Aux héritiers</span><span lang="en">To heirs</span></div><div class="seg tax" style="flex:38;transition-delay:.3s"><span lang="fr">Impôt · actifs vendus</span><span lang="en">Tax · assets sold</span></div></div>
+          <b lang="fr">Sans stratégie</b><b lang="en">Without a strategy</b><span lang="fr">Les héritiers vendent pour payer</span><span lang="en">Heirs sell to pay</span>
+        </div>
+        <div class="col">
+          <div class="bar"><div class="seg heirs" style="flex:100"><span lang="fr">Actifs transmis intacts</span><span lang="en">Assets passed on intact</span></div><div class="seg ins" style="flex:38;transition-delay:.5s"><span lang="fr">Impôt payé par la police</span><span lang="en">Tax paid by the policy</span></div></div>
+          <b lang="fr">Avec la police</b><b lang="en">With the policy</b><span lang="fr">Actifs intacts, transmis entiers</span><span lang="en">Assets intact, passed on whole</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="orn" aria-hidden="true"><i></i><b></b><span>W Héritage</span><b></b><i></i></div>
+
+<!-- ═══════════ II — ENTREPRISES ═══════════ -->
+<section class="section bg-noir" id="entreprise" style="padding-top:2rem">
+  <div class="wrap use flip">
+    <div>
+      <span class="num reveal">II · <span lang="fr">ENTREPRISE</span><span lang="en">BUSINESS</span></span>
+      <h2><span lang="fr" class="split">Pour les entreprises : <em>réveiller l'argent qui dort.</em></span><span lang="en" class="split">For businesses: <em>wake up the money that's sleeping.</em></span></h2>
+      <p class="reveal" lang="fr">Les surplus placés dans une société privée génèrent un revenu passif lourdement imposé — et au-delà d'un certain seuil, ce revenu réduit l'accès au taux d'imposition des petites entreprises. Une police détenue par la société change l'équation.</p>
+      <p class="reveal" lang="en">Surplus cash invested inside a private corporation generates heavily taxed passive income — and above a certain threshold, that income reduces access to the small business tax rate. A corporate-owned policy changes the equation.</p>
+      <ul data-stagger>
+        <li class="reveal" lang="fr"><span><b>Croissance à l'abri</b> — la croissance d'une police exonérée n'est pas imposée annuellement comme un revenu de placement.</span></li>
+        <li class="reveal" lang="en"><span><b>Sheltered growth</b> — growth inside an exempt policy isn't taxed each year like investment income.</span></li>
+        <li class="reveal" lang="fr"><span><b>Levier bancaire</b> — la valeur de rachat peut servir de garantie pour un prêt ou une marge, sans racheter la police.</span></li>
+        <li class="reveal" lang="en"><span><b>Bank leverage</b> — the cash value can secure a loan or line of credit, without surrendering the policy.</span></li>
+        <li class="reveal" lang="fr"><span><b>Compte de dividendes en capital (CDC)</b> — au décès, la portion du capital qui excède le coût de base rajusté de la police peut être versée aux actionnaires en dividende libre d'impôt.</span></li>
+        <li class="reveal" lang="en"><span><b>Capital dividend account (CDA)</b> — at death, the portion of the benefit above the policy's adjusted cost base can be paid to shareholders as a tax-free dividend.</span></li>
+        <li class="reveal" lang="fr"><span><b>Convention entre actionnaires financée</b> et protection de personne clé — la société a le capital pour racheter les parts au bon moment.</span></li>
+        <li class="reveal" lang="en"><span><b>A funded shareholder agreement</b> and key-person protection — the company has the capital to buy back shares when it matters.</span></li>
+      </ul>
+    </div>
+    <div class="visual reveal-l" id="vCorp">
+      <small class="t"><span lang="fr">Le parcours du capital — schéma</span><span lang="en">How the capital flows — diagram</span></small>
+      <div class="cflow">
+        <div class="n" style="--k:0"><div class="d"><span>1</span></div><div><b lang="fr">Surplus de la société</b><b lang="en">Corporate surplus</b><p lang="fr">L'argent qui dort dans l'opco ou la holding</p><p lang="en">Idle cash in the opco or holding company</p></div></div>
+        <div class="n" style="--k:1"><div class="d"><span>2</span></div><div><b lang="fr">Police détenue par la société</b><b lang="en">Corporate-owned policy</b><p lang="fr">Primes payées par la société, croissance à l'abri</p><p lang="en">Premiums paid by the company, sheltered growth</p></div></div>
+        <div class="n" style="--k:2"><div class="d"><span>3</span></div><div><b lang="fr">Valeur de rachat = garantie</b><b lang="en">Cash value = collateral</b><p lang="fr">Levier bancaire pour investir ou se verser un revenu</p><p lang="en">Bank leverage to invest or draw an income</p></div></div>
+        <div class="n" style="--k:3"><div class="d"><span>4</span></div><div><b lang="fr">Capital-décès reçu par la société</b><b lang="en">Death benefit paid to the company</b><p lang="fr">Libre d'impôt · crédit au CDC</p><p lang="en">Tax-free · credited to the CDA</p></div></div>
+        <div class="n hl" style="--k:4"><div class="d"><span>5</span></div><div><b lang="fr">Dividende en capital</b><b lang="en">Capital dividend</b><p lang="fr">Versé aux actionnaires ou à la succession, sans impôt</p><p lang="en">Paid to shareholders or the estate, tax-free</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="orn" aria-hidden="true"><i></i><b></b><span>W Héritage</span><b></b><i></i></div>
+
+<!-- ═══════════ III — ENFANTS ═══════════ -->
+<section class="section bg-noir" id="enfants" style="padding-top:2rem">
+  <div class="wrap use">
+    <div>
+      <span class="num reveal">III · <span lang="fr">ENFANTS</span><span lang="en">CHILDREN</span></span>
+      <h2><span lang="fr" class="split">Pour vos enfants : <em>un actif qui grandit avec eux.</em></span><span lang="en" class="split">For your children: <em>an asset that grows with them.</em></span></h2>
+      <p class="reveal" lang="fr">Une police établie sur la tête d'un enfant coûte une fraction de ce qu'elle coûtera à 40 ans. Vous en êtes propriétaire, vous payez les primes pendant quelques années — et lui hérite d'un actif déjà mature, et d'une protection qu'aucun problème de santé futur ne pourra lui retirer.</p>
+      <p class="reveal" lang="en">A policy on a child's life costs a fraction of what it will cost at 40. You own it, you pay the premiums for a few years — and they inherit an asset that's already mature, plus coverage no future health problem can take away.</p>
+      <ul data-stagger>
+        <li class="reveal" lang="fr"><span><b>Primes bloquées à vie</b>, établies à l'âge le plus bas possible.</span></li>
+        <li class="reveal" lang="en"><span><b>Premiums locked for life</b>, set at the lowest possible age.</span></li>
+        <li class="reveal" lang="fr"><span><b>Assurabilité garantie</b> — sa protection existe, peu importe sa santé plus tard.</span></li>
+        <li class="reveal" lang="en"><span><b>Guaranteed insurability</b> — their coverage exists no matter their health later on.</span></li>
+        <li class="reveal" lang="fr"><span><b>Un capital accessible</b> pour les études, une mise de fonds ou un premier projet d'entreprise.</span></li>
+        <li class="reveal" lang="en"><span><b>Accessible capital</b> for school, a down payment or a first business.</span></li>
+        <li class="reveal" lang="fr"><span><b>Transfert de propriété</b> à l'enfant devenu adulte, généralement sans impact fiscal immédiat selon les règles en vigueur.</span></li>
+        <li class="reveal" lang="en"><span><b>Ownership transfer</b> to your adult child, generally with no immediate tax impact under current rules.</span></li>
+        <li class="reveal" lang="fr"><span><b>Un complément de retraite</b> pour lui, des décennies plus tard — et un héritage pour ses propres enfants.</span></li>
+        <li class="reveal" lang="en"><span><b>A retirement top-up</b> for them, decades later — and a legacy for their own children.</span></li>
+      </ul>
+    </div>
+    <div class="visual reveal-r" id="vKids">
+      <small class="t"><span lang="fr">Une vie entière, une seule police — schéma</span><span lang="en">A whole life, a single policy — diagram</span></small>
+      <div class="tl">
+        <div class="axis"><i></i>
+          <div class="pt gold" style="left:0%;--k:0"></div><div class="lbl up" style="left:4%;--k:0"><b>0</b><span lang="fr">Police établie</span><span lang="en">Policy set up</span></div>
+          <div class="pt" style="left:24%;--k:1"></div><div class="lbl dn" style="left:24%;--k:1"><b>18</b><span lang="fr">Études</span><span lang="en">School</span></div>
+          <div class="pt" style="left:42%;--k:2"></div><div class="lbl up" style="left:42%;--k:2"><b>25</b><span lang="fr">Mise de fonds</span><span lang="en">Down payment</span></div>
+          <div class="pt" style="left:64%;--k:3"></div><div class="lbl dn" style="left:64%;--k:3"><b>35</b><span lang="fr">Propriété transférée</span><span lang="en">Ownership transferred</span></div>
+          <div class="pt gold" style="left:96%;--k:4"></div><div class="lbl up" style="left:92%;--k:4"><b>65</b><span lang="fr">Complément de retraite</span><span lang="en">Retirement top-up</span></div>
+        </div>
+        <div class="spacer"></div>
+      </div>
+      <a href="#simulation" class="link-arrow" data-goto="kids"><span lang="fr">Simuler pour mon enfant</span><span lang="en">Simulate for my child</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ COMPARAISON ═══════════ -->
+<section class="section bg-sombre">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow reveal"><span lang="fr">En perspective</span><span lang="en">In perspective</span></p>
+        <h2><span lang="fr" class="split">Là où elle se place<br><em>dans votre structure.</em></span><span lang="en" class="split">Where it fits<br><em>in your structure.</em></span></h2>
+      </div>
+      <p class="lead reveal" style="max-width:400px"><span lang="fr">Elle ne remplace pas le REER ni le CELI. Elle complète une structure — surtout quand ces véhicules sont déjà maximisés.</span><span lang="en">It doesn't replace the RRSP or TFSA. It completes a structure — especially once those vehicles are maxed out.</span></p>
+    </div>
+    <div class="cmp-wrap reveal">
+      <table class="cmp" lang="fr">
+        <thead><tr><th></th><th>CELI</th><th>REER</th><th>Placement non enregistré</th><th class="hl">Vie participative</th></tr></thead>
+        <tbody>
+          <tr><th>Croissance</th><td>Libre d'impôt</td><td>Impôt différé</td><td>Imposable chaque année</td><td class="hl">À l'abri de l'impôt (police exonérée)</td></tr>
+          <tr><th>Déduction</th><td>Non</td><td>Oui</td><td>Non</td><td class="hl">Non</td></tr>
+          <tr><th>Plafond</th><td>Droits annuels limités</td><td>Selon le revenu, avec maximum annuel</td><td>Aucun</td><td class="hl">Selon les règles d'exonération de la police</td></tr>
+          <tr><th>Accès au capital</th><td>Retrait libre d'impôt</td><td>Retrait imposable</td><td>Vente — gain imposable</td><td class="hl">Avance ou prêt garanti, sans vendre</td></tr>
+          <tr><th>Garanties</th><td>Selon les placements</td><td>Selon les placements</td><td>Selon les placements</td><td class="hl">Valeurs de rachat et capital-décès garantis</td></tr>
+          <tr><th>Au décès</th><td>Transfert selon la désignation</td><td>Imposable, sauf transfert au conjoint</td><td>Gain en capital imposable</td><td class="hl">Capital-décès libre d'impôt, hors succession</td></tr>
+          <tr><th>Protection</th><td>—</td><td>—</td><td>—</td><td class="hl">Assurance vie permanente incluse</td></tr>
+        </tbody>
+      </table>
+      <table class="cmp" lang="en">
+        <thead><tr><th></th><th>TFSA</th><th>RRSP</th><th>Non-registered account</th><th class="hl">Participating life</th></tr></thead>
+        <tbody>
+          <tr><th>Growth</th><td>Tax-free</td><td>Tax-deferred</td><td>Taxed every year</td><td class="hl">Tax-sheltered (exempt policy)</td></tr>
+          <tr><th>Deduction</th><td>No</td><td>Yes</td><td>No</td><td class="hl">No</td></tr>
+          <tr><th>Limit</th><td>Limited annual room</td><td>Based on income, with an annual max</td><td>None</td><td class="hl">Set by the policy's exemption rules</td></tr>
+          <tr><th>Access to capital</th><td>Tax-free withdrawal</td><td>Taxable withdrawal</td><td>Sale — taxable gain</td><td class="hl">Policy loan or secured loan, without selling</td></tr>
+          <tr><th>Guarantees</th><td>Depends on investments</td><td>Depends on investments</td><td>Depends on investments</td><td class="hl">Guaranteed cash values and death benefit</td></tr>
+          <tr><th>At death</th><td>Transfers per designation</td><td>Taxable, unless rolled to a spouse</td><td>Taxable capital gain</td><td class="hl">Tax-free death benefit, outside the estate</td></tr>
+          <tr><th>Protection</th><td>—</td><td>—</td><td>—</td><td class="hl">Permanent life coverage included</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="disclaimer reveal" style="margin-top:1.4rem"><span lang="fr">Résumé général à titre informatif. Le traitement fiscal dépend de votre situation et des règles en vigueur ; il est validé avec votre comptable ou fiscaliste avant toute mise en place.</span><span lang="en">General summary for information only. Tax treatment depends on your situation and the rules in force; it is confirmed with your accountant or tax specialist before anything is put in place.</span></p>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="ghost-word" aria-hidden="true">Héritage</div>
+  <p class="eyebrow center reveal"><span lang="fr">Votre illustration réelle</span><span lang="en">Your real illustration</span></p>
+  <h2><span lang="fr" class="split">Passons de la simulation <em>à votre dossier.</em></span><span lang="en" class="split">Let's move from simulation <em>to your file.</em></span></h2>
+  <p class="reveal"><span lang="fr">En 15 minutes, on regarde si cette stratégie a sa place dans votre structure — et à quoi ressemblerait une illustration officielle, à votre nom.</span><span lang="en">In 15 minutes, we see whether this strategy belongs in your structure — and what an official illustration in your name would look like.</span></p>
+  <a href="index.html#reservation" class="btn btn-gold reveal"><span lang="fr">Réserver un appel</span><span lang="en">Book a call</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+</section>
+
+<script src="assets/charts.js"></script>
+<script>
+(function () {
+  /* ── Modèle simplifié (illustratif) ──
+     Valeurs garanties : courbe de réserve atteignant le capital à 100 ans.
+     Participations : excédent du taux hypothétique sur un taux garanti, réinvesti en assurance libérée. */
+  var IG = 0.02;
+  function nsp(a) { return 1 - Math.exp(-0.013 * (a + 6)); }
+  function endAge(x) { return Math.min(100, Math.max(85, x + 30)); }
+  function model(x, P, pay, r) {
+    var base = { 10: 38, 20: 24, 0: 16 }[pay];
+    var F = P / (base * Math.pow(1.04, x - 35) / 1000);
+    var T = 100 - x, n = pay === 0 ? T : pay, end = endAge(x);
+    var G = 0, D = 0, PUA = 0, cum = 0, Gend = 0;
+    var o = { x: [x], prem: [0], gcsv: [0], csv: [0], db: [F], cap: [0], F: F };
+    for (var t = 1; t <= end - x; t++) {
+      var prem = t <= n ? P : 0; cum += prem;
+      var Gn;
+      if (pay === 0) Gn = F * Math.pow(t / T, 1.3);
+      else if (t <= n) { Gn = cum * Math.min(0.9, 0.1 + 0.75 * Math.pow(t / n, 0.8)); Gend = Gn; }
+      else Gn = Gend + (F - Gend) * Math.pow((t - n) / (T - n), 1.8);
+      var div = Math.max(0, r - IG - 0.005) * (G + D + prem * 0.7);
+      var Dn = D * (1 + r - 0.012) + div;
+      PUA += (Dn - D) / nsp(x + t);
+      G = Gn; D = Dn;
+      o.x.push(x + t); o.prem.push(cum); o.gcsv.push(G); o.csv.push(G + D); o.db.push(F + PUA); o.cap.push((G + D) * 0.9);
+    }
+    return o;
+  }
+
+  var PRESETS = {
+    hnw:  { age: 50, prem: 50000, pay: 10, rate: 5, view: 85 },
+    corp: { age: 45, prem: 40000, pay: 20, rate: 5, view: 65 },
+    kids: { age: 1,  prem: 2400,  pay: 20, rate: 5, view: 25 }
+  };
+  var state = { p: 'hnw', age: 50, prem: 50000, pay: 10, rate: 5, view: 85 };
+  var $ = function (id) { return document.getElementById(id); };
+  var data;
+
+  var SERIES = [
+    { key: 'db',   color: '#EDE8DF', width: 1.6, opacity: .85, fr: 'Capital-décès total', en: 'Total death benefit' },
+    { key: 'csv',  color: '#C9A84C', width: 2.4, fill: .22, fr: 'Valeur de rachat totale', en: 'Total cash value' },
+    { key: 'cap',  color: '#EAD6A2', width: 1.4, dash: '1 5', fr: 'Capacité d\'emprunt (jusqu\'à 90 %)', en: 'Borrowing capacity (up to 90%)' },
+    { key: 'gcsv', color: '#C9A84C', width: 1.4, dash: '6 5', opacity: .8, fr: 'Valeur de rachat garantie', en: 'Guaranteed cash value' },
+    { key: 'prem', color: 'rgba(237,232,223,.45)', width: 1.4, dash: '3 4', fr: 'Primes versées (cumul)', en: 'Premiums paid (total)' }
+  ];
+
+  var chart = WHChart($('parChart'), {
+    label: 'Simulation vie participative',
+    height: 400,
+    series: SERIES,
+    yFmt: function (v) { return WH.moneyShort(v); },
+    xFmt: function (x) { return x; },
+    markers: function () {
+      var ms = [], x = state.age;
+      var n = state.pay === 0 ? 0 : state.pay;
+      if (n && x + n < endAge(x) && state.p !== 'kids') ms.push({ i: n, label: WH.t('Primes terminées', 'Premiums end') });
+      if (state.p === 'kids') {
+        if (18 > x) ms.push({ i: 18 - x, label: WH.t('18 ans', 'Age 18') });
+        if (25 > x) ms.push({ i: 25 - x, label: WH.t('25 ans', 'Age 25') });
+      }
+      return ms.filter(function (m, k, a) { return a.findIndex(function (z) { return Math.abs(z.i - m.i) < 3; }) === k; });
+    },
+    tip: function (i) {
+      var h = '<div class="tt-h">' + WH.t('Âge ', 'Age ') + data.x[i] + ' · ' + WH.t('année ', 'year ') + i + '</div>';
+      SERIES.forEach(function (s) {
+        if (!data[s.key] || chart.isHidden(s.key) || (s.key === 'cap' && state.p !== 'corp')) return;
+        h += '<div class="tt-r"><span><i style="background:' + s.color + '"></i>' + WH.t(s.fr, s.en) + '</span><b>' + WH.money(data[s.key][i]) + '</b></div>';
+      });
+      return h;
+    },
+    onPick: function (i) { var v = $('view'); v.value = data.x[i]; WH.paintRange(v); state.view = data.x[i]; renderStats(); }
+  });
+
+  /* Légende cliquable */
+  function buildLegend() {
+    var lg = $('legend'); lg.innerHTML = '';
+    SERIES.forEach(function (s) {
+      if (s.key === 'cap' && state.p !== 'corp') return;
+      var b = document.createElement('button'); b.type = 'button';
+      b.innerHTML = '<i style="border-color:' + s.color + ';border-top-style:' + (s.dash ? 'dashed' : 'solid') + '"></i>' + WH.t(s.fr, s.en);
+      b.classList.toggle('off', chart.isHidden(s.key));
+      b.setAttribute('aria-pressed', !chart.isHidden(s.key));
+      b.addEventListener('click', function () { var off = !chart.isHidden(s.key); chart.toggle(s.key, off); b.classList.toggle('off', off); b.setAttribute('aria-pressed', !off); });
+      lg.appendChild(b);
+    });
+  }
+
+  function statCell(label, value, sub, gold) {
+    return '<div><small>' + label + '</small><b' + (gold ? ' class="gold"' : '') + '>' + value + '</b>' + (sub ? '<span class="sub">' + sub + '</span>' : '') + '</div>';
+  }
+  function renderStats() {
+    var i = Math.max(1, Math.min(data.x.length - 1, state.view - state.age));
+    var a = data.x[i];
+    $('viewOut').textContent = WH.t(a + ' ans', 'age ' + a);
+    var prem = data.prem[i], csv = data.csv[i], g = data.gcsv[i], db = data.db[i];
+    var h = statCell(WH.t('Primes versées à ', 'Premiums paid by ') + a + WH.t(' ans', ''), WH.money(prem))
+      + statCell(WH.t('Valeur de rachat', 'Cash value'), WH.money(csv), WH.t('dont garantie : ', 'guaranteed: ') + WH.money(g), true)
+      + statCell(WH.t('Capital-décès', 'Death benefit'), WH.money(db), WH.t('libre d\'impôt', 'tax-free'));
+    var ins = '';
+    if (state.p === 'hnw') {
+      var mult = prem > 0 ? db / prem : 0;
+      h += statCell(WH.t('Capital-décès ÷ primes', 'Death benefit ÷ premiums'), mult.toFixed(1).replace('.', WH.lang() === 'fr' ? ',' : '.') + '×');
+      ins = WH.t('À ' + a + ' ans, le capital-décès illustré représente <b>' + mult.toFixed(1).replace('.', ',') + ' fois</b> les primes versées — une liquidité disponible rapidement pour régler l\'impôt au décès, sans vendre d\'actifs.',
+                 'At age ' + a + ', the illustrated death benefit is <b>' + mult.toFixed(1) + ' times</b> the premiums paid — liquidity available quickly to cover tax at death, without selling assets.');
+    } else if (state.p === 'corp') {
+      h += statCell(WH.t('Capacité d\'emprunt', 'Borrowing capacity'), WH.money(data.cap[i]), WH.t('jusqu\'à 90 % de la valeur', 'up to 90% of the value'));
+      ins = WH.t('À ' + a + ' ans, votre société pourrait emprunter jusqu\'à <b>' + WH.money(data.cap[i]) + '</b> en donnant la police en garantie — sans la racheter, et sans interrompre sa croissance.',
+                 'At age ' + a + ', your company could borrow up to <b>' + WH.money(data.cap[i]) + '</b> using the policy as collateral — without surrendering it or interrupting its growth.');
+    } else {
+      var i18 = 18 - state.age, i25 = 25 - state.age;
+      var v18 = i18 > 0 && i18 < data.x.length ? data.csv[i18] : null, v25 = i25 > 0 && i25 < data.x.length ? data.csv[i25] : null;
+      h += statCell(WH.t('Valeur à 18 ans', 'Value at 18'), v18 !== null ? WH.money(v18) : '—', v25 !== null ? WH.t('à 25 ans : ', 'at 25: ') + WH.money(v25) : '');
+      var years = state.pay === 0 ? WH.t('à vie', 'for life') : WH.t('pendant ' + state.pay + ' ans', 'for ' + state.pay + ' years');
+      ins = (v18 !== null && v25 !== null)
+        ? WH.t('Pour ' + WH.money(state.prem) + ' par année ' + years + ', votre enfant disposerait d\'une valeur de rachat illustrée de <b>' + WH.money(v18) + '</b> à 18 ans et de <b>' + WH.money(v25) + '</b> à 25 ans — plus une protection à vie.',
+               'For ' + WH.money(state.prem) + ' a year ' + years + ', your child would have an illustrated cash value of <b>' + WH.money(v18) + '</b> at 18 and <b>' + WH.money(v25) + '</b> at 25 — plus lifetime coverage.')
+        : WH.t('Choisissez un âge sous 18 ans pour voir la valeur disponible aux grandes étapes de sa vie.', 'Choose an age under 18 to see the value available at the big milestones of their life.');
+    }
+    $('stats').innerHTML = h;
+    $('insight').innerHTML = ins;
+  }
+
+  function recompute(instant) {
+    data = model(state.age, state.prem, state.pay, state.rate / 100);
+    $('ageOut').textContent = WH.t(state.age + ' ans', 'age ' + state.age);
+    $('premOut').textContent = WH.money(state.prem);
+    $('rateOut').textContent = String(state.rate).replace('.', WH.lang() === 'fr' ? ',' : '.') + ' %';
+    $('faceOut').textContent = WH.money(data.F);
+    var v = $('view'); v.min = state.age + 1; v.max = endAge(state.age);
+    if (state.view > +v.max) state.view = +v.max;
+    if (state.view < +v.min) state.view = +v.min;
+    v.value = state.view; WH.paintRange(v);
+    var d = { x: data.x, series: { prem: data.prem, gcsv: data.gcsv, csv: data.csv, db: data.db } };
+    if (state.p === 'corp') d.series.cap = data.cap;
+    chart.set(d, instant);
+    renderStats();
+  }
+
+  function applyPreset(p) {
+    var ps = PRESETS[p];
+    state.p = p; state.age = ps.age; state.prem = ps.prem; state.pay = ps.pay; state.rate = ps.rate; state.view = ps.view;
+    $('age').value = ps.age; $('prem').value = ps.prem; $('rate').value = ps.rate;
+    ['age', 'prem', 'rate'].forEach(function (id) { WH.paintRange($(id)); });
+    document.querySelectorAll('#pay button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-v') === ps.pay); });
+    document.querySelectorAll('.profiles button').forEach(function (b) { var on = b.getAttribute('data-p') === p; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+    buildLegend();
+    recompute();
+  }
+
+  document.querySelectorAll('.profiles button').forEach(function (b) { b.addEventListener('click', function () { applyPreset(b.getAttribute('data-p')); }); });
+  $('age').addEventListener('input', function () { state.age = +this.value; recompute(); });
+  $('prem').addEventListener('input', function () { state.prem = +this.value; recompute(); });
+  $('rate').addEventListener('input', function () { state.rate = +this.value; recompute(); });
+  $('view').addEventListener('input', function () { state.view = +this.value; renderStats(); });
+  document.querySelectorAll('#pay button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#pay button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on'); state.pay = +b.getAttribute('data-v'); recompute();
+    });
+  });
+  document.querySelectorAll('[data-goto]').forEach(function (a) { a.addEventListener('click', function () { applyPreset(a.getAttribute('data-goto')); }); });
+  document.addEventListener('wh:lang', function () { buildLegend(); recompute(true); });
+
+  // Profil passé dans l'URL : vie-participative.html?profil=entreprise
+  var q = (new URLSearchParams(location.search).get('profil') || '').toLowerCase();
+  var start = { entreprise: 'corp', business: 'corp', enfants: 'kids', kids: 'kids' }[q] || 'hnw';
+  applyPreset(start);
+
+  // Visuels des cas d'usage
+  var io = new IntersectionObserver(function (en) { en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .3 });
+  document.addEventListener('wh:ready', function () { ['vEstate', 'vCorp', 'vKids'].forEach(function (id) { io.observe($(id)); }); });
+})();
+</script>
+</body>
+</html>
