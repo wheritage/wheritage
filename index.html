@@ -145,19 +145,17 @@
 .hero .lead { margin: 2rem 0 2.6rem; max-width: 470px; }
 .hero-actions { display: flex; align-items: center; gap: 1.8rem; flex-wrap: wrap; }
 .hero-photo { position: relative; max-width: 440px; justify-self: center; width: 100%; }
-.hero-photo .frame { position: relative; aspect-ratio: 3/4; overflow: hidden; border: 1px solid rgba(201,168,76,.22); }
-.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: contrast(1.05) brightness(.94); transform: scale(1.12); transition: transform 2.6s var(--ease-out); }
+.hero-photo .frame { position: relative; aspect-ratio: 4/5; overflow: hidden; border: 1px solid rgba(201,168,76,.22); }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.08); transition: transform 2.6s var(--ease-out); }
 .hero-photo .frame.in img { transform: scale(1); }
-.hero-photo .frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 55%, rgba(5,4,3,.55)); }
 .corner { position: absolute; width: 26px; height: 26px; border: 0 solid var(--or); z-index: 3; }
 .corner.tl { top: -9px; left: -9px; border-top-width: 1px; border-left-width: 1px; }
 .corner.tr { top: -9px; right: -9px; border-top-width: 1px; border-right-width: 1px; }
 .corner.bl { bottom: -9px; left: -9px; border-bottom-width: 1px; border-left-width: 1px; }
 .corner.br { bottom: -9px; right: -9px; border-bottom-width: 1px; border-right-width: 1px; }
-.hero-photo .badge { position: absolute; left: -2.2rem; bottom: 2.2rem; z-index: 4; background: rgba(8,8,8,.9); border: 1px solid var(--ligne-fort); padding: 1rem 1.3rem; backdrop-filter: blur(8px); }
-.hero-photo .badge b { display: block; font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--or); line-height: 1.1; }
+.hero-photo .badge { display: flex; align-items: baseline; gap: .9rem; margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--ligne-fort); }
+.hero-photo .badge b { display: inline-block; font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--or); line-height: 1.1; }
 .hero-photo .badge span { font-size: .56rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte2); }
-.hero-photo .cap { position: absolute; right: 0; bottom: -1.9rem; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); }
 
 /* ── CRÉDIBILITÉ ── */
 .creds { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--sombre); border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); }
@@ -212,8 +210,8 @@
 .sig i { width: 40px; height: 1px; background: var(--or); }
 .sig b { display: block; font-family: var(--serif); font-size: 1.1rem; font-weight: 500; color: var(--or); }
 .sig span { font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--texte3); }
-.manifeste .photo { position: relative; aspect-ratio: 3/4; overflow: hidden; }
-.manifeste .photo img { width: 100%; height: 115%; object-fit: cover; object-position: center 20%; filter: grayscale(.35) contrast(1.08) brightness(.9); }
+.manifeste .photo { position: relative; aspect-ratio: 4/5; overflow: hidden; }
+.manifeste .photo img { width: 100%; height: 115%; object-fit: cover; object-position: center 55%; filter: brightness(.95); }
 .manifeste .photo::after { content: ''; position: absolute; inset: 0; border: 1px solid rgba(201,168,76,.25); pointer-events: none; }
 
 /* ── SERVICES : cinq piliers ── */
@@ -435,7 +433,6 @@
 @media (max-width: 1024px) {
   .hero-grid { grid-template-columns: 1fr; gap: 3.5rem; }
   .hero-photo { max-width: 340px; }
-  .hero-photo .badge { left: -1rem; }
   .manifeste, .par-teaser, .rdv, .contact-grid, .corp { grid-template-columns: 1fr; gap: 3.5rem; }
   .who-grid, .trust-grid { grid-template-columns: 1fr 1fr; }
   .reels { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1.2rem; margin-right: calc(var(--pad-x) * -1); padding-right: var(--pad-x); scrollbar-width: thin; scrollbar-color: var(--or-sombre) transparent; }
@@ -490,10 +487,9 @@
     <div class="hero-photo reveal" style="--d:.3">
       <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
       <div class="frame clip-reveal" style="--d:.2">
-        <picture><source srcset="walid-photo.webp" type="image/webp"><img src="walid-photo.jpg" width="1007" height="1344" alt="Walid Harchaoui, conseiller en sécurité financière à Montréal" loading="eager" fetchpriority="high"></picture>
+        <picture><source srcset="assets/photos/walid-rencontrez.webp" type="image/webp"><img src="assets/photos/walid-rencontrez.jpg" width="1122" height="1402" alt="Walid Harchaoui, CSF, conseiller en sécurité financière à Montréal, la main tendue" loading="eager" fetchpriority="high"></picture>
       </div>
       <div class="badge reveal" style="--d:1.1"><b>QC + ON</b><span lang="fr">Autorisé dans deux provinces</span><span lang="en">Licensed in two provinces</span></div>
-      <p class="cap">Walid Harchaoui · CSF</p>
     </div>
   </div>
   <div class="scroll-cue"><span lang="fr">Défiler</span><span lang="en">Scroll</span><i></i></div>
@@ -772,7 +768,7 @@
     <div class="sig reveal"><i></i><div><b>Walid Harchaoui</b><span lang="fr">Conseiller en sécurité financière</span><span lang="en">Financial security advisor</span></div></div>
     <a href="a-propos.html" class="link-arrow reveal"><span lang="fr">Découvrir mon parcours</span><span lang="en">Read my story</span></a>
   </div>
-  <div class="photo clip-reveal"><picture><source srcset="walid-photo.webp" type="image/webp"><img src="walid-photo.jpg" width="1007" height="1344" alt="Portrait de Walid Harchaoui" loading="lazy" data-parallax="0.06"></picture></div>
+  <div class="photo clip-reveal"><picture><source srcset="assets/photos/walid-bureau.webp" type="image/webp"><img src="assets/photos/walid-bureau.jpg" width="1122" height="1402" alt="" loading="lazy" data-parallax="0.06"></picture></div>
 </section>
 
 <!-- ═══════════════ RÉSEAUX ═══════════════ -->
