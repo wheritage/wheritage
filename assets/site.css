@@ -312,7 +312,7 @@ h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); font-weight: 400; }
 .orn i { display: block; height: 1px; width: 120px; background: linear-gradient(90deg, transparent, var(--ligne-fort)); }
 .orn i:last-child { transform: scaleX(-1); }
 .orn b { width: 7px; height: 7px; background: var(--or); transform: rotate(45deg); box-shadow: 0 0 14px rgba(201,168,76,.5); }
-.orn span { font-family: var(--serif); font-size: .66rem; letter-spacing: .34em; text-transform: uppercase; color: rgba(201,168,76,.6); }
+.orn span { font-family: var(--serif); font-size: .66rem; letter-spacing: .34em; text-transform: uppercase; color: rgba(201,168,76,.8); }
 
 /* Bandeau défilant */
 .marquee { overflow: hidden; border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); background: var(--noir2); padding: 1.3rem 0; }

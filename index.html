@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Walid Harchaoui, conseiller en sécurité financière à Montréal | W Héritage</title>
-<meta name="description" content="Conseiller en sécurité financière à Montréal, autorisé au Québec et en Ontario. Assurance vie et invalidité, retraite, fiscalité, vie participative — stratège, pas vendeur.">
+<meta name="description" content="Walid Harchaoui, conseiller en sécurité financière à Montréal, autorisé au Québec et en Ontario. Une stratégie financière pour entrepreneurs, professionnels et familles : protection, patrimoine, fiscalité, retraite, transmission.">
 <meta name="theme-color" content="#080808">
 <!-- SEO -->
 <meta name="google-site-verification" content="xv9yrpskjrY9uEWjsrRcT6Cs1yKvwX49a-u95phX4VA">
@@ -19,9 +19,13 @@
 <meta property="og:site_name" content="W Héritage">
 <meta property="og:url" content="https://wheritage.vercel.app/">
 <meta property="og:title" content="Walid Harchaoui, conseiller en sécurité financière à Montréal">
-<meta property="og:description" content="Bâtir l'héritage qui dure. Protection, structure et patrimoine pour entrepreneurs et familles.">
-<meta property="og:image" content="https://wheritage.vercel.app/walid-photo.jpg">
+<meta property="og:description" content="Bâtir plus que du patrimoine. Une stratégie financière pour les entrepreneurs, les professionnels et les familles.">
+<meta property="og:image" content="https://wheritage.vercel.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="W Héritage — Walid Harchaoui, CSF">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wheritage.vercel.app/assets/og.jpg">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -106,7 +110,7 @@
    "@id": "https://wheritage.vercel.app/#page",
    "url": "https://wheritage.vercel.app/",
    "name": "Walid Harchaoui, conseiller en sécurité financière à Montréal | W Héritage",
-   "description": "Conseiller en sécurité financière à Montréal, autorisé au Québec et en Ontario. Assurance vie et invalidité, retraite, fiscalité, vie participative — stratège, pas vendeur.",
+   "description": "Walid Harchaoui, conseiller en sécurité financière à Montréal, autorisé au Québec et en Ontario. Une stratégie financière pour entrepreneurs, professionnels et familles : protection, patrimoine, fiscalité, retraite, transmission.",
    "isPartOf": {
     "@id": "https://wheritage.vercel.app/#site"
    },
@@ -120,6 +124,8 @@
 </script>
 <!-- /SEO -->
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -176,7 +182,7 @@
 .who::before { content: ''; position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: var(--or); transform: scaleX(0); transform-origin: left; transition: transform .7s var(--ease-out); }
 .who:hover { background: var(--noir2); }
 .who:hover::before { transform: scaleX(1); }
-.who-n { position: absolute; right: 1.4rem; top: 1.2rem; font-family: var(--serif); font-size: 1rem; color: rgba(201,168,76,.4); }
+.who-n { position: absolute; right: 1.4rem; top: 1.2rem; font-family: var(--serif); font-size: 1rem; color: var(--or); opacity: .85; }
 .who-ic { width: 46px; height: 46px; fill: none; stroke: var(--or); stroke-width: 1.1; stroke-linejoin: round; margin-bottom: 1.8rem; transition: transform .7s var(--ease-out); }
 .who:hover .who-ic { transform: translateY(-4px); }
 .who h3 { font-size: 1.55rem; margin-bottom: .9rem; line-height: 1.15; }
@@ -220,7 +226,7 @@
 .pl-tab:hover { background: rgba(201,168,76,.04); }
 .pl-tab.on { background: linear-gradient(90deg, rgba(201,168,76,.1), rgba(201,168,76,.02)); }
 .pl-tab.on::before { transform: scaleY(1); }
-.pl-n { font-family: var(--serif); font-size: 1.9rem; font-weight: 300; line-height: 1; color: rgba(201,168,76,.35); transition: color .4s; }
+.pl-n { font-family: var(--serif); font-size: 1.9rem; font-weight: 300; line-height: 1; color: rgba(201,168,76,.62); transition: color .4s; }
 .pl-tab.on .pl-n, .pl-tab:hover .pl-n { color: var(--or); }
 .pl-t b { display: block; font-family: var(--serif); font-size: 1.28rem; font-weight: 400; color: var(--texte2); line-height: 1.2; transition: color .4s, transform .5s var(--ease-out); }
 .pl-tab.on .pl-t b { color: var(--creme); }
@@ -532,7 +538,7 @@
     </div>
     <div class="who-grid" data-stagger>
       <a class="who spot" href="#guide">
-        <span class="who-n">01</span>
+        <span class="who-n" aria-hidden="true">01</span>
         <svg class="who-ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 44 24 24 44 4 24Z"/><path d="M16 28l6-6 4 4 7-8"/></svg>
         <h3><span lang="fr">Entrepreneurs</span><span lang="en">Entrepreneurs</span></h3>
         <p lang="fr">Structurer votre protection personnelle et votre stratégie financière autour de la réalité de votre entreprise.</p>
@@ -540,7 +546,7 @@
         <span class="link-arrow"><span lang="fr">Lire le guide du fondateur</span><span lang="en">Read the founder's guide</span></span>
       </a>
       <a class="who spot" href="#expertise">
-        <span class="who-n">02</span>
+        <span class="who-n" aria-hidden="true">02</span>
         <svg class="who-ic" viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="14" width="32" height="24"/><path d="M18 14v-5h12v5M8 24h32"/></svg>
         <h3><span lang="fr">Professionnels</span><span lang="en">Professionals</span></h3>
         <p lang="fr">Transformer un revenu élevé en patrimoine durable, tout en protégeant ce que vous avez construit.</p>
@@ -548,7 +554,7 @@
         <span class="link-arrow"><span lang="fr">Explorer l'expertise</span><span lang="en">Explore the expertise</span></span>
       </a>
       <a class="who spot" href="calculateur.html#besoin">
-        <span class="who-n">03</span>
+        <span class="who-n" aria-hidden="true">03</span>
         <svg class="who-ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 42 14v10c0 10-7.5 16.5-18 20C13.5 40.5 6 34 6 24V14Z"/><circle cx="24" cy="22" r="5"/><path d="M15 34c2-4 5.5-6 9-6s7 2 9 6"/></svg>
         <h3><span lang="fr">Familles</span><span lang="en">Families</span></h3>
         <p lang="fr">Protéger les personnes qui comptent, préparer la retraite et planifier la transmission.</p>
@@ -556,7 +562,7 @@
         <span class="link-arrow"><span lang="fr">Estimer votre besoin de protection</span><span lang="en">Estimate your protection need</span></span>
       </a>
       <a class="who spot" href="#entreprise">
-        <span class="who-n">04</span>
+        <span class="who-n" aria-hidden="true">04</span>
         <svg class="who-ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 42h36M10 42V18l14-10 14 10v24"/><path d="M19 42V30h10v12M17 22h14"/></svg>
         <h3><span lang="fr">Propriétaires d'entreprise</span><span lang="en">Business owners</span></h3>
         <p lang="fr">Coordonner protection, liquidités, fiscalité, patrimoine corporatif et objectifs personnels.</p>
@@ -583,27 +589,27 @@
     <div class="pillars reveal" id="pillars">
       <div class="pl-nav" role="tablist" aria-label="Expertise">
         <button type="button" role="tab" class="pl-tab on" id="pl-tab-0" aria-controls="pl-panel-0" aria-selected="true" data-i="0">
-          <span class="pl-n">01</span>
+          <span class="pl-n" aria-hidden="true">01</span>
           <span class="pl-t"><b>Protection</b><small lang="fr">Le socle</small><small lang="en">The foundation</small></span>
           <i class="pl-bar"></i>
         </button>
         <button type="button" role="tab" class="pl-tab" id="pl-tab-1" aria-controls="pl-panel-1" aria-selected="false" data-i="1">
-          <span class="pl-n">02</span>
+          <span class="pl-n" aria-hidden="true">02</span>
           <span class="pl-t"><b lang="fr">Patrimoine</b><b lang="en">Wealth</b><small lang="fr">La croissance</small><small lang="en">Growth</small></span>
           <i class="pl-bar"></i>
         </button>
         <button type="button" role="tab" class="pl-tab" id="pl-tab-2" aria-controls="pl-panel-2" aria-selected="false" data-i="2">
-          <span class="pl-n">03</span>
+          <span class="pl-n" aria-hidden="true">03</span>
           <span class="pl-t"><b lang="fr">Fiscalité</b><b lang="en">Tax</b><small lang="fr">La cohérence</small><small lang="en">Coherence</small></span>
           <i class="pl-bar"></i>
         </button>
         <button type="button" role="tab" class="pl-tab" id="pl-tab-3" aria-controls="pl-panel-3" aria-selected="false" data-i="3">
-          <span class="pl-n">04</span>
+          <span class="pl-n" aria-hidden="true">04</span>
           <span class="pl-t"><b lang="fr">Retraite</b><b lang="en">Retirement</b><small lang="fr">La liberté</small><small lang="en">Freedom</small></span>
           <i class="pl-bar"></i>
         </button>
         <button type="button" role="tab" class="pl-tab" id="pl-tab-4" aria-controls="pl-panel-4" aria-selected="false" data-i="4">
-          <span class="pl-n">05</span>
+          <span class="pl-n" aria-hidden="true">05</span>
           <span class="pl-t"><b lang="fr">Transmission</b><b lang="en">Legacy</b><small lang="fr">L'héritage</small><small lang="en">What you pass on</small></span>
           <i class="pl-bar"></i>
         </button>

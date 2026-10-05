@@ -20,8 +20,12 @@
 <meta property="og:url" content="https://wheritage.vercel.app/calculateur">
 <meta property="og:title" content="Simulateur d'épargne et de placement">
 <meta property="og:description" content="Voyez ce que votre épargne peut devenir.">
-<meta property="og:image" content="https://wheritage.vercel.app/walid-photo.jpg">
+<meta property="og:image" content="https://wheritage.vercel.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="W Héritage — Walid Harchaoui, CSF">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wheritage.vercel.app/assets/og.jpg">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -62,6 +66,8 @@
 </script>
 <!-- /SEO -->
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -210,11 +216,11 @@ h3.blk { font-size: 1.35rem; margin-bottom: 1.4rem; color: var(--or-pale); }
         <div class="two">
           <div class="row">
             <p class="lbl"><span lang="fr">Imprévu (arrêt de revenu) à l'année</span><span lang="en">Setback (income stops) in year</span></p>
-            <div class="slide"><input type="range" id="evYear" min="1" max="19" step="1" value="8"><label class="num-box" style="min-width:80px"><input type="text" inputmode="numeric" data-for="evYear" value="8"></label></div>
+            <div class="slide"><input type="range" id="evYear" aria-label="Année de l'imprévu" min="1" max="19" step="1" value="8"><label class="num-box" style="min-width:80px"><input type="text" inputmode="numeric" data-for="evYear" aria-label="Année de l'imprévu" value="8"></label></div>
           </div>
           <div class="row">
             <p class="lbl"><span lang="fr">Durée de l'arrêt</span><span lang="en">Length of the setback</span></p>
-            <div class="slide"><input type="range" id="evDur" min="1" max="12" step="1" value="5"><label class="num-box" style="min-width:90px"><input type="text" inputmode="numeric" data-for="evDur" value="5"><span class="suf" lang="fr">ans</span><span class="suf" lang="en">yrs</span></label></div>
+            <div class="slide"><input type="range" id="evDur" aria-label="Durée de l'arrêt" min="1" max="12" step="1" value="5"><label class="num-box" style="min-width:90px"><input type="text" inputmode="numeric" data-for="evDur" aria-label="Durée de l'arrêt" value="5"><span class="suf" lang="fr">ans</span><span class="suf" lang="en">yrs</span></label></div>
           </div>
         </div>
         <p class="note"><span lang="fr">Sans protection, les dépôts s'arrêtent pendant l'imprévu (invalidité, maladie grave). Avec une protection, les dépôts se poursuivent — l'assurance prend le relais. Le coût de la protection n'est pas inclus : il dépend de votre profil.</span><span lang="en">Without protection, deposits stop during the setback (disability, critical illness). With protection, deposits continue — the insurance takes over. The cost of the protection isn't included: it depends on your profile.</span></p>
@@ -229,11 +235,11 @@ h3.blk { font-size: 1.35rem; margin-bottom: 1.4rem; color: var(--or-pale); }
         <div class="two">
           <div class="row">
             <p class="lbl"><span lang="fr">Année du retrait</span><span lang="en">Year of withdrawal</span></p>
-            <div class="slide"><input type="range" id="wdYear" min="1" max="20" step="1" value="10"><label class="num-box" style="min-width:80px"><input type="text" inputmode="numeric" data-for="wdYear" value="10"></label></div>
+            <div class="slide"><input type="range" id="wdYear" aria-label="Année du retrait" min="1" max="20" step="1" value="10"><label class="num-box" style="min-width:80px"><input type="text" inputmode="numeric" data-for="wdYear" aria-label="Année du retrait" value="10"></label></div>
           </div>
           <div class="row">
             <p class="lbl"><span lang="fr">Montant du retrait</span><span lang="en">Withdrawal amount</span></p>
-            <div class="slide"><input type="range" id="wdAmt" min="0" max="200000" step="1000" value="25000"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-for="wdAmt" value="25000"></label></div>
+            <div class="slide"><input type="range" id="wdAmt" aria-label="Montant du retrait" min="0" max="200000" step="1000" value="25000"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-for="wdAmt" aria-label="Montant du retrait" value="25000"></label></div>
           </div>
         </div>
       </div></div></div>
