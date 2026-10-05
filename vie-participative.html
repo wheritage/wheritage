@@ -91,13 +91,25 @@
 .profiles small { display: block; font-size: .54rem; letter-spacing: .24em; color: var(--or); margin-bottom: .35rem; }
 .profiles b { display: block; font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--creme); line-height: 1.2; }
 .profiles span.s { display: block; font-size: .7rem; color: var(--texte3); margin-top: .2rem; }
-.sim-body { display: grid; grid-template-columns: 340px 1fr; }
+.sim-body { display: grid; grid-template-columns: 380px 1fr; }
 .controls { padding: 2.2rem 2rem; border-right: 1px solid var(--ligne); display: flex; flex-direction: column; gap: 1.7rem; }
 .ctl-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; gap: 1rem; }
 .ctl-top label { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte2); }
 .ctl-top output { font-family: var(--serif); font-size: 1.25rem; color: var(--creme); white-space: nowrap; }
 .rate-reset { font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--or); border-bottom: 1px solid var(--ligne-fort); padding: 0; margin-top: .3rem; }
 .rate-reset:hover { color: var(--or-vif); }
+.pair { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap: .8rem; }
+.pair .seg button { letter-spacing: .08em; padding: .8rem .3rem; white-space: nowrap; }
+.num-box.mini { min-width: 0; width: 92px; }
+.num-box.mini.wide { width: 150px; }
+.num-box.mini input { padding: .45rem .6rem; font-size: .9rem; font-family: var(--serif); }
+.seg.small button { padding: .55rem .6rem; font-size: .56rem; }
+.quote-box { border: 1px solid var(--ligne-fort); background: rgba(201,168,76,.06); padding: 1rem 1.1rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 1rem; }
+.quote-box small { display: block; font-size: .54rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte3); margin-bottom: .2rem; }
+.quote-box b { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--creme); }
+.quote-box b.gold { color: var(--or); }
+.quote-box .qnote { grid-column: 1 / -1; font-size: .62rem; color: var(--texte3); line-height: 1.5; }
+.controls .full, .controls > div { min-width: 0; }
 .ctl-note { font-size: .64rem; color: var(--texte3); margin-top: .35rem; line-height: 1.5; }
 .chart-side { padding: 2rem 2.2rem 1.6rem; min-width: 0; }
 .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
@@ -268,24 +280,47 @@
       </div>
       <div class="sim-body">
         <div class="controls">
-          <div>
-            <div class="ctl-top"><label for="age"><span lang="fr">Âge de l'assuré</span><span lang="en">Age of the insured</span></label><output id="ageOut"></output></div>
+          <div class="pair full">
+            <div>
+              <div class="ctl-top"><label><span lang="fr">Sexe</span><span lang="en">Sex</span></label></div>
+              <div class="seg" id="sex"><button type="button" data-v="M" class="on"><span lang="fr">Homme</span><span lang="en">Male</span></button><button type="button" data-v="F"><span lang="fr">Femme</span><span lang="en">Female</span></button></div>
+            </div>
+            <div>
+              <div class="ctl-top"><label><span lang="fr">Tabac</span><span lang="en">Tobacco</span></label></div>
+              <div class="seg" id="smk"><button type="button" data-v="0" class="on"><span lang="fr">Non-fumeur</span><span lang="en">Non-smoker</span></button><button type="button" data-v="1"><span lang="fr">Fumeur</span><span lang="en">Smoker</span></button></div>
+            </div>
+          </div>
+          <div class="full">
+            <div class="ctl-top"><label for="age"><span lang="fr">Âge de l'assuré</span><span lang="en">Age of the insured</span></label>
+              <label class="num-box mini"><input type="text" inputmode="numeric" id="ageBox" aria-label="Âge"><span class="suf" lang="fr">ans</span><span class="suf" lang="en">yrs</span></label></div>
             <input type="range" id="age" min="0" max="70" step="1" value="50">
           </div>
-          <div>
-            <div class="ctl-top"><label for="prem"><span lang="fr">Prime annuelle</span><span lang="en">Annual premium</span></label><output id="premOut"></output></div>
-            <input type="range" id="prem" min="1000" max="150000" step="500" value="50000">
+          <div class="full">
+            <div class="ctl-top"><label><span lang="fr">Calculer à partir de</span><span lang="en">Calculate from</span></label></div>
+            <div class="seg" id="mode"><button type="button" data-v="face" class="on"><span lang="fr">Protection</span><span lang="en">Coverage</span></button><button type="button" data-v="prem"><span lang="fr">Prime</span><span lang="en">Premium</span></button></div>
+          </div>
+          <div class="full" id="faceCtl">
+            <div class="ctl-top"><label for="face"><span lang="fr">Montant de protection</span><span lang="en">Coverage amount</span></label>
+              <label class="num-box mini wide"><span>$</span><input type="text" inputmode="numeric" id="faceBox" aria-label="Montant de protection"></label></div>
+            <input type="range" id="face" min="0" max="1000" step="1" value="500">
+          </div>
+          <div class="full" id="premCtl" hidden>
+            <div class="ctl-top"><label for="premR"><span lang="fr">Prime</span><span lang="en">Premium</span></label>
+              <label class="num-box mini wide"><span>$</span><input type="text" inputmode="numeric" id="premBox" aria-label="Prime"></label></div>
+            <div class="seg small" id="freq"><button type="button" data-v="12" class="on"><span lang="fr">Par mois</span><span lang="en">Monthly</span></button><button type="button" data-v="1"><span lang="fr">Par année</span><span lang="en">Annually</span></button></div>
+            <input type="range" id="premR" min="0" max="1000" step="1" value="500" style="margin-top:.8rem">
           </div>
           <div class="full">
             <div class="ctl-top"><label><span lang="fr">Durée des primes</span><span lang="en">Premium period</span></label></div>
             <div class="seg" id="pay"><button type="button" data-v="10" class="on"><span lang="fr">10 ans</span><span lang="en">10 yrs</span></button><button type="button" data-v="20"><span lang="fr">20 ans</span><span lang="en">20 yrs</span></button><button type="button" data-v="0"><span lang="fr">À vie</span><span lang="en">For life</span></button></div>
           </div>
-          <div>
+          <div class="full quote-box" id="quoteBox"></div>
+          <div class="full">
             <div class="ctl-top"><label for="rate"><span lang="fr">Participations — hypothèse</span><span lang="en">Dividends — assumption</span></label><output id="rateOut"></output></div>
             <input type="range" id="rate" min="3" max="7.5" step="0.05" value="6.35">
             <p class="ctl-note"><span lang="fr">Par défaut : barème de participations actuel, 6,35 % (2026). Non garanti — il est révisé chaque année et peut baisser.</span><span lang="en">Default: current dividend scale interest rate, 6.35% (2026). Not guaranteed — it is reviewed every year and can go down.</span> <button type="button" id="rateReset" class="rate-reset"><span lang="fr">Revenir à 6,35 %</span><span lang="en">Reset to 6.35%</span></button></p>
           </div>
-          <div>
+          <div class="full">
             <div class="ctl-top"><label for="view"><span lang="fr">Lire les valeurs à</span><span lang="en">Read the values at</span></label><output id="viewOut"></output></div>
             <input type="range" id="view" min="1" max="85" step="1" value="85">
           </div>
@@ -293,7 +328,7 @@
 
         <div class="chart-side">
           <div class="chart-head">
-            <small><span lang="fr">Illustration hypothétique simplifiée · par âge</span><span lang="en">Simplified hypothetical illustration · by age</span></small>
+            <small><span lang="fr">Estimation approximative · par âge</span><span lang="en">Approximate estimate · by age</span></small>
             <span class="face"><span lang="fr">Capital assuré initial :</span><span lang="en">Initial face amount:</span> <b id="faceOut"></b></span>
           </div>
           <div id="parChart"></div>
@@ -303,7 +338,7 @@
         </div>
       </div>
       <div class="sim-foot">
-        <p class="disclaimer"><span lang="fr">Simulation éducative, non contractuelle. Les valeurs sont calculées avec un modèle simplifié et des hypothèses générales ; elles ne constituent ni une illustration officielle d'un assureur, ni une projection de rendement, ni un conseil personnalisé. Les participations ne sont pas garanties et dépendent notamment des résultats du compte de participation. Le coût réel dépend de l'âge, du sexe, de l'usage du tabac, de l'état de santé et du contrat choisi. Une illustration officielle est remise lors de l'analyse.</span><span lang="en">Educational simulation, not a contract. Values come from a simplified model with general assumptions; they are not an insurer's official illustration, a return projection or personalized advice. Dividends are not guaranteed and depend on the results of the participating account, among other factors. Actual cost depends on age, sex, tobacco use, health and the policy chosen. An official illustration is provided during the analysis.</span></p>
+        <p class="disclaimer"><span lang="fr">Estimation approximative, à titre éducatif seulement et non contractuelle. Les primes et les valeurs sont estimées à partir d'un échantillon d'illustrations réelles d'assurance vie entière avec participation (barème de participations courant, participations affectées à l'achat de bonifications d'assurance libérée, classe de risque favorable), puis prolongées pour les autres âges et montants. Elles peuvent différer de quelques pour cent d'une illustration officielle. Les participations ne sont pas garanties : elles dépendent notamment des résultats du compte de participation et peuvent varier. La prime réelle dépend de l'âge, du sexe, de l'usage du tabac, de l'état de santé et de la tarification. Une illustration officielle est remise lors de l'analyse. Ceci ne constitue pas un conseil personnalisé.</span><span lang="en">Approximate estimate, for educational purposes only and not a contract. Premiums and values are estimated from a sample of real participating whole life illustrations (current dividend scale, dividends used to buy paid-up additions, favourable risk class), then extended to other ages and amounts. They may differ by a few percent from an official illustration. Dividends are not guaranteed: they depend on the results of the participating account, among other factors, and may vary. The actual premium depends on age, sex, tobacco use, health and underwriting. An official illustration is provided during the analysis. This is not personalized advice.</span></p>
       </div>
     </div>
   </div>
@@ -471,41 +506,34 @@
 </section>
 
 <script src="assets/charts.js"></script>
+<script src="assets/par-cal.js"></script>
 <script>
 (function () {
-  /* ── Modèle simplifié (illustratif) ──
-     Valeurs garanties : courbe de réserve atteignant le capital à 100 ans.
-     Participations : excédent du taux hypothétique sur un taux garanti, réinvesti en assurance libérée. */
-  var IG = 0.02;
-  function nsp(a) { return 1 - Math.exp(-0.013 * (a + 6)); }
+  /* ── Moteur d'estimation (assets/par-cal.js) ──
+     Recalé sur des illustrations réelles ; les chiffres restent approximatifs et non contractuels. */
+  var CAL = window.WH_PAR_CAL;
+  var MONTHLY = CAL.monthlyFactor;
   function endAge(x) { return Math.min(100, Math.max(85, x + 30)); }
-  function model(x, P, pay, r) {
-    var base = { 10: 38, 20: 24, 0: 16 }[pay];
-    var F = P / (base * Math.pow(1.04, x - 35) / 1000);
-    var T = 100 - x, n = pay === 0 ? T : pay, end = endAge(x);
-    var G = 0, D = 0, PUA = 0, cum = 0, Gend = 0;
-    var o = { x: [x], prem: [0], gcsv: [0], csv: [0], db: [F], cap: [0], F: F };
-    for (var t = 1; t <= end - x; t++) {
-      var prem = t <= n ? P : 0; cum += prem;
-      var Gn;
-      if (pay === 0) Gn = F * Math.pow(t / T, 1.3);
-      else if (t <= n) { Gn = cum * Math.min(0.9, 0.1 + 0.75 * Math.pow(t / n, 0.8)); Gend = Gn; }
-      else Gn = Gend + (F - Gend) * Math.pow((t - n) / (T - n), 1.8);
-      var div = Math.max(0, r - IG - 0.02) * (G + D + prem * 0.7);
-      var Dn = D * (1 + r - 0.022) + div;
-      PUA += (Dn - D) / nsp(x + t);
-      G = Gn; D = Dn;
-      o.x.push(x + t); o.prem.push(cum); o.gcsv.push(G); o.csv.push(G + D); o.db.push(F + PUA); o.cap.push((G + D) * 0.9);
+  function model(st) {
+    var x = st.age, r = st.rate / 100, smk = st.smk && x >= CAL.smokerMinAge ? 1 : 0;
+    var face, annual;
+    if (st.mode === 'face') { face = st.face; annual = CAL.annualPremium(st.sex, smk, st.pay, x, face); }
+    else { annual = st.freq === 12 ? st.premium / MONTHLY : st.premium; face = CAL.faceFor(st.sex, smk, st.pay, x, annual); }
+    var years = endAge(x) - x, c = CAL.curves(st.sex, smk, st.pay, x, r, years), n = st.pay === 0 ? 100 - x : st.pay;
+    var o = { x: [], prem: [], gcsv: [], csv: [], db: [], cap: [], F: face, annual: annual, monthly: annual * MONTHLY, smkIgnored: st.smk && !smk };
+    for (var t = 0; t <= years; t++) {
+      o.x.push(x + t); o.prem.push(annual * Math.min(t, n));
+      o.gcsv.push(c.g[t] * face); o.csv.push(c.c[t] * face); o.db.push(c.d[t] * face); o.cap.push(c.c[t] * face * 0.9);
     }
     return o;
   }
 
   var PRESETS = {
-    hnw:  { age: 50, prem: 50000, pay: 10, rate: 6.35, view: 85 },
-    corp: { age: 45, prem: 40000, pay: 20, rate: 6.35, view: 65 },
-    kids: { age: 1,  prem: 2400,  pay: 20, rate: 6.35, view: 25 }
+    hnw:  { sex: 'M', smk: 0, age: 50, mode: 'face', face: 1000000, premium: 3000, freq: 12, pay: 10, rate: 6.35, view: 85 },
+    corp: { sex: 'M', smk: 0, age: 45, mode: 'face', face: 1000000, premium: 3000, freq: 12, pay: 20, rate: 6.35, view: 65 },
+    kids: { sex: 'F', smk: 0, age: 1,  mode: 'prem', face: 250000,  premium: 200,  freq: 12, pay: 20, rate: 6.35, view: 25 }
   };
-  var state = { p: 'hnw', age: 50, prem: 50000, pay: 10, rate: 6.35, view: 85 };
+  var state = {};
   var $ = function (id) { return document.getElementById(id); };
   var data;
 
@@ -573,8 +601,8 @@
     if (state.p === 'hnw') {
       var mult = prem > 0 ? db / prem : 0;
       h += statCell(WH.t('Capital-décès ÷ primes', 'Death benefit ÷ premiums'), mult.toFixed(1).replace('.', WH.lang() === 'fr' ? ',' : '.') + '×');
-      ins = WH.t('À ' + a + ' ans, le capital-décès illustré représente <b>' + mult.toFixed(1).replace('.', ',') + ' fois</b> les primes versées — une liquidité disponible rapidement pour régler l\'impôt au décès, sans vendre d\'actifs.',
-                 'At age ' + a + ', the illustrated death benefit is <b>' + mult.toFixed(1) + ' times</b> the premiums paid — liquidity available quickly to cover tax at death, without selling assets.');
+      ins = WH.t('À ' + a + ' ans, le capital-décès estimé représente <b>' + mult.toFixed(1).replace('.', ',') + ' fois</b> les primes versées — une liquidité disponible rapidement pour régler l\'impôt au décès, sans vendre d\'actifs.',
+                 'At age ' + a + ', the estimated death benefit is <b>' + mult.toFixed(1) + ' times</b> the premiums paid — liquidity available quickly to cover tax at death, without selling assets.');
     } else if (state.p === 'corp') {
       h += statCell(WH.t('Capacité d\'emprunt', 'Borrowing capacity'), WH.money(data.cap[i]), WH.t('jusqu\'à 90 % de la valeur', 'up to 90% of the value'));
       ins = WH.t('À ' + a + ' ans, votre société pourrait emprunter jusqu\'à <b>' + WH.money(data.cap[i]) + '</b> en donnant la police en garantie — sans la racheter, et sans interrompre sa croissance.',
@@ -584,21 +612,51 @@
       var v18 = i18 > 0 && i18 < data.x.length ? data.csv[i18] : null, v25 = i25 > 0 && i25 < data.x.length ? data.csv[i25] : null;
       h += statCell(WH.t('Valeur à 18 ans', 'Value at 18'), v18 !== null ? WH.money(v18) : '—', v25 !== null ? WH.t('à 25 ans : ', 'at 25: ') + WH.money(v25) : '');
       var years = state.pay === 0 ? WH.t('à vie', 'for life') : WH.t('pendant ' + state.pay + ' ans', 'for ' + state.pay + ' years');
+      var perYear = data.annual;
       ins = (v18 !== null && v25 !== null)
-        ? WH.t('Pour ' + WH.money(state.prem) + ' par année ' + years + ', votre enfant disposerait d\'une valeur de rachat illustrée de <b>' + WH.money(v18) + '</b> à 18 ans et de <b>' + WH.money(v25) + '</b> à 25 ans — plus une protection à vie.',
-               'For ' + WH.money(state.prem) + ' a year ' + years + ', your child would have an illustrated cash value of <b>' + WH.money(v18) + '</b> at 18 and <b>' + WH.money(v25) + '</b> at 25 — plus lifetime coverage.')
+        ? WH.t('Pour ' + WH.money(perYear) + ' par année ' + years + ', votre enfant disposerait d\'une valeur de rachat estimée de <b>' + WH.money(v18) + '</b> à 18 ans et de <b>' + WH.money(v25) + '</b> à 25 ans — plus une protection à vie.',
+               'For ' + WH.money(perYear) + ' a year ' + years + ', your child would have an estimated cash value of <b>' + WH.money(v18) + '</b> at 18 and <b>' + WH.money(v25) + '</b> at 25 — plus lifetime coverage.')
         : WH.t('Choisissez un âge sous 18 ans pour voir la valeur disponible aux grandes étapes de sa vie.', 'Choose an age under 18 to see the value available at the big milestones of their life.');
     }
     $('stats').innerHTML = h;
     $('insight').innerHTML = ins;
   }
 
+  /* Curseurs à échelle logarithmique pour les montants */
+  var FACE_MIN = 25000, FACE_MAX = 5000000, PREM_MIN = { 12: 25, 1: 300 }, PREM_MAX = { 12: 15000, 1: 180000 };
+  function toLog(v, lo, hi) { return Math.round(1000 * Math.log(v / lo) / Math.log(hi / lo)); }
+  function fromLog(p, lo, hi, step) { var v = lo * Math.pow(hi / lo, p / 1000); return Math.round(v / step) * step; }
+  function faceStep(v) { return v < 100000 ? 5000 : v < 1000000 ? 10000 : 50000; }
+  function premStep(v) { return v < 200 ? 5 : v < 2000 ? 10 : 100; }
+  function parseNum(s) { var v = parseFloat(String(s).replace(/[\s\u00a0\u202f$]/g, '').replace(',', '.')); return isNaN(v) ? 0 : v; }
+
+  function syncInputs() {
+    $('age').value = state.age; WH.paintRange($('age'));
+    if (document.activeElement !== $('ageBox')) $('ageBox').value = state.age;
+    $('face').value = toLog(Math.max(FACE_MIN, Math.min(FACE_MAX, state.face)), FACE_MIN, FACE_MAX); WH.paintRange($('face'));
+    if (document.activeElement !== $('faceBox')) $('faceBox').value = WH.num(state.face);
+    var lo = PREM_MIN[state.freq], hi = PREM_MAX[state.freq];
+    $('premR').value = toLog(Math.max(lo, Math.min(hi, state.premium)), lo, hi); WH.paintRange($('premR'));
+    if (document.activeElement !== $('premBox')) $('premBox').value = WH.num(state.premium);
+    $('rate').value = state.rate; WH.paintRange($('rate'));
+    ['sex', 'smk', 'mode', 'freq', 'pay'].forEach(function (id) {
+      document.querySelectorAll('#' + id + ' button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-v') === String(state[id])); });
+    });
+    $('faceCtl').hidden = state.mode !== 'face';
+    $('premCtl').hidden = state.mode !== 'prem';
+  }
+
   function recompute(instant) {
-    data = model(state.age, state.prem, state.pay, state.rate / 100);
-    $('ageOut').textContent = WH.t(state.age + ' ans', 'age ' + state.age);
-    $('premOut').textContent = WH.money(state.prem);
+    data = model(state);
+    syncInputs();
     $('rateOut').textContent = String(Number(state.rate.toFixed(2))).replace('.', WH.lang() === 'fr' ? ',' : '.') + ' %';
     $('faceOut').textContent = WH.money(data.F);
+    $('quoteBox').innerHTML =
+      '<div><small>' + WH.t('Prime mensuelle', 'Monthly premium') + '</small><b class="gold">' + WH.money(data.monthly) + '</b></div>' +
+      '<div><small>' + WH.t('Prime annuelle', 'Annual premium') + '</small><b>' + WH.money(data.annual) + '</b></div>' +
+      '<div><small>' + WH.t('Protection', 'Coverage') + '</small><b>' + WH.money(data.F) + '</b></div>' +
+      '<div><small>' + WH.t('Primes payables', 'Premiums payable') + '</small><b>' + (state.pay === 0 ? WH.t('À vie', 'For life') : state.pay + WH.t(' ans', ' yrs')) + '</b></div>' +
+      '<p class="qnote">' + (data.smkIgnored ? WH.t('Sous 18 ans, il n\'y a pas de distinction fumeur / non-fumeur. ', 'Under 18, there is no smoker / non-smoker distinction. ') : '') + WH.t('Chiffres approximatifs, estimés à partir d\'illustrations réelles. Le montant exact dépend de votre santé, de votre classe de risque et de la tarification finale.', 'Approximate figures, estimated from real illustrations. The exact amount depends on your health, risk class and final underwriting.') + '</p>';
     var v = $('view'); v.min = state.age + 1; v.max = endAge(state.age);
     if (state.view > +v.max) state.view = +v.max;
     if (state.view < +v.min) state.view = +v.min;
@@ -611,27 +669,35 @@
 
   function applyPreset(p) {
     var ps = PRESETS[p];
-    state.p = p; state.age = ps.age; state.prem = ps.prem; state.pay = ps.pay; state.rate = ps.rate; state.view = ps.view;
-    $('age').value = ps.age; $('prem').value = ps.prem; $('rate').value = ps.rate;
-    ['age', 'prem', 'rate'].forEach(function (id) { WH.paintRange($(id)); });
-    document.querySelectorAll('#pay button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-v') === ps.pay); });
+    Object.keys(ps).forEach(function (k) { state[k] = ps[k]; });
+    state.p = p;
     document.querySelectorAll('.profiles button').forEach(function (b) { var on = b.getAttribute('data-p') === p; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
     buildLegend();
     recompute();
   }
 
   document.querySelectorAll('.profiles button').forEach(function (b) { b.addEventListener('click', function () { applyPreset(b.getAttribute('data-p')); }); });
-  $('age').addEventListener('input', function () { state.age = +this.value; recompute(); });
-  $('prem').addEventListener('input', function () { state.prem = +this.value; recompute(); });
-  $('rate').addEventListener('input', function () { state.rate = +this.value; recompute(); });
-  $('rateReset').addEventListener('click', function () { state.rate = 6.35; $('rate').value = 6.35; WH.paintRange($('rate')); recompute(); });
-  $('view').addEventListener('input', function () { state.view = +this.value; renderStats(); });
-  document.querySelectorAll('#pay button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      document.querySelectorAll('#pay button').forEach(function (x) { x.classList.remove('on'); });
-      b.classList.add('on'); state.pay = +b.getAttribute('data-v'); recompute();
+  ['sex', 'smk', 'mode', 'freq', 'pay'].forEach(function (id) {
+    document.querySelectorAll('#' + id + ' button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var v = b.getAttribute('data-v');
+        if (id === 'smk' || id === 'freq' || id === 'pay') v = +v;
+        if (id === 'freq' && v !== state.freq) state.premium = Math.round(v === 1 ? state.premium * 12 : state.premium / 12);
+        if (id === 'mode' && v !== state.mode && data) { if (v === 'prem') state.premium = Math.round(state.freq === 12 ? data.monthly : data.annual); else state.face = Math.round(data.F / 1000) * 1000; }
+        state[id] = v; recompute();
+      });
     });
   });
+  $('age').addEventListener('input', function () { state.age = +this.value; recompute(); });
+  $('ageBox').addEventListener('input', function () { var v = Math.round(parseNum(this.value)); if (v >= 0 && v <= 70) { state.age = v; recompute(); } });
+  $('face').addEventListener('input', function () { var v = fromLog(+this.value, FACE_MIN, FACE_MAX, 1); state.face = Math.round(v / faceStep(v)) * faceStep(v); recompute(); });
+  $('faceBox').addEventListener('input', function () { var v = parseNum(this.value); if (v >= 1000) { state.face = Math.min(25000000, v); recompute(); } });
+  $('premR').addEventListener('input', function () { var lo = PREM_MIN[state.freq], hi = PREM_MAX[state.freq], v = fromLog(+this.value, lo, hi, 1); state.premium = Math.round(v / premStep(v)) * premStep(v); recompute(); });
+  $('premBox').addEventListener('input', function () { var v = parseNum(this.value); if (v >= 1) { state.premium = v; recompute(); } });
+  ['ageBox', 'faceBox', 'premBox'].forEach(function (id) { $(id).addEventListener('blur', function () { syncInputs(); }); $(id).addEventListener('focus', function () { this.select(); }); });
+  $('rate').addEventListener('input', function () { state.rate = +this.value; recompute(); });
+  $('rateReset').addEventListener('click', function () { state.rate = 6.35; recompute(); });
+  $('view').addEventListener('input', function () { state.view = +this.value; renderStats(); });
   document.querySelectorAll('[data-goto]').forEach(function (a) { a.addEventListener('click', function () { applyPreset(a.getAttribute('data-goto')); }); });
   document.addEventListener('wh:lang', function () { buildLegend(); recompute(true); });
 
