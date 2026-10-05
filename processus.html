@@ -101,8 +101,8 @@
 /* Emplacement vidéo 9:16 */
 .video-slot { position: relative; width: min(300px, 26vw); aspect-ratio: 9/16; border: 1px solid var(--ligne-fort); background: linear-gradient(160deg, #15120d, #0a0907); overflow: hidden; cursor: pointer; }
 .video-slot::before { content: ''; position: absolute; inset: 10px; border: 1px solid var(--ligne); pointer-events: none; z-index: 2; }
-.video-slot .vs-bg { position: absolute; inset: 0; background: url('walid-photo.jpg') center 20% / cover; filter: grayscale(.6) brightness(.35) contrast(1.1); transition: transform 1.4s var(--ease-out), filter .6s; }
-.video-slot:hover .vs-bg { transform: scale(1.06); filter: grayscale(.3) brightness(.45); }
+.video-slot .vs-bg { position: absolute; inset: 0; background: url('assets/photos/walid-bureau.webp') center / cover; filter: brightness(.6) contrast(1.05); transition: transform 1.4s var(--ease-out), filter .6s; }
+.video-slot:hover .vs-bg { transform: scale(1.06); filter: brightness(.75); }
 .video-slot .vs-ui { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; text-align: center; padding: 1.5rem; }
 .video-slot .play { width: 70px; height: 70px; position: relative; display: flex; align-items: center; justify-content: center; }
 .video-slot .play::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--or); transform: rotate(45deg); transition: transform .6s var(--ease-out), background .4s; }
@@ -372,7 +372,7 @@
   </div>
 </section>
 
-<section class="cta-final">
+<section class="cta-final photo-bg" style="--photo:url(/assets/photos/walid-bureau.webp)">
   <div class="ghost-word" aria-hidden="true"><span lang="fr">Étape I</span><span lang="en">Step I</span></div>
   <p class="eyebrow center reveal"><span lang="fr">Étape zéro</span><span lang="en">Step zero</span></p>
   <h2><span lang="fr" class="split">Tout commence par <em>15 minutes.</em></span><span lang="en" class="split">It all starts with <em>15 minutes.</em></span></h2>

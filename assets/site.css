@@ -389,6 +389,7 @@ body.cursor-hover .cursor-ring { width: 54px; height: 54px; margin: -27px 0 0 -2
 .cta-final h2 { max-width: 780px; margin: 0 auto 1.5rem; position: relative; }
 .cta-final p { position: relative; color: var(--texte2); font-size: .9rem; max-width: 520px; margin: 0 auto 2.6rem; }
 .cta-final .btn { position: relative; }
+.photo-bg::before { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(8,8,8,.74), rgba(8,8,8,.86)), var(--photo) center / cover no-repeat; pointer-events: none; }
 
 /* ── Mentions / avis ── */
 .disclaimer { font-size: .66rem; line-height: 1.8; color: var(--texte3); max-width: 820px; }
