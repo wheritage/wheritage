@@ -80,8 +80,9 @@
   var introTotal = 0;
   (function buildIntro() {
     if (!document.body) return;
-    var quick = sstore('wh-seen') === '1';
-    sstore('wh-seen', '1');
+    // Version complète seulement à la toute première visite ; version courte ensuite
+    var quick = store('wh-intro') === '1' || sstore('wh-seen') === '1';
+    store('wh-intro', '1'); sstore('wh-seen', '1');
     var word = 'W HÉRITAGE', letters = '';
     for (var i = 0; i < word.length; i++) {
       var ch = word[i];
@@ -98,7 +99,7 @@
     document.body.insertBefore(el, document.body.firstChild);
     document.documentElement.style.overflow = 'hidden';
 
-    introTotal = reduce ? 150 : (quick ? 1150 : 2350);
+    introTotal = reduce ? 150 : (quick ? 800 : 1900);
     setTimeout(function () { el.classList.add('done'); }, introTotal);
     setTimeout(function () {
       el.classList.add('open');
@@ -113,21 +114,34 @@
      CHROME PARTAGÉ — nav, menu mobile, pied de page, pastille auto/habitation
      ========================================================================== */
   var NAV = [
-    { href: 'index.html#services', key: 'services', fr: 'Services', en: 'Services' },
-    { href: 'processus.html', key: 'processus', fr: 'La méthode', en: 'The method' },
-    { href: 'vie-participative.html', key: 'par', fr: 'Vie participative', en: 'Participating life' },
-    { href: 'calculateur.html', key: 'calc', fr: 'Simulateur', en: 'Simulator' },
-    { href: 'a-propos.html', key: 'about', fr: 'Qui est Walid', en: 'Meet Walid' }
+    { href: 'a-propos.html', key: 'about', fr: 'À propos', en: 'About' },
+    { href: 'index.html#pour-qui', key: 'pourqui', fr: 'Pour qui', en: 'Who I help' },
+    { href: 'index.html#expertise', key: 'expertise', fr: 'Expertise', en: 'Expertise' },
+    { href: 'processus.html', key: 'processus', fr: 'Approche', en: 'Approach' }
   ];
+  var RES = [
+    { href: 'index.html#guide', key: 'guide', fr: 'Guide — L\'Empire Blindé', en: 'Guide — The Armored Empire' },
+    { href: 'calculateur.html', key: 'calc', fr: 'Simulateur d\'épargne', en: 'Savings simulator' },
+    { href: 'calculateur.html#besoin', key: 'besoin', fr: 'Besoin en assurance vie', en: 'Life insurance needs' },
+    { href: 'vie-participative.html', key: 'par', fr: 'Vie participative', en: 'Participating life' }
+  ];
+  var LINKEDIN = 'https://ca.linkedin.com/in/walidhcsf/en';
 
   function buildChrome() {
     var page = document.body.getAttribute('data-page') || '';
+    var resActive = page === 'calc' || page === 'par';
     var linksHtml = NAV.map(function (n) {
       return '<li><a href="' + n.href + '"' + (n.key === page ? ' class="active" aria-current="page"' : '') + '>' + bi(n.fr, n.en) + '</a></li>';
-    }).join('');
+    }).join('') +
+      '<li class="has-sub"><button type="button" class="sub-toggle' + (resActive ? ' active' : '') + '" aria-expanded="false" aria-haspopup="true">' + bi('Ressources', 'Resources') +
+        '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5"/></svg></button>' +
+        '<ul class="sub">' + RES.map(function (n) {
+          return '<li><a href="' + n.href + '"' + (n.key === page ? ' aria-current="page"' : '') + '>' + bi(n.fr, n.en) + '</a></li>';
+        }).join('') + '</ul></li>';
 
     var top = document.createElement('div');
     top.innerHTML =
+      '<a class="skip-link" href="#main">' + bi('Aller au contenu', 'Skip to content') + '</a>' +
       '<div id="scroll-progress"></div>' +
       '<nav class="nav" id="nav" aria-label="Navigation">' +
         '<a href="index.html" class="logo" aria-label="W Héritage — accueil">' + WH.logo('logo-mark') +
@@ -135,52 +149,75 @@
         '<ul class="nav-links">' + linksHtml + '</ul>' +
         '<div class="nav-right">' +
           '<div class="lang-toggle" role="group" aria-label="Langue / Language"><button data-l="fr" type="button">FR</button><button data-l="en" type="button">EN</button></div>' +
-          '<a href="index.html#reservation" class="nav-cta">' + bi('Réserver', 'Book a call') + '</a>' +
-          '<button class="hamburger" id="hamburger" type="button" data-aria-fr="Ouvrir le menu" data-aria-en="Open menu" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>' +
+          '<a href="index.html#reservation" class="nav-cta">' + bi('Réserver<span class="cta-x"> une consultation</span>', 'Book<span class="cta-x"> a consultation</span>') + '</a>' +
+          '<button class="hamburger" id="hamburger" type="button" data-aria-fr="Ouvrir le menu" data-aria-en="Open menu" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>' +
         '</div>' +
       '</nav>' +
       '<div class="mobile-menu" id="mobileMenu">' +
         '<a href="index.html">' + bi('Accueil', 'Home') + '</a>' +
         NAV.map(function (n) { return '<a href="' + n.href + '">' + bi(n.fr, n.en) + '</a>'; }).join('') +
-        '<a href="index.html#reservation" class="mm-small">' + bi('Réserver un appel', 'Book a call') + '</a>' +
-        '<a href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener" class="mm-small">' + bi('Soumission auto', 'Auto quote') + '</a>' +
-        '<a href="' + CONFIG.quoteHomeUrl + '" target="_blank" rel="noopener" class="mm-small">' + bi('Soumission habitation', 'Home quote') + '</a>' +
+        '<div class="mm-res"><span class="mm-label">' + bi('Ressources', 'Resources') + '</span>' +
+          RES.map(function (n) { return '<a href="' + n.href + '" class="mm-small">' + bi(n.fr, n.en) + '</a>'; }).join('') + '</div>' +
+        '<a href="index.html#reservation" class="btn btn-gold mm-cta">' + bi('Réserver une consultation', 'Book a consultation') + '</a>' +
       '</div>';
     var intro = document.getElementById('intro');
     var ref = intro ? intro.nextSibling : document.body.firstChild;
     while (top.firstChild) document.body.insertBefore(top.firstChild, ref);
+
+    // Cible du lien d'évitement : premier bloc de contenu après la navigation
+    if (!document.getElementById('main')) {
+      var first = document.querySelector('body > header, body > main, body > section');
+      if (first) { first.id = first.id || 'main'; if (first.id !== 'main') { var a = document.createElement('span'); a.id = 'main'; first.parentNode.insertBefore(a, first); } }
+    }
+    var mainEl = document.getElementById('main'); if (mainEl) mainEl.setAttribute('tabindex', '-1');
 
     var yr = new Date().getFullYear();
     var foot = document.createElement('footer');
     foot.className = 'footer';
     foot.innerHTML =
       '<div class="footer-grid">' +
-        '<div class="footer-brand"><a href="index.html" class="logo">' + WH.logo('logo-mark') + '<span class="logo-text">W <b>Héritage</b><small>Walid Harchaoui · CSF</small></span></a>' +
-          '<p>' + bi('Stratège, pas vendeur. Protection, structure et patrimoine pour les entrepreneurs et les familles du Québec et de l\'Ontario.',
-                     'A strategist, not a salesman. Protection, structure and wealth for entrepreneurs and families in Quebec and Ontario.') + '</p></div>' +
+        '<div class="footer-brand"><a href="index.html" class="logo" aria-label="W Héritage — accueil">' + WH.logo('logo-mark') + '<span class="logo-text">W <b>Héritage</b></span></a>' +
+          '<p class="fb-id"><b>Walid Harchaoui, CSF</b>' + bi('Conseiller en sécurité financière', 'Financial security advisor') + '<span>Québec · Ontario</span></p>' +
+          '<p>' + bi('Protéger ce que vous construisez. Préparer ce que vous transmettrez.', 'Protect what you build. Prepare what you will pass on.') + '</p></div>' +
         '<div><h4>' + bi('Explorer', 'Explore') + '</h4><ul>' +
           '<li><a href="index.html">' + bi('Accueil', 'Home') + '</a></li>' +
-          '<li><a href="a-propos.html">' + bi('Qui est Walid', 'Meet Walid') + '</a></li>' +
-          '<li><a href="processus.html">' + bi('La méthode', 'The method') + '</a></li>' +
-          '<li><a href="index.html#services">Services</a></li>' +
-          '<li><a href="index.html#guide">' + bi('Guide gratuit', 'Free guide') + '</a></li></ul></div>' +
-        '<div><h4>' + bi('Outils', 'Tools') + '</h4><ul>' +
-          '<li><a href="vie-participative.html">' + bi('Simulation vie participative', 'Participating life simulation') + '</a></li>' +
-          '<li><a href="calculateur.html">' + bi('Simulateur d\'épargne', 'Savings simulator') + '</a></li>' +
+          '<li><a href="a-propos.html">' + bi('À propos', 'About') + '</a></li>' +
+          '<li><a href="index.html#pour-qui">' + bi('Pour qui', 'Who I help') + '</a></li>' +
+          '<li><a href="index.html#expertise">Expertise</a></li>' +
+          '<li><a href="processus.html">' + bi('Approche', 'Approach') + '</a></li>' +
+          '<li><a href="index.html#reservation">' + bi('Consultation', 'Consultation') + '</a></li></ul></div>' +
+        '<div><h4>' + bi('Ressources', 'Resources') + '</h4><ul>' +
+          RES.map(function (n) { return '<li><a href="' + n.href + '">' + bi(n.fr, n.en) + '</a></li>'; }).join('') +
           '<li><a href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener">' + bi('Soumission auto', 'Auto insurance quote') + '</a></li>' +
           '<li><a href="' + CONFIG.quoteHomeUrl + '" target="_blank" rel="noopener">' + bi('Soumission habitation', 'Home insurance quote') + '</a></li></ul></div>' +
         '<div><h4>Contact</h4><ul>' +
           '<li><a href="tel:' + CONFIG.tel + '">' + CONFIG.phone + '</a></li>' +
           '<li><a href="mailto:' + CONFIG.email + '">' + CONFIG.email + '</a></li>' +
-          '<li><a href="' + CONFIG.instagram + '" target="_blank" rel="noopener">Instagram @walidh.csf</a></li>' +
-          '<li><a href="index.html#reservation">' + bi('Réserver un appel', 'Book a call') + '</a></li></ul></div>' +
+          '<li><a href="' + CONFIG.instagram + '" target="_blank" rel="noopener">Instagram</a></li>' +
+          '<li><a href="' + LINKEDIN + '" target="_blank" rel="noopener">LinkedIn</a></li>' +
+          '<li><a href="index.html#reservation">' + bi('Réserver une consultation', 'Book a consultation') + '</a></li></ul></div>' +
+      '</div>' +
+      '<div class="footer-legal">' +
+        '<p>' + bi('Walid Harchaoui est conseiller en sécurité financière, inscrit auprès de l\'Autorité des marchés financiers (AMF) et rattaché au cabinet Industrielle Alliance, Assurance et services financiers inc. Autorisé en Ontario par l\'Autorité ontarienne de réglementation des services financiers (ARSF). Le contenu de ce site est fourni à titre informatif seulement et ne constitue pas un conseil financier, fiscal ou juridique personnalisé.',
+                   'Walid Harchaoui is a financial security advisor registered with the Autorité des marchés financiers (AMF) and attached to the firm Industrielle Alliance, Assurance et services financiers inc. Licensed in Ontario by the Financial Services Regulatory Authority of Ontario (FSRA). The content of this site is for information only and does not constitute personalized financial, tax or legal advice.') + '</p>' +
       '</div>' +
       '<div class="footer-bottom">' +
-        '<span>© ' + yr + ' W Héritage — Walid Harchaoui, ' + bi('conseiller en sécurité financière', 'financial security advisor') + ' · AGC — Assurance &amp; Gestion de Capital</span>' +
-        '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.fsrao.ca" target="_blank" rel="noopener">' + bi('ARSF (Ontario)', 'FSRA (Ontario)') + '</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">' + bi('Chambre de la sécurité financière', 'Chambre de la sécurité financière') + '</a></span>' +
+        '<span>© ' + yr + ' W Héritage — Walid Harchaoui, CSF</span>' +
+        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a></span>' +
+        '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.fsrao.ca" target="_blank" rel="noopener">' + bi('ARSF', 'FSRA') + '</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">' + bi('Chambre de la sécurité financière', 'Chambre de la sécurité financière') + '</a></span>' +
       '</div>';
     document.body.appendChild(foot);
 
+    var lastY = window.scrollY;
+    function tuckOnScroll(el) {
+      window.addEventListener('scroll', function () {
+        var y = window.scrollY, dy = y - lastY;
+        if (Math.abs(dy) > 6) { el.classList.toggle('tuck', dy > 0 && y > 300); }
+      }, { passive: true });
+    }
+    window.addEventListener('scroll', function () { var y = window.scrollY; if (Math.abs(y - lastY) > 6) lastY = y; }, { passive: true });
+
+    // Ordinateur : pastille auto/habitation discrète
     if (!sstore('wh-qp-x') && !document.body.hasAttribute('data-no-pill')) {
       var pill = document.createElement('div');
       pill.className = 'quote-pill';
@@ -188,7 +225,7 @@
         '<span><b>' + bi('Soumission', 'Get a quote') + '</b><small>' + bi('En quelques minutes', 'In a few minutes') + '</small></span>' +
         '<a class="qp-go" href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener">Auto</a>' +
         '<a class="qp-go" href="' + CONFIG.quoteHomeUrl + '" target="_blank" rel="noopener">' + bi('Habitation', 'Home') + '</a>' +
-        '<button class="qp-x" type="button" aria-label="Fermer">×</button>';
+        '<button class="qp-x" type="button" data-aria-fr="Fermer" data-aria-en="Close" aria-label="Fermer">×</button>';
       document.body.appendChild(pill);
       pill.querySelector('.qp-x').addEventListener('click', function (e) {
         e.preventDefault(); e.stopPropagation();
@@ -196,12 +233,29 @@
         setTimeout(function () { pill.remove(); }, 800);
       });
       document.addEventListener('wh:ready', function () { setTimeout(function () { pill.classList.add('show'); }, 2200); });
-      // se range quand on descend, revient quand on remonte
-      var lastY = window.scrollY;
-      window.addEventListener('scroll', function () {
-        var y = window.scrollY, dy = y - lastY;
-        if (Math.abs(dy) > 6) { pill.classList.toggle('tuck', dy > 0 && y > 300); lastY = y; }
-      }, { passive: true });
+      tuckOnScroll(pill);
+    }
+
+    // Mobile : bouton de réservation collant (masqué près des sections de réservation et du pied de page)
+    if (!document.body.hasAttribute('data-no-bookbar')) {
+      var bar = document.createElement('div');
+      bar.className = 'book-bar';
+      bar.innerHTML = '<a href="index.html#reservation" class="btn btn-gold">' + bi('Réserver une consultation', 'Book a consultation') + '<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>';
+      document.body.appendChild(bar);
+      var hideFor = [].slice.call(document.querySelectorAll('#reservation, #contact, .footer, .page-hero, body > header'));
+      var visible = {};
+      if ('IntersectionObserver' in window) {
+        var bio = new IntersectionObserver(function (en) {
+          en.forEach(function (x) { visible[hideFor.indexOf(x.target)] = x.isIntersecting; });
+          var block = Object.keys(visible).some(function (k) { return visible[k]; });
+          bar.classList.toggle('show', !block && window.scrollY > 200);
+        }, { threshold: 0 });
+        hideFor.forEach(function (el) { bio.observe(el); });
+        window.addEventListener('scroll', function () {
+          var block = Object.keys(visible).some(function (k) { return visible[k]; });
+          bar.classList.toggle('show', !block && window.scrollY > 200);
+        }, { passive: true });
+      }
     }
 
     var curtain = document.createElement('div');
@@ -263,6 +317,18 @@
 
     document.querySelectorAll('.lang-toggle button').forEach(function (b) {
       b.addEventListener('click', function () { setLang(b.getAttribute('data-l')); });
+    });
+
+    // Menu « Ressources » : survol à la souris, clic ou clavier
+    document.querySelectorAll('.has-sub').forEach(function (li) {
+      var btn = li.querySelector('.sub-toggle');
+      function set(open) { li.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+      btn.addEventListener('click', function (e) { e.stopPropagation(); set(!li.classList.contains('open')); });
+      li.addEventListener('mouseenter', function () { if (finePointer) set(true); });
+      li.addEventListener('mouseleave', function () { if (finePointer) set(false); });
+      li.addEventListener('focusout', function (e) { if (!li.contains(e.relatedTarget)) set(false); });
+      document.addEventListener('click', function (e) { if (!li.contains(e.target)) set(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && li.classList.contains('open')) { set(false); btn.focus(); } });
     });
   }
 
