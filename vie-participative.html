@@ -328,7 +328,7 @@
 
         <div class="chart-side">
           <div class="chart-head">
-            <small><span lang="fr">Illustration hypothétique simplifiée · par âge</span><span lang="en">Simplified hypothetical illustration · by age</span></small>
+            <small><span lang="fr">Estimation approximative · par âge</span><span lang="en">Approximate estimate · by age</span></small>
             <span class="face"><span lang="fr">Capital assuré initial :</span><span lang="en">Initial face amount:</span> <b id="faceOut"></b></span>
           </div>
           <div id="parChart"></div>
@@ -338,7 +338,7 @@
         </div>
       </div>
       <div class="sim-foot">
-        <p class="disclaimer"><span lang="fr">Simulation éducative, non contractuelle. Les valeurs sont calculées avec un modèle simplifié et des hypothèses générales ; elles ne constituent ni une illustration officielle d'un assureur, ni une projection de rendement, ni un conseil personnalisé. Les participations ne sont pas garanties et dépendent notamment des résultats du compte de participation. Le coût réel dépend de l'âge, du sexe, de l'usage du tabac, de l'état de santé et du contrat choisi. Une illustration officielle est remise lors de l'analyse.</span><span lang="en">Educational simulation, not a contract. Values come from a simplified model with general assumptions; they are not an insurer's official illustration, a return projection or personalized advice. Dividends are not guaranteed and depend on the results of the participating account, among other factors. Actual cost depends on age, sex, tobacco use, health and the policy chosen. An official illustration is provided during the analysis.</span></p>
+        <p class="disclaimer"><span lang="fr">Estimation approximative, à titre éducatif seulement et non contractuelle. Les primes et les valeurs sont estimées à partir d'un échantillon d'illustrations réelles d'assurance vie entière avec participation (barème de participations courant, participations affectées à l'achat de bonifications d'assurance libérée, classe de risque favorable), puis prolongées pour les autres âges et montants. Elles peuvent différer de quelques pour cent d'une illustration officielle. Les participations ne sont pas garanties : elles dépendent notamment des résultats du compte de participation et peuvent varier. La prime réelle dépend de l'âge, du sexe, de l'usage du tabac, de l'état de santé et de la tarification. Une illustration officielle est remise lors de l'analyse. Ceci ne constitue pas un conseil personnalisé.</span><span lang="en">Approximate estimate, for educational purposes only and not a contract. Premiums and values are estimated from a sample of real participating whole life illustrations (current dividend scale, dividends used to buy paid-up additions, favourable risk class), then extended to other ages and amounts. They may differ by a few percent from an official illustration. Dividends are not guaranteed: they depend on the results of the participating account, among other factors, and may vary. The actual premium depends on age, sex, tobacco use, health and underwriting. An official illustration is provided during the analysis. This is not personalized advice.</span></p>
       </div>
     </div>
   </div>
@@ -509,60 +509,21 @@
 <script src="assets/par-cal.js"></script>
 <script>
 (function () {
-  /* ── Moteur d'illustration approximative ──
-     Les taux (prime par 1 000 $ de protection) et les courbes de valeurs sont recalés sur des
-     illustrations réelles (voir CAL). Les chiffres restent approximatifs et non contractuels. */
-  var CAL = window.WH_PAR_CAL || null;     // table de calibration (assets/par-cal.js)
-  var BASE_RATE = 6.35;                   // taux du barème utilisé pour la calibration
-  var MONTHLY = CAL && CAL.monthlyFactor || 0.09;
-  var FEE = CAL && CAL.policyFee || 0;
+  /* ── Moteur d'estimation (assets/par-cal.js) ──
+     Recalé sur des illustrations réelles ; les chiffres restent approximatifs et non contractuels. */
+  var CAL = window.WH_PAR_CAL;
+  var MONTHLY = CAL.monthlyFactor;
   function endAge(x) { return Math.min(100, Math.max(85, x + 30)); }
-  function lerp(xs, ys, x) {
-    if (x <= xs[0]) return ys[0];
-    for (var i = 1; i < xs.length; i++) if (x <= xs[i]) { var t = (x - xs[i - 1]) / (xs[i] - xs[i - 1]); return ys[i - 1] + (ys[i] - ys[i - 1]) * t; }
-    return ys[ys.length - 1];
-  }
-  // Prime annuelle par 1 000 $ (hors frais de police)
-  function per1000(sex, smk, pay, age) {
-    var k = sex + (smk ? 'S' : 'N') + pay;
-    if (CAL && CAL.prem && CAL.prem[k]) return lerp(CAL.ages, CAL.prem[k], age);
-    var ax = age - (sex === 'F' ? 4 : 0);
-    var base = { 10: 38, 20: 24, 0: 16 }[pay] * Math.pow(1.04, ax - 35);
-    return base * (smk ? 1.65 : 1);
-  }
-  // Courbes par 1 000 $ de protection : garantie, totale, capital-décès
-  var IG = 0.02;
-  function nsp(a) { return 1 - Math.exp(-0.013 * (a + 6)); }
-  function curves(sex, smk, pay, x, r) {
-    var P = per1000(sex, smk, pay, x), F = 1000;
-    var T = 100 - x, n = pay === 0 ? T : pay, end = endAge(x);
-    var G = 0, D = 0, PUA = 0, cum = 0, Gend = 0, sh = CAL && CAL.shape || {};
-    var o = { g: [0], c: [0], d: [F], p: [0] };
-    var cs = sh.csvScale || 1, ds = sh.divScale || 1;
-    for (var t = 1; t <= end - x; t++) {
-      var prem = t <= n ? P : 0; cum += prem;
-      var Gn;
-      if (pay === 0) Gn = F * Math.pow(t / T, sh.lifeExp || 1.3);
-      else if (t <= n) { Gn = cum * Math.min(0.9, 0.1 + 0.75 * Math.pow(t / n, 0.8)) * cs; Gend = Gn; }
-      else Gn = Gend + (F - Gend) * Math.pow((t - n) / (T - n), sh.postExp || 1.8);
-      var div = Math.max(0, r - IG - 0.02) * (G + D + prem * 0.7) * ds;
-      var Dn = D * (1 + r - 0.022) + div;
-      PUA += (Dn - D) / nsp(x + t);
-      G = Gn; D = Dn;
-      o.g.push(G); o.c.push(G + D); o.d.push(F + PUA); o.p.push(cum);
-    }
-    return o;
-  }
   function model(st) {
-    var x = st.age, r = st.rate / 100;
-    var rate = per1000(st.sex, st.smk, st.pay, x);
+    var x = st.age, r = st.rate / 100, smk = st.smk && x >= CAL.smokerMinAge ? 1 : 0;
     var face, annual;
-    if (st.mode === 'face') { face = st.face; annual = face / 1000 * rate + FEE; }
-    else { annual = st.freq === 12 ? st.premium / MONTHLY : st.premium; face = Math.max(0, (annual - FEE) / rate * 1000); }
-    var c = curves(st.sex, st.smk, st.pay, x, r), k = face / 1000, n = st.pay === 0 ? 100 - x : st.pay;
-    var o = { x: [], prem: [], gcsv: [], csv: [], db: [], cap: [], F: face, annual: annual, monthly: annual * MONTHLY };
-    for (var t = 0; t < c.g.length; t++) {
-      o.x.push(x + t); o.prem.push(annual * Math.min(t, n)); o.gcsv.push(c.g[t] * k); o.csv.push(c.c[t] * k); o.db.push(c.d[t] * k); o.cap.push(c.c[t] * k * 0.9);
+    if (st.mode === 'face') { face = st.face; annual = CAL.annualPremium(st.sex, smk, st.pay, x, face); }
+    else { annual = st.freq === 12 ? st.premium / MONTHLY : st.premium; face = CAL.faceFor(st.sex, smk, st.pay, x, annual); }
+    var years = endAge(x) - x, c = CAL.curves(st.sex, smk, st.pay, x, r, years), n = st.pay === 0 ? 100 - x : st.pay;
+    var o = { x: [], prem: [], gcsv: [], csv: [], db: [], cap: [], F: face, annual: annual, monthly: annual * MONTHLY, smkIgnored: st.smk && !smk };
+    for (var t = 0; t <= years; t++) {
+      o.x.push(x + t); o.prem.push(annual * Math.min(t, n));
+      o.gcsv.push(c.g[t] * face); o.csv.push(c.c[t] * face); o.db.push(c.d[t] * face); o.cap.push(c.c[t] * face * 0.9);
     }
     return o;
   }
@@ -640,8 +601,8 @@
     if (state.p === 'hnw') {
       var mult = prem > 0 ? db / prem : 0;
       h += statCell(WH.t('Capital-décès ÷ primes', 'Death benefit ÷ premiums'), mult.toFixed(1).replace('.', WH.lang() === 'fr' ? ',' : '.') + '×');
-      ins = WH.t('À ' + a + ' ans, le capital-décès illustré représente <b>' + mult.toFixed(1).replace('.', ',') + ' fois</b> les primes versées — une liquidité disponible rapidement pour régler l\'impôt au décès, sans vendre d\'actifs.',
-                 'At age ' + a + ', the illustrated death benefit is <b>' + mult.toFixed(1) + ' times</b> the premiums paid — liquidity available quickly to cover tax at death, without selling assets.');
+      ins = WH.t('À ' + a + ' ans, le capital-décès estimé représente <b>' + mult.toFixed(1).replace('.', ',') + ' fois</b> les primes versées — une liquidité disponible rapidement pour régler l\'impôt au décès, sans vendre d\'actifs.',
+                 'At age ' + a + ', the estimated death benefit is <b>' + mult.toFixed(1) + ' times</b> the premiums paid — liquidity available quickly to cover tax at death, without selling assets.');
     } else if (state.p === 'corp') {
       h += statCell(WH.t('Capacité d\'emprunt', 'Borrowing capacity'), WH.money(data.cap[i]), WH.t('jusqu\'à 90 % de la valeur', 'up to 90% of the value'));
       ins = WH.t('À ' + a + ' ans, votre société pourrait emprunter jusqu\'à <b>' + WH.money(data.cap[i]) + '</b> en donnant la police en garantie — sans la racheter, et sans interrompre sa croissance.',
@@ -653,8 +614,8 @@
       var years = state.pay === 0 ? WH.t('à vie', 'for life') : WH.t('pendant ' + state.pay + ' ans', 'for ' + state.pay + ' years');
       var perYear = data.annual;
       ins = (v18 !== null && v25 !== null)
-        ? WH.t('Pour ' + WH.money(perYear) + ' par année ' + years + ', votre enfant disposerait d\'une valeur de rachat illustrée de <b>' + WH.money(v18) + '</b> à 18 ans et de <b>' + WH.money(v25) + '</b> à 25 ans — plus une protection à vie.',
-               'For ' + WH.money(perYear) + ' a year ' + years + ', your child would have an illustrated cash value of <b>' + WH.money(v18) + '</b> at 18 and <b>' + WH.money(v25) + '</b> at 25 — plus lifetime coverage.')
+        ? WH.t('Pour ' + WH.money(perYear) + ' par année ' + years + ', votre enfant disposerait d\'une valeur de rachat estimée de <b>' + WH.money(v18) + '</b> à 18 ans et de <b>' + WH.money(v25) + '</b> à 25 ans — plus une protection à vie.',
+               'For ' + WH.money(perYear) + ' a year ' + years + ', your child would have an estimated cash value of <b>' + WH.money(v18) + '</b> at 18 and <b>' + WH.money(v25) + '</b> at 25 — plus lifetime coverage.')
         : WH.t('Choisissez un âge sous 18 ans pour voir la valeur disponible aux grandes étapes de sa vie.', 'Choose an age under 18 to see the value available at the big milestones of their life.');
     }
     $('stats').innerHTML = h;
@@ -695,7 +656,7 @@
       '<div><small>' + WH.t('Prime annuelle', 'Annual premium') + '</small><b>' + WH.money(data.annual) + '</b></div>' +
       '<div><small>' + WH.t('Protection', 'Coverage') + '</small><b>' + WH.money(data.F) + '</b></div>' +
       '<div><small>' + WH.t('Primes payables', 'Premiums payable') + '</small><b>' + (state.pay === 0 ? WH.t('À vie', 'For life') : state.pay + WH.t(' ans', ' yrs')) + '</b></div>' +
-      '<p class="qnote">' + WH.t('Prime approximative, établie à partir d\'illustrations réelles. Le montant exact dépend de votre santé et de la tarification finale.', 'Approximate premium, based on real illustrations. The exact amount depends on your health and final underwriting.') + '</p>';
+      '<p class="qnote">' + (data.smkIgnored ? WH.t('Sous 18 ans, il n\'y a pas de distinction fumeur / non-fumeur. ', 'Under 18, there is no smoker / non-smoker distinction. ') : '') + WH.t('Chiffres approximatifs, estimés à partir d\'illustrations réelles. Le montant exact dépend de votre santé, de votre classe de risque et de la tarification finale.', 'Approximate figures, estimated from real illustrations. The exact amount depends on your health, risk class and final underwriting.') + '</p>';
     var v = $('view'); v.min = state.age + 1; v.max = endAge(state.age);
     if (state.view > +v.max) state.view = +v.max;
     if (state.view < +v.min) state.view = +v.min;
