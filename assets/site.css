@@ -28,6 +28,8 @@
   --pad-x: 5rem;
 }
 
+picture { display: contents; }
+img { max-width: 100%; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--sans);

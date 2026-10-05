@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr" data-lang="fr"
-  data-title-fr="Simulateur d'épargne et de placement | W Héritage"
-  data-title-en="Savings and investment simulator | W Héritage">
+  data-title-fr="Outils de simulation : épargne et besoin en assurance vie | W Héritage"
+  data-title-en="Simulation tools: savings and life insurance needs | W Héritage">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulateur d'épargne et de placement | W Héritage</title>
-<meta name="description" content="Simulateur d'épargne : voyez ce qu'un montant épargné chaque semaine, aux deux semaines ou chaque mois peut devenir, avec ou sans protection de l'épargne.">
+<title>Outils de simulation : épargne et besoin en assurance vie | W Héritage</title>
+<meta name="description" content="Deux outils pour une première perspective : un simulateur d'épargne et une estimation de votre besoin en assurance vie. Résultats à titre indicatif.">
 <meta name="theme-color" content="#080808">
 <!-- SEO -->
 <meta name="google-site-verification" content="xv9yrpskjrY9uEWjsrRcT6Cs1yKvwX49a-u95phX4VA">
@@ -98,13 +98,47 @@
 .stats { margin-top: 2.2rem; }
 .stat-row.four { grid-template-columns: repeat(4, 1fr); }
 .stat-row .sub { display: block; font-size: .64rem; color: var(--texte3); margin-top: .3rem; }
-.foot-note { text-align: center; margin-top: 2rem; }
+.foot-note { text-align: center; }
+.disclaimer.center.foot-note { margin-top: 1.8rem; }
 .calc-cta { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; margin-top: 3.5rem; border: 1px solid var(--ligne-fort); padding: 2.2rem 2.4rem; background: linear-gradient(110deg, rgba(201,168,76,.07), transparent 60%); }
 .calc-cta h3 { margin-bottom: .3rem; }
 .calc-cta p { font-size: .8rem; color: var(--texte2); }
 
+.tool-tabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--ligne); margin-bottom: 2rem; }
+.tool-tabs button { position: relative; text-align: left; padding: 1.4rem 1.6rem 1.4rem 4rem; border-right: 1px solid var(--ligne); transition: background .4s; }
+.tool-tabs button:last-child { border-right: 0; }
+.tool-tabs button::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--or); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease-out); }
+.tool-tabs button.on { background: rgba(201,168,76,.07); }
+.tool-tabs button.on::after { transform: scaleX(1); }
+.tool-tabs small { position: absolute; left: 1.5rem; top: 1.45rem; font-family: var(--serif); font-size: 1.3rem; color: rgba(201,168,76,.45); }
+.tool-tabs button.on small { color: var(--or); }
+.tool-tabs b { display: block; font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--texte2); }
+.tool-tabs button.on b { color: var(--creme); }
+.tool-tabs span { display: block; font-size: .72rem; color: var(--texte3); margin-top: .2rem; }
+.tool[hidden] { display: none; }
+.tool { scroll-margin-top: 6rem; }
+.tool-intro { font-size: .92rem; color: var(--texte2); line-height: 1.85; margin-bottom: 2.2rem; max-width: 640px; }
+h3.blk { font-size: 1.35rem; margin-bottom: 1.4rem; color: var(--or-pale); }
+.need-out { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2.4rem; align-items: center; border: 1px solid var(--ligne-fort); background: linear-gradient(110deg, rgba(201,168,76,.07), transparent 65%); padding: 2.2rem 2rem; margin-top: 1.2rem; }
+.need-big small { display: block; font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-bottom: .6rem; }
+.need-big b { display: block; font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 400; color: var(--or); line-height: 1; }
+.need-big .sub { display: block; font-size: .74rem; color: var(--texte2); margin-top: .7rem; line-height: 1.6; }
+.need-bars { display: flex; flex-direction: column; gap: .7rem; }
+.nb { display: grid; grid-template-columns: 9.5rem 1fr auto; gap: .9rem; align-items: center; font-size: .74rem; color: var(--texte2); }
+.nb i { display: block; height: 6px; background: rgba(237,232,223,.08); position: relative; overflow: hidden; }
+.nb i::before { content: ''; position: absolute; inset: 0; width: var(--w); background: var(--or); transition: width .7s var(--ease-out); }
+.nb.minus i::before { background: rgba(237,232,223,.45); }
+.nb b { font-weight: 500; color: var(--creme); font-size: .76rem; min-width: 6.5rem; text-align: right; }
+
 @media (max-width: 760px) {
   .card { padding: 2rem 1.2rem; }
+  .tool-tabs { grid-template-columns: 1fr; }
+  .tool-tabs button { border-right: 0; border-bottom: 1px solid var(--ligne); }
+  .tool-tabs button:last-child { border-bottom: 0; }
+  .need-out { grid-template-columns: 1fr; padding: 1.8rem 1.2rem; }
+  .nb { grid-template-columns: 1fr auto; gap: .35rem .8rem; }
+  .nb i { grid-column: 1 / -1; grid-row: 2; }
+  .nb b { min-width: 0; }
   .two { grid-template-columns: 1fr; gap: 0; }
   .opt-inner { padding-left: 0; }
   .stat-row.four { grid-template-columns: 1fr 1fr; }
@@ -123,13 +157,19 @@
 
 <header class="calc-hero">
   <canvas class="dust" aria-hidden="true"></canvas>
-  <p class="k reveal"><span lang="fr">Outil interactif</span><span lang="en">Interactive tool</span></p>
-  <h1><span lang="fr" class="split">Simulateur <span class="dim">d'épargne</span></span><span lang="en" class="split">Savings <span class="dim">simulator</span></span></h1>
+  <p class="k reveal"><span lang="fr">Outils de simulation</span><span lang="en">Simulation tools</span></p>
+  <h1><span lang="fr" class="split">Explorer <span class="dim">votre situation</span></span><span lang="en" class="split">Explore <span class="dim">your situation</span></span></h1>
   <div class="rule"></div>
-  <p class="reveal" style="--d:.5"><span lang="fr">Visualisez comment un montant épargné périodiquement peut croître dans le temps — et l'effet réel d'y ajouter une protection de l'épargne.</span><span lang="en">See how an amount saved regularly can grow over time — and the real effect of adding protection to your savings.</span></p>
+  <p class="reveal" style="--d:.5"><span lang="fr">Utilisez ces outils pour obtenir une première perspective. Pour une analyse personnalisée, une consultation demeure nécessaire.</span><span lang="en">Use these tools to get a first perspective. For a personalized analysis, a consultation is still necessary.</span></p>
 </header>
 
 <main class="calc-wrap">
+  <div class="tool-tabs reveal" role="tablist" aria-label="Outils">
+    <button type="button" role="tab" id="tab-epargne" aria-controls="epargne" aria-selected="true" class="on" data-tool="epargne"><small>01</small><b lang="fr">Simulateur d'épargne</b><b lang="en">Savings simulator</b><span lang="fr">Ce qu'un montant épargné régulièrement peut devenir</span><span lang="en">What a regular saving amount can grow into</span></button>
+    <button type="button" role="tab" id="tab-besoin" aria-controls="besoin" aria-selected="false" data-tool="besoin"><small>02</small><b lang="fr">Besoin en assurance vie</b><b lang="en">Life insurance needs</b><span lang="fr">Le capital dont votre famille aurait besoin</span><span lang="en">The capital your family would need</span></button>
+  </div>
+
+  <section class="tool on" id="epargne" role="tabpanel" aria-labelledby="tab-epargne">
   <div class="card reveal" style="--d:.2">
 
     <div class="row">
@@ -204,16 +244,150 @@
 
     <div class="stats"><div class="stat-row" id="stats"></div></div>
 
-    <p class="disclaimer center foot-note"><span lang="fr">Ce simulateur est fourni à titre illustratif seulement et ne constitue pas un conseil financier personnalisé. Le rendement est une hypothèse que vous choisissez ; les rendements réels varient selon les marchés et les produits choisis, et ne sont pas garantis. Impôts et frais non inclus.</span><span lang="en">This simulator is for illustration only and is not personalized financial advice. The return is an assumption you choose; actual returns vary with markets and the products chosen, and are not guaranteed. Taxes and fees not included.</span></p>
+    <p class="disclaimer center foot-note"><span lang="fr">Résultats à titre indicatif seulement : ce simulateur ne constitue pas un conseil financier personnalisé. Le rendement est une hypothèse que vous choisissez ; les rendements réels varient selon les marchés et les produits, et ne sont pas garantis. Impôts, frais et inflation non inclus.</span><span lang="en">Results for information only: this simulator is not personalized financial advice. The return is an assumption you choose; actual returns vary with markets and products, and are not guaranteed. Taxes, fees and inflation not included.</span></p>
   </div>
+  </section>
+
+  <section class="tool" id="besoin" role="tabpanel" aria-labelledby="tab-besoin" hidden>
+  <div class="card">
+    <p class="tool-intro"><span lang="fr">Si vous n'étiez plus là demain, de combien votre famille aurait-elle besoin ? Additionnez ce qu'il faudrait couvrir, soustrayez ce qui existe déjà.</span><span lang="en">If you weren't here tomorrow, how much would your family need? Add up what would need covering, subtract what already exists.</span></p>
+
+    <h3 class="blk"><span lang="fr">Ce qu'il faudrait couvrir</span><span lang="en">What would need covering</span></h3>
+    <div class="two">
+      <div class="row">
+        <p class="lbl"><span lang="fr">Revenu annuel à remplacer <em>après impôt</em></span><span lang="en">Annual income to replace <em>after tax</em></span></p>
+        <div class="slide"><input type="range" id="nInc" min="0" max="300000" step="1000" value="60000" aria-label="Revenu annuel à remplacer"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-n="nInc" aria-label="Revenu annuel à remplacer"></label></div>
+      </div>
+      <div class="row">
+        <p class="lbl"><span lang="fr">Pendant combien d'années</span><span lang="en">For how many years</span></p>
+        <div class="slide"><input type="range" id="nYrs" min="1" max="30" step="1" value="10" aria-label="Années de remplacement"><label class="num-box" style="min-width:90px"><input type="text" inputmode="numeric" data-n="nYrs" aria-label="Années"><span class="suf" lang="fr">ans</span><span class="suf" lang="en">yrs</span></label></div>
+      </div>
+    </div>
+    <div class="two">
+      <div class="row">
+        <p class="lbl"><span lang="fr">Hypothèque et dettes à rembourser</span><span lang="en">Mortgage and debts to repay</span></p>
+        <div class="slide"><input type="range" id="nDebt" min="0" max="1500000" step="5000" value="300000" aria-label="Hypothèque et dettes"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-n="nDebt" aria-label="Hypothèque et dettes"></label></div>
+      </div>
+      <div class="row">
+        <p class="lbl"><span lang="fr">Études des enfants</span><span lang="en">Children's education</span></p>
+        <div class="slide"><input type="range" id="nEdu" min="0" max="400000" step="5000" value="0" aria-label="Études des enfants"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-n="nEdu" aria-label="Études des enfants"></label></div>
+      </div>
+    </div>
+    <div class="two">
+      <div class="row">
+        <p class="lbl"><span lang="fr">Frais funéraires et de succession</span><span lang="en">Funeral and estate costs</span></p>
+        <div class="slide"><input type="range" id="nFin" min="0" max="100000" step="1000" value="20000" aria-label="Frais funéraires et de succession"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-n="nFin" aria-label="Frais funéraires et de succession"></label></div>
+      </div>
+      <div class="row">
+        <p class="lbl"><span lang="fr">Autres objectifs <em>legs, impôt au décès…</em></span><span lang="en">Other goals <em>bequests, tax at death…</em></span></p>
+        <div class="slide"><input type="range" id="nOther" min="0" max="1000000" step="5000" value="0" aria-label="Autres objectifs"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-n="nOther" aria-label="Autres objectifs"></label></div>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+    <h3 class="blk"><span lang="fr">Ce qui existe déjà</span><span lang="en">What already exists</span></h3>
+    <div class="two">
+      <div class="row">
+        <p class="lbl"><span lang="fr">Épargne et placements disponibles</span><span lang="en">Available savings and investments</span></p>
+        <div class="slide"><input type="range" id="nSav" min="0" max="2000000" step="5000" value="50000" aria-label="Épargne et placements"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-n="nSav" aria-label="Épargne et placements"></label></div>
+      </div>
+      <div class="row">
+        <p class="lbl"><span lang="fr">Assurance vie existante <em>incluant collective</em></span><span lang="en">Existing life insurance <em>including group</em></span></p>
+        <div class="slide"><input type="range" id="nIns" min="0" max="3000000" step="5000" value="0" aria-label="Assurance vie existante"><label class="num-box"><span>$</span><input type="text" inputmode="numeric" data-n="nIns" aria-label="Assurance vie existante"></label></div>
+      </div>
+    </div>
+
+    <div class="need-out" aria-live="polite">
+      <div class="need-big"><small><span lang="fr">Besoin estimé en capital</span><span lang="en">Estimated capital need</span></small><b id="needTotal">—</b><span class="sub" id="needSub"></span></div>
+      <div class="need-bars" id="needBars"></div>
+    </div>
+
+    <p class="disclaimer center foot-note"><span lang="fr">Estimation approximative, à titre indicatif seulement. Le revenu est actualisé à un rendement net d'inflation présumé de 2 % par année. Le calcul ne tient pas compte de l'impôt, des prestations gouvernementales (par exemple la rente de conjoint survivant), de l'invalidité ni des maladies graves. Seule une analyse des besoins financiers complète permet de déterminer la protection adaptée à votre situation.</span><span lang="en">Approximate estimate, for information only. Income is discounted at an assumed return of 2% per year net of inflation. The calculation does not account for tax, government benefits (such as the surviving spouse's pension), disability or critical illness. Only a complete financial needs analysis can determine the right coverage for your situation.</span></p>
+  </div>
+  </section>
 
   <div class="calc-cta reveal">
-    <div><h3><span lang="fr">Et votre vrai plan ?</span><span lang="en">What about your real plan?</span></h3><p lang="fr">Le bon véhicule (CELI, REER, non enregistré, vie participative) change le résultat après impôt. On le regarde ensemble.</p><p lang="en">The right vehicle (TFSA, RRSP, non-registered, participating life) changes the after-tax result. Let's look at it together.</p></div>
-    <a href="index.html#reservation" class="btn btn-gold"><span lang="fr">Réserver un appel</span><span lang="en">Book a call</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    <div><h3><span lang="fr">Et votre vraie situation ?</span><span lang="en">What about your real situation?</span></h3><p lang="fr">Ces outils donnent une perspective, pas une recommandation. Une analyse des besoins tient compte de votre structure, de vos revenus et de vos objectifs.</p><p lang="en">These tools give a perspective, not a recommendation. A needs analysis takes your structure, income and goals into account.</p></div>
+    <a href="index.html#reservation" class="btn btn-gold"><span lang="fr">Réserver une consultation</span><span lang="en">Book a consultation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
   </div>
 </main>
 
 <script src="assets/charts.js"></script>
+<script>
+/* ── Onglets des outils (#besoin ouvre directement l'estimation) ── */
+(function () {
+  var tabs = [].slice.call(document.querySelectorAll('.tool-tabs [data-tool]'));
+  function select(id, focusScroll) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-tool') === id;
+      t.classList.toggle('on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1;
+      var p = document.getElementById(t.getAttribute('data-tool'));
+      p.hidden = !on; p.classList.toggle('on', on);
+      if (on) p.querySelectorAll('.reveal').forEach(function (r) { r.classList.add('in'); });
+    });
+    if (focusScroll) document.querySelector('.tool-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t.getAttribute('data-tool')); history.replaceState(null, '', '#' + t.getAttribute('data-tool')); });
+    t.addEventListener('keydown', function (e) {
+      var d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (d) { e.preventDefault(); var n = tabs[(i + d + tabs.length) % tabs.length]; n.focus(); n.click(); }
+    });
+  });
+  function fromHash(scroll) { var h = location.hash.replace('#', ''); if (h === 'besoin' || h === 'epargne') select(h, scroll); }
+  fromHash(false);
+  if (location.hash === '#besoin') document.addEventListener('wh:ready', function () { setTimeout(function () { document.querySelector('.tool-tabs').scrollIntoView({ block: 'start' }); }, 50); });
+  window.addEventListener('hashchange', function () { fromHash(true); });
+})();
+
+/* ── Besoin en assurance vie : besoins − ressources ── */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var IDS = ['nInc', 'nYrs', 'nDebt', 'nEdu', 'nFin', 'nOther', 'nSav', 'nIns'];
+  var LIM = { nInc: 2e6, nDebt: 2e7, nEdu: 5e6, nFin: 1e6, nOther: 5e7, nSav: 5e7, nIns: 5e7, nYrs: 40 };
+  var V = {}; IDS.forEach(function (id) { V[id] = +$(id).value; });
+  var REAL = 0.02;
+  function pv(a, n) { return a * (1 - Math.pow(1 + REAL, -n)) / REAL; }
+  function parseNum(s) { var v = parseFloat(String(s).replace(/[\s  $]/g, '').replace(',', '.')); return isNaN(v) ? 0 : v; }
+  function box(id) { return document.querySelector('[data-n="' + id + '"]'); }
+  function setVal(id, v, fromBox) {
+    v = Math.max(0, Math.min(LIM[id], v)); if (id === 'nYrs') v = Math.max(1, Math.round(v));
+    V[id] = v; var r = $(id); r.value = Math.min(+r.max, v); WH.paintRange(r);
+    var b = box(id); if (b && (!fromBox || document.activeElement !== b)) b.value = WH.num(v);
+  }
+  function render() {
+    var inc = pv(V.nInc, V.nYrs);
+    var needs = [
+      [WH.t('Revenu à remplacer', 'Income to replace'), inc],
+      [WH.t('Hypothèque et dettes', 'Mortgage and debts'), V.nDebt],
+      [WH.t('Études des enfants', 'Children\'s education'), V.nEdu],
+      [WH.t('Frais finaux', 'Final expenses'), V.nFin],
+      [WH.t('Autres objectifs', 'Other goals'), V.nOther]
+    ];
+    var res = [[WH.t('Épargne existante', 'Existing savings'), V.nSav], [WH.t('Assurance existante', 'Existing insurance'), V.nIns]];
+    var tn = needs.reduce(function (a, n) { return a + n[1]; }, 0), tr = res.reduce(function (a, n) { return a + n[1]; }, 0);
+    var gap = Math.max(0, tn - tr), mx = Math.max(tn, tr, 1);
+    $('needTotal').textContent = WH.money(Math.round(gap / 1000) * 1000);
+    $('needSub').textContent = gap > 0
+      ? WH.t('Besoins de ' + WH.money(tn) + ', moins ' + WH.money(tr) + ' déjà en place.', 'Needs of ' + WH.money(tn) + ', minus ' + WH.money(tr) + ' already in place.')
+      : WH.t('Selon ces données, les ressources existantes couvriraient les besoins indiqués.', 'Based on these figures, existing resources would cover the needs entered.');
+    var h = '';
+    needs.forEach(function (n) { if (n[1] > 0) h += '<div class="nb"><span>' + n[0] + '</span><i style="--w:' + (n[1] / mx * 100).toFixed(1) + '%"></i><b>' + WH.money(n[1]) + '</b></div>'; });
+    res.forEach(function (n) { if (n[1] > 0) h += '<div class="nb minus"><span>− ' + n[0] + '</span><i style="--w:' + (n[1] / mx * 100).toFixed(1) + '%"></i><b>− ' + WH.money(n[1]) + '</b></div>'; });
+    $('needBars').innerHTML = h;
+  }
+  IDS.forEach(function (id) {
+    $(id).addEventListener('input', function () { setVal(id, +this.value); render(); });
+    var b = box(id);
+    b.addEventListener('input', function () { setVal(id, parseNum(b.value), true); render(); });
+    b.addEventListener('blur', function () { b.value = WH.num(V[id]); });
+    b.addEventListener('focus', function () { b.select(); });
+    setVal(id, V[id]);
+  });
+  document.addEventListener('wh:lang', function () { IDS.forEach(function (id) { box(id).value = WH.num(V[id]); }); render(); });
+  render();
+})();
+</script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
