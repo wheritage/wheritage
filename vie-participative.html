@@ -19,9 +19,13 @@
 <meta property="og:site_name" content="W Héritage">
 <meta property="og:url" content="https://wheritage.vercel.app/vie-participative">
 <meta property="og:title" content="Assurance vie participative : simulation interactive">
-<meta property="og:description" content="L'actif que les familles fortunées gardent à l'abri.">
-<meta property="og:image" content="https://wheritage.vercel.app/walid-photo.jpg">
+<meta property="og:description" content="Plus qu'une protection : une pièce de la structure. Fonctionnement, usages, limites et simulation approximative.">
+<meta property="og:image" content="https://wheritage.vercel.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="W Héritage — Walid Harchaoui, CSF">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wheritage.vercel.app/assets/og.jpg">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -62,6 +66,8 @@
 </script>
 <!-- /SEO -->
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -189,6 +195,8 @@
 .cmp .hl { background: rgba(201,168,76,.07); color: var(--or-pale); }
 .cmp thead .hl { color: var(--or); background: rgba(201,168,76,.12); }
 .cmp tr:last-child th, .cmp tr:last-child td { border-bottom: 0; }
+.cmp tr.cons th { color: var(--or); }
+.cmp tr.cons td { font-size: .74rem; }
 
 @media (max-width: 1100px) { .sim-body { grid-template-columns: 1fr; } .controls { border-right: 0; border-bottom: 1px solid var(--ligne); display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2rem; } .controls .full { grid-column: 1 / -1; } }
 @media (max-width: 1024px) {
@@ -218,11 +226,11 @@
   <div class="ghost-word" aria-hidden="true" data-parallax="-0.1">Patrimoine</div>
   <div class="page-hero-inner">
     <p class="eyebrow reveal"><span lang="fr">Assurance vie entière avec participation</span><span lang="en">Participating whole life insurance</span></p>
-    <h1><span lang="fr" class="split">L'actif que les familles<br>fortunées <em>gardent à l'abri.</em></span><span lang="en" class="split">The asset wealthy<br>families <em>keep sheltered.</em></span></h1>
-    <p class="lead reveal" style="--d:.6"><span lang="fr">Une protection à vie, des valeurs garanties, une croissance à l'abri de l'impôt et un capital transmis sans impôt. Pour une famille, une entreprise ou un enfant — voici comment elle fonctionne, et ce qu'elle peut devenir.</span><span lang="en">Lifetime protection, guaranteed values, tax-sheltered growth and capital passed on tax-free. For a family, a business or a child — here's how it works, and what it can become.</span></p>
+    <h1><span lang="fr" class="split">Plus qu'une protection.<br><em>Une pièce de la structure.</em></span><span lang="en" class="split">More than protection.<br><em>Part of the structure.</em></span></h1>
+    <p class="lead reveal" style="--d:.6"><span lang="fr">Une protection permanente, des valeurs minimales garanties, une croissance qui peut s'accumuler à l'abri de l'impôt et un capital-décès versé à vos bénéficiaires. Voici comment elle fonctionne, à qui elle peut convenir — et ses limites.</span><span lang="en">Permanent protection, guaranteed minimum values, growth that can build up tax-sheltered and a death benefit paid to your beneficiaries. Here's how it works, who it may suit — and its limits.</span></p>
     <div class="hero-meta reveal" style="--d:.8">
-      <div><b lang="fr">Garanties</b><b lang="en">Guaranteed</b><span lang="fr">Primes, valeurs, capital</span><span lang="en">Premiums, values, coverage</span></div>
-      <div><b lang="fr">À l'abri</b><b lang="en">Sheltered</b><span lang="fr">Croissance non imposée</span><span lang="en">Untaxed growth</span></div>
+      <div><b lang="fr">Garanties</b><b lang="en">Guaranteed</b><span lang="fr">Primes, valeurs minimales, capital de base</span><span lang="en">Premiums, minimum values, base coverage</span></div>
+      <div><b lang="fr">À l'abri</b><b lang="en">Sheltered</b><span lang="fr">Dans une police exonérée</span><span lang="en">Within an exempt policy</span></div>
       <div><b lang="fr">Hors succession</b><b lang="en">Outside the estate</b><span lang="fr">Capital-décès libre d'impôt</span><span lang="en">Tax-free death benefit</span></div>
     </div>
   </div>
@@ -247,7 +255,7 @@
         <span class="tag" lang="fr">Garanti</span><span class="tag" lang="en">Guaranteed</span></div>
       <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><path d="M3 16h14M5 16V9M10 16V5M15 16V2"/></svg></div><small>02</small>
         <h3 lang="fr">La valeur de rachat</h3><h3 lang="en">Cash value</h3>
-        <p lang="fr">Un actif qui s'accumule dans le contrat, à l'abri de l'impôt. Accessible de votre vivant.</p><p lang="en">An asset that builds up inside the policy, sheltered from tax. Accessible during your lifetime.</p>
+        <p lang="fr">Une valeur qui s'accumule dans le contrat, généralement à l'abri de l'impôt. Accessible de votre vivant, selon les modalités du contrat.</p><p lang="en">A value that builds up inside the policy, generally sheltered from tax. Accessible during your lifetime, under the policy's terms.</p>
         <span class="tag" lang="fr">Valeurs minimales garanties</span><span class="tag" lang="en">Guaranteed minimum values</span></div>
       <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6"/><path d="M10 7v6M7 10h6"/></svg></div><small>03</small>
         <h3 lang="fr">Les participations</h3><h3 lang="en">Dividends</h3>
@@ -255,7 +263,7 @@
         <span class="tag ng" lang="fr">Non garanti</span><span class="tag ng" lang="en">Not guaranteed</span></div>
       <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><path d="M10 2 18 10 10 18 2 10Z"/></svg></div><small>04</small>
         <h3 lang="fr">Le capital-décès</h3><h3 lang="en">Death benefit</h3>
-        <p lang="fr">Croissant avec les participations. Versé libre d'impôt à vos bénéficiaires, hors succession.</p><p lang="en">Grows with the dividends. Paid tax-free to your beneficiaries, outside the estate.</p>
+        <p lang="fr">Croissant avec les participations. Versé libre d'impôt à vos bénéficiaires désignés, hors succession.</p><p lang="en">Grows with the dividends. Paid tax-free to your named beneficiaries, outside the estate.</p>
         <span class="tag" lang="fr">Libre d'impôt</span><span class="tag" lang="en">Tax-free</span></div>
     </div>
   </div>
@@ -274,7 +282,7 @@
 
     <div class="sim reveal">
       <div class="profiles" role="tablist">
-        <button type="button" role="tab" data-p="hnw" class="on"><small>I</small><b lang="fr">Patrimoine privé</b><b lang="en">Private wealth</b><span class="s" lang="fr">Clientèle fortunée · succession</span><span class="s" lang="en">High-net-worth · estate</span></button>
+        <button type="button" role="tab" data-p="hnw" class="on"><small>I</small><b lang="fr">Patrimoine privé</b><b lang="en">Private wealth</b><span class="s" lang="fr">Famille · succession</span><span class="s" lang="en">Family · estate</span></button>
         <button type="button" role="tab" data-p="corp"><small>II</small><b lang="fr">Entreprise</b><b lang="en">Business</b><span class="s" lang="fr">Police détenue par la société</span><span class="s" lang="en">Corporate-owned policy</span></button>
         <button type="button" role="tab" data-p="kids"><small>III</small><b lang="fr">Enfants</b><b lang="en">Children</b><span class="s" lang="fr">Créer du patrimoine pour eux</span><span class="s" lang="en">Build wealth for them</span></button>
       </div>
@@ -344,39 +352,39 @@
   </div>
 </section>
 
-<!-- ═══════════ I — CLIENTÈLE FORTUNÉE ═══════════ -->
+<!-- ═══════════ I — PATRIMOINE PRIVÉ ═══════════ -->
 <section class="section bg-noir" id="patrimoine">
   <div class="wrap use">
     <div>
       <span class="num reveal">I · <span lang="fr">PATRIMOINE PRIVÉ</span><span lang="en">PRIVATE WEALTH</span></span>
-      <h2><span lang="fr" class="split">Pour la clientèle fortunée : <em>transmettre sans vendre.</em></span><span lang="en" class="split">For high-net-worth families: <em>pass it on without selling.</em></span></h2>
+      <h2><span lang="fr" class="split">Pour les familles aisées : <em>transmettre sans vendre.</em></span><span lang="en" class="split">For affluent families: <em>pass it on without selling.</em></span></h2>
       <p class="reveal" lang="fr">Au décès, le fisc considère que vos actifs sont vendus. Immeubles, portefeuille, actions de votre société : le gain en capital devient imposable, et votre REER ou FERR s'ajoute au revenu de l'année — sauf transfert au conjoint. Sans liquidité prévue, vos héritiers vendent — souvent au mauvais moment.</p>
       <p class="reveal" lang="en">At death, the tax authorities treat your assets as sold. Real estate, portfolio, shares of your company: the capital gain becomes taxable, and your RRSP or RRIF is added to that year's income — unless it rolls over to a spouse. Without planned liquidity, your heirs sell — often at the wrong time.</p>
-      <p class="reveal" lang="fr">La police participative place une liquidité garantie exactement là où elle sera nécessaire, et fait croître en parallèle un actif à l'abri de l'impôt une fois vos REER et CELI maximisés.</p>
-      <p class="reveal" lang="en">A participating policy puts guaranteed liquidity exactly where it will be needed, while growing a tax-sheltered asset once your RRSP and TFSA are maxed out.</p>
+      <p class="reveal" lang="fr">Selon la situation, une police participative peut prévoir la liquidité nécessaire au moment du décès, tout en faisant croître une valeur à l'abri de l'impôt — une fois les REER et CELI bien utilisés.</p>
+      <p class="reveal" lang="en">Depending on the situation, a participating policy can provide the liquidity needed at death, while growing a tax-sheltered value — once your RRSP and TFSA are well used.</p>
       <ul data-stagger>
-        <li class="reveal" lang="fr"><span><b>Liquidité successorale</b> — l'impôt au décès est réglé par le capital-décès, pas par la vente de vos actifs.</span></li>
-        <li class="reveal" lang="en"><span><b>Estate liquidity</b> — tax at death is paid by the death benefit, not by selling your assets.</span></li>
+        <li class="reveal" lang="fr"><span><b>Liquidité successorale</b> — le capital-décès peut servir à payer l'impôt au décès, plutôt que la vente de vos actifs.</span></li>
+        <li class="reveal" lang="en"><span><b>Estate liquidity</b> — the death benefit can pay the tax at death, instead of selling your assets.</span></li>
         <li class="reveal" lang="fr"><span><b>Croissance à l'abri de l'impôt</b> — au-delà des plafonds REER et CELI, dans les limites d'une police exonérée.</span></li>
         <li class="reveal" lang="en"><span><b>Tax-sheltered growth</b> — beyond RRSP and TFSA limits, within the limits of an exempt policy.</span></li>
         <li class="reveal" lang="fr"><span><b>Équité entre héritiers</b> — un enfant reprend l'entreprise, les autres reçoivent l'équivalent en capital.</span></li>
         <li class="reveal" lang="en"><span><b>Fairness between heirs</b> — one child takes over the business, the others receive the equivalent in capital.</span></li>
-        <li class="reveal" lang="fr"><span><b>Composante stable</b> — des valeurs garanties qui ne suivent pas les humeurs de la bourse.</span></li>
-        <li class="reveal" lang="en"><span><b>A stable component</b> — guaranteed values that don't follow the market's mood swings.</span></li>
+        <li class="reveal" lang="fr"><span><b>Composante stable</b> — des valeurs minimales garanties, qui ne dépendent pas directement des marchés boursiers.</span></li>
+        <li class="reveal" lang="en"><span><b>A stable component</b> — guaranteed minimum values that don't depend directly on stock markets.</span></li>
         <li class="reveal" lang="fr"><span><b>Legs philanthropique</b> et, dans certaines conditions, <b>protection contre les créanciers</b> lorsque le bénéficiaire est un membre de la famille.</span></li>
         <li class="reveal" lang="en"><span><b>Charitable legacy</b> and, under certain conditions, <b>creditor protection</b> when the beneficiary is a family member.</span></li>
       </ul>
     </div>
     <div class="visual reveal-r" id="vEstate">
-      <small class="t"><span lang="fr">Même succession, deux issues — schéma</span><span lang="en">Same estate, two outcomes — diagram</span></small>
+      <small class="t"><span lang="fr">Même succession, deux issues — schéma, non à l'échelle</span><span lang="en">Same estate, two outcomes — diagram, not to scale</span></small>
       <div class="estate">
         <div class="col">
           <div class="bar" style="height:59%"><div class="seg heirs" style="flex:62"><span lang="fr">Aux héritiers</span><span lang="en">To heirs</span></div><div class="seg tax" style="flex:38;transition-delay:.3s"><span lang="fr">Impôt · actifs vendus</span><span lang="en">Tax · assets sold</span></div></div>
-          <b lang="fr">Sans stratégie</b><b lang="en">Without a strategy</b><span lang="fr">Les héritiers vendent pour payer</span><span lang="en">Heirs sell to pay</span>
+          <b lang="fr">Sans liquidité prévue</b><b lang="en">No liquidity planned</b><span lang="fr">Des actifs peuvent devoir être vendus</span><span lang="en">Assets may have to be sold</span>
         </div>
         <div class="col">
           <div class="bar"><div class="seg heirs" style="flex:100"><span lang="fr">Actifs transmis intacts</span><span lang="en">Assets passed on intact</span></div><div class="seg ins" style="flex:38;transition-delay:.5s"><span lang="fr">Impôt payé par la police</span><span lang="en">Tax paid by the policy</span></div></div>
-          <b lang="fr">Avec la police</b><b lang="en">With the policy</b><span lang="fr">Actifs intacts, transmis entiers</span><span lang="en">Assets intact, passed on whole</span>
+          <b lang="fr">Avec liquidité prévue</b><b lang="en">Liquidity planned</b><span lang="fr">L'impôt est payé par le capital-décès</span><span lang="en">Tax is paid by the death benefit</span>
         </div>
       </div>
     </div>
@@ -391,8 +399,8 @@
     <div>
       <span class="num reveal">II · <span lang="fr">ENTREPRISE</span><span lang="en">BUSINESS</span></span>
       <h2><span lang="fr" class="split">Pour les entreprises : <em>réveiller l'argent qui dort.</em></span><span lang="en" class="split">For businesses: <em>wake up the money that's sleeping.</em></span></h2>
-      <p class="reveal" lang="fr">Les surplus placés dans une société privée génèrent un revenu passif lourdement imposé — et au-delà d'un certain seuil, ce revenu réduit l'accès au taux d'imposition des petites entreprises. Une police détenue par la société change l'équation.</p>
-      <p class="reveal" lang="en">Surplus cash invested inside a private corporation generates heavily taxed passive income — and above a certain threshold, that income reduces access to the small business tax rate. A corporate-owned policy changes the equation.</p>
+      <p class="reveal" lang="fr">Les surplus placés dans une société privée génèrent un revenu passif lourdement imposé — et au-delà d'un certain seuil, ce revenu réduit l'accès au taux d'imposition des petites entreprises. Une police détenue par la société peut changer l'équation.</p>
+      <p class="reveal" lang="en">Surplus cash invested inside a private corporation generates heavily taxed passive income — and above a certain threshold, that income reduces access to the small business tax rate. A corporate-owned policy can change the equation.</p>
       <ul data-stagger>
         <li class="reveal" lang="fr"><span><b>Croissance à l'abri</b> — la croissance d'une police exonérée n'est pas imposée annuellement comme un revenu de placement.</span></li>
         <li class="reveal" lang="en"><span><b>Sheltered growth</b> — growth inside an exempt policy isn't taxed each year like investment income.</span></li>
@@ -409,9 +417,9 @@
       <div class="cflow">
         <div class="n" style="--k:0"><div class="d"><span>1</span></div><div><b lang="fr">Surplus de la société</b><b lang="en">Corporate surplus</b><p lang="fr">L'argent qui dort dans l'opco ou la holding</p><p lang="en">Idle cash in the opco or holding company</p></div></div>
         <div class="n" style="--k:1"><div class="d"><span>2</span></div><div><b lang="fr">Police détenue par la société</b><b lang="en">Corporate-owned policy</b><p lang="fr">Primes payées par la société, croissance à l'abri</p><p lang="en">Premiums paid by the company, sheltered growth</p></div></div>
-        <div class="n" style="--k:2"><div class="d"><span>3</span></div><div><b lang="fr">Valeur de rachat = garantie</b><b lang="en">Cash value = collateral</b><p lang="fr">Levier bancaire pour investir ou se verser un revenu</p><p lang="en">Bank leverage to invest or draw an income</p></div></div>
+        <div class="n" style="--k:2"><div class="d"><span>3</span></div><div><b lang="fr">Valeur de rachat en garantie</b><b lang="en">Cash value as collateral</b><p lang="fr">Un levier bancaire possible, selon le prêteur et les risques</p><p lang="en">Possible bank leverage, depending on the lender and the risks</p></div></div>
         <div class="n" style="--k:3"><div class="d"><span>4</span></div><div><b lang="fr">Capital-décès reçu par la société</b><b lang="en">Death benefit paid to the company</b><p lang="fr">Libre d'impôt · crédit au CDC</p><p lang="en">Tax-free · credited to the CDA</p></div></div>
-        <div class="n hl" style="--k:4"><div class="d"><span>5</span></div><div><b lang="fr">Dividende en capital</b><b lang="en">Capital dividend</b><p lang="fr">Versé aux actionnaires ou à la succession, sans impôt</p><p lang="en">Paid to shareholders or the estate, tax-free</p></div></div>
+        <div class="n hl" style="--k:4"><div class="d"><span>5</span></div><div><b lang="fr">Dividende en capital</b><b lang="en">Capital dividend</b><p lang="fr">Peut être versé sans impôt aux actionnaires, selon le solde du CDC</p><p lang="en">Can be paid tax-free to shareholders, based on the CDA balance</p></div></div>
       </div>
     </div>
   </div>
@@ -428,8 +436,8 @@
       <p class="reveal" lang="fr">Une police établie sur la tête d'un enfant coûte une fraction de ce qu'elle coûtera à 40 ans. Vous en êtes propriétaire, vous payez les primes pendant quelques années — et lui hérite d'un actif déjà mature, et d'une protection qu'aucun problème de santé futur ne pourra lui retirer.</p>
       <p class="reveal" lang="en">A policy on a child's life costs a fraction of what it will cost at 40. You own it, you pay the premiums for a few years — and they inherit an asset that's already mature, plus coverage no future health problem can take away.</p>
       <ul data-stagger>
-        <li class="reveal" lang="fr"><span><b>Primes bloquées à vie</b>, établies à l'âge le plus bas possible.</span></li>
-        <li class="reveal" lang="en"><span><b>Premiums locked for life</b>, set at the lowest possible age.</span></li>
+        <li class="reveal" lang="fr"><span><b>Primes garanties</b>, établies à l'âge le plus bas possible.</span></li>
+        <li class="reveal" lang="en"><span><b>Guaranteed premiums</b>, set at the lowest possible age.</span></li>
         <li class="reveal" lang="fr"><span><b>Assurabilité garantie</b> — sa protection existe, peu importe sa santé plus tard.</span></li>
         <li class="reveal" lang="en"><span><b>Guaranteed insurability</b> — their coverage exists no matter their health later on.</span></li>
         <li class="reveal" lang="fr"><span><b>Un capital accessible</b> pour les études, une mise de fonds ou un premier projet d'entreprise.</span></li>
@@ -474,10 +482,11 @@
           <tr><th>Croissance</th><td>Libre d'impôt</td><td>Impôt différé</td><td>Imposable chaque année</td><td class="hl">À l'abri de l'impôt (police exonérée)</td></tr>
           <tr><th>Déduction</th><td>Non</td><td>Oui</td><td>Non</td><td class="hl">Non</td></tr>
           <tr><th>Plafond</th><td>Droits annuels limités</td><td>Selon le revenu, avec maximum annuel</td><td>Aucun</td><td class="hl">Selon les règles d'exonération de la police</td></tr>
-          <tr><th>Accès au capital</th><td>Retrait libre d'impôt</td><td>Retrait imposable</td><td>Vente — gain imposable</td><td class="hl">Avance ou prêt garanti, sans vendre</td></tr>
-          <tr><th>Garanties</th><td>Selon les placements</td><td>Selon les placements</td><td>Selon les placements</td><td class="hl">Valeurs de rachat et capital-décès garantis</td></tr>
+          <tr><th>Accès au capital</th><td>Retrait libre d'impôt</td><td>Retrait imposable</td><td>Vente — gain imposable</td><td class="hl">Avance sur police ou prêt garanti (incidences fiscales possibles)</td></tr>
+          <tr><th>Garanties</th><td>Selon les placements</td><td>Selon les placements</td><td>Selon les placements</td><td class="hl">Valeurs de rachat minimales et capital de base garantis</td></tr>
           <tr><th>Au décès</th><td>Transfert selon la désignation</td><td>Imposable, sauf transfert au conjoint</td><td>Gain en capital imposable</td><td class="hl">Capital-décès libre d'impôt, hors succession</td></tr>
           <tr><th>Protection</th><td>—</td><td>—</td><td>—</td><td class="hl">Assurance vie permanente incluse</td></tr>
+          <tr class="cons"><th>Contraintes</th><td>Plafond de cotisation</td><td>Retraits imposables ; conversion au plus tard à 71 ans</td><td>Revenus imposés chaque année</td><td class="hl">Primes à maintenir sur la durée prévue ; valeur faible les premières années ; admissibilité médicale ; un rachat hâtif peut coûter cher</td></tr>
         </tbody>
       </table>
       <table class="cmp" lang="en">
@@ -486,10 +495,11 @@
           <tr><th>Growth</th><td>Tax-free</td><td>Tax-deferred</td><td>Taxed every year</td><td class="hl">Tax-sheltered (exempt policy)</td></tr>
           <tr><th>Deduction</th><td>No</td><td>Yes</td><td>No</td><td class="hl">No</td></tr>
           <tr><th>Limit</th><td>Limited annual room</td><td>Based on income, with an annual max</td><td>None</td><td class="hl">Set by the policy's exemption rules</td></tr>
-          <tr><th>Access to capital</th><td>Tax-free withdrawal</td><td>Taxable withdrawal</td><td>Sale — taxable gain</td><td class="hl">Policy loan or secured loan, without selling</td></tr>
-          <tr><th>Guarantees</th><td>Depends on investments</td><td>Depends on investments</td><td>Depends on investments</td><td class="hl">Guaranteed cash values and death benefit</td></tr>
+          <tr><th>Access to capital</th><td>Tax-free withdrawal</td><td>Taxable withdrawal</td><td>Sale — taxable gain</td><td class="hl">Policy loan or secured loan (possible tax consequences)</td></tr>
+          <tr><th>Guarantees</th><td>Depends on investments</td><td>Depends on investments</td><td>Depends on investments</td><td class="hl">Guaranteed minimum cash values and base coverage</td></tr>
           <tr><th>At death</th><td>Transfers per designation</td><td>Taxable, unless rolled to a spouse</td><td>Taxable capital gain</td><td class="hl">Tax-free death benefit, outside the estate</td></tr>
           <tr><th>Protection</th><td>—</td><td>—</td><td>—</td><td class="hl">Permanent life coverage included</td></tr>
+          <tr class="cons"><th>Constraints</th><td>Contribution limit</td><td>Taxable withdrawals; conversion by age 71</td><td>Income taxed every year</td><td class="hl">Premiums to keep up for the planned period; low value in early years; medical underwriting; early surrender can be costly</td></tr>
         </tbody>
       </table>
     </div>
@@ -501,8 +511,8 @@
   <div class="ghost-word" aria-hidden="true">Héritage</div>
   <p class="eyebrow center reveal"><span lang="fr">Votre illustration réelle</span><span lang="en">Your real illustration</span></p>
   <h2><span lang="fr" class="split">Passons de la simulation <em>à votre dossier.</em></span><span lang="en" class="split">Let's move from simulation <em>to your file.</em></span></h2>
-  <p class="reveal"><span lang="fr">En 15 minutes, on regarde si cette stratégie a sa place dans votre structure — et à quoi ressemblerait une illustration officielle, à votre nom.</span><span lang="en">In 15 minutes, we see whether this strategy belongs in your structure — and what an official illustration in your name would look like.</span></p>
-  <a href="index.html#reservation" class="btn btn-gold reveal"><span lang="fr">Réserver un appel</span><span lang="en">Book a call</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+  <p class="reveal"><span lang="fr">Une première conversation pour voir si cette stratégie a sa place dans votre structure — et à quoi ressemblerait une illustration officielle, à votre nom.</span><span lang="en">A first conversation to see whether this strategy belongs in your structure — and what an official illustration in your name would look like.</span></p>
+  <a href="index.html#reservation" class="btn btn-gold reveal"><span lang="fr">Réserver une consultation</span><span lang="en">Book a consultation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
 </section>
 
 <script src="assets/charts.js"></script>
