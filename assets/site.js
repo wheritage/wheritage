@@ -15,7 +15,11 @@
     phone: '(514) 296-7511',
     tel: '5142967511',
     email: 'walid.harchaoui@agc.ia.ca',
-    instagram: 'https://www.instagram.com/walidh.csf'
+    instagram: 'https://www.instagram.com/walidh.csf',
+    // Mesure et publicité : laisser vide tant que les comptes ne sont pas créés.
+    // Rien ne se charge et la bannière de témoins ne s'affiche pas tant que les deux sont vides.
+    ga4Id: '',        // ex. 'G-XXXXXXXXXX'
+    metaPixelId: ''   // ex. '123456789012345'
   };
 
   var WH = window.WH = window.WH || {};
@@ -105,6 +109,7 @@
       el.classList.add('open');
       document.documentElement.style.overflow = '';
       document.documentElement.classList.add('ready');
+      document.documentElement.classList.add('wh-ready');
       document.dispatchEvent(new CustomEvent('wh:ready'));
     }, introTotal + 260);
     setTimeout(function () { el.classList.add('gone'); }, introTotal + 1500);
@@ -203,7 +208,7 @@
       '</div>' +
       '<div class="footer-bottom">' +
         '<span>© ' + yr + ' W Héritage — Walid Harchaoui, CSF</span>' +
-        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a></span>' +
+        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button></span>' +
         '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.fsrao.ca" target="_blank" rel="noopener">' + bi('ARSF', 'FSRA') + '</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">' + bi('Chambre de la sécurité financière', 'Chambre de la sécurité financière') + '</a></span>' +
       '</div>';
     document.body.appendChild(foot);
@@ -546,8 +551,173 @@
     });
   }
 
+  /* ── Témoins (Loi 25) : consentement explicite avant toute mesure ou publicité ──
+     Choix conservé 13 mois dans le navigateur. Les scripts Google Analytics et Meta
+     ne sont chargés qu'après un « oui » pour leur catégorie. */
+  var CONSENT_KEY = 'wh-consent', CONSENT_V = 1, CONSENT_TTL = 1000 * 60 * 60 * 24 * 395;
+  var consent = null, loaded = { a: false, m: false }, queue = [];
+  function readConsent() {
+    try {
+      var c = JSON.parse(store(CONSENT_KEY) || 'null');
+      if (c && c.v === CONSENT_V && (Date.now() - new Date(c.t).getTime()) < CONSENT_TTL) return c;
+    } catch (e) {}
+    return null;
+  }
+  function trackersConfigured() { return !!(CONFIG.ga4Id || CONFIG.metaPixelId); }
+  function loadScript(src) { var sc = document.createElement('script'); sc.async = true; sc.src = src; document.head.appendChild(sc); }
+  function loadAnalytics() {
+    if (loaded.a || !CONFIG.ga4Id) return; loaded.a = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    gtag('js', new Date());
+    gtag('config', CONFIG.ga4Id);
+    loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CONFIG.ga4Id));
+  }
+  function loadPixel() {
+    if (loaded.m || !CONFIG.metaPixelId) return; loaded.m = true;
+    var f = window, n;
+    n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!f._fbq) f._fbq = n; n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+    loadScript('https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', CONFIG.metaPixelId);
+    fbq('track', 'PageView');
+  }
+  function applyConsent() {
+    if (!consent) return;
+    if (consent.a) loadAnalytics();
+    if (consent.m) loadPixel();
+    queue.splice(0).forEach(function (q) { WH.track(q[0], q[1]); });
+  }
+  function clearTrackerCookies() {
+    document.cookie.split(';').forEach(function (c) {
+      var k = c.split('=')[0].trim();
+      if (/^(_ga|_gid|_gat|_fbp|_fbc)/.test(k)) {
+        var host = location.hostname, parts = host.split('.');
+        for (var i = 0; i < parts.length - 1; i++) {
+          document.cookie = k + '=; Max-Age=0; path=/; domain=.' + parts.slice(i).join('.');
+        }
+        document.cookie = k + '=; Max-Age=0; path=/';
+      }
+    });
+  }
+  function saveConsent(a, m) {
+    var had = consent;
+    consent = { v: CONSENT_V, a: !!a, m: !!m, t: new Date().toISOString() };
+    store(CONSENT_KEY, JSON.stringify(consent));
+    closeBanner();
+    // Retrait d'un consentement déjà donné : on efface les témoins et on recharge sans les scripts.
+    if (had && ((had.a && !consent.a) || (had.m && !consent.m))) { clearTrackerCookies(); location.reload(); return; }
+    applyConsent();
+  }
+
+  /* Événements : envoyés seulement si la catégorie correspondante a été acceptée.
+     ga = nom Google Analytics, meta = événement standard Meta (ou personnalisé si custom: true). */
+  var EVENTS = {
+    guide_lead:     { ga: 'generate_lead', meta: 'Lead', p: { form: 'guide' } },
+    contact_sent:   { ga: 'generate_lead', meta: 'Contact', p: { form: 'contact' } },
+    booking_click:  { ga: 'clic_reservation', meta: 'ClicReservation', custom: true },
+    quote_click:    { ga: 'clic_soumission', meta: 'ClicSoumission', custom: true },
+    calc_used:      { ga: 'utilisation_calculateur', meta: 'UtilisationCalculateur', custom: true },
+    phone_click:    { ga: 'clic_telephone', meta: 'Contact', p: { method: 'phone' } }
+  };
+  WH.track = function (name, params) {
+    var ev = EVENTS[name]; if (!ev) return;
+    if (!consent) { if (trackersConfigured()) queue.push([name, params]); return; }
+    var p = {}, k;
+    for (k in (ev.p || {})) p[k] = ev.p[k];
+    for (k in (params || {})) p[k] = params[k];
+    p.langue = WH.lang();
+    if (consent.a && window.gtag) gtag('event', ev.ga, p);
+    if (consent.m && window.fbq) fbq(ev.custom ? 'trackCustom' : 'track', ev.meta, p);
+  };
+  WH.consent = function () { return consent; };
+
+  var banner = null;
+  function buildBanner() {
+    banner = document.createElement('div');
+    banner.className = 'consent-banner';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-modal', 'false');
+    banner.setAttribute('aria-labelledby', 'cb-title');
+    banner.innerHTML =
+      '<p class="cb-title" id="cb-title">' + bi('Vos choix de témoins', 'Your cookie choices') + '</p>' +
+      '<p class="cb-text">' + bi(
+        'Ce site utilise des témoins de mesure d\'audience et de publicité seulement si vous les acceptez. Ils m\'aident à savoir quelles pages vous sont utiles et à vous montrer du contenu pertinent sur Instagram et Facebook. Refuser ne change rien à votre navigation.',
+        'This site only uses analytics and advertising cookies if you accept them. They help me see which pages are useful to you and show you relevant content on Instagram and Facebook. Declining changes nothing about your browsing.') +
+      ' <a href="confidentialite.html#temoins">' + bi('Politique de confidentialité', 'Privacy policy') + '</a></p>' +
+      '<div class="cb-prefs" hidden>' +
+        '<label class="cb-row"><input type="checkbox" checked disabled><span><b>' + bi('Essentiels', 'Essential') + '</b><small>' + bi('Toujours actifs. Langue, préférences d\'affichage et sécurité du site.', 'Always on. Language, display preferences and site security.') + '</small></span></label>' +
+        '<label class="cb-row"><input type="checkbox" data-c="a"><span><b>' + bi('Mesure d\'audience', 'Analytics') + '</b><small>' + bi('Google Analytics : pages consultées, provenance des visites, de façon agrégée.', 'Google Analytics: pages viewed and where visits come from, in aggregate.') + '</small></span></label>' +
+        '<label class="cb-row"><input type="checkbox" data-c="m"><span><b>' + bi('Publicité', 'Advertising') + '</b><small>' + bi('Meta Pixel : mesurer mes publicités et vous montrer du contenu pertinent sur Instagram et Facebook.', 'Meta Pixel: measure my ads and show you relevant content on Instagram and Facebook.') + '</small></span></label>' +
+      '</div>' +
+      '<div class="cb-actions">' +
+        '<button type="button" class="cb-btn" data-cb="refuse">' + bi('Tout refuser', 'Decline all') + '</button>' +
+        '<button type="button" class="cb-btn" data-cb="accept">' + bi('Tout accepter', 'Accept all') + '</button>' +
+        '<button type="button" class="cb-link" data-cb="custom">' + bi('Personnaliser', 'Customize') + '</button>' +
+        '<button type="button" class="cb-btn cb-save" data-cb="save" hidden>' + bi('Enregistrer mes choix', 'Save my choices') + '</button>' +
+      '</div>';
+    document.body.appendChild(banner);
+    banner.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cb]'); if (!b) return;
+      var act = b.getAttribute('data-cb');
+      if (act === 'refuse') saveConsent(false, false);
+      else if (act === 'accept') saveConsent(true, true);
+      else if (act === 'custom') {
+        banner.querySelector('.cb-prefs').hidden = false;
+        b.hidden = true; banner.querySelector('.cb-save').hidden = false;
+        banner.querySelector('[data-c="a"]').focus();
+      } else if (act === 'save') {
+        saveConsent(banner.querySelector('[data-c="a"]').checked, banner.querySelector('[data-c="m"]').checked);
+      }
+    });
+    banner.addEventListener('keydown', function (e) { if (e.key === 'Escape' && consent) closeBanner(); });
+  }
+  function openBanner(showPrefs) {
+    if (!banner) buildBanner();
+    var c = consent || { a: false, m: false };
+    banner.querySelector('[data-c="a"]').checked = !!c.a;
+    banner.querySelector('[data-c="m"]').checked = !!c.m;
+    banner.querySelector('.cb-prefs').hidden = !showPrefs;
+    banner.querySelector('[data-cb="custom"]').hidden = !!showPrefs;
+    banner.querySelector('.cb-save').hidden = !showPrefs;
+    document.documentElement.classList.add('consent-open');
+    requestAnimationFrame(function () { banner.classList.add('show'); });
+    if (showPrefs) setTimeout(function () { var f = banner.querySelector('[data-c="a"]'); if (f) f.focus({ preventScroll: true }); }, 450);
+  }
+  function closeBanner() {
+    if (!banner) return;
+    banner.classList.remove('show');
+    document.documentElement.classList.remove('consent-open');
+  }
+  function initConsent() {
+    consent = readConsent();
+    var preview = /[?&]consent=preview/.test(location.search);
+    document.addEventListener('click', function (e) {
+      var o = e.target.closest('[data-consent-open]');
+      if (o) { e.preventDefault(); openBanner(true); return; }
+      var a = e.target.closest('a[href]'); if (!a) return;
+      var h = a.getAttribute('href');
+      if (/cal\.com|#reservation/.test(h)) WH.track('booking_click', { lien: a.textContent.trim().slice(0, 60) });
+      else if (/assurance\.ia\.ca/.test(h)) WH.track('quote_click', { type: /habitation/.test(h) ? 'habitation' : 'auto' });
+      else if (/^tel:/.test(h)) WH.track('phone_click');
+    });
+    var calcSeen = {};
+    document.addEventListener('input', function (e) {
+      var t = e.target.closest && e.target.closest('#epargne, #besoin, #simulation');
+      if (t && !calcSeen[t.id]) { calcSeen[t.id] = 1; WH.track('calc_used', { outil: t.id }); }
+    });
+    if (consent) applyConsent();
+    else if (trackersConfigured() || preview) {
+      var show = function () { setTimeout(function () { openBanner(false); }, 900); };
+      if (document.documentElement.classList.contains('wh-ready') || !document.querySelector('.intro')) show();
+      else document.addEventListener('wh:ready', show);
+    }
+  }
+
   function onReady() {
     buildChrome();
+    initConsent();
     initNav();
     setLang(document.documentElement.getAttribute('data-lang') || 'fr');
     initTransitions();
