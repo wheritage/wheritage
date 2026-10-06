@@ -120,6 +120,7 @@
     { href: 'processus.html', key: 'processus', fr: 'Approche', en: 'Approach' }
   ];
   var RES = [
+    { href: 'ressources.html', key: 'ressources', fr: 'Articles et ressources', en: 'Articles &amp; resources' },
     { href: 'index.html#guide', key: 'guide', fr: 'Guide — L\'Empire Blindé', en: 'Guide — The Armored Empire' },
     { href: 'calculateur.html', key: 'calc', fr: 'Simulateur d\'épargne', en: 'Savings simulator' },
     { href: 'calculateur.html#besoin', key: 'besoin', fr: 'Besoin en assurance vie', en: 'Life insurance needs' },
@@ -129,7 +130,7 @@
 
   function buildChrome() {
     var page = document.body.getAttribute('data-page') || '';
-    var resActive = page === 'calc' || page === 'par';
+    var resActive = page === 'calc' || page === 'par' || page === 'ressources' || page === 'article';
     var linksHtml = NAV.map(function (n) {
       return '<li><a href="' + n.href + '"' + (n.key === page ? ' class="active" aria-current="page"' : '') + '>' + bi(n.fr, n.en) + '</a></li>';
     }).join('') +
