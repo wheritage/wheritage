@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motion Lab | W Héritage</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#080808">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<!--
+  Motion Lab: reel composition for video edits.
+  Skills combined (see CLAUDE.md):
+    motion-design  -> Premium personality, 3 layers (primary text / secondary strokes / ambient dust), enter > exit
+    gsap-*         -> one master timeline, SplitText masked line reveals, stroke wipes, labels for scenes
+    threejs-*      -> custom-shader point field, timeline-driven camera, morph into the W mark
+    design-dna     -> every value comes from the site tokens in assets/site.css, nothing invented
+    genjutsu tells -> no infinite loops, no glow, no blobs, no invented figures, no numbered eyebrows
+-->
+<style>
+  :root { --ui-h: 7.25rem; }
+  html, body { height: 100%; }
+  body { display: grid; grid-template-rows: 1fr auto; overflow: hidden; }
+
+  /* ── Stage ─────────────────────────────────────────── */
+  .ml-viewport { display: grid; place-items: center; padding: 1.5rem 1rem 0; min-height: 0; }
+  .ml-stage {
+    position: relative; overflow: hidden; background: var(--noir);
+    aspect-ratio: 9 / 16;
+    height: min(100%, calc((100vw - 2rem) * 16 / 9));
+    max-width: 100%;
+    container-type: size;
+    outline: 1px solid var(--ligne);
+  }
+  .ml-stage[data-format="1:1"]  { aspect-ratio: 1 / 1;  height: min(100%, calc(100vw - 2rem)); }
+  .ml-stage[data-format="16:9"] { aspect-ratio: 16 / 9; height: min(100%, calc((100vw - 2rem) * 9 / 16)); }
+
+  .ml-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  /* Lens falloff: darkens the frame edges like a real lens, tied to nothing that moves. */
+  .ml-stage::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(8,8,8,.75) 100%);
+  }
+
+  /* ── Type (sizes in container units so every format reframes) ── */
+  .ml-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .ml-scene {
+    position: absolute; left: 9cqw; right: 9cqw; bottom: 15cqh;
+    visibility: hidden;
+  }
+  .ml-stage[data-format="16:9"] .ml-scene { left: 8cqw; right: 38cqw; bottom: auto; top: 50%; translate: 0 -50%; }
+  .ml-stage[data-format="1:1"] .ml-scene { bottom: 12cqh; right: 14cqw; }
+
+  .ml-title {
+    font-family: var(--serif); font-weight: 400; color: var(--creme);
+    font-size: min(9.8cqw, 6.4cqh); line-height: 1.04; letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .nw { white-space: nowrap; }
+  .ml-title em { font-style: italic; color: var(--or-vif); position: relative; white-space: nowrap; }
+  .ml-title + .ml-title { margin-top: .5em; }
+  .ml-quiet { color: var(--texte2); }
+
+  .ml-label {
+    font-family: var(--sans); font-weight: 500; text-transform: uppercase;
+    letter-spacing: .28em; color: var(--or); font-size: min(2.5cqw, 1.5cqh);
+    margin-bottom: 1.6em; display: block;
+  }
+
+  /* Underline stroke drawn under a key word */
+  .ml-stroke { position: absolute; height: 1.4cqh; overflow: visible; } /* placed by JS under its keyword */
+  .ml-stroke path { fill: none; stroke: var(--or); stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+
+  /* Three angles: a gold rule draws, then the line rises */
+  .ml-angles { list-style: none; display: grid; gap: .55em; font-family: var(--serif); color: var(--creme);
+    font-size: min(8.2cqw, 5.2cqh); line-height: 1.1; }
+  .ml-angles span { text-wrap: balance; }
+  .ml-angles li { display: grid; grid-template-columns: 1.4em 1fr; align-items: center; column-gap: .45em; }
+  .ml-angles svg { width: 100%; height: 2px; overflow: visible; }
+  .ml-angles line { stroke: var(--or); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+
+  .ml-cta { text-align: center; left: 8cqw; right: 8cqw; bottom: 13cqh; }
+  .ml-stage[data-format="16:9"] .ml-cta { left: 52cqw; right: 6cqw; text-align: left; }
+  .ml-cta .ml-title { font-size: min(9cqw, 6cqh); }
+  .ml-cta .ml-sign {
+    margin-top: 1.4em; font-family: var(--sans); font-weight: 400; color: var(--texte2);
+    font-size: min(3.1cqw, 2cqh); letter-spacing: .06em; line-height: 1.6;
+  }
+  .ml-cta .ml-sign b { color: var(--or); font-weight: 500; letter-spacing: .2em; text-transform: uppercase; }
+  .ml-rule { display: block; width: 22cqw; height: 2px; margin: 1.6em auto 0; overflow: visible; }
+  .ml-stage[data-format="16:9"] .ml-rule { margin-left: 0; }
+  .ml-rule line { stroke: var(--or); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+
+  /* ── Controls ─────────────────────────────────────── */
+  .ml-ui {
+    display: grid; gap: .8rem; padding: 1rem 1.25rem 1.1rem;
+    border-top: 1px solid var(--ligne); background: var(--noir2);
+    font-size: .72rem; letter-spacing: .08em; color: var(--texte2);
+    transition: opacity .35s var(--ease), translate .35s var(--ease);
+  }
+  .ml-row { display: flex; align-items: center; gap: .9rem; flex-wrap: wrap; }
+  .ml-btn {
+    border: 1px solid var(--ligne-fort); padding: .55rem .9rem; text-transform: uppercase;
+    letter-spacing: .16em; font-size: .66rem; font-weight: 500; color: var(--texte);
+    transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+  }
+  .ml-btn:hover { border-color: var(--or); color: var(--or-vif); }
+  .ml-btn[aria-pressed="true"] { background: var(--or); border-color: var(--or); color: var(--noir); }
+  .ml-btn:focus-visible, .ml-scrub:focus-visible { outline: 1px solid var(--or-vif); outline-offset: 2px; }
+  .ml-play { min-width: 6.2rem; }
+  .ml-tc { font-variant-numeric: tabular-nums; color: var(--texte); min-width: 9.5ch; }
+  .ml-scrubwrap { position: relative; flex: 1 1 14rem; height: 1.6rem; display: grid; align-items: center; }
+  .ml-scrub { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; height: 1.6rem; cursor: pointer; position: relative; z-index: 1; }
+  .ml-scrub::-webkit-slider-runnable-track { height: 1px; background: var(--ligne-fort); }
+  .ml-scrub::-moz-range-track { height: 1px; background: var(--ligne-fort); }
+  .ml-scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 2px; height: 1.1rem; margin-top: -.55rem; background: var(--or-vif); border: 0; }
+  .ml-scrub::-moz-range-thumb { width: 2px; height: 1.1rem; background: var(--or-vif); border: 0; border-radius: 0; }
+  .ml-marks { position: absolute; inset: 0; pointer-events: none; }
+  .ml-marks span { position: absolute; top: 50%; width: 1px; height: .6rem; translate: 0 -50%; background: var(--or-sombre); }
+  .ml-group { display: flex; gap: .4rem; }
+  .ml-hint { margin-left: auto; color: var(--texte3); }
+  .ml-hint kbd { font-family: inherit; color: var(--texte2); border: 1px solid var(--ligne); padding: .05rem .35rem; }
+
+  body.is-recording .ml-ui { opacity: 0; translate: 0 100%; pointer-events: none; }
+  body.is-recording .ml-stage { outline-color: transparent; }
+  body.is-recording { cursor: none; }
+
+  @media (max-width: 640px) { .ml-hint { display: none; } }
+</style>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js" } }</script>
+</head>
+<body>
+
+<main class="ml-viewport">
+  <div class="ml-stage" id="stage" data-format="9:16" aria-label="Composition animée W Héritage">
+    <canvas class="ml-canvas" id="dust" aria-hidden="true"></canvas>
+
+    <div class="ml-layer">
+      <!-- Hook -->
+      <section class="ml-scene" data-scene="hook">
+        <h1 class="ml-title" data-split>Tu gagnes bien ta vie.</h1>
+        <p class="ml-title" data-split>Pourquoi ton <em data-kw="patrimoine">patrimoine</em> ne grossit <span class="nw">pas&nbsp;?</span></p>
+        <svg class="ml-stroke" data-for="patrimoine" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M1 7 C 22 3, 48 9, 70 5 S 92 4, 99 6"/></svg>
+      </section>
+
+      <!-- Problème -->
+      <section class="ml-scene" data-scene="probleme">
+        <p class="ml-title ml-quiet" data-split>Ton entreprise est ton plus gros actif.</p>
+        <p class="ml-title" data-split>Et ton plus gros <em>risque</em>.</p>
+      </section>
+
+      <!-- Solution: the three ideas from the homepage guide -->
+      <section class="ml-scene" data-scene="solution">
+        <span class="ml-label">Trois notions à régler</span>
+        <ul class="ml-angles">
+          <li><svg viewBox="0 0 10 2" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="1" x2="10" y2="1"/></svg><span data-split>Protéger ton revenu.</span></li>
+          <li><svg viewBox="0 0 10 2" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="1" x2="10" y2="1"/></svg><span data-split>Comprendre ta liquidité.</span></li>
+          <li><svg viewBox="0 0 10 2" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="1" x2="10" y2="1"/></svg><span data-split>Coordonner ta fiscalité.</span></li>
+        </ul>
+      </section>
+
+      <!-- CTA: the dust resolves into the W above this block -->
+      <section class="ml-scene ml-cta" data-scene="appel">
+        <p class="ml-title" data-split>Écris <em>HÉRITAGE</em> en DM.</p>
+        <svg class="ml-rule" viewBox="0 0 10 2" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="1" x2="10" y2="1"/></svg>
+        <p class="ml-sign"><b>W Héritage</b><br>Stratège, pas vendeur.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<div class="ml-ui" role="group" aria-label="Contrôles de lecture">
+  <div class="ml-row">
+    <button class="ml-btn ml-play" id="play" type="button">Lecture</button>
+    <span class="ml-tc" id="tc" aria-live="off">00:00:00</span>
+    <div class="ml-scrubwrap">
+      <input class="ml-scrub" id="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="Position dans la composition">
+      <div class="ml-marks" id="marks" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="ml-row">
+    <div class="ml-group" id="scenes" aria-label="Scènes">
+      <button class="ml-btn" type="button" data-seek="hook">Hook</button>
+      <button class="ml-btn" type="button" data-seek="probleme">Problème</button>
+      <button class="ml-btn" type="button" data-seek="solution">Solution</button>
+      <button class="ml-btn" type="button" data-seek="appel">Appel</button>
+    </div>
+    <div class="ml-group" id="formats" aria-label="Format">
+      <button class="ml-btn" type="button" data-format="9:16" aria-pressed="true">9:16</button>
+      <button class="ml-btn" type="button" data-format="1:1" aria-pressed="false">1:1</button>
+      <button class="ml-btn" type="button" data-format="16:9" aria-pressed="false">16:9</button>
+    </div>
+    <button class="ml-btn" id="record" type="button">Mode enregistrement</button>
+    <span class="ml-hint"><kbd>Espace</kbd> lecture <kbd>←</kbd><kbd>→</kbd> image <kbd>R</kbd> début <kbd>H</kbd> masquer</span>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+<script type="module" src="assets/motion-lab.js"></script>
+</body>
+</html>
