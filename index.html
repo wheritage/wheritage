@@ -1123,6 +1123,7 @@
       body: JSON.stringify({ access_key: '6a1ef05e-eb74-4517-93e3-f708369154f0', subject: "NOUVEAU LEAD : Guide L'Empire Blindé", email: email, consentement_courriels: 'oui', langue: WH.lang(), from_name: 'W Héritage — capture guide' })
     }).catch(function () {}).finally(function () {
       try { localStorage.setItem('wh-guide', '1'); } catch (e) {}
+      WH.track('guide_lead');
       unlock(true);
     });
   });
@@ -1142,6 +1143,7 @@
         if (!j.success) throw new Error('fail');
         btn.textContent = WH.t('Message envoyé ✓', 'Message sent ✓');
         document.getElementById('formSuccess').style.display = 'block';
+        WH.track('contact_sent');
         cf.reset();
       })
       .catch(function () { btn.innerHTML = orig; btn.disabled = false; document.getElementById('formError').style.display = 'block'; });
