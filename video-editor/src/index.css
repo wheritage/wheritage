@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Defaults; MainVideo overrides these per edit from edit.config.json theme. */
+@theme {
+  --color-accent: #e07a5f;
+  --color-ink: #ffffff;
+  --color-stage: #0e0e0e;
+  --font-display: "Montserrat", system-ui, sans-serif;
+}

@@ -1,0 +1,78 @@
+{
+  "theme": {
+    "accent": "#E07A5F",
+    "text": "#FFFFFF",
+    "shadow": "rgba(0,0,0,0.55)",
+    "background": "#0E0E0E",
+    "font": "Montserrat"
+  },
+  "speaker": {
+    "name": "Walid Harchaoui",
+    "title": "W Héritage"
+  },
+  "hook": "Arrête de *perdre* de l'argent",
+  "hooks": [
+    "Arrête de *perdre* de l'argent",
+    "Ton comptable ne te dit *pas* ça",
+    "La règle des *3 comptes*",
+    "Pourquoi ton surplus *dort*",
+    "Ce que les riches font *autrement*"
+  ],
+  "silence": {
+    "thresholdDb": "auto",
+    "minSilenceSec": 0.45,
+    "paddingSec": 0.12
+  },
+  "whisper": {
+    "model": "small",
+    "language": "fr",
+    "version": "1.6.0"
+  },
+  "captions": {
+    "wordsPerPage": 3,
+    "uppercase": true
+  },
+  "inserts": {
+    "screenSec": 4,
+    "brollSec": 3,
+    "cooldownSec": 2.5
+  },
+  "features": {
+    "zoom": true,
+    "lowerThird": true,
+    "title": true,
+    "progressBar": true,
+    "transitions": true,
+    "emojiPops": true
+  },
+  "sound": {
+    "whooshOn": "cuts",
+    "whooshMinGapSec": 1.5,
+    "popMinGapSec": 0.12,
+    "volumes": {
+      "intro": 0.7,
+      "bed": 0.12,
+      "transition": 0.45,
+      "word": 0.18
+    }
+  },
+  "emoji": {
+    "argent": "💰",
+    "money": "💰",
+    "impôt": "🧾",
+    "impôts": "🧾",
+    "tax": "🧾",
+    "croissance": "📈",
+    "growth": "📈",
+    "attention": "⚠️",
+    "erreur": "❌",
+    "mistake": "❌",
+    "idée": "💡",
+    "idea": "💡",
+    "famille": "👨‍👩‍👧",
+    "family": "👨‍👩‍👧",
+    "temps": "⏳",
+    "time": "⏳",
+    "secret": "🤫"
+  }
+}

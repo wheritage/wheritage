@@ -57,3 +57,14 @@ reel composition with a scrubbable GSAP master timeline, SplitText line reveals,
 and a Three.js gold-dust field that resolves into the W mark. It is `noindex` and not in the
 sitemap. Recording mode (`H`) hides the controls for screen capture; `?t=4.5` opens at a time;
 `window.motionLab.seek(seconds)` gives frame-exact stills for headless export.
+
+## Video editor (Remotion)
+
+`video-editor/` is a separate Node project (Remotion 4 + Tailwind v4, own `package.json`), excluded
+from the site deploy by `.vercelignore`. Drop a raw take in `video-editor/raw-footage/` and say
+"edit this video": the `edit-video` skill (`.claude/skills/edit-video/`) runs the pipeline (waveform
+silence cut, Whisper word captions, keyword-cued screen recordings / b-roll, sound pack from
+`public/assets/sound/`), does the editorial pass (transcript fixes, 5 hooks), and renders
+`out/MainVideo.mp4` (16:9) + `out/MainVideo-vertical.mp4` (9:16). Knobs live in
+`video-editor/edit.config.json`. Its default look is the terracotta reel style (#E07A5F, emoji
+pops); for W Héritage-branded videos the house motion rules above win (see the skill).

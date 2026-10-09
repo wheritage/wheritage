@@ -1,0 +1,50 @@
+{
+  "name": "video-editor",
+  "version": "1.0.0",
+  "description": "Remotion + Claude Code editing pipeline: raw take in, captioned polished cut out.",
+  "repository": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@remotion/bundler": "4.0.534",
+    "@remotion/captions": "4.0.534",
+    "@remotion/cli": "4.0.534",
+    "@remotion/google-fonts": "4.0.534",
+    "@remotion/install-whisper-cpp": "4.0.534",
+    "@remotion/media-utils": "4.0.534",
+    "@remotion/renderer": "4.0.534",
+    "@remotion/tailwind-v4": "4.0.534",
+    "@remotion/zod-types": "4.0.534",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.534",
+    "tailwindcss": "4.0.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.534",
+    "@types/node": "26.6.4",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.39.5",
+    "prettier": "3.8.1",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "edit": "tsx scripts/edit.ts",
+    "ingest": "tsx scripts/ingest.ts",
+    "watch": "tsx scripts/ingest.ts --watch",
+    "render": "tsx scripts/render.ts",
+    "variants": "tsx scripts/render.ts --variants",
+    "sounds": "tsx scripts/make-sound-pack.ts",
+    "build": "remotion bundle",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}
