@@ -1,0 +1,6 @@
+{
+  "_doc": "keyword (accent/case-insensitive, matched on transcript words) -> file in public/screen-recordings. Each fires once, on the first time the keyword is said.",
+  "calculateur": "screen-recordings/calculateur.mp4",
+  "celi": "screen-recordings/celi.mp4",
+  "reer": "screen-recordings/reer.mp4"
+}

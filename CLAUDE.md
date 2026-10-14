@@ -50,6 +50,25 @@ Note: the Instagram post (@ai.theshift) spelled the Three.js repo `ClaudeAI-X`; 
   draw those with a `clip-path: inset()` wipe instead. DrawSVG is fine on uniformly scaled SVGs.
 - Respect `prefers-reduced-motion`: cut to resolved frames, keep opacity fades only.
 
+## Video studio (one command per style)
+
+`/video-studio` picks for you. Sources, commits and licences: `.claude/skills/SOURCES.md`. Work and
+renders live in `studio/` (git-ignores `out/`, excluded from the Vercel deploy by `.vercelignore`).
+
+| Need | Command | Engine / where |
+|------|---------|----------------|
+| Daily TikTok/Reel tip from a raw take | `/remotion-reel` | Remotion project `studio/remotion/` (silence cuts, Whisper word captions, screen rec on keyword, lower third, punch-ins, progress bar, `renderVariants(['hook1'…'hook5'])`) |
+| Motion graphics, text animation, agency-style reveal | `/hyperframes` | HeyGen HyperFrames, HTML + GSAP, `npx hyperframes preview` / `render -o out.mp4` |
+| Premium launch / service explainer, Linear/Stripe feel, one continuous take | `/onetake` | `references/motion-library.md` + `references/composition.md`; PolyForm **Noncommercial** licence |
+| B-roll explaining REER, CELI, succession as self-assembling paper collage | `/collage-broll` | MaxFusion MCP (Gemini first/last frame), three approval gates |
+| Story, emotional cartoon, mascot explaining finance | `/painted-animation` | Clawd kit, p5.js + p5.brush, films in `studio/painted/<slug>/` |
+| Short film / storytelling / viral concept film (43 coded styles) | `/lemo-opuscar` | Library cloned to `~/lemo-opuscar` on first use |
+
+Prerequisites: Node 18+, ffmpeg (`brew install ffmpeg`), Chrome. MCP servers in `.mcp.json`:
+`playwright` and `maxfusion` (authenticate on first use). Remotion runs from the project's own
+`node_modules` (`npx remotion …`), so no global install is required. House style above still applies
+to every engine: emoji pops stay off unless asked for a specific reel.
+
 ## Demo
 
 `motion-lab.html` (+ `assets/motion-lab.js`) combines the five skill sets: a 9:16 / 1:1 / 16:9

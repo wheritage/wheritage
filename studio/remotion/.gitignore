@@ -1,0 +1,9 @@
+node_modules/
+out/
+.whisper/
+public/raw-footage/*
+public/screen-recordings/*
+public/music/*
+public/edit/*
+!public/**/.gitkeep
+!public/edit/plan.example.json

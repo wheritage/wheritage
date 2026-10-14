@@ -1,0 +1,15 @@
+{
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "language": "fr",
+  "whisperModel": "medium",
+  "silence": { "noiseDb": -35, "minSilenceSec": 0.35, "padSec": 0.08, "minKeepSec": 0.25 },
+  "lowerThird": { "title": "Walid Harchaoui", "subtitle": "W Héritage · Stratège, pas vendeur", "atSec": 1.2, "durationSec": 3.2 },
+  "punchInScale": 1.08,
+  "captionPageMs": 900,
+  "screenDropSec": 3,
+  "music": { "file": "music/lofi-bed.mp3", "volume": 0.08 },
+  "sfx": { "cut": "sfx/whoosh-cut.wav", "cutVolume": 0.25, "caption": "sfx/pop-caption.wav", "captionVolume": 0.12 },
+  "emojiPops": { "enabled": false, "map": { "impôt": "💸", "retraite": "🏖️", "héritage": "🏛️" } }
+}

@@ -1,0 +1,6 @@
+# Tooling, not site pages: keep it out of the static deploy.
+.claude/
+.mcp.json
+skills-lock.json
+studio/
+CLAUDE.md

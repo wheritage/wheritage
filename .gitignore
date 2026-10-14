@@ -1,0 +1,5 @@
+node_modules/
+studio/**/out/
+studio/**/.whisper/
+studio/painted/*/frames/
+.DS_Store
