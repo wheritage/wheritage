@@ -57,3 +57,10 @@ reel composition with a scrubbable GSAP master timeline, SplitText line reveals,
 and a Three.js gold-dust field that resolves into the W mark. It is `noindex` and not in the
 sitemap. Recording mode (`H`) hides the controls for screen capture; `?t=4.5` opens at a time;
 `window.motionLab.seek(seconds)` gives frame-exact stills for headless export.
+
+## Content engine (Brand Foundry)
+
+`brand-foundry/` is BBM's Brand Foundry Vol 1 (25 templates: carousels, statics, video), branded
+W Héritage and excluded from Vercel. Copy for every asset lives in `brand-foundry/wh/content.json`;
+`node wh/render.mjs [names]` re-renders into `brand-foundry/wh/renders/`. Setup, flags and local
+changes to the kit: `brand-foundry/wh/README.md`.

@@ -1,0 +1,272 @@
+{
+  "$comment": "W Héritage content engine. One entry per asset. Edit the variables, then run: node wh/render.mjs [name ...]. Values starting with @file: are uploaded from wh/ before rendering. Social copy: tutoiement, no em dashes, no invented figures.",
+  "defaults": {
+    "still": [
+      "pt"
+    ],
+    "motion": [
+      "full"
+    ]
+  },
+  "assets": [
+    {
+      "name": "poster-opco",
+      "id": "statics/posters/starter-poster",
+      "variables": {
+        "theme": "light",
+        "kicker": "SURPLUS EN SOCIÉTÉ",
+        "headline": "L'argent qui dort dans ton OpCo travaille-t-il pour toi ?",
+        "caption": "Holding, placements, assurance vie : chaque option a un coût fiscal. Stratège, pas vendeur."
+      }
+    },
+    {
+      "name": "slide-cdc",
+      "id": "carousels/slides/starter-slide",
+      "variables": {
+        "theme": "light",
+        "step": "1",
+        "heading": "Le CDC n'est pas un compte bancaire",
+        "body": "C'est un registre fiscal. Ce que ta société reçoit sans impôt peut être transmis sans impôt.",
+        "photoImage": "@file:assets/walid-bureau.jpg",
+        "index": "01 / 05"
+      }
+    },
+    {
+      "name": "case-study-carousel",
+      "id": "carousels/case-studies/case-study",
+      "variables": {
+        "headline": "Une société. Une stratégie. Une transmission.",
+        "summary": "Exemple illustratif tiré de l'article sur le compte de dividendes en capital.",
+        "metrics": "Prestation reçue|1 000 000 $\nCBR du contrat|100 000 $\nAjout au CDC|900 000 $",
+        "imageList": "@file:assets/walid-bureau.jpg\n@file:assets/walid-ville.jpg",
+        "layout": "results",
+        "eyebrow": "COMPTE DE DIVIDENDES EN CAPITAL",
+        "footnote": "EXEMPLE ILLUSTRATIF. NE CONSTITUE PAS UN AVIS FISCAL.",
+        "headingFont": "Cormorant Garamond"
+      }
+    },
+    {
+      "name": "case-study-static",
+      "id": "statics/case-studies/case-study",
+      "variables": {
+        "headline": "Ce que la société reçoit sans impôt peut sortir sans impôt.",
+        "summary": "Compte de dividendes en capital et assurance vie détenue par la société.",
+        "metrics": "Prestation reçue|1 M$\nCBR du contrat|100 k$\nAjout au CDC|900 k$",
+        "imageList": "@file:assets/walid-bureau.jpg\n@file:assets/walid-ville.jpg",
+        "layout": "overview",
+        "eyebrow": "COMPTE DE DIVIDENDES EN CAPITAL",
+        "footnote": "EXEMPLE ILLUSTRATIF. NE CONSTITUE PAS UN AVIS FISCAL.",
+        "headingFont": "Cormorant Garamond"
+      }
+    },
+    {
+      "name": "bar-cdc",
+      "id": "video/data/bar-race",
+      "variables": {
+        "title": "Prestation de 1 000 000 $ reçue par la société",
+        "bars": "CBR du contrat|100000\nAjout au CDC|900000",
+        "suffix": " $",
+        "source": "Exemple illustratif. Ne constitue pas un avis fiscal.",
+        "highlight": "max"
+      }
+    },
+    {
+      "name": "stat-cdc",
+      "id": "video/data/stat-spotlight",
+      "variables": {
+        "eyebrow": "DIVIDENDE EN CAPITAL",
+        "headline": "Impôt payé par l'actionnaire résident du Canada",
+        "statValue": 0,
+        "unit": " $",
+        "statLabel": "sur le solde du CDC versé",
+        "footnote": "SOUS RÉSERVE D'UN CHOIX FORMEL ET D'UN SOLDE CALCULÉ AVEC PRÉCISION"
+      }
+    },
+    {
+      "name": "follow-cta",
+      "id": "video/endcards/follow-cta",
+      "variables": {
+        "logoImage": "@file:assets/w-mark.svg",
+        "headline": "Stratège, pas vendeur.",
+        "button": "Suivre",
+        "buttonDone": "Abonné",
+        "footnote": "Fiscalité, assurance et transmission pour entrepreneurs"
+      }
+    },
+    {
+      "name": "methode-4-etapes",
+      "id": "video/explainers/three-step-process",
+      "variables": {
+        "eyebrow": "LA MÉTHODE",
+        "headline": "Aucune improvisation.",
+        "step1": "Analyse",
+        "detail1": "Ton marché, ta société, tes objectifs. Avant le moindre produit.",
+        "step2": "Solutions",
+        "detail2": "Des scénarios chiffrés, comparés, expliqués simplement.",
+        "step3": "Suivi",
+        "detail3": "La stratégie évolue avec toi et avec ta société.",
+        "footer": "wheritage.vercel.app/processus",
+        "cardColor": "#151310",
+        "cardText": "#EDE8DF"
+      }
+    },
+    {
+      "name": "nameplate-walid",
+      "id": "video/overlays/speaker-nameplate",
+      "variables": {
+        "speakerName": "Walid Harchaoui",
+        "role": "Conseiller en sécurité financière",
+        "company": "W Héritage, Montréal",
+        "initials": "WH",
+        "portraitImage": "@file:assets/walid.jpg",
+        "cardColor": "#151310",
+        "cardText": "#EDE8DF"
+      }
+    },
+    {
+      "name": "headline-hook",
+      "id": "video/overlays/starter-headline",
+      "variables": {
+        "line1": "Ta convention d'actionnaires",
+        "line2": "est-elle financée ?",
+        "caption": "Sinon, c'est une promesse sans argent."
+      }
+    },
+    {
+      "name": "site-showcase",
+      "id": "video/product/product-showcase",
+      "variables": {
+        "screenshotImage": "@file:assets/site-accueil.jpg",
+        "eyebrow": "Ressources gratuites",
+        "headline": "Des outils pour décider, pas pour vendre",
+        "subline": "Simulations, articles et calculateurs sur wheritage.vercel.app",
+        "callouts": "Vie participative|Surplus en société|Compte de dividendes en capital"
+      }
+    },
+    {
+      "name": "prompt-question",
+      "id": "video/product/prompt-box",
+      "variables": {
+        "eyebrow": "La vraie question",
+        "agentName": "Toi",
+        "prompt": "J'ai des surplus dans ma société. Je les laisse dormir, je les sors ou je les fais travailler ?",
+        "results": "Holding et dividendes intersociétés|Placements dans l'OpCo|Assurance vie détenue par la société"
+      }
+    },
+    {
+      "name": "zoom-site",
+      "id": "video/product/screen-zoom",
+      "variables": {
+        "screenshotImage": "@file:assets/vie-participative.jpg",
+        "label": "Capital-décès libre d'impôt, hors succession"
+      }
+    },
+    {
+      "name": "title-heritage",
+      "id": "video/reveals/aurora-title",
+      "variables": {
+        "eyebrow": "W Héritage",
+        "headline": "Bâtir. Protéger. Transmettre.",
+        "subline": "Stratège, pas vendeur.",
+        "bgColor": "#080808",
+        "textColor": "#EDE8DF",
+        "secondaryColor": "#8E7431"
+      }
+    },
+    {
+      "name": "logo-reveal",
+      "id": "video/reveals/goo-spawn-logo",
+      "variables": {
+        "logoImage": "@file:assets/w-mark.svg",
+        "tagline": "W Héritage"
+      }
+    },
+    {
+      "name": "title-goo",
+      "id": "video/reveals/goo-spawn-title",
+      "variables": {
+        "line1": "Ton héritage",
+        "line2": "se planifie."
+      }
+    },
+    {
+      "name": "quote-manifeste",
+      "id": "video/social/quote-card",
+      "variables": {
+        "quote": "Je ne vends pas de produits. Je bâtis une stratégie, et le produit vient après, s'il est utile.",
+        "name": "Walid Harchaoui",
+        "role": "Conseiller en sécurité financière, W Héritage",
+        "photoImage": "@file:assets/walid.jpg",
+        "stars": 0,
+        "highlight": "une stratégie"
+      }
+    },
+    {
+      "name": "transition-burst",
+      "id": "video/transitions/shape-burst",
+      "variables": {
+        "word": "ENSUITE",
+        "shape": "diamond",
+        "bgColor": "#080808"
+      }
+    },
+    {
+      "name": "transition-tiles",
+      "id": "video/transitions/tile-wipe",
+      "variables": {
+        "bgColor": "#151310"
+      }
+    },
+    {
+      "name": "kinetic-surplus",
+      "id": "video/typography/kinetic-slam",
+      "variables": {
+        "words": "TES|SURPLUS|DORMENT.|FAIS-LES|TRAVAILLER."
+      }
+    },
+    {
+      "name": "line-draw-strategie",
+      "id": "video/typography/line-draw",
+      "variables": {
+        "line1": "Stratège,",
+        "line2": "pas vendeur."
+      }
+    },
+    {
+      "name": "marquee-sujets",
+      "id": "video/typography/marquee-bands",
+      "variables": {
+        "bandOne": "FISCALITÉ · ASSURANCE · TRANSMISSION",
+        "bandTwo": "POUR ENTREPRENEURS ET PROFESSIONNELS",
+        "badge": "W",
+        "separator": "◆"
+      }
+    },
+    {
+      "name": "mask-transmission",
+      "id": "video/typography/mask-reveal",
+      "variables": {
+        "eyebrow": "Transmission",
+        "lines": "Ce que tu bâtis|mérite un plan.",
+        "caption": "Stratège, pas vendeur.",
+        "revealStyle": "rise"
+      }
+    },
+    {
+      "name": "slot-cdc",
+      "id": "video/typography/slot-roll",
+      "variables": {
+        "headline": "SANS IMPÔT",
+        "caption": "Le compte de dividendes en capital, expliqué"
+      }
+    },
+    {
+      "name": "word-drum-pour",
+      "id": "video/typography/word-drum",
+      "variables": {
+        "prefix": "Une stratégie pour",
+        "words": "ta société|ta famille|ta retraite|ton héritage"
+      }
+    }
+  ]
+}

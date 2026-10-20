@@ -1,0 +1,98 @@
+{
+  "$comment": "FORK THIS FILE FIRST. Everything else reads from it: brand colors, nav taxonomy, and output sizes. Nothing here is hardcoded elsewhere.",
+  "brand": {
+    "name": "W Héritage",
+    "handle": "@walidh.csf",
+    "accent": "#C9A84C",
+    "accentSoft": "#EAD6A2",
+    "ink": "#EDE8DF",
+    "paper": "#080808",
+    "night": "#080808",
+    "fonts": {
+      "display": "Cormorant Garamond",
+      "body": "Montserrat",
+      "googleUrl": "https://fonts.googleapis.com/css2?family=Cormorant%20Garamond:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    }
+  },
+  "$comment_media": "Top-level nav = media types. Each maps to a templates/<dir>/ folder. Categories are just SUBFOLDERS inside it. Add a folder, it appears in the nav. No code change needed.",
+  "media": [
+    {
+      "id": "carousels",
+      "label": "Carousels",
+      "icon": "layers",
+      "dir": "carousels",
+      "kind": "still",
+      "blurb": "Multi-slide decks. Export every slide as a PNG."
+    },
+    {
+      "id": "statics",
+      "label": "Statics",
+      "icon": "image",
+      "dir": "statics",
+      "kind": "still",
+      "blurb": "Single-frame posters and infographics. Export as PNG."
+    },
+    {
+      "id": "video",
+      "label": "Video",
+      "icon": "play",
+      "dir": "video",
+      "kind": "motion",
+      "blurb": "Animated overlays. Export as MP4 or transparent MOV."
+    }
+  ],
+  "$comment_sizes": "Per-kind output sizes. 'still' sizes are screenshotted to PNG; 'motion' sizes are rendered to video. Add or remove freely.",
+  "sizes": {
+    "still": [
+      {
+        "suffix": "pt",
+        "label": "4:5 portrait",
+        "w": 1080,
+        "h": 1350
+      },
+      {
+        "suffix": "sq",
+        "label": "1:1 square",
+        "w": 1080,
+        "h": 1080
+      },
+      {
+        "suffix": "st",
+        "label": "9:16 story",
+        "w": 1080,
+        "h": 1920
+      }
+    ],
+    "motion": [
+      {
+        "suffix": "full",
+        "label": "Full 9:16",
+        "w": 1080,
+        "h": 1920
+      },
+      {
+        "suffix": "half",
+        "label": "4:5 portrait",
+        "w": 1080,
+        "h": 1350
+      },
+      {
+        "suffix": "wide",
+        "label": "16:9 wide",
+        "w": 1920,
+        "h": 1080
+      }
+    ]
+  },
+  "render": {
+    "$comment": "scale = deviceScaleFactor for PNG export (2 = retina). thumbWidth = cached dashboard thumbnail width.",
+    "scale": 2,
+    "thumbWidth": 420,
+    "quality": "standard"
+  },
+  "server": {
+    "port": 4800,
+    "host": "127.0.0.1"
+  },
+  "brandSetup": "complete"
+}
