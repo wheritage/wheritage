@@ -57,3 +57,15 @@ reel composition with a scrubbable GSAP master timeline, SplitText line reveals,
 and a Three.js gold-dust field that resolves into the W mark. It is `noindex` and not in the
 sitemap. Recording mode (`H`) hides the controls for screen capture; `?t=4.5` opens at a time;
 `window.motionLab.seek(seconds)` gives frame-exact stills for headless export.
+
+`text-effects.html` (+ `assets/text-effects.js`) ports React Bits text components
+([DavidHDev/react-bits](https://github.com/DavidHDev/react-bits), MIT + Commons Clause: use them
+in the site, never redistribute the components themselves) onto one GSAP timeline: BlurText,
+TrueFocus, RotatingText, StrokeText, ShinyText, retuned to the house rules (no spring, no loop,
+the sheen settles on flat gold). GradientText, GlitchText, CountUp, Aurora and letter-by-letter
+typers are left out on purpose (banned tells). Also `noindex`, out of the sitemap.
+
+Export an MP4 for the edit (V2 over the talking head) with
+`node tools/render-reel.mjs text-effects.html my-clip-text-effects.mp4 [--format 16:9] [--from s --to s]`.
+It seeks the timeline frame by frame (`window.reel`), so nothing drops like a screen recording.
+Needs Playwright + ffmpeg; `tools/` is excluded from the deploy by `.vercelignore`.
