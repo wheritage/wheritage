@@ -129,6 +129,24 @@
 .booked h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: .8rem; }
 .booked p { font-size: .86rem; color: var(--texte2); line-height: 1.8; max-width: 620px; margin-bottom: .8rem; }
 
+.guide-f { margin: 1.4rem 0 2rem; border: 1px solid var(--ligne-fort); background: var(--noir2); padding: 1.6rem 1.6rem 1.4rem; max-width: 640px; }
+.guide-f[hidden], #guide-sec[hidden] { display: none; }
+.guide-f h4 { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; color: var(--creme); margin-bottom: .4rem; line-height: 1.2; }
+.guide-f h4 em { font-style: italic; color: var(--or-vif); }
+.guide-f > p { font-size: .82rem; color: var(--texte2); line-height: 1.7; margin-bottom: 1.1rem; }
+.guide-f .row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); margin-bottom: 1rem; }
+.guide-f input[type=text], .guide-f input[type=email] { width: 100%; background: var(--noir); border: 0; border-radius: 0; color: var(--texte); font: inherit; font-size: .86rem; padding: .95rem 1rem; outline: none; }
+.guide-f input[type=text]:focus, .guide-f input[type=email]:focus { background: var(--sombre2); }
+.guide-f .ok-box { display: flex; gap: .7rem; align-items: flex-start; font-size: .74rem; color: var(--texte2); line-height: 1.6; margin-bottom: 1.1rem; cursor: pointer; }
+.guide-f .ok-box input { margin-top: .25rem; accent-color: var(--or); flex-shrink: 0; }
+.guide-f .ok-box a { color: var(--or-pale); }
+.guide-f .btn { border: 0; }
+.guide-f .msg { font-size: .8rem; color: var(--or-pale); margin-top: .9rem; }
+.guide-f.sent .row, .guide-f.sent .ok-box, .guide-f.sent .btn { display: none; }
+.guide-wrap { max-width: 820px; margin: 0 auto; }
+.guide-wrap .guide-f { max-width: none; margin: 0; }
+@media (max-width: 700px) { .guide-f { padding: 1.3rem 1.1rem; } .guide-f .row { grid-template-columns: 1fr; } .guide-f .btn { width: 100%; justify-content: center; } }
+
 /* ── Contenu ── */
 .f-sec { padding: 6.5rem var(--pad-x); position: relative; }
 .f-in { max-width: 1060px; margin: 0 auto; }
@@ -360,6 +378,18 @@
         <li><a href="compte-dividendes-capital-assurance-vie">Le compte de dividendes en capital, expliqué simplement</a></li>
         <li><a href="calculateur">Simulateur d'épargne</a></li>
       </ul>
+      <form class="guide-f" id="guide-unfit" data-guide-form hidden novalidate>
+        <h4>Le guide « L'Argent Mort », gratuit</h4>
+        <p>Les surplus de société, le revenu passif et le compte de dividendes en capital, expliqués en 9 pages avec des graphiques. Utile même si vous n'êtes pas prêt aujourd'hui.</p>
+        <div class="row">
+          <input type="text" name="prenom" placeholder="Prénom" autocomplete="given-name" aria-label="Prénom">
+          <input type="email" name="courriel" placeholder="Courriel" autocomplete="email" aria-label="Courriel" required>
+        </div>
+        <label class="ok-box"><input type="checkbox" name="consentement" required><span>J'accepte de recevoir le guide et des courriels de Walid Harchaoui, CSF. Je peux me désabonner en tout temps. <a href="confidentialite" target="_blank" rel="noopener">Politique de confidentialité</a></span></label>
+        <button type="submit" class="btn btn-gold">Recevoir le guide<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></button>
+        <p class="msg" aria-live="polite"></p>
+      </form>
+
       <button type="button" class="anyway" id="anyway">Je veux quand même en parler</button>
     </div>
 
@@ -570,6 +600,24 @@
   </div>
 </section>
 
+<!-- ═══ GUIDE (pour ceux qui ne réservent pas) ═══ -->
+<section class="f-sec bg-noir" id="guide-sec" hidden style="padding-top:0">
+  <div class="guide-wrap reveal">
+      <form class="guide-f" id="guide-main" data-guide-form hidden novalidate>
+        <h4>Pas prêt à réserver ? <em>Recevez le guide.</em></h4>
+        <p>« L'Argent Mort » : les surplus de société, le revenu passif et le compte de dividendes en capital, expliqués en 9 pages avec des graphiques. Gratuit, dans votre boîte courriel en quelques minutes.</p>
+        <div class="row">
+          <input type="text" name="prenom" placeholder="Prénom" autocomplete="given-name" aria-label="Prénom">
+          <input type="email" name="courriel" placeholder="Courriel" autocomplete="email" aria-label="Courriel" required>
+        </div>
+        <label class="ok-box"><input type="checkbox" name="consentement" required><span>J'accepte de recevoir le guide et des courriels de Walid Harchaoui, CSF. Je peux me désabonner en tout temps. <a href="confidentialite" target="_blank" rel="noopener">Politique de confidentialité</a></span></label>
+        <button type="submit" class="btn btn-gold">Recevoir le guide<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></button>
+        <p class="msg" aria-live="polite"></p>
+      </form>
+
+  </div>
+</section>
+
 <!-- ═══ APPEL FINAL ═══ -->
 <section class="f-sec bg-noir2 f-final">
   <div class="f-in narrow">
@@ -727,6 +775,37 @@
     // Filet : si le calendrier n'apparaît pas (bloqueur, réseau), on montre le lien direct.
     setTimeout(function () { if (!document.querySelector('#cal-inline iframe')) document.getElementById('cal-fallback').classList.add('on'); }, 7000);
   }
+
+  /* ── Guide « L'Argent Mort » : courriel vers la feuille Google (script Apps Script) ──
+     Masqué tant que leadsUrl et leadsToken ne sont pas renseignés dans assets/site.js. */
+  var cfg = (window.WH && WH.config) || {};
+  if (cfg.leadsUrl && cfg.leadsToken) {
+    document.querySelectorAll('[data-guide-form]').forEach(function (f) { f.hidden = false; });
+    var gsec = document.getElementById('guide-sec'); if (gsec) gsec.hidden = false;
+  }
+  document.querySelectorAll('[data-guide-form]').forEach(function (f) {
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = f.querySelector('.msg'), mail = f.courriel.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { msg.textContent = 'Vérifiez votre adresse courriel.'; f.courriel.focus(); return; }
+      if (!f.consentement.checked) { msg.textContent = 'Cochez la case de consentement pour recevoir le guide.'; return; }
+      var btn = f.querySelector('button'); btn.disabled = true; msg.textContent = 'Envoi…';
+      var data = { source: 'guide', prenom: f.prenom.value.trim(), courriel: mail, consentement: true,
+        structure: LABELS.structure[answers.structure] || '', surplus: LABELS.surplus[answers.surplus] || '',
+        horizon: LABELS.horizon[answers.horizon] || '', depend: LABELS.depend[answers.depend] || '' };
+      // text/plain évite la requête préalable CORS, que Apps Script ne gère pas
+      fetch(cfg.leadsUrl + '?k=' + encodeURIComponent(cfg.leadsToken), {
+        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data)
+      }).then(function () {
+        f.classList.add('sent');
+        msg.textContent = 'C\'est envoyé. Le guide arrive dans votre boîte courriel d\'ici quelques minutes (vérifiez aussi les indésirables).';
+        track('guide_lead', { page: 'strategie-societe' });
+      }).catch(function () {
+        btn.disabled = false;
+        msg.textContent = 'L\'envoi n\'a pas fonctionné. Réessayez dans un instant.';
+      });
+    });
+  });
 
   /* ── Barres de l'exemple : se remplissent à l'apparition ── */
   var bars = document.getElementById('bars');

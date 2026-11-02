@@ -18,8 +18,12 @@
     instagram: 'https://www.instagram.com/walidh.csf',
     // Mesure et publicité : laisser vide tant que les comptes ne sont pas créés.
     // Rien ne se charge et la bannière de témoins ne s'affiche pas tant que les deux sont vides.
-    ga4Id: '',        // ex. 'G-XXXXXXXXXX'
-    metaPixelId: ''   // ex. '123456789012345'
+    ga4Id: 'G-M83QFJYMD0',
+    metaPixelId: '613784124479309',   // jeu de données « Walid Harchaoui CSF », relié au compte pub
+    // Réception des leads (Google Sheets « Leads W Héritage », via Apps Script).
+    // leadsToken = le TOKEN inscrit dans le script. Vide = les formulaires de guide restent masqués.
+    leadsUrl: 'https://script.google.com/macros/s/AKfycbz0suPAIJYrpDjmY2IBRqwPl3VbQLg9gR93XpKJjvd5Cf0LYC1Gw3RlmnFlFmNqU9UH/exec',
+    leadsToken: ''
   };
 
   var WH = window.WH = window.WH || {};
