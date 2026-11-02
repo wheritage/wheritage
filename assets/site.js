@@ -23,7 +23,7 @@
     // Réception des leads (Google Sheets « Leads W Héritage », via Apps Script).
     // leadsToken = le TOKEN inscrit dans le script. Vide = les formulaires de guide restent masqués.
     leadsUrl: 'https://script.google.com/macros/s/AKfycbz0suPAIJYrpDjmY2IBRqwPl3VbQLg9gR93XpKJjvd5Cf0LYC1Gw3RlmnFlFmNqU9UH/exec',
-    leadsToken: ''
+    leadsToken: '20100914'
   };
 
   var WH = window.WH = window.WH || {};
