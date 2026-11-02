@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'argent qui dort dans votre société | W Héritage</title>
+<meta name="description" content="Propriétaires de sociétés par actions au Québec : comment l'assurance vie détenue par la société peut faire travailler vos surplus à l'abri de l'impôt. Rencontre de 15 minutes, sans frais.">
+<meta name="theme-color" content="#080808">
+<!-- Page d'atterrissage publicitaire : hors index et hors sitemap -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://wheritage.vercel.app/strategie-societe">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_CA">
+<meta property="og:site_name" content="W Héritage">
+<meta property="og:title" content="L'argent qui dort dans votre société vous coûte plus cher que vous pensez">
+<meta property="og:description" content="Trois pièges fiscaux des sociétés par actions au Québec, et la structure prévue par la loi pour en sortir. Rencontre de 15 minutes, sans frais.">
+<meta property="og:url" content="https://wheritage.vercel.app/strategie-societe">
+<meta property="og:image" content="https://wheritage.vercel.app/assets/og/surplus-societe-opco.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://app.cal.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<!-- Page en français seulement : on force le français même si le visiteur a choisi l'anglais ailleurs -->
+<script>document.documentElement.setAttribute('data-lang','fr');document.documentElement.lang='fr';</script>
+<style>
+/* ── Chrome d'entonnoir ── */
+.nav-funnel .logo { cursor: default; }
+.nav-reg { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); }
+.footer-funnel { padding-top: 3rem; }
+
+/* ── Héros ── */
+.f-hero { position: relative; padding: 9.5rem var(--pad-x) 3.5rem; background: #060504; overflow: hidden; text-align: center; }
+.f-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 60% at 50% 0%, rgba(201,168,76,.1), transparent 70%); pointer-events: none; }
+.f-hero > div { position: relative; max-width: 940px; margin: 0 auto; }
+.f-hero .eyebrow { justify-content: center; margin-bottom: 1.6rem; }
+.f-hero h1 { font-size: clamp(2.3rem, 5.4vw, 4.3rem); line-height: 1.05; margin-bottom: 1.4rem; }
+.f-hero .lead { max-width: 640px; margin: 0 auto; }
+.proof { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin: 2.4rem auto 0; border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); max-width: 900px; }
+.proof span { flex: 1 1 200px; padding: 1rem 1.2rem; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte2); }
+.proof span + span { border-left: 1px solid var(--ligne); }
+.proof b { display: block; font-family: var(--serif); font-size: 1.15rem; letter-spacing: 0; text-transform: none; color: var(--creme); font-weight: 400; margin-bottom: .2rem; }
+
+/* ── Vidéo + porte du calendrier ── */
+.vsl-wrap { max-width: 940px; margin: 3rem auto 0; position: relative; }
+.vsl { position: relative; aspect-ratio: 16/9; border: 1px solid var(--ligne-fort); background: linear-gradient(160deg, #15120d, #0a0907); overflow: hidden; cursor: pointer; }
+.vsl::before { content: ''; position: absolute; inset: 10px; border: 1px solid var(--ligne); pointer-events: none; z-index: 2; }
+.vsl .vs-bg { position: absolute; inset: 0; background: url('assets/photos/walid-bureau.webp') center 30% / cover; filter: brightness(.45) contrast(1.05); transition: transform 1.4s var(--ease-out), filter .6s; }
+.vsl:hover .vs-bg { transform: scale(1.04); filter: brightness(.55); }
+.vsl .vs-ui { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.1rem; text-align: center; padding: 1.5rem; }
+.vsl .play { width: 74px; height: 74px; position: relative; display: flex; align-items: center; justify-content: center; }
+.vsl .play::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--or); transform: rotate(45deg); transition: transform .6s var(--ease-out), background .4s; }
+.vsl:hover .play::before { transform: rotate(135deg); background: rgba(201,168,76,.12); }
+.vsl .play svg { position: relative; width: 18px; height: 18px; fill: var(--or); margin-left: 3px; }
+.vsl .vs-t { font-family: var(--serif); font-size: clamp(1.2rem, 2.4vw, 1.6rem); color: var(--creme); line-height: 1.2; max-width: 520px; }
+.vsl .vs-s { font-size: .56rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
+.vsl.empty { cursor: default; }
+.vsl.playing .vs-ui, .vsl.playing .vs-bg { display: none; }
+.vsl iframe, .vsl video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 4; background: #000; }
+
+.gate { margin-top: 1px; border: 1px solid var(--ligne); border-top: 0; background: var(--noir2); padding: 1.3rem 1.6rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; text-align: left; }
+.gate p { font-size: .8rem; color: var(--texte2); line-height: 1.6; margin: 0; max-width: 520px; }
+.gate .count { font-family: var(--serif); font-size: 1.9rem; color: var(--or-vif); font-variant-numeric: tabular-nums; line-height: 1; }
+.gate .count small { display: block; font-family: var(--sans); font-size: .54rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-top: .35rem; }
+.gate-bar { position: relative; height: 1px; background: var(--ligne); margin-top: -1px; }
+.gate-bar i { position: absolute; left: 0; top: 0; height: 1px; width: 0; background: var(--or); transition: width 1s linear; }
+.gate.open .count { display: none; }
+.gate .btn { display: none; }
+.gate.open .btn { display: inline-flex; }
+
+/* ── Réservation : qualification puis calendrier ── */
+.book { max-width: 940px; margin: 0 auto; border: 1px solid var(--ligne-fort); background: var(--sombre); position: relative; scroll-margin-top: 6rem; }
+.book::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--or), transparent); }
+.book-head { padding: 2.2rem 2.4rem 0; }
+.book-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin-bottom: .6rem; }
+.book-head p { font-size: .86rem; color: var(--texte2); line-height: 1.8; max-width: 620px; }
+.locked { padding: 2.2rem 2.4rem 2.6rem; display: flex; align-items: center; gap: 1.4rem; border-top: 1px solid var(--ligne); margin-top: 1.8rem; }
+.locked svg { width: 26px; height: 26px; stroke: var(--or); fill: none; stroke-width: 1.2; flex-shrink: 0; }
+.locked p { font-size: .82rem; color: var(--texte2); line-height: 1.7; }
+.locked b { color: var(--creme); font-weight: 500; }
+.book[data-step="locked"] .qz, .book[data-step="locked"] .res, .book[data-step="locked"] .calbox { display: none; }
+.book:not([data-step="locked"]) .locked { display: none; }
+
+.qz { padding: 1.8rem 2.4rem 2.4rem; border-top: 1px solid var(--ligne); margin-top: 1.8rem; }
+.qz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.4rem; font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); }
+.qz-prog { flex: 0 0 140px; height: 1px; background: var(--ligne); position: relative; }
+.qz-prog i { position: absolute; left: 0; top: 0; height: 1px; background: var(--or); transition: width .5s var(--ease-out); }
+.qz fieldset { border: 0; display: none; }
+.qz fieldset.on { display: block; animation: qzIn .5s var(--ease-out); }
+@keyframes qzIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.qz legend { font-family: var(--serif); font-size: clamp(1.4rem, 2.6vw, 1.9rem); color: var(--creme); font-weight: 400; line-height: 1.2; margin-bottom: 1.3rem; }
+.qz .opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+.qz label { display: block; position: relative; background: var(--noir2); padding: 1.1rem 1.2rem 1.1rem 3rem; font-size: .84rem; color: var(--texte); line-height: 1.5; cursor: pointer; transition: background .35s var(--ease-out); }
+.qz label small { display: block; font-size: .72rem; color: var(--texte3); margin-top: .2rem; }
+.qz label:hover { background: var(--sombre2); }
+.qz input { position: absolute; opacity: 0; pointer-events: none; }
+.qz label::before { content: ''; position: absolute; left: 1.2rem; top: 1.35rem; width: 9px; height: 9px; border: 1px solid var(--ligne-fort); transform: rotate(45deg); transition: background .3s, border-color .3s; }
+.qz label:has(input:checked) { background: var(--encre); }
+.qz label:has(input:checked)::before { background: var(--or); border-color: var(--or); }
+.qz label:has(input:focus-visible) { outline: 1px solid var(--or); outline-offset: -1px; }
+.qz-back { margin-top: 1.2rem; background: none; border: 0; font-family: var(--sans); font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); cursor: pointer; padding: .4rem 0; }
+.qz-back:hover { color: var(--or); }
+.qz-back[hidden] { display: none; }
+.book:not([data-step="quiz"]) .qz { display: none; }
+
+.res { padding: 1.8rem 2.4rem 0; border-top: 1px solid var(--ligne); margin-top: 1.8rem; display: none; }
+.book[data-step="fit"] .res.fit, .book[data-step="unfit"] .res.unfit { display: block; }
+.res h3 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: .7rem; }
+.res p { font-size: .86rem; color: var(--texte2); line-height: 1.8; margin-bottom: 1rem; max-width: 640px; }
+.res ul { list-style: none; margin: 0 0 1.4rem; }
+.res li { position: relative; padding-left: 1.4rem; font-size: .84rem; color: var(--texte2); line-height: 1.7; margin-bottom: .4rem; }
+.res li::before { content: ''; position: absolute; left: 0; top: .65rem; width: 4px; height: 4px; background: var(--or); transform: rotate(45deg); }
+.res a { color: var(--or-pale); }
+.res .anyway { background: none; border: 0; padding: 0; font: inherit; font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte3); cursor: pointer; margin: .4rem 0 2.2rem; }
+.res .anyway:hover { color: var(--or); }
+.calbox { display: none; border-top: 1px solid var(--ligne); }
+.book[data-step="fit"] .calbox, .book.cal-on .calbox { display: block; }
+#cal-inline { width: 100%; min-height: 640px; overflow: auto; }
+.cal-fallback { display: none; padding: 1.6rem 2.4rem 2.2rem; font-size: .84rem; color: var(--texte2); }
+.cal-fallback.on { display: block; }
+.booked { display: none; padding: 2.4rem; border-top: 1px solid var(--ligne); }
+.book.done .booked { display: block; }
+.book.done .calbox, .book.done .res { display: none !important; }
+.booked h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: .8rem; }
+.booked p { font-size: .86rem; color: var(--texte2); line-height: 1.8; max-width: 620px; margin-bottom: .8rem; }
+
+/* ── Contenu ── */
+.f-sec { padding: 6.5rem var(--pad-x); position: relative; }
+.f-in { max-width: 1060px; margin: 0 auto; }
+.f-in.narrow { max-width: 820px; }
+.f-head { text-align: center; max-width: 760px; margin: 0 auto 3.6rem; }
+.f-head .eyebrow { justify-content: center; margin-bottom: 1.3rem; }
+.f-head h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 1.1rem; }
+.f-head p { font-size: .9rem; color: var(--texte2); line-height: 1.85; }
+
+.traps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+.trap { background: var(--noir); padding: 2.4rem 2rem 2.2rem; }
+.trap .fig { font-family: var(--serif); font-size: clamp(2.6rem, 4.4vw, 3.6rem); color: var(--or-vif); line-height: 1; margin-bottom: .4rem; font-weight: 300; }
+.trap .fig-l { font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-bottom: 1.6rem; display: block; }
+.trap h3 { font-size: 1.45rem; margin-bottom: .9rem; }
+.trap p { font-size: .84rem; color: var(--texte2); line-height: 1.8; }
+.trap p + p { margin-top: .8rem; }
+.src { font-size: .7rem; color: var(--texte3); margin-top: 1.4rem; text-align: center; line-height: 1.6; }
+
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+.pillar { background: var(--noir2); padding: 2.2rem 2rem; }
+.pillar small { display: block; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; }
+.pillar h3 { font-size: 1.45rem; margin-bottom: .9rem; }
+.pillar p { font-size: .84rem; color: var(--texte2); line-height: 1.8; }
+.formula { margin-top: 1px; border: 1px solid var(--ligne); border-top: 0; background: var(--noir); padding: 1.6rem 2rem; text-align: center; font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); color: var(--creme); font-weight: 300; line-height: 1.5; }
+.formula b { color: var(--or-vif); font-weight: 400; }
+.notthis { margin-top: 2.4rem; border-left: 1px solid var(--or); background: rgba(201,168,76,.05); padding: 1.5rem 1.8rem; }
+.notthis b { display: block; font-size: .6rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); font-weight: 500; margin-bottom: .8rem; }
+.notthis p { font-size: .86rem; color: var(--texte2); line-height: 1.8; }
+
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+.duo > div { background: var(--noir); padding: 2.2rem 2rem; }
+.duo > div.me { background: var(--noir2); }
+.duo h3 { font-size: 1.5rem; margin-bottom: .4rem; }
+.duo .role { font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-bottom: 1.4rem; display: block; }
+.duo .me .role { color: var(--or); }
+.duo ul, .fit-grid ul { list-style: none; }
+.duo li, .fit-grid li { position: relative; padding-left: 1.4rem; font-size: .84rem; color: var(--texte2); line-height: 1.7; margin-bottom: .55rem; }
+.duo li::before, .fit-grid li::before { content: ''; position: absolute; left: 0; top: .65rem; width: 4px; height: 4px; background: var(--or); transform: rotate(45deg); }
+.duo-quote { text-align: center; margin-top: 2.6rem; font-family: var(--serif); font-size: clamp(1.4rem, 2.6vw, 1.9rem); color: var(--creme); font-weight: 300; line-height: 1.4; }
+.duo-quote em { color: var(--or-vif); }
+
+.case { border: 1px solid var(--ligne-fort); background: var(--noir2); }
+.case-top { padding: 2.2rem 2.4rem; border-bottom: 1px solid var(--ligne); display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.4rem; }
+.case-tag { display: inline-block; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--noir); background: var(--or); padding: .35rem .7rem; margin-bottom: 1.2rem; }
+.case h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: .9rem; }
+.case p { font-size: .86rem; color: var(--texte2); line-height: 1.8; }
+.case dl { display: grid; grid-template-columns: 1fr auto; gap: .7rem 1.2rem; align-content: start; }
+.case dt { font-size: .78rem; color: var(--texte2); }
+.case dd { font-family: var(--serif); font-size: 1.2rem; color: var(--creme); text-align: right; font-variant-numeric: tabular-nums; }
+.case dd.g { color: var(--or-vif); }
+.case dt.sum, .case dd.sum { border-top: 1px solid var(--ligne); padding-top: .7rem; }
+.bars { padding: 2.2rem 2.4rem 2.4rem; }
+.bars-t { font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-bottom: 1.4rem; }
+.bar-row { display: grid; grid-template-columns: 220px 1fr; gap: 1.4rem; align-items: center; margin-bottom: 1.4rem; }
+.bar-row .lbl { font-size: .8rem; color: var(--texte); line-height: 1.45; }
+.bar-row .lbl small { display: block; color: var(--texte3); font-size: .7rem; }
+.track { display: flex; height: 38px; border: 1px solid var(--ligne); background: var(--noir); }
+.track { clip-path: inset(0 100% 0 0); transition: clip-path 1.4s var(--ease-out); }
+.bars.in .track { clip-path: inset(0 0 0 0); }
+.bars.in .bar-row + .bar-row .track { transition-delay: .3s; }
+.track span { display: flex; align-items: center; padding: 0 .8rem; font-size: .72rem; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+.track .net { background: var(--or); color: var(--noir); font-weight: 500; }
+.track .tax { background: repeating-linear-gradient(135deg, var(--encre) 0 6px, var(--sombre) 6px 12px); color: var(--texte2); }
+.bars-k { display: flex; gap: 1.6rem; flex-wrap: wrap; font-size: .7rem; color: var(--texte3); margin-top: .4rem; }
+.bars-k i { display: inline-block; width: 12px; height: 12px; vertical-align: -2px; margin-right: .5rem; }
+.bars-k .k1 { background: var(--or); } .bars-k .k2 { background: repeating-linear-gradient(135deg, var(--encre) 0 3px, var(--sombre) 3px 6px); border: 1px solid var(--ligne); }
+.case-note { padding: 0 2.4rem 2.2rem; font-size: .72rem; color: var(--texte3); line-height: 1.7; }
+
+.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+.fit-grid > div { background: var(--noir); padding: 2.2rem 2rem; }
+.fit-grid h3 { font-size: 1.5rem; margin-bottom: 1.3rem; }
+.fit-grid .no h3 { color: var(--texte2); }
+.fit-grid .no li::before { background: transparent; border: 1px solid var(--texte3); }
+
+.faq { border-top: 1px solid var(--ligne); }
+.faq details { border-bottom: 1px solid var(--ligne); }
+.faq summary { list-style: none; cursor: pointer; padding: 1.4rem 2.6rem 1.4rem 0; position: relative; font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.45rem); color: var(--creme); line-height: 1.3; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ''; position: absolute; right: .4rem; top: 50%; width: 9px; height: 9px; border-right: 1px solid var(--or); border-bottom: 1px solid var(--or); transform: translateY(-70%) rotate(45deg); transition: transform .4s var(--ease-out); }
+.faq details[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
+.faq details p { font-size: .86rem; color: var(--texte2); line-height: 1.85; padding: 0 0 1.5rem; max-width: 720px; }
+
+.f-final { text-align: center; }
+.f-final h2 { font-size: clamp(2rem, 4.2vw, 3.3rem); margin-bottom: 1.2rem; }
+.f-final p { font-size: .9rem; color: var(--texte2); line-height: 1.85; max-width: 560px; margin: 0 auto 2rem; }
+.who { display: flex; gap: 1.2rem; align-items: center; justify-content: center; margin-top: 3rem; }
+.who img { width: 64px; height: 64px; object-fit: cover; object-position: center 15%; border: 1px solid var(--ligne-fort); }
+.who b { display: block; font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--creme); text-align: left; }
+.who span { display: block; font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--texte3); text-align: left; }
+.legal { max-width: 820px; margin: 3.5rem auto 0; font-size: .72rem; color: var(--texte3); line-height: 1.75; text-align: left; }
+.legal p + p { margin-top: .8rem; }
+
+@media (max-width: 900px) {
+  .traps, .pillars { grid-template-columns: 1fr; }
+  .case-top { grid-template-columns: 1fr; gap: 1.6rem; }
+}
+@media (max-width: 700px) {
+  :root { --pad-x: 1rem; }
+  .f-hero { padding-top: 7.5rem; }
+  .f-sec { padding: 4.5rem var(--pad-x); }
+  .proof span { flex-basis: 50%; }
+  .proof span + span { border-left: 0; }
+  .proof span:nth-child(even) { border-left: 1px solid var(--ligne); }
+  .proof span:nth-child(n+3) { border-top: 1px solid var(--ligne); }
+  .gate { padding: 1.1rem 1.1rem; }
+  .gate .btn { width: 100%; justify-content: center; }
+  .book-head, .qz, .res, .locked { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .qz .opts { grid-template-columns: 1fr; }
+  .duo, .fit-grid { grid-template-columns: 1fr; }
+  .case-top, .bars { padding: 1.6rem 1.2rem; }
+  .case-note { padding: 0 1.2rem 1.6rem; }
+  .bar-row { grid-template-columns: 1fr; gap: .6rem; }
+  .nav-reg { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .track { clip-path: none; transition: none; }
+  .qz fieldset.on { animation: none; }
+  .gate-bar i { transition: none; }
+}
+</style>
+</head>
+<body data-page="funnel" data-funnel data-no-pill data-no-bookbar>
+<script src="/assets/site.js"></script>
+
+<!-- ═══ HÉROS + VSL ═══ -->
+<header class="f-hero">
+  <div>
+    <p class="eyebrow reveal">Propriétaires de sociétés par actions au Québec</p>
+    <h1><span class="split">L'argent qui dort dans votre société <em>vous coûte plus cher que vous pensez</em></span></h1>
+    <p class="lead reveal">Revenu passif imposé à plus de 50 %, taux réduit qui s'érode, double imposition au décès. Regardez la vidéo : en 10 minutes, vous saurez si la structure prévue par la loi pour en sortir s'applique à vous.</p>
+
+    <div class="vsl-wrap reveal">
+      <!-- Mettre le lien de la vidéo dans data-video : Vimeo, YouTube ou .mp4 -->
+      <div class="vsl" id="vsl" data-video="">
+        <div class="vs-bg"></div>
+        <div class="vs-ui">
+          <div class="play"><svg viewBox="0 0 16 16"><path d="M3 1.5v13L14 8z"/></svg></div>
+          <div class="vs-t">Les trois pièges fiscaux des sociétés par actions, et la sortie prévue par la loi</div>
+          <div class="vs-s" id="vsl-s">Vidéo bientôt</div>
+        </div>
+      </div>
+      <div class="gate" id="gate">
+        <p id="gate-msg">Le calendrier s'ouvrira sous la vidéo dans quelques instants. En attendant, regardez au moins le début : c'est là que tout s'explique.</p>
+        <div class="count" id="gate-count" aria-live="polite">1:00<small>avant l'ouverture</small></div>
+        <a href="#reservation" class="btn btn-gold" data-go-book>Vérifier mon admissibilité<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+      </div>
+      <div class="gate-bar" aria-hidden="true"><i id="gate-bar"></i></div>
+    </div>
+
+    <div class="proof reveal">
+      <span><b>CSF</b>Inscrit à l'AMF</span>
+      <span><b>Industrielle Alliance</b>Cabinet de rattachement</span>
+      <span><b>Québec et Ontario</b>Autorisé dans les deux provinces</span>
+      <span><b>Avec votre comptable</b>Jamais à sa place</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ RÉSERVATION ═══ -->
+<section class="f-sec bg-noir" style="padding-top:3.5rem">
+  <div class="book reveal" id="reservation" data-step="locked">
+    <div class="book-head">
+      <p class="eyebrow">Rencontre de 15 minutes · sans frais</p>
+      <h2>Voyons si c'est <em>pour vous</em></h2>
+      <p>Quatre questions, 30 secondes. Si la stratégie a du sens pour votre situation, le calendrier s'ouvre. Sinon, je vous le dis tout de suite, et je vous laisse de quoi avancer seul.</p>
+    </div>
+
+    <div class="locked">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <p><b>Le calendrier s'ouvre après la vidéo.</b> Une rencontre utile commence par les mêmes bases. Ça vous évite 15 minutes d'explications, et ça me permet d'aller droit à vos chiffres.</p>
+    </div>
+
+    <form class="qz" id="qz" novalidate>
+      <div class="qz-meta"><span id="qz-step">Question 1 de 4</span><span class="qz-prog"><i id="qz-prog" style="width:25%"></i></span></div>
+
+      <fieldset class="on" data-q="structure">
+        <legend>Votre entreprise est-elle incorporée ?</legend>
+        <div class="opts">
+          <label><input type="radio" name="structure" value="opco">Oui, une société d'exploitation<small>Une seule société, qui opère l'entreprise</small></label>
+          <label><input type="radio" name="structure" value="holdco">Oui, avec une société de gestion<small>OpCo et holding</small></label>
+          <label><input type="radio" name="structure" value="pro">Oui, une société professionnelle<small>Médecin, dentiste, pharmacien, avocat…</small></label>
+          <label><input type="radio" name="structure" value="non">Non, pas encore incorporée<small>Travailleur autonome ou entreprise individuelle</small></label>
+        </div>
+      </fieldset>
+
+      <fieldset data-q="surplus">
+        <legend>Chaque année, combien laissez-vous dans la société, au-delà de vos besoins ?</legend>
+        <div class="opts">
+          <label><input type="radio" name="surplus" value="lt15">Moins de 15 000 $</label>
+          <label><input type="radio" name="surplus" value="15-50">15 000 $ à 50 000 $</label>
+          <label><input type="radio" name="surplus" value="50-150">50 000 $ à 150 000 $</label>
+          <label><input type="radio" name="surplus" value="150+">Plus de 150 000 $</label>
+        </div>
+      </fieldset>
+
+      <fieldset data-q="horizon">
+        <legend>Cet argent, en aurez-vous besoin dans les 5 prochaines années ?</legend>
+        <div class="opts">
+          <label><input type="radio" name="horizon" value="long">Non, c'est de l'argent à long terme</label>
+          <label><input type="radio" name="horizon" value="partie">Une partie seulement</label>
+          <label><input type="radio" name="horizon" value="court">Oui, presque tout</label>
+          <label><input type="radio" name="horizon" value="nsp">Je ne sais pas encore</label>
+        </div>
+      </fieldset>
+
+      <fieldset data-q="depend">
+        <legend>Qui dépend de vous ou de l'entreprise ?</legend>
+        <div class="opts">
+          <label><input type="radio" name="depend" value="famille">Ma famille<small>Conjoint, conjointe, enfants</small></label>
+          <label><input type="radio" name="depend" value="associes">Mes associés</label>
+          <label><input type="radio" name="depend" value="deux">Les deux</label>
+          <label><input type="radio" name="depend" value="personne">Personne pour l'instant</label>
+        </div>
+      </fieldset>
+
+      <button type="button" class="qz-back" id="qz-back" hidden>Question précédente</button>
+    </form>
+
+    <div class="res fit">
+      <h3>Votre situation <em>mérite qu'on regarde les chiffres</em></h3>
+      <p>Choisissez un moment. Vos réponses sont déjà dans la note de réservation : on commence directement par ce qui compte pour vous.</p>
+    </div>
+
+    <div class="res unfit">
+      <h3>Honnêtement, <em>ce n'est probablement pas le bon moment</em></h3>
+      <p id="unfit-why">Cette stratégie s'adresse aux sociétés par actions qui accumulent des surplus à long terme.</p>
+      <ul>
+        <li><a href="surplus-societe-opco">Surplus dans votre société : les quatre options</a></li>
+        <li><a href="compte-dividendes-capital-assurance-vie">Le compte de dividendes en capital, expliqué simplement</a></li>
+        <li><a href="calculateur">Simulateur d'épargne</a></li>
+      </ul>
+      <button type="button" class="anyway" id="anyway">Je veux quand même en parler</button>
+    </div>
+
+    <div class="calbox">
+      <div id="cal-inline"></div>
+      <div class="cal-fallback" id="cal-fallback">Le calendrier ne s'affiche pas ? <a class="link-arrow" id="cal-link" href="https://cal.com/wheritage/rencontre-strategique-15min" target="_blank" rel="noopener">Ouvrir le calendrier</a></div>
+    </div>
+
+    <div class="booked" role="status">
+      <h3>C'est réservé. <em>À bientôt.</em></h3>
+      <p>La confirmation est dans votre boîte courriel. Pour que les 15 minutes comptent, ayez sous la main une idée de ce que la société accumule chaque année et de ce qu'elle détient déjà en placements.</p>
+      <p>Si vous voulez, invitez votre comptable. Je travaille très bien avec eux.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LES TROIS PIÈGES ═══ -->
+<section class="f-sec bg-noir2">
+  <div class="f-in">
+    <div class="f-head">
+      <p class="eyebrow reveal">Ce que vit l'entrepreneur incorporé</p>
+      <h2><span class="split">Trois pièges que <em>personne ne vous a nommés</em></span></h2>
+      <p class="reveal">Votre entreprise va bien. Elle génère plus que ce dont vous avez besoin pour vivre. C'est précisément là que la fiscalité commence à travailler contre vous.</p>
+    </div>
+    <div class="traps" data-stagger>
+      <article class="trap reveal">
+        <div class="fig">50,17 %</div>
+        <span class="fig-l">Impôt combiné sur le revenu de placement d'une SPCC au Québec</span>
+        <h3>Le revenu passif lourdement imposé</h3>
+        <p>Les intérêts et autres revenus de placement gagnés dans votre société sont imposés à un peu plus de 50 %. Une partie est récupérable quand la société verse des dividendes, mais en attendant, votre argent travaille avec le frein à main.</p>
+      </article>
+      <article class="trap reveal" style="--d:.1">
+        <div class="fig">50 000 $</div>
+        <span class="fig-l">Seuil de revenu passif annuel, au fédéral</span>
+        <h3>Le taux réduit qui s'érode</h3>
+        <p>Au-delà de 50 000 $ de revenu de placement par année, le montant de revenu d'entreprise admissible au taux réduit des petites entreprises baisse de 5 $ par dollar excédentaire. À 150 000 $, il disparaît.</p>
+        <p>Vos placements font donc monter l'impôt sur vos profits d'entreprise. Le Québec applique ses propres conditions : votre comptable confirme votre cas.</p>
+      </article>
+      <article class="trap reveal" style="--d:.2">
+        <div class="fig">2 fois</div>
+        <span class="fig-l">Le même argent, imposé au décès</span>
+        <h3>La double imposition au décès</h3>
+        <p>Au décès, vos actions sont réputées vendues à leur juste valeur : impôt sur le gain en capital. Puis, pour sortir l'argent de la société vers vos héritiers, un dividende imposable peut s'ajouter.</p>
+        <p>Sans planification, une partie importante de ce que vous avez bâti part en impôt, deux fois.</p>
+      </article>
+    </div>
+    <p class="src reveal">Taux 2026 pour le Québec : tables d'imposition Richter, avril 2026. Seuil de revenu passif : Loi de l'impôt sur le revenu (fédéral), paragraphe 125(5.1). Taux généraux, à valider pour votre situation.</p>
+  </div>
+</section>
+
+<!-- ═══ LA STRUCTURE ═══ -->
+<section class="f-sec bg-noir">
+  <div class="f-in">
+    <div class="f-head">
+      <p class="eyebrow reveal">La sortie prévue par la loi</p>
+      <h2><span class="split">L'assurance vie <em>détenue par la société</em></span></h2>
+      <p class="reveal">Ce n'est pas une échappatoire. C'est un cadre écrit dans la Loi de l'impôt sur le revenu depuis le début des années 1980, utilisé couramment en planification successorale d'entreprise. Une société achète et paie une assurance vie permanente sur la tête de son actionnaire. Trois mécanismes s'activent.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar reveal">
+        <small>Pendant la vie</small>
+        <h3>Une croissance à l'abri de l'impôt</h3>
+        <p>Dans un contrat dit « exonéré », la valeur de rachat croît sans impôt annuel, dans les limites prévues par la loi (article 148 et règlement 306). Pas de feuillet, pas de revenu imposable chaque année.</p>
+      </article>
+      <article class="pillar reveal" style="--d:.1">
+        <small>Pendant la vie</small>
+        <h3>Aucun effet sur le taux réduit</h3>
+        <p>La croissance d'un contrat exonéré n'est pas un revenu de placement passif. Elle ne compte donc pas dans le seuil de 50 000 $ qui fait fondre votre taux réduit d'entreprise.</p>
+      </article>
+      <article class="pillar reveal" style="--d:.2">
+        <small>Au décès</small>
+        <h3>Une sortie par le CDC</h3>
+        <p>La prestation reçue par la société, moins le coût de base du contrat, est créditée au compte de dividendes en capital (paragraphe 89(1)). Ce montant peut être versé aux actionnaires sous forme de dividende en capital, sans impôt pour eux (paragraphe 83(2)).</p>
+      </article>
+    </div>
+    <div class="formula reveal">Croissance abritée <b>+</b> taux réduit protégé <b>+</b> sortie par le CDC <b>=</b> des surplus qui travaillent pour votre héritage, pas pour le fisc.</div>
+    <div class="notthis reveal">
+      <b>Ce que ce n'est pas</b>
+      <p>Ce n'est pas un compte d'épargne. C'est un engagement à long terme, qui demande d'être assurable, qui comporte des coûts d'assurance et dont la valeur de rachat est limitée dans les premières années. L'argent dont vous aurez besoin à court terme ne va pas là. Et le bon montant, s'il y en a un, se détermine avec vos chiffres et votre comptable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPTABLE ═══ -->
+<section class="f-sec bg-noir2">
+  <div class="f-in narrow">
+    <div class="f-head">
+      <p class="eyebrow reveal">« Mon comptable s'occupe de tout »</p>
+      <h2><span class="split">Votre comptable <em>et moi</em></span></h2>
+      <p class="reveal">Votre comptable est formé pour que vous soyez conforme. Mon rôle est différent : protéger ce que vous bâtissez et préparer ce que vous transmettrez. Les deux se complètent.</p>
+    </div>
+    <div class="duo reveal">
+      <div>
+        <h3>Votre comptable</h3>
+        <span class="role">Conformité et structure</span>
+        <ul>
+          <li>Déclarations de revenus et états financiers</li>
+          <li>Rémunération : salaire ou dividendes</li>
+          <li>Structure corporative, holding, gel successoral</li>
+          <li>Validation fiscale de toute stratégie</li>
+        </ul>
+      </div>
+      <div class="me">
+        <h3>Walid Harchaoui, CSF</h3>
+        <span class="role">Protection et transmission</span>
+        <ul>
+          <li>Analyse des besoins de protection de l'actionnaire et de la société</li>
+          <li>Assurance vie détenue par la société, conçue selon vos chiffres</li>
+          <li>Financement de la convention d'actionnaires</li>
+          <li>Coordination avec votre comptable, à chaque étape</li>
+        </ul>
+      </div>
+    </div>
+    <p class="duo-quote reveal">Je ne remplace pas votre comptable. <em>Je travaille avec lui.</em></p>
+  </div>
+</section>
+
+<!-- ═══ EXEMPLE ILLUSTRATIF ═══ -->
+<section class="f-sec bg-noir">
+  <div class="f-in">
+    <div class="f-head">
+      <p class="eyebrow reveal">Le mécanisme, en chiffres</p>
+      <h2><span class="split">Même montant, <em>deux sorties</em></span></h2>
+      <p class="reveal">Un exemple pour voir le compte de dividendes en capital à l'œuvre. Personnage fictif, chiffres arrondis.</p>
+    </div>
+    <div class="case reveal">
+      <div class="case-top">
+        <div>
+          <span class="case-tag">Exemple illustratif</span>
+          <h3>Marc, entrepreneur en construction à Laval</h3>
+          <p>Sa société détient une assurance vie permanente sur sa tête depuis plusieurs années. À son décès, la société reçoit la prestation. La question : combien peut sortir de la société vers sa famille sans impôt personnel ?</p>
+        </div>
+        <dl>
+          <dt>Prestation reçue par la société</dt><dd>2 000 000 $</dd>
+          <dt>Coût de base du contrat à ce moment</dt><dd>− 300 000 $</dd>
+          <dt class="sum">Crédit au CDC</dt><dd class="sum g">1 700 000 $</dd>
+        </dl>
+      </div>
+      <div class="bars" id="bars">
+        <p class="bars-t">Ce qui arrive aux 1 700 000 $ versés aux héritiers</p>
+        <div class="bar-row">
+          <div class="lbl">Dividende en capital<small>Par le CDC</small></div>
+          <div class="track"><span class="net" style="width:100%">1 700 000 $ reçus sans impôt</span></div>
+        </div>
+        <div class="bar-row">
+          <div class="lbl">Dividende ordinaire<small>Au taux marginal maximal</small></div>
+          <div class="track"><span class="net" style="width:51.3%">≈ 872 000 $</span><span class="tax" style="width:48.7%">≈ 828 000 $ d'impôt</span></div>
+        </div>
+        <div class="bars-k"><span><i class="k1"></i>Reçu par la famille</span><span><i class="k2"></i>Impôt personnel</span></div>
+      </div>
+      <p class="case-note">Hypothèses : dividende non déterminé imposé au taux marginal combiné maximal du Québec en 2026, soit 48,70 % (Richter, avril 2026). Le coût de base d'un contrat diminue avec le temps; le crédit au CDC varie donc selon l'âge du contrat. Le montant de la prestation, le coût de base et l'impôt réel dépendent du contrat, de l'âge, de l'état de santé, de la structure de la société et de la situation fiscale de chacun. Exemple fictif, présenté à titre éducatif seulement. Il ne constitue ni une projection ni une garantie de résultat.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ POUR QUI ═══ -->
+<section class="f-sec bg-noir2">
+  <div class="f-in narrow">
+    <div class="f-head">
+      <p class="eyebrow reveal">Pas pour tout le monde</p>
+      <h2><span class="split">Pour qui, <em>et pour qui pas</em></span></h2>
+    </div>
+    <div class="fit-grid reveal">
+      <div>
+        <h3>C'est pour vous si</h3>
+        <ul>
+          <li>Votre entreprise est une société par actions : société d'exploitation, société professionnelle ou holding</li>
+          <li>La société garde au moins 15 000 $ par année au-delà de ses besoins et des vôtres</li>
+          <li>Une partie de ces surplus est vraiment de l'argent à long terme</li>
+          <li>Quelqu'un dépend de vous : famille, associés, ou les deux</li>
+          <li>Vous voulez une structure claire, bâtie avec votre comptable</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h3>Ce n'est pas pour vous si</h3>
+        <ul>
+          <li>Vous n'êtes pas encore incorporé</li>
+          <li>Vous aurez besoin de presque tous vos surplus d'ici 3 à 5 ans</li>
+          <li>Vous cherchez un rendement rapide ou un placement liquide</li>
+          <li>Vous voulez contourner votre comptable plutôt que travailler avec lui</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="f-sec bg-noir">
+  <div class="f-in narrow">
+    <div class="f-head">
+      <p class="eyebrow reveal">Questions franches</p>
+      <h2><span class="split">Ce qu'on me <em>demande le plus</em></span></h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary>Est-ce légal ? Est-ce que l'ARC et Revenu Québec l'acceptent ?</summary>
+        <p>Oui. Les règles des contrats exonérés (article 148 et règlement 306), du compte de dividendes en capital (paragraphe 89(1)) et du dividende en capital (paragraphe 83(2)) font partie de la Loi de l'impôt sur le revenu. La conformité dépend toutefois de la façon dont la stratégie est mise en place : désignation du bénéficiaire, propriété du contrat, élection au CDC au bon moment. C'est pourquoi votre comptable valide chaque étape.</p></details>
+      <details><summary>Combien coûte la rencontre ?</summary>
+        <p>Rien. La rencontre de 15 minutes et l'analyse qui peut suivre ne vous coûtent rien. Par transparence : je suis rémunéré principalement par des commissions versées par l'assureur lorsqu'un contrat est souscrit. Vous pouvez me poser toutes les questions que vous voulez sur cette rémunération.</p></details>
+      <details><summary>Et si j'ai besoin de cet argent plus tard ?</summary>
+        <p>C'est la bonne question. On ne met dans cette structure que l'argent qui est vraiment à long terme. La valeur de rachat peut être accessible de différentes façons, notamment en garantie d'un prêt, mais chaque option comporte des coûts et des risques qu'on regarde ensemble avant toute décision.</p></details>
+      <details><summary>Je suis jeune. Ce n'est pas trop tôt ?</summary>
+        <p>L'assurance coûte moins cher quand on est jeune et en santé, et le temps est ce qui donne de la valeur à la croissance abritée. Cela dit, la priorité reste l'entreprise et vos besoins à court terme. On commence par là.</p></details>
+      <details><summary>Que se passe-t-il pendant les 15 minutes ?</summary>
+        <p>Je vous pose quelques questions sur votre société, vos surplus et vos objectifs. À la fin, je vous dis honnêtement si une analyse complète vaut votre temps. Si oui, on planifie la suite. Sinon, vous repartez avec une idée plus claire de vos options. Aucune pression, aucun engagement.</p></details>
+      <details><summary>Je suis en Ontario. Est-ce que ça s'applique ?</summary>
+        <p>Oui, je suis aussi autorisé en Ontario. Les mécanismes fédéraux sont les mêmes; les taux provinciaux changent. On ajuste les chiffres à votre province.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPEL FINAL ═══ -->
+<section class="f-sec bg-noir2 f-final">
+  <div class="f-in narrow">
+    <p class="eyebrow center reveal">Votre prochain geste</p>
+    <h2><span class="split">Vos surplus ont un plan, <em>ou ils ont un coût</em></span></h2>
+    <p class="reveal">15 minutes pour savoir si cette structure a du sens pour votre société. Si ce n'est pas le cas, je vous le dirai.</p>
+    <a href="#reservation" class="btn btn-gold reveal" data-go-book>Vérifier mon admissibilité<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    <div class="who reveal">
+      <img src="walid-photo.webp" alt="Walid Harchaoui" width="64" height="64" loading="lazy">
+      <div><b>Walid Harchaoui, CSF</b><span>Conseiller en sécurité financière · Québec et Ontario</span></div>
+    </div>
+    <div class="legal">
+      <p>Cette page est fournie à titre informatif et éducatif seulement. Elle ne constitue pas un conseil financier, fiscal, juridique ou en assurance personnalisé. Les règles fiscales peuvent changer et leur application dépend de votre situation. Consultez votre comptable, votre fiscaliste ou votre juriste avant toute décision. Toute souscription d'assurance est soumise à l'approbation de l'assureur (tarification médicale et financière).</p>
+      <p>Les exemples sont fictifs et illustratifs; ils ne constituent ni une projection ni une garantie. Les valeurs futures d'un contrat d'assurance vie participative dépendent notamment du barème de participations, qui n'est pas garanti.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+  var GATE_SECONDS = 60;
+  var CAL_LINK = 'wheritage/rencontre-strategique-15min';
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function ss(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
+  function track(n, p) { if (window.WH && WH.track) WH.track(n, p); }
+
+  var book = document.getElementById('reservation');
+  var gate = document.getElementById('gate');
+
+  /* ── Vidéo ── */
+  var vsl = document.getElementById('vsl');
+  if (vsl.getAttribute('data-video')) document.getElementById('vsl-s').textContent = 'Regarder';
+  vsl.addEventListener('click', function () {
+    if (!vsl.getAttribute('data-video') || vsl.dataset.played) return;
+    vsl.dataset.played = '1';
+    vsl.classList.add('playing');
+    var e = window.WH && WH.embedUrl(vsl.getAttribute('data-video'));
+    if (!e) return;
+    var node;
+    if (e.type === 'video') { node = document.createElement('video'); node.src = e.src; node.controls = true; node.autoplay = true; node.playsInline = true; }
+    else { node = document.createElement('iframe'); node.src = e.src; node.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; node.allowFullscreen = true; node.title = 'Vidéo'; }
+    vsl.appendChild(node);
+    track('vsl_play');
+  });
+  if (!vsl.getAttribute('data-video')) vsl.classList.add('empty');
+
+  /* ── Porte du calendrier : 60 s de page visible ──
+     ?ouvert dans l'URL (courriels, reciblage) ou une ouverture précédente dans la session : ouvert tout de suite. */
+  var left = GATE_SECONDS;
+  var countEl = document.getElementById('gate-count'), barEl = document.getElementById('gate-bar');
+  function fmt(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function unlock(silent) {
+    if (book.getAttribute('data-step') !== 'locked') return;
+    gate.classList.add('open');
+    barEl.style.width = '100%';
+    document.getElementById('gate-msg').textContent = 'Le calendrier est ouvert. Quatre questions rapides, puis vous choisissez votre moment.';
+    book.setAttribute('data-step', 'quiz');
+    ss('wh-funnel-open', '1');
+    if (!silent) track('funnel_unlock');
+  }
+  if (/[?&]ouvert\b/.test(location.search) || ss('wh-funnel-open') === '1') unlock(true);
+  else {
+    var timer = setInterval(function () {
+      if (document.hidden) return;
+      left--;
+      countEl.firstChild.nodeValue = fmt(Math.max(left, 0));
+      barEl.style.width = ((GATE_SECONDS - left) / GATE_SECONDS * 100) + '%';
+      if (left <= 0) { clearInterval(timer); unlock(); }
+    }, 1000);
+  }
+
+  // Les boutons « Vérifier » descendent au module ; s'il est encore verrouillé, on le dit.
+  document.querySelectorAll('[data-go-book]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      book.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  /* ── Qualification ── */
+  var LABELS = {
+    structure: { opco: 'Société d\'exploitation', holdco: 'OpCo + holding', pro: 'Société professionnelle', non: 'Non incorporé' },
+    surplus: { lt15: 'Moins de 15 000 $/an', '15-50': '15 000 $ à 50 000 $/an', '50-150': '50 000 $ à 150 000 $/an', '150+': 'Plus de 150 000 $/an' },
+    horizon: { long: 'Long terme', partie: 'Une partie à court terme', court: 'Presque tout à court terme', nsp: 'Horizon à préciser' },
+    depend: { famille: 'Famille', associes: 'Associés', deux: 'Famille et associés', personne: 'Personne pour l\'instant' }
+  };
+  var form = document.getElementById('qz');
+  var sets = [].slice.call(form.querySelectorAll('fieldset'));
+  var back = document.getElementById('qz-back');
+  var cur = 0, answers = {};
+
+  function show(i) {
+    sets.forEach(function (f, j) { f.classList.toggle('on', j === i); });
+    cur = i;
+    document.getElementById('qz-step').textContent = 'Question ' + (i + 1) + ' de ' + sets.length;
+    document.getElementById('qz-prog').style.width = ((i + 1) / sets.length * 100) + '%';
+    back.hidden = i === 0;
+  }
+  form.addEventListener('change', function (e) {
+    if (e.target.type !== 'radio') return;
+    answers[e.target.name] = e.target.value;
+    setTimeout(function () {
+      if (cur < sets.length - 1) { show(cur + 1); var first = sets[cur].querySelector('input'); if (first) first.focus({ preventScroll: true }); }
+      else finish();
+    }, reduce ? 0 : 280);
+  });
+  back.addEventListener('click', function () { if (cur > 0) show(cur - 1); });
+
+  function notes() {
+    return 'Qualification (page Stratégie société) : ' +
+      ['structure', 'surplus', 'horizon', 'depend'].map(function (k) { return LABELS[k][answers[k]] || '?'; }).join(' · ');
+  }
+
+  function finish() {
+    var why = [];
+    if (answers.structure === 'non') why.push('Votre entreprise n\'est pas encore incorporée : les mécanismes du compte de dividendes en capital et du revenu passif ne s\'appliquent qu\'aux sociétés par actions.');
+    if (answers.surplus === 'lt15') why.push('Avec moins de 15 000 $ de surplus par année, les priorités sont souvent ailleurs : REER, CELI, fonds d\'urgence de l\'entreprise.');
+    if (answers.horizon === 'court') why.push('Si vous aurez besoin de presque tous vos surplus d\'ici 5 ans, une structure à long terme n\'est pas le bon outil.');
+    if (why.length) {
+      document.getElementById('unfit-why').textContent = why.join(' ') + ' Voici de quoi avancer en attendant :';
+      book.setAttribute('data-step', 'unfit');
+      track('funnel_unfit', { raison: answers.structure === 'non' ? 'non_incorpore' : answers.surplus === 'lt15' ? 'surplus' : 'horizon' });
+    } else {
+      book.setAttribute('data-step', 'fit');
+      track('funnel_qualified', { surplus: answers.surplus, structure: answers.structure });
+      loadCal();
+    }
+    book.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  document.getElementById('anyway').addEventListener('click', function () {
+    book.classList.add('cal-on');
+    this.hidden = true;
+    loadCal();
+  });
+
+  /* ── Cal.com en ligne, réponses préremplies dans la note ── */
+  var calLoaded = false, bookedSent = false;
+  function onBooked() {
+    if (bookedSent) return; bookedSent = true;
+    book.classList.add('done');
+    track('funnel_booked');
+    book.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  function loadCal() {
+    var n = notes();
+    document.getElementById('cal-link').href = 'https://cal.com/' + CAL_LINK + '?notes=' + encodeURIComponent(n);
+    if (calLoaded) return; calLoaded = true;
+    (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement('script')).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
+    Cal('init', 'wh', { origin: 'https://app.cal.com' });
+    Cal.ns.wh('inline', { elementOrSelector: '#cal-inline', calLink: CAL_LINK, layout: 'month_view', config: { notes: n, theme: 'dark', layout: 'month_view' } });
+    Cal.ns.wh('ui', { theme: 'dark', cssVarsPerTheme: { dark: { 'cal-brand': '#C9A84C' } }, hideEventTypeDetails: false, layout: 'month_view' });
+    Cal.ns.wh('on', { action: 'bookingSuccessful', callback: onBooked });
+    Cal.ns.wh('on', { action: 'bookingSuccessfulV2', callback: onBooked });
+    // Filet : si le calendrier n'apparaît pas (bloqueur, réseau), on montre le lien direct.
+    setTimeout(function () { if (!document.querySelector('#cal-inline iframe')) document.getElementById('cal-fallback').classList.add('on'); }, 7000);
+  }
+
+  /* ── Barres de l'exemple : se remplissent à l'apparition ── */
+  var bars = document.getElementById('bars');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { bars.classList.add('in'); io.disconnect(); } }); }, { threshold: .4 });
+    io.observe(bars);
+  } else bars.classList.add('in');
+})();
+</script>
+</body>
+</html>
