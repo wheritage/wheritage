@@ -18,8 +18,12 @@
     instagram: 'https://www.instagram.com/walidh.csf',
     // Mesure et publicité : laisser vide tant que les comptes ne sont pas créés.
     // Rien ne se charge et la bannière de témoins ne s'affiche pas tant que les deux sont vides.
-    ga4Id: '',        // ex. 'G-XXXXXXXXXX'
-    metaPixelId: ''   // ex. '123456789012345'
+    ga4Id: 'G-M83QFJYMD0',
+    metaPixelId: '613784124479309',   // jeu de données « Walid Harchaoui CSF », relié au compte pub
+    // Réception des leads (Google Sheets « Leads W Héritage », via Apps Script).
+    // leadsToken = le TOKEN inscrit dans le script. Vide = les formulaires de guide restent masqués.
+    leadsUrl: 'https://script.google.com/macros/s/AKfycbz0suPAIJYrpDjmY2IBRqwPl3VbQLg9gR93XpKJjvd5Cf0LYC1Gw3RlmnFlFmNqU9UH/exec',
+    leadsToken: '20100914'
   };
 
   var WH = window.WH = window.WH || {};
@@ -85,7 +89,7 @@
   (function buildIntro() {
     if (!document.body) return;
     // Version complète seulement à la toute première visite ; version courte ensuite
-    var quick = store('wh-intro') === '1' || sstore('wh-seen') === '1';
+    var quick = store('wh-intro') === '1' || sstore('wh-seen') === '1' || document.body.hasAttribute('data-funnel');
     store('wh-intro', '1'); sstore('wh-seen', '1');
     var word = 'W HÉRITAGE', letters = '';
     for (var i = 0; i < word.length; i++) {
@@ -133,7 +137,41 @@
   ];
   var LINKEDIN = 'https://ca.linkedin.com/in/walidhcsf/en';
 
+  /* Pages d'entonnoir (data-funnel) : aucune sortie. Logo sans lien, pas de menu,
+     pied de page réduit aux mentions légales. Le seul geste possible est la réservation. */
+  function buildFunnelChrome() {
+    var top = document.createElement('div');
+    top.innerHTML =
+      '<a class="skip-link" href="#main">' + bi('Aller au contenu', 'Skip to content') + '</a>' +
+      '<div id="scroll-progress"></div>' +
+      '<nav class="nav nav-funnel" id="nav" aria-label="W Héritage">' +
+        '<span class="logo">' + WH.logo('logo-mark') +
+          '<span class="logo-text">W <b>Héritage</b><small>Walid Harchaoui · CSF</small></span></span>' +
+        '<div class="nav-right"><span class="nav-reg">' + bi('Inscrit à l\'AMF', 'AMF registered') + '</span></div>' +
+      '</nav>';
+    var intro = document.getElementById('intro');
+    var ref = intro ? intro.nextSibling : document.body.firstChild;
+    while (top.firstChild) document.body.insertBefore(top.firstChild, ref);
+    var first = document.querySelector('body > header, body > main, body > section');
+    if (first && !document.getElementById('main')) first.id = 'main';
+    var yr = new Date().getFullYear();
+    var foot = document.createElement('footer');
+    foot.className = 'footer footer-funnel';
+    foot.innerHTML =
+      '<div class="footer-legal">' +
+        '<p>' + bi('Walid Harchaoui est conseiller en sécurité financière, inscrit auprès de l\'Autorité des marchés financiers (AMF) et rattaché au cabinet Industrielle Alliance, Assurance et services financiers inc. Autorisé en Ontario par l\'Autorité ontarienne de réglementation des services financiers (ARSF). Le contenu de cette page est fourni à titre informatif seulement et ne constitue pas un conseil financier, fiscal ou juridique personnalisé.',
+                   'Walid Harchaoui is a financial security advisor registered with the Autorité des marchés financiers (AMF) and attached to the firm Industrielle Alliance, Assurance et services financiers inc. Licensed in Ontario by FSRA. This page is for information only and does not constitute personalized financial, tax or legal advice.') + '</p>' +
+      '</div>' +
+      '<div class="footer-bottom">' +
+        '<span>© ' + yr + ' W Héritage — Walid Harchaoui, CSF</span>' +
+        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button></span>' +
+        '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">Chambre de la sécurité financière</a></span>' +
+      '</div>';
+    document.body.appendChild(foot);
+  }
+
   function buildChrome() {
+    if (document.body.hasAttribute('data-funnel')) { buildFunnelChrome(); return; }
     var page = document.body.getAttribute('data-page') || '';
     var resActive = page === 'calc' || page === 'par' || page === 'ressources' || page === 'article';
     var linksHtml = NAV.map(function (n) {
@@ -311,6 +349,7 @@
     onScroll();
 
     var ham = document.getElementById('hamburger'), menu = document.getElementById('mobileMenu');
+    if (!ham || !menu) return;
     function close() { menu.classList.remove('open'); ham.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); document.documentElement.style.overflow = ''; }
     ham.addEventListener('click', function () {
       var open = !menu.classList.contains('open');
@@ -620,7 +659,14 @@
     booking_click:  { ga: 'clic_reservation', meta: 'ClicReservation', custom: true },
     quote_click:    { ga: 'clic_soumission', meta: 'ClicSoumission', custom: true },
     calc_used:      { ga: 'utilisation_calculateur', meta: 'UtilisationCalculateur', custom: true },
-    phone_click:    { ga: 'clic_telephone', meta: 'Contact', p: { method: 'phone' } }
+    phone_click:    { ga: 'clic_telephone', meta: 'Contact', p: { method: 'phone' } },
+    // Entonnoir « Stratégie société » (strategie-societe.html)
+    vsl_play:       { ga: 'lecture_vsl', meta: 'LectureVSL', custom: true },
+    enjeu_choisi:   { ga: 'enjeu_choisi', meta: 'EnjeuChoisi', custom: true },
+    funnel_unlock:  { ga: 'calendrier_debloque', meta: 'CalendrierDebloque', custom: true },
+    funnel_qualified: { ga: 'generate_lead', meta: 'Lead', p: { form: 'qualification' } },
+    funnel_unfit:   { ga: 'qualification_non', meta: 'QualificationNon', custom: true },
+    funnel_booked:  { ga: 'rendez_vous_reserve', meta: 'Schedule' }
   };
   WH.track = function (name, params) {
     var ev = EVENTS[name]; if (!ev) return;
