@@ -662,6 +662,7 @@
     phone_click:    { ga: 'clic_telephone', meta: 'Contact', p: { method: 'phone' } },
     // Entonnoir « Stratégie société » (strategie-societe.html)
     vsl_play:       { ga: 'lecture_vsl', meta: 'LectureVSL', custom: true },
+    enjeu_choisi:   { ga: 'enjeu_choisi', meta: 'EnjeuChoisi', custom: true },
     funnel_unlock:  { ga: 'calendrier_debloque', meta: 'CalendrierDebloque', custom: true },
     funnel_qualified: { ga: 'generate_lead', meta: 'Lead', p: { form: 'qualification' } },
     funnel_unfit:   { ga: 'qualification_non', meta: 'QualificationNon', custom: true },

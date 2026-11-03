@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L'argent qui dort dans votre société | W Héritage</title>
-<meta name="description" content="Propriétaires de sociétés par actions au Québec : comment l'assurance vie détenue par la société peut faire travailler vos surplus à l'abri de l'impôt. Rencontre de 15 minutes, sans frais.">
+<meta name="description" content="Propriétaires de sociétés par actions au Québec : revenu passif, succession ou accès à vos liquidités. Choisissez votre enjeu, regardez la vidéo, puis réservez 15 minutes sans frais.">
 <meta name="theme-color" content="#080808">
 <!-- Page d'atterrissage publicitaire : hors index et hors sitemap -->
 <meta name="robots" content="noindex, nofollow">
@@ -147,6 +147,35 @@
 .guide-wrap .guide-f { max-width: none; margin: 0; }
 @media (max-width: 700px) { .guide-f { padding: 1.3rem 1.1rem; } .guide-f .row { grid-template-columns: 1fr; } .guide-f .btn { width: 100%; justify-content: center; } }
 
+/* ── Choix de l'enjeu ── */
+.enjeux { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); margin: 2.8rem auto 0; max-width: 940px; text-align: left; }
+.enjeu { position: relative; background: var(--noir2); border: 0; padding: 1.5rem 1.4rem 1.4rem; cursor: pointer; font: inherit; color: inherit; text-align: left; transition: background .45s var(--ease-out); }
+.enjeu:hover { background: var(--sombre); }
+.enjeu::after { content: ''; position: absolute; inset: 0; border: 1px solid var(--or); opacity: 0; transition: opacity .45s var(--ease-out); pointer-events: none; }
+.enjeu[aria-pressed="true"] { background: var(--sombre2); }
+.enjeu[aria-pressed="true"]::after { opacity: 1; }
+.enjeu small { display: flex; justify-content: space-between; align-items: center; gap: .8rem; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--or); margin-bottom: .8rem; }
+.enjeu small i { font-style: normal; color: var(--texte3); letter-spacing: .16em; }
+.enjeu[aria-pressed="true"] small i { color: var(--or-pale); }
+.enjeu strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.32rem; line-height: 1.2; color: var(--creme); margin-bottom: .6rem; }
+.enjeu span.s { display: block; font-size: .76rem; line-height: 1.6; color: var(--texte2); }
+.enjeu:focus-visible { outline: 1px solid var(--or-vif); outline-offset: -3px; }
+.enjeux-q { font-size: .6rem; letter-spacing: .24em; text-transform: uppercase; color: var(--texte3); margin-top: 2.6rem; }
+.vsl-wrap.choisir .vsl { cursor: default; }
+.vsl-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); border-top: 0; text-align: left; }
+.vsl-sum[hidden] { display: none; }
+.vsl-sum div { background: var(--noir); padding: 1.1rem 1.3rem 1.2rem; }
+.vsl-sum b { display: block; font-size: .54rem; letter-spacing: .22em; text-transform: uppercase; color: var(--or); font-weight: 500; margin-bottom: .5rem; }
+.vsl-sum p { font-size: .78rem; line-height: 1.65; color: var(--texte2); margin: 0; }
+
+/* ── Liquidités : étapes ── */
+.etapes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+.etape { background: var(--noir2); padding: 2rem 1.6rem 1.8rem; position: relative; }
+.etape i { display: block; width: 9px; height: 9px; border: 1px solid var(--or); transform: rotate(45deg); margin-bottom: 1.3rem; }
+.etape:last-child i { background: var(--or); }
+.etape h3 { font-size: 1.3rem; margin-bottom: .7rem; }
+.etape p { font-size: .82rem; color: var(--texte2); line-height: 1.75; }
+
 /* ── Contenu ── */
 .f-sec { padding: 6.5rem var(--pad-x); position: relative; }
 .f-in { max-width: 1060px; margin: 0 auto; }
@@ -241,6 +270,7 @@
 
 @media (max-width: 900px) {
   .traps, .pillars { grid-template-columns: 1fr; }
+  .etapes { grid-template-columns: 1fr 1fr; }
   .case-top { grid-template-columns: 1fr; gap: 1.6rem; }
 }
 @media (max-width: 700px) {
@@ -260,6 +290,10 @@
   .case-note { padding: 0 1.2rem 1.6rem; }
   .bar-row { grid-template-columns: 1fr; gap: .6rem; }
   .nav-reg { display: none; }
+  .enjeux, .vsl-sum, .etapes { grid-template-columns: 1fr; }
+  .enjeu { padding: 1.1rem 1.1rem 1rem; }
+  .enjeu strong { font-size: 1.15rem; margin-bottom: 0; }
+  .enjeu span.s { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .track { clip-path: none; transition: none; }
@@ -276,20 +310,56 @@
   <div>
     <p class="eyebrow reveal">Propriétaires de sociétés par actions au Québec</p>
     <h1><span class="split">L'argent qui dort dans votre société <em>vous coûte plus cher que vous pensez</em></span></h1>
-    <p class="lead reveal">Revenu passif imposé à plus de 50 %, taux réduit qui s'érode, double imposition au décès. Regardez la vidéo : en 10 minutes, vous saurez si la structure prévue par la loi pour en sortir s'applique à vous.</p>
+    <p class="lead reveal">Trois enjeux reviennent chez presque tous les propriétaires de société. Choisissez celui qui vous ressemble : chaque vidéo explique le problème et une solution prévue par la loi, en quelques minutes. Vous pouvez regarder les trois.</p>
 
-    <div class="vsl-wrap reveal">
-      <!-- Mettre le lien de la vidéo dans data-video : Vimeo, YouTube ou .mp4 -->
+    <p class="enjeux-q reveal">Quel enjeu vous ressemble le plus ?</p>
+    <!-- Une vidéo par enjeu : mettre son lien (Vimeo, YouTube ou .mp4) dans data-video -->
+    <div class="enjeux reveal" role="group" aria-label="Choisissez votre enjeu">
+      <button type="button" class="enjeu" data-enjeu="passif" aria-pressed="false" data-video=""
+        data-titre="Revenu passif : quand vos placements font monter l'impôt de votre entreprise"
+        data-probleme="Les placements faits dans la société sont imposés à 50,17 %. Au-delà de 50 000 $ par année, ils font aussi fondre votre taux réduit d'entreprise."
+        data-solution="Une assurance vie détenue par la société, dont la croissance est à l'abri de l'impôt et ne compte pas dans le seuil de 50 000 $."
+        data-pourqui="Les sociétés qui accumulent des placements qu'elles n'utiliseront pas avant longtemps.">
+        <small>Revenu passif <i>6 min</i></small>
+        <strong>Mes placements dans la société me coûtent de l'impôt</strong>
+        <span class="s">Impôt de 50,17 %, taux réduit qui fond</span>
+      </button>
+      <button type="button" class="enjeu" data-enjeu="succession" aria-pressed="false" data-video=""
+        data-titre="Succession : transmettre sans payer l'impôt deux fois"
+        data-probleme="Au décès, vos actions sont réputées vendues, puis l'argent sort de la société en dividende. Le même argent peut être imposé deux fois."
+        data-solution="La prestation reçue par la société est en grande partie créditée au compte de dividendes en capital, puis versée à vos héritiers sans impôt pour eux."
+        data-pourqui="Les propriétaires dont la famille ou les associés dépendent de la société.">
+        <small>Succession <i>6 min</i></small>
+        <strong>Je veux transmettre sans double imposition</strong>
+        <span class="s">Gain en capital au décès, puis dividende</span>
+      </button>
+      <button type="button" class="enjeu" data-enjeu="liquidites" aria-pressed="false" data-video=""
+        data-titre="Liquidités : accéder à votre argent de votre vivant, sans le retirer"
+        data-probleme="Sortir de l'argent de la société pour vos projets passe par un salaire ou un dividende, imposés à votre taux marginal."
+        data-solution="Un prêt garanti par la valeur de rachat de votre assurance participative. Un prêt n'est pas un revenu imposable ; il comporte des risques à bien comprendre."
+        data-pourqui="Les propriétaires avec un horizon long qui veulent garder une réserve accessible pour leurs projets.">
+        <small>Liquidités <i>6 min</i></small>
+        <strong>Je veux accéder à mon argent de mon vivant</strong>
+        <span class="s">Un prêt garanti par la valeur de rachat</span>
+      </button>
+    </div>
+
+    <div class="vsl-wrap choisir reveal" id="vsl-wrap" style="margin-top:0">
       <div class="vsl" id="vsl" data-video="">
         <div class="vs-bg"></div>
         <div class="vs-ui">
           <div class="play"><svg viewBox="0 0 16 16"><path d="M3 1.5v13L14 8z"/></svg></div>
-          <div class="vs-t">Les trois pièges fiscaux des sociétés par actions, et la sortie prévue par la loi</div>
-          <div class="vs-s" id="vsl-s">Vidéo bientôt</div>
+          <div class="vs-t" id="vsl-t">Choisissez votre enjeu ci-dessus</div>
+          <div class="vs-s" id="vsl-s">3 vidéos · regardez celle qui vous ressemble</div>
         </div>
       </div>
+      <div class="vsl-sum" id="vsl-sum" hidden>
+        <div><b>Le problème</b><p id="sum-probleme"></p></div>
+        <div><b>La solution</b><p id="sum-solution"></p></div>
+        <div><b>Pour qui</b><p id="sum-pourqui"></p></div>
+      </div>
       <div class="gate" id="gate">
-        <p id="gate-msg">Le calendrier s'ouvrira sous la vidéo dans quelques instants. En attendant, regardez au moins le début : c'est là que tout s'explique.</p>
+        <p id="gate-msg">Le calendrier s'ouvrira sous la vidéo dans quelques instants. En attendant, choisissez votre enjeu et regardez le début de la vidéo : c'est là que tout s'explique.</p>
         <div class="count" id="gate-count" aria-live="polite">1:00<small>avant l'ouverture</small></div>
         <a href="#reservation" class="btn btn-gold" data-go-book>Vérifier mon admissibilité<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
       </div>
@@ -473,6 +543,27 @@
   </div>
 </section>
 
+<!-- ═══ LIQUIDITÉS ═══ -->
+<section class="f-sec bg-noir2" id="liquidites">
+  <div class="f-in">
+    <div class="f-head">
+      <p class="eyebrow reveal">Liquidités</p>
+      <h2><span class="split">Accéder à votre argent, <em>sans le retirer</em></span></h2>
+      <p class="reveal">Avec les années, la valeur de rachat d'une assurance vie participative s'accumule. La retirer peut être imposable. Vous pouvez plutôt la donner en garantie à une institution financière, qui vous prête des fonds de votre vivant, pour un projet, un investissement ou votre entreprise. Un prêt n'est pas un revenu : il n'est pas imposé quand vous le recevez.</p>
+    </div>
+    <div class="etapes reveal">
+      <article class="etape"><i></i><h3>La valeur s'accumule</h3><p>La valeur de rachat croît dans le contrat, à l'abri de l'impôt annuel, dans les limites prévues par la loi.</p></article>
+      <article class="etape"><i></i><h3>Vous la donnez en garantie</h3><p>Le contrat est cédé en garantie à une banque ou à un prêteur. Le contrat reste en vigueur et continue de croître.</p></article>
+      <article class="etape"><i></i><h3>Le prêteur vous avance des fonds</h3><p>Un pourcentage de la valeur de rachat, fixé par le prêteur, en un versement ou en plusieurs, selon l'entente.</p></article>
+      <article class="etape"><i></i><h3>Le prêt est remboursé au décès</h3><p>Le solde du prêt est remboursé à même la prestation d'assurance. Le reste de la prestation revient à la société.</p></article>
+    </div>
+    <div class="notthis reveal">
+      <b>Les risques à regarder avant</b>
+      <p>Les intérêts s'accumulent et leur taux peut monter. Le prêteur peut exiger plus de garanties, ou un remboursement, si la valeur du contrat ou ses conditions changent. Le prêt réduit ce qui restera pour vos héritiers. La déductibilité des intérêts dépend de l'usage des fonds et se valide avec votre comptable. C'est une stratégie pour un horizon long, souvent après plusieurs années de cotisation, et les conditions varient d'un prêteur à l'autre.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ COMPTABLE ═══ -->
 <section class="f-sec bg-noir2">
   <div class="f-in narrow">
@@ -648,9 +739,39 @@
   var book = document.getElementById('reservation');
   var gate = document.getElementById('gate');
 
-  /* ── Vidéo ── */
+  /* ── Choix de l'enjeu : une vidéo par enjeu, on peut passer de l'une à l'autre ── */
   var vsl = document.getElementById('vsl');
-  if (vsl.getAttribute('data-video')) document.getElementById('vsl-s').textContent = 'Regarder';
+  var wrap = document.getElementById('vsl-wrap');
+  var cartes = [].slice.call(document.querySelectorAll('.enjeu'));
+  var NOMS = { passif: 'Revenu passif', succession: 'Succession', liquidites: 'Liquidités' };
+  var enjeux = []; // dans l'ordre où la personne les a choisis
+  function choisir(c, silencieux) {
+    cartes.forEach(function (x) { x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
+    var id = c.getAttribute('data-enjeu');
+    if (enjeux.indexOf(id) < 0) enjeux.push(id);
+    // On remet le lecteur à zéro si une autre vidéo jouait
+    var vieux = vsl.querySelector('iframe, video'); if (vieux) vieux.remove();
+    vsl.classList.remove('playing'); delete vsl.dataset.played;
+    vsl.setAttribute('data-video', c.getAttribute('data-video') || '');
+    vsl.classList.toggle('empty', !c.getAttribute('data-video'));
+    wrap.classList.remove('choisir');
+    document.getElementById('vsl-t').textContent = c.getAttribute('data-titre');
+    document.getElementById('vsl-s').textContent = c.getAttribute('data-video') ? 'Regarder' : 'Vidéo bientôt';
+    document.getElementById('sum-probleme').textContent = c.getAttribute('data-probleme');
+    document.getElementById('sum-solution').textContent = c.getAttribute('data-solution');
+    document.getElementById('sum-pourqui').textContent = c.getAttribute('data-pourqui');
+    document.getElementById('vsl-sum').hidden = false;
+    if (!silencieux) {
+      track('enjeu_choisi', { enjeu: id });
+      var r = wrap.getBoundingClientRect();
+      if (r.top < 0 || r.top > innerHeight * 0.5) wrap.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    }
+  }
+  cartes.forEach(function (c) { c.addEventListener('click', function () { choisir(c); }); });
+  // ?enjeu=succession dans un lien (courriel, relance) : la vidéo est déjà choisie
+  var pre = (location.search.match(/[?&]enjeu=(\w+)/) || [])[1];
+  cartes.forEach(function (c) { if (c.getAttribute('data-enjeu') === pre) choisir(c, true); });
+
   vsl.addEventListener('click', function () {
     if (!vsl.getAttribute('data-video') || vsl.dataset.played) return;
     vsl.dataset.played = '1';
@@ -661,9 +782,8 @@
     if (e.type === 'video') { node = document.createElement('video'); node.src = e.src; node.controls = true; node.autoplay = true; node.playsInline = true; }
     else { node = document.createElement('iframe'); node.src = e.src; node.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; node.allowFullscreen = true; node.title = 'Vidéo'; }
     vsl.appendChild(node);
-    track('vsl_play');
+    track('vsl_play', { enjeu: enjeux[enjeux.length - 1] || '' });
   });
-  if (!vsl.getAttribute('data-video')) vsl.classList.add('empty');
 
   /* ── Porte du calendrier : 60 s de page visible ──
      ?ouvert dans l'URL (courriels, reciblage) ou une ouverture précédente dans la session : ouvert tout de suite. */
@@ -727,9 +847,11 @@
   });
   back.addEventListener('click', function () { if (cur > 0) show(cur - 1); });
 
+  // Les enjeux vont en dernier : la feuille Google lit les 4 premières réponses, le reste reste dans les notes
   function notes() {
     return 'Qualification (page Stratégie société) : ' +
-      ['structure', 'surplus', 'horizon', 'depend'].map(function (k) { return LABELS[k][answers[k]] || '?'; }).join(' · ');
+      ['structure', 'surplus', 'horizon', 'depend'].map(function (k) { return LABELS[k][answers[k]] || '?'; }).join(' · ') +
+      ' · Enjeux : ' + (enjeux.length ? enjeux.map(function (e) { return NOMS[e]; }).join(', ') : 'aucun choisi');
   }
 
   function finish() {
