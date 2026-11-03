@@ -7,6 +7,19 @@ Shared design system lives in `assets/site.css`: noir `#080808`, or `#C9A84C`, C
 spans toggled by `html[data-lang]`. Positioning: *Stratège, pas vendeur.* Tutoiement in social
 content, vouvoiement on the site.
 
+## Smooth scroll (site-wide)
+
+Every page loads `assets/vendor/lenis.min.js` (1.3.27), `gsap.min.js` and `ScrollTrigger.min.js`
+(3.15.0) before `site.js`. Self-hosted on purpose: no third-party CDN sees visitors' IPs (Loi 25).
+`initSmoothScroll()` in `site.js` drives Lenis from the GSAP ticker and feeds `ScrollTrigger.update`;
+touch stays native and nothing smooths under `prefers-reduced-motion`. Rules when editing:
+- Lock the page with `lockScroll(true/false)`, never `documentElement.style.overflow` alone
+  (Lenis keeps scrolling through `overflow: hidden`).
+- Any element that scrolls on its own needs `data-lenis-prevent` (mobile menu, consent banner).
+- Scroll-linked effects go through ScrollTrigger, not `scroll` listeners that read layout each frame.
+  `[data-parallax]` already does (`initParallax()`).
+- Same-page `#` links glide through Lenis and honour `scroll-margin-top`.
+
 ## Motion & video-edit animation skills
 
 Installed in `.claude/skills/` (project scope). Use them for **video editing animations**: reel
