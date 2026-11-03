@@ -7,6 +7,19 @@ Shared design system lives in `assets/site.css`: noir `#080808`, or `#C9A84C`, C
 spans toggled by `html[data-lang]`. Positioning: *Stratège, pas vendeur.* Tutoiement in social
 content, vouvoiement on the site.
 
+## Smooth scroll (site-wide)
+
+Every page loads `assets/vendor/lenis.min.js` (1.3.27), `gsap.min.js` and `ScrollTrigger.min.js`
+(3.15.0) before `site.js`. Self-hosted on purpose: no third-party CDN sees visitors' IPs (Loi 25).
+`initSmoothScroll()` in `site.js` drives Lenis from the GSAP ticker and feeds `ScrollTrigger.update`;
+touch stays native and nothing smooths under `prefers-reduced-motion`. Rules when editing:
+- Lock the page with `lockScroll(true/false)`, never `documentElement.style.overflow` alone
+  (Lenis keeps scrolling through `overflow: hidden`).
+- Any element that scrolls on its own needs `data-lenis-prevent` (mobile menu, consent banner).
+- Scroll-linked effects go through ScrollTrigger, not `scroll` listeners that read layout each frame.
+  `[data-parallax]` already does (`initParallax()`).
+- Same-page `#` links glide through Lenis and honour `scroll-margin-top`.
+
 ## Motion & video-edit animation skills
 
 Installed in `.claude/skills/` (project scope). Use them for **video editing animations**: reel
@@ -57,3 +70,15 @@ reel composition with a scrubbable GSAP master timeline, SplitText line reveals,
 and a Three.js gold-dust field that resolves into the W mark. It is `noindex` and not in the
 sitemap. Recording mode (`H`) hides the controls for screen capture; `?t=4.5` opens at a time;
 `window.motionLab.seek(seconds)` gives frame-exact stills for headless export.
+
+`text-effects.html` (+ `assets/text-effects.js`) ports React Bits text components
+([DavidHDev/react-bits](https://github.com/DavidHDev/react-bits), MIT + Commons Clause: use them
+in the site, never redistribute the components themselves) onto one GSAP timeline: BlurText,
+TrueFocus, RotatingText, StrokeText, ShinyText, retuned to the house rules (no spring, no loop,
+the sheen settles on flat gold). GradientText, GlitchText, CountUp, Aurora and letter-by-letter
+typers are left out on purpose (banned tells). Also `noindex`, out of the sitemap.
+
+Export an MP4 for the edit (V2 over the talking head) with
+`node tools/render-reel.mjs text-effects.html my-clip-text-effects.mp4 [--format 16:9] [--from s --to s]`.
+It seeks the timeline frame by frame (`window.reel`), so nothing drops like a screen recording.
+Needs Playwright + ffmpeg; `tools/` is excluded from the deploy by `.vercelignore`.

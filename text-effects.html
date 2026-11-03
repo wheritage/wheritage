@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Effects | W Héritage</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#080808">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<!--
+  Text Effects: signature text animations for video edits (V2 over the talking head).
+  Ported from React Bits (github.com/DavidHDev/react-bits, MIT + Commons Clause, (c) David Haz)
+  into one vanilla GSAP timeline, retuned to the W Héritage motion rules in CLAUDE.md:
+    BlurText   -> "focus" variant, words sharpen out of a blur, no bounce
+    TrueFocus  -> square gold corner brackets glide word to word, the rest stays soft
+    RotatingText -> one slot, each phrase rises out of its mask, exits faster
+    StrokeText -> the serif outline draws, then the fill wipes in under it
+    ShinyText  -> a single metallic sheen pass that settles on flat gold (no loop)
+  Left out on purpose: GradientText (banned tell), GlitchText (shakes), CountUp (invented figures),
+  Aurora / Liquid Chrome (colour blobs), letter-by-letter TextType / DecryptedText (typewriter).
+-->
+<style>
+  html, body { height: 100%; }
+  body { display: grid; grid-template-rows: 1fr auto; overflow: hidden; }
+
+  /* ── Stage ─────────────────────────────────────────── */
+  .te-viewport { display: grid; place-items: center; padding: 1.5rem 1rem 0; min-height: 0; }
+  .te-stage {
+    position: relative; overflow: hidden; background: var(--noir);
+    aspect-ratio: 9 / 16;
+    height: min(100%, calc((100vw - 2rem) * 16 / 9));
+    max-width: 100%;
+    container-type: size;
+    outline: 1px solid var(--ligne);
+  }
+  .te-stage[data-format="1:1"]  { aspect-ratio: 1 / 1;  height: min(100%, calc(100vw - 2rem)); }
+  .te-stage[data-format="16:9"] { aspect-ratio: 16 / 9; height: min(100%, calc((100vw - 2rem) * 9 / 16)); }
+  /* Lens falloff, same as the Motion Lab so both clips cut together. */
+  .te-stage::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(8,8,8,.75) 100%);
+  }
+
+  .te-scene { position: absolute; left: 9cqw; right: 9cqw; bottom: 16cqh; visibility: hidden; }
+  .te-stage[data-format="16:9"] .te-scene { left: 9cqw; right: 30cqw; bottom: auto; top: 50%; translate: 0 -50%; }
+  .te-stage[data-format="1:1"] .te-scene { bottom: 13cqh; right: 12cqw; }
+
+  .te-title {
+    font-family: var(--serif); font-weight: 400; color: var(--creme);
+    font-size: min(10.4cqw, 6.8cqh); line-height: 1.06; letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .nw { white-space: nowrap; }
+  .te-title em { font-style: italic; color: var(--or-vif); }
+  .te-label {
+    display: block; margin-bottom: 1.8em;
+    font-family: var(--sans); font-weight: 500; text-transform: uppercase;
+    letter-spacing: .28em; color: var(--or); font-size: min(2.5cqw, 1.5cqh);
+  }
+
+  /* BlurText */
+  .te-blur .te-title + .te-title { margin-top: .12em; }
+  .te-word { display: inline-block; will-change: filter, transform; }
+
+  /* TrueFocus: words stacked, a square bracket frame travels between them */
+  .te-focus .te-words { position: relative; display: grid; justify-items: start; gap: .32em;
+    font-size: min(13cqw, 8cqh); }
+  .te-focus .te-fw { font-family: var(--serif); font-weight: 400; color: var(--creme); line-height: 1; padding: 0 .04em; }
+  .te-frame { position: absolute; left: 0; top: 0; pointer-events: none; }
+  .te-frame i { position: absolute; width: .26em; height: .26em; border: 0 solid var(--or); }
+  .te-frame i:nth-child(1) { left: 0;  top: 0;    border-width: 1.5px 0 0 1.5px; }
+  .te-frame i:nth-child(2) { right: 0; top: 0;    border-width: 1.5px 1.5px 0 0; }
+  .te-frame i:nth-child(3) { left: 0;  bottom: 0; border-width: 0 0 1.5px 1.5px; }
+  .te-frame i:nth-child(4) { right: 0; bottom: 0; border-width: 0 1.5px 1.5px 0; }
+
+  /* RotatingText: one slot, phrases stacked in the same grid cell */
+  .te-slot { display: grid; overflow: clip; padding: .04em 0 .16em; margin-bottom: -.16em; }
+  .te-slot > * { grid-area: 1 / 1; }
+
+  /* StrokeText: uniformly scaled SVG, so a dash draw stays clean */
+  .te-stroke svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .te-stroke text { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 250px; }
+  .te-stroke .te-outline { fill: none; stroke: var(--or); stroke-width: 1.4; }
+  .te-stroke .te-fill { fill: var(--creme); }
+  .te-stroke .te-sub { margin-top: 1.4em; font-family: var(--sans); color: var(--texte2);
+    font-size: min(3.8cqw, 2.3cqh); letter-spacing: .06em; line-height: 1.6; text-align: center; }
+
+  /* ShinyText: gold, one sheen band that starts and ends off the word */
+  .te-end { text-align: center; left: 8cqw; right: 8cqw; }
+  .te-stage[data-format="16:9"] .te-end { left: 20cqw; right: 20cqw; }
+  .te-mask { display: block; overflow: clip; padding-bottom: .1em; }
+  .te-shine {
+    display: inline-block; font-family: var(--sans); font-weight: 500; text-transform: uppercase;
+    letter-spacing: .34em; margin-right: -.34em; font-size: min(6cqw, 3.6cqh);
+    background: linear-gradient(105deg, var(--or) 0 38%, var(--or-pale) 47%, var(--creme) 50%, var(--or-pale) 53%, var(--or) 62% 100%);
+    background-size: 320% 100%; background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .te-rule { display: block; width: 18cqw; height: 2px; margin: 1.5em auto 1.6em; overflow: visible; }
+  .te-rule line { stroke: var(--or); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .te-end .te-title { font-size: min(9cqw, 6cqh); }
+
+  /* ── Controls (same language as the Motion Lab) ──── */
+  .te-ui {
+    display: flex; align-items: center; gap: .9rem; flex-wrap: wrap; padding: 1rem 1.25rem 1.1rem;
+    border-top: 1px solid var(--ligne); background: var(--noir2);
+    font-size: .72rem; letter-spacing: .08em; color: var(--texte2);
+    transition: opacity .35s var(--ease), translate .35s var(--ease);
+  }
+  .te-btn {
+    border: 1px solid var(--ligne-fort); padding: .55rem .9rem; text-transform: uppercase;
+    letter-spacing: .16em; font-size: .66rem; font-weight: 500; color: var(--texte);
+    transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+  }
+  .te-btn:hover { border-color: var(--or); color: var(--or-vif); }
+  .te-btn[aria-pressed="true"] { background: var(--or); border-color: var(--or); color: var(--noir); }
+  .te-btn:focus-visible, .te-scrub:focus-visible { outline: 1px solid var(--or-vif); outline-offset: 2px; }
+  .te-play { min-width: 6.2rem; }
+  .te-tc { font-variant-numeric: tabular-nums; color: var(--texte); min-width: 9.5ch; }
+  .te-scrub { -webkit-appearance: none; appearance: none; flex: 1 1 12rem; background: transparent; height: 1.6rem; cursor: pointer; }
+  .te-scrub::-webkit-slider-runnable-track { height: 1px; background: var(--ligne-fort); }
+  .te-scrub::-moz-range-track { height: 1px; background: var(--ligne-fort); }
+  .te-scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 2px; height: 1.1rem; margin-top: -.55rem; background: var(--or-vif); border: 0; }
+  .te-scrub::-moz-range-thumb { width: 2px; height: 1.1rem; background: var(--or-vif); border: 0; border-radius: 0; }
+  .te-group { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+  body.is-recording .te-ui { opacity: 0; translate: 0 100%; pointer-events: none; }
+  body.is-recording .te-stage { outline-color: transparent; }
+  body.is-recording { cursor: none; }
+  /* ?render=1: the stage fills the viewport exactly, for headless frame export */
+  body.is-render { grid-template-rows: 1fr; }
+  body.is-render .te-ui { display: none; }
+  body.is-render .te-viewport { padding: 0; }
+  body.is-render .te-stage { height: 100vh; outline: 0; }
+  body.is-render::after { display: none; }
+</style>
+</head>
+<body>
+
+<main class="te-viewport">
+  <div class="te-stage" id="stage" data-format="9:16" aria-label="Effets de texte W Héritage">
+
+    <!-- BlurText -->
+    <section class="te-scene te-blur" data-scene="blur">
+      <p class="te-title" data-words>Ton patrimoine</p>
+      <p class="te-title" data-words>mérite un <em>stratège</em>.</p>
+    </section>
+
+    <!-- TrueFocus -->
+    <section class="te-scene te-focus" data-scene="focus">
+      <span class="te-label">Trois notions à régler</span>
+      <div class="te-words">
+        <span class="te-fw">Protéger.</span>
+        <span class="te-fw">Comprendre.</span>
+        <span class="te-fw"><em>Coordonner.</em></span>
+        <span class="te-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </div>
+    </section>
+
+    <!-- RotatingText -->
+    <section class="te-scene te-rotate" data-scene="rotate">
+      <p class="te-title" data-split>Un seul plan pour</p>
+      <p class="te-title te-slot">
+        <span>ton <em>revenu</em>.</span>
+        <span>ta <em>société</em>.</span>
+        <span>ta <em>fiscalité</em>.</span>
+      </p>
+    </section>
+
+    <!-- StrokeText -->
+    <section class="te-scene te-stroke" data-scene="stroke">
+      <svg viewBox="0 0 1000 320" role="img" aria-label="Héritage">
+        <defs><clipPath id="te-wipe"><rect x="0" y="0" width="0" height="320"/></clipPath></defs>
+        <text class="te-fill" x="500" y="225" text-anchor="middle" clip-path="url(#te-wipe)">Héritage</text>
+        <text class="te-outline" x="500" y="225" text-anchor="middle">Héritage</text>
+      </svg>
+      <p class="te-sub">Ce que tu bâtis doit te survivre.</p>
+    </section>
+
+    <!-- ShinyText end card -->
+    <section class="te-scene te-end" data-scene="end">
+      <span class="te-mask"><span class="te-shine">W Héritage</span></span>
+      <svg class="te-rule" viewBox="0 0 10 2" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="1" x2="10" y2="1"/></svg>
+      <p class="te-title" data-split>Écris <em>HÉRITAGE</em> <span class="nw">en DM.</span></p>
+    </section>
+  </div>
+</main>
+
+<div class="te-ui" role="group" aria-label="Contrôles de lecture">
+  <button class="te-btn te-play" id="play" type="button">Lecture</button>
+  <span class="te-tc" id="tc" aria-live="off">00:00:00</span>
+  <input class="te-scrub" id="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="Position dans la composition">
+  <div class="te-group" id="scenes" aria-label="Effets">
+    <button class="te-btn" type="button" data-seek="blur">Blur</button>
+    <button class="te-btn" type="button" data-seek="focus">Focus</button>
+    <button class="te-btn" type="button" data-seek="rotate">Rotating</button>
+    <button class="te-btn" type="button" data-seek="stroke">Stroke</button>
+    <button class="te-btn" type="button" data-seek="end">Shiny</button>
+  </div>
+  <div class="te-group" id="formats" aria-label="Format">
+    <button class="te-btn" type="button" data-format="9:16" aria-pressed="true">9:16</button>
+    <button class="te-btn" type="button" data-format="1:1" aria-pressed="false">1:1</button>
+    <button class="te-btn" type="button" data-format="16:9" aria-pressed="false">16:9</button>
+  </div>
+  <button class="te-btn" id="record" type="button">Mode enregistrement</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+<script src="assets/text-effects.js" defer></script>
+</body>
+</html>

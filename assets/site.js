@@ -32,6 +32,12 @@
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var finePointer = window.matchMedia && matchMedia('(pointer: fine)').matches;
 
+  /* Verrou de défilement (intro, menu mobile) : bloque aussi Lenis, qui défilerait malgré overflow: hidden */
+  function lockScroll(on) {
+    document.documentElement.style.overflow = on ? 'hidden' : '';
+    if (WH.lenis) { if (on) WH.lenis.stop(); else WH.lenis.start(); }
+  }
+
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
   function sstore(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
 
@@ -105,13 +111,13 @@
       '<div class="intro-name">' + letters + '</div><div class="intro-rule"></div>' +
       '<div class="intro-sub">Walid Harchaoui · CSF</div></div>';
     document.body.insertBefore(el, document.body.firstChild);
-    document.documentElement.style.overflow = 'hidden';
+    lockScroll(true);
 
     introTotal = reduce ? 150 : (quick ? 800 : 1900);
     setTimeout(function () { el.classList.add('done'); }, introTotal);
     setTimeout(function () {
       el.classList.add('open');
-      document.documentElement.style.overflow = '';
+      lockScroll(false);
       document.documentElement.classList.add('ready');
       document.documentElement.classList.add('wh-ready');
       document.dispatchEvent(new CustomEvent('wh:ready'));
@@ -197,7 +203,7 @@
           '<button class="hamburger" id="hamburger" type="button" data-aria-fr="Ouvrir le menu" data-aria-en="Open menu" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>' +
         '</div>' +
       '</nav>' +
-      '<div class="mobile-menu" id="mobileMenu">' +
+      '<div class="mobile-menu" id="mobileMenu" data-lenis-prevent>' +
         '<a href="index.html">' + bi('Accueil', 'Home') + '</a>' +
         NAV.map(function (n) { return '<a href="' + n.href + '">' + bi(n.fr, n.en) + '</a>'; }).join('') +
         '<div class="mm-res"><span class="mm-label">' + bi('Ressources', 'Resources') + '</span>' +
@@ -350,12 +356,12 @@
 
     var ham = document.getElementById('hamburger'), menu = document.getElementById('mobileMenu');
     if (!ham || !menu) return;
-    function close() { menu.classList.remove('open'); ham.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); document.documentElement.style.overflow = ''; }
+    function close() { menu.classList.remove('open'); ham.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); lockScroll(false); }
     ham.addEventListener('click', function () {
       var open = !menu.classList.contains('open');
       menu.classList.toggle('open', open); ham.classList.toggle('open', open);
       ham.setAttribute('aria-expanded', open ? 'true' : 'false');
-      document.documentElement.style.overflow = open ? 'hidden' : '';
+      lockScroll(open);
     });
     menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
@@ -493,24 +499,54 @@
     });
   }
 
-  /* Parallaxe légère : data-parallax="0.15" */
+  /* Défilement fluide (Lenis) synchronisé avec GSAP ScrollTrigger.
+     Une seule horloge : le ticker GSAP fait avancer Lenis, et chaque pas de Lenis met
+     ScrollTrigger à jour. Le tactile reste natif ; rien ne s'active en mouvement réduit. */
+  function initSmoothScroll() {
+    var hasGsap = window.gsap && window.ScrollTrigger;
+    if (hasGsap) gsap.registerPlugin(ScrollTrigger);
+    if (reduce || !window.Lenis || !hasGsap) return;
+    var lenis = WH.lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.9, stopInertiaOnNavigate: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    if (document.documentElement.style.overflow === 'hidden') lenis.stop();  // intro encore affichée
+
+    // Ancres de la même page : glissement Lenis (respecte scroll-margin-top). Les liens qui ont
+    // déjà leur propre défilement (sommaires d'articles) et le clavier (lien d'évitement) restent natifs.
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.detail === 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (!a || a.target === '_blank') return;
+      var url;
+      try { url = new URL(a.href, location.href); } catch (err) { return; }
+      var here = location.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
+      var there = url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
+      if (url.origin !== location.origin || there !== here || url.hash.length < 2) return;
+      var target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { duration: 1.2 });
+      if (location.hash !== url.hash) history.pushState(null, '', url.hash);
+    });
+  }
+
+  /* Parallaxe légère : data-parallax="0.15". Même formule qu'avant (décalage proportionnel à
+     la distance entre le centre de l'élément et le centre de l'écran), mais les positions sont
+     mesurées une fois par ScrollTrigger au lieu d'être relues à chaque image. */
   function initParallax() {
     var els = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
-    if (!els.length || reduce) return;
-    var ticking = false;
-    function upd() {
-      var vh = innerHeight;
-      els.forEach(function (el) {
-        var r = el.getBoundingClientRect();
-        if (r.bottom < -200 || r.top > vh + 200) return;
-        var sp = parseFloat(el.getAttribute('data-parallax')) || 0.1;
-        var off = (r.top + r.height / 2 - vh / 2) * -sp;
+    if (!els.length || reduce || !window.ScrollTrigger) return;
+    ScrollTrigger.addEventListener('refreshInit', function () { els.forEach(function (el) { el.style.translate = ''; }); });
+    els.forEach(function (el) {
+      var sp = parseFloat(el.getAttribute('data-parallax')) || 0.1;
+      function upd(self) {
+        // (start + end) / 2 = centre de l'élément moins une demi-hauteur d'écran, en coordonnées de défilement
+        var off = ((self.start + self.end) / 2 - self.scroll()) * -sp;
         el.style.translate = '0 ' + off.toFixed(1) + 'px';
-      });
-      ticking = false;
-    }
-    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
-    upd();
+      }
+      ScrollTrigger.create({ trigger: el, start: 'top bottom+=200', end: 'bottom top-=200', onUpdate: upd, onRefresh: upd });
+    });
   }
 
   /* Poussière d'or animée (canvas.dust) */
@@ -684,6 +720,7 @@
   function buildBanner() {
     banner = document.createElement('div');
     banner.className = 'consent-banner';
+    banner.setAttribute('data-lenis-prevent', '');
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-modal', 'false');
     banner.setAttribute('aria-labelledby', 'cb-title');
@@ -770,6 +807,7 @@
     initTransitions();
     initReveals();
     initPointerFx();
+    initSmoothScroll();
     initParallax();
     initDust();
     initLazyFrames();
