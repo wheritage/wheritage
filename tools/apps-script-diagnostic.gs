@@ -13,7 +13,9 @@
       Garder le MÊME déploiement : l'URL /exec ne change pas, site.js n'a rien à modifier.
 
    Entrepreneurs → onglet « Diagnostic » ; particuliers → onglet « Diagnostic particuliers ».
-   Chaque onglet est créé au premier lead avec ses en-têtes.
+   Chaque onglet est créé au premier lead avec ses en-têtes. « langue » = fr ou en (version du quiz vue).
+   Si l'onglet « Diagnostic » existe déjà sans la colonne « langue », insérer une colonne « langue »
+   juste avant « recu_le » (ou supprimer l'onglet de test : il sera recréé).
    Décision (a) du plan : les fourchettes (surplus, placements) restent dans la feuille seulement ;
    le futur CRM ne recevra que les niveaux.
    ========================================================================== */
@@ -25,7 +27,7 @@ var DIAG_COLUMNS = [
   'projet', 'besoin_5ans', 'assurance_societe', 'preoccupation',
   'consentement_diagnostic_date', 'consentement_diagnostic_version', 'consentement_diagnostic_texte',
   'consentement_marketing_date', 'consentement_marketing_version', 'consentement_marketing_texte',
-  'niche', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid', 'recu_le'
+  'niche', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid', 'langue', 'recu_le'
 ];
 
 var DIAG_COLUMNS_PARTICULIER = [
@@ -35,7 +37,7 @@ var DIAG_COLUMNS_PARTICULIER = [
   'epargne', 'comptes', 'heritage', 'preoccupation',
   'consentement_diagnostic_date', 'consentement_diagnostic_version', 'consentement_diagnostic_texte',
   'consentement_marketing_date', 'consentement_marketing_version', 'consentement_marketing_texte',
-  'niche', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid', 'recu_le'
+  'niche', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid', 'langue', 'recu_le'
 ];
 
 function appendDiagnostic_(d) {

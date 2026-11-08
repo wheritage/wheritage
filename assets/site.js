@@ -145,19 +145,30 @@
 
   /* Pages d'entonnoir (data-funnel) : aucune sortie. Logo sans lien, pas de menu,
      pied de page réduit aux mentions légales. Le seul geste possible est la réservation. */
+  /* data-funnel-exit (diagnostic) : le logo et « Retour au site » ramènent à l'accueil.
+     data-bilingual : bascule FR/EN dans l'en-tête. Sans ces attributs (pages publicitaires) : aucune sortie. */
   function buildFunnelChrome() {
+    var b = document.body, exit = b.hasAttribute('data-funnel-exit'), bil = b.hasAttribute('data-bilingual');
+    var brand = WH.logo('logo-mark') + '<span class="logo-text">W <b>Héritage</b><small>Walid Harchaoui · CSF</small></span>';
     var top = document.createElement('div');
     top.innerHTML =
       '<a class="skip-link" href="#main">' + bi('Aller au contenu', 'Skip to content') + '</a>' +
       '<div id="scroll-progress"></div>' +
       '<nav class="nav nav-funnel" id="nav" aria-label="W Héritage">' +
-        '<span class="logo">' + WH.logo('logo-mark') +
-          '<span class="logo-text">W <b>Héritage</b><small>Walid Harchaoui · CSF</small></span></span>' +
-        '<div class="nav-right"><span class="nav-reg">' + bi('Inscrit à l\'AMF', 'AMF registered') + '</span></div>' +
+        (exit ? '<a href="index.html" class="logo" aria-label="' + WH.t('W Héritage, retour à l\'accueil', 'W Héritage, back to home') + '">' + brand + '</a>'
+              : '<span class="logo">' + brand + '</span>') +
+        '<div class="nav-right">' +
+          (bil ? '<div class="lang-toggle" role="group" aria-label="Langue / Language"><button data-l="fr" type="button">FR</button><button data-l="en" type="button">EN</button></div>' : '') +
+          (exit ? '<a class="nav-back" href="index.html">' + bi('Retour au site', 'Back to site') + '</a>' : '') +
+          '<span class="nav-reg">' + bi('Inscrit à l\'AMF', 'AMF registered') + '</span>' +
+        '</div>' +
       '</nav>';
     var intro = document.getElementById('intro');
     var ref = intro ? intro.nextSibling : document.body.firstChild;
     while (top.firstChild) document.body.insertBefore(top.firstChild, ref);
+    document.querySelectorAll('.nav-funnel .lang-toggle button').forEach(function (btn) {
+      btn.addEventListener('click', function () { setLang(btn.getAttribute('data-l')); });
+    });
     var first = document.querySelector('body > header, body > main, body > section');
     if (first && !document.getElementById('main')) first.id = 'main';
     var yr = new Date().getFullYear();

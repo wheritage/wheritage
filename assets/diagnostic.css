@@ -100,9 +100,14 @@
 .dg-vlink[hidden] { display: none; }
 .dg-vlink:hover { color: var(--or); }
 
-.dg-book { border-top: 1px solid var(--ligne); padding-top: 2rem; }
+.dg-book { border-top: 1px solid var(--ligne); padding-top: 2.2rem; }
 .dg-book[hidden], .dg-booked[hidden] { display: none; }
-.dg-book .btn { border: 0; }
+.dg-book h3 { font-size: clamp(1.4rem, 2.8vw, 1.9rem); line-height: 1.2; margin-bottom: .4rem; }
+.dg-book > .dg-fine:first-of-type { margin: 0 0 1.4rem; }
+/* Calendrier Cal.com en ligne, à la fin du résultat */
+.dg-cal { position: relative; min-height: 640px; border: 1px solid var(--ligne-fort); background: var(--sombre); overflow: auto; }
+.dg-cal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--or), transparent); z-index: 1; }
+.dg-cal iframe { display: block; width: 100%; border: 0; }
 .dg-booked { border: 1px solid var(--ligne-fort); padding: 1.8rem; }
 .dg-booked h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .6rem; }
 .dg-booked p { font-size: .86rem; color: var(--texte2); }

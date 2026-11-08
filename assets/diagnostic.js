@@ -60,6 +60,31 @@ var DIAG = {
     divulgation: 'À titre éducatif seulement. Walid Harchaoui, conseiller en sécurité financière, rattaché au cabinet Industrielle Alliance, Assurance et services financiers inc. Rémunéré par commission.'
   },
 
+  // Petits textes de l'interface
+  ui: {
+    count: function (i, n) { return 'Question ' + i + ' de ' + n; },
+    countAria: function (i, n) { return 'Question ' + i + ' sur ' + n; },
+    derniere: 'Une dernière précision',
+    precedente: 'Question précédente',
+    modifier: 'Modifier ma réponse',
+    guideK: 'Guide gratuit',
+    oui: 'Oui', pasMaintenant: 'Pas pour l\'instant',
+    champs: { prenom: 'Prénom', nom: 'Nom', courriel: 'Courriel', telephone: 'Téléphone' },
+    facultatif: '(facultatif)',
+    politiqueTxt: 'Politique de confidentialité',
+    err: { prenom: 'Indiquez votre prénom.', courriel: 'Vérifiez votre adresse courriel.',
+           tel: 'Entrez un numéro canadien à 10 chiffres, par exemple 514 555-1234.', c1: 'Cochez la première case pour recevoir votre diagnostic.' },
+    resultatK: 'Résultat',
+    expo: function (niveau) { return 'Exposition ' + niveau.toLowerCase(); },
+    voirVideo: 'Voir la vidéo · ', regarder: 'Regarder', bientot: 'Vidéo bientôt',
+    calNote: 'Choisissez votre moment. Votre enjeu principal et vos niveaux sont déjà dans la note de réservation.',
+    calFallback: 'Le calendrier ne s\'affiche pas ?', calOpen: 'Ouvrir dans un nouvel onglet',
+    booked: 'C\'est réservé. <em>À bientôt.</em>', bookedP: 'La confirmation est dans votre boîte courriel.',
+    comptable: ' Si vous voulez, invitez votre comptable.',
+    profilNom: { entrepreneur: 'entrepreneur', particulier: 'particulier' },
+    notes: function (profil, main, niveaux) { return 'Diagnostic ' + profil + ' · enjeu principal : ' + main + ' · niveaux : ' + niveaux; }
+  },
+
   profils: {
     /* ─────────────── PROPRIÉTAIRES D'ENTREPRISE ─────────────── */
     entrepreneur: {
@@ -162,7 +187,7 @@ var DIAG = {
     },
 
     /* ─────────────── PARTICULIERS ─────────────── */
-    // [À VALIDER] tout ce bloc : questions, points, textes. Aucune vidéo pour l'instant : le lecteur est masqué.
+    // Validé (contenu français). Aucune vidéo pour l'instant : le lecteur est masqué.
     particulier: {
       intro: {
         titre: 'Votre protection et votre épargne : <em>par où commencer ?</em>',
@@ -242,21 +267,209 @@ var DIAG = {
   }
 };
 
+/* ==========================================================================
+   VERSION ANGLAISE : mêmes clés que DIAG, seulement les textes.
+   Fusionnée par-dessus DIAG quand la page est en anglais (bascule FR/EN, ?lang=en
+   ou choix déjà fait sur le site). Les points, seuils et valeurs ne changent pas.
+   ========================================================================== */
+var DIAG_EN = {
+  accueil: {
+    titre: 'Before you book, <em>let\'s talk about your situation.</em>',
+    sousTitre: 'A few questions so our meeting starts from what matters to you. At the end, you see which issues seem to apply to you and you pick your time.',
+    question: 'You are:',
+    choix: [['entrepreneur', 'Business owner', 'Your corporation, its surplus, its succession'],
+            ['particulier', 'Individual', 'You, your family, your savings']],
+    avis: 'Educational tool. No personalized advice is given here.'
+  },
+  niveaux: { faible: 'Low', moyenne: 'Medium', elevee: 'High' },
+  guide: { titre: 'The Armored Empire', texte: 'The most common blind spots of incorporated business owners. Free guide.' },
+  contact: {
+    titre: 'Where should we send <em>your assessment?</em>',
+    texte: 'Your result appears right after.',
+    bouton: 'See my assessment',
+    passer: 'See my result without leaving my details',
+    sousBouton: 'Your answers are only used to prepare your assessment. They are never sold or shared.'
+  },
+  consentements: {
+    diagnostic: { version: 'diag-c1-v1-en', texte: 'I agree that W Héritage may use my answers and contact details to send me my assessment and contact me about it.' },
+    marketing: { version: 'diag-c2-v1-en', texte: 'I agree to receive other educational content by email or text. I can unsubscribe at any time.' }
+  },
+  resultat: {
+    titre: 'Your assessment',
+    ligne: 'Here are the issues that seem most present based on your answers.',
+    reserver: 'Book the review of my assessment · 15 min, free',
+    divulgation: 'For educational purposes only. Walid Harchaoui, financial security advisor, attached to the firm Industrielle Alliance, Assurance et services financiers inc. Paid by commission.'
+  },
+  ui: {
+    count: function (i, n) { return 'Question ' + i + ' of ' + n; },
+    countAria: function (i, n) { return 'Question ' + i + ' of ' + n; },
+    derniere: 'One last detail',
+    precedente: 'Previous question',
+    modifier: 'Change my answer',
+    guideK: 'Free guide',
+    oui: 'Yes', pasMaintenant: 'Not right now',
+    champs: { prenom: 'First name', nom: 'Last name', courriel: 'Email', telephone: 'Phone' },
+    facultatif: '(optional)',
+    politiqueTxt: 'Privacy policy',
+    err: { prenom: 'Enter your first name.', courriel: 'Check your email address.',
+           tel: 'Enter a 10-digit Canadian number, for example 514 555-1234.', c1: 'Check the first box to receive your assessment.' },
+    resultatK: 'Result',
+    expo: function (niveau) { return niveau + ' exposure'; },
+    voirVideo: 'Watch the video · ', regarder: 'Watch (in French)', bientot: 'Video coming soon',
+    calNote: 'Pick your time. Your main issue and levels are already in the booking note.',
+    calFallback: 'Calendar not showing?', calOpen: 'Open in a new tab',
+    booked: 'You\'re booked. <em>Talk soon.</em>', bookedP: 'The confirmation is in your inbox.',
+    comptable: ' If you like, invite your accountant.',
+    profilNom: { entrepreneur: 'business owner', particulier: 'individual' },
+    notes: function (profil, main, niveaux) { return 'Assessment (' + profil + ', in English) · main issue: ' + main + ' · levels: ' + niveaux; }
+  },
+  profils: {
+    entrepreneur: {
+      intro: {
+        titre: 'Your corporation: <em>which issues really concern you?</em>',
+        sousTitre: '10 questions, 2 minutes. You see which issues seem to apply to you, and a short video (in French) that explains them.',
+        bouton: 'Start the assessment'
+      },
+      niches: {
+        construction: { titre: 'Construction business owners: <em>what your corporation keeps may cost you more than you think.</em>' },
+        sante_pro: { titre: 'Incorporated professionals: <em>is your corporation working as hard as you are?</em>' },
+        transport: { titre: 'Transport business owners: <em>your corporation has surplus? Here are the questions to ask.</em>' },
+        commerce: { titre: 'Incorporated restaurant and retail owners: <em>the 2-minute assessment.</em>' },
+        conseil_ti: { titre: 'Incorporated consultants: <em>what happens to your surplus inside your corporation.</em>' }
+      },
+      questions: [
+        { q: 'Is your business incorporated (a corporation)?', o: [['oui', 'Yes'], ['non', 'No'], ['en_cours', 'In progress']] },
+        { q: 'Which province is your corporation in?', o: [['qc', 'Québec'], ['on', 'Ontario'], ['autre', 'Elsewhere in Canada']] },
+        { q: 'Your industry?', o: [['construction', 'Construction and trades'], ['sante_pro', 'Health and incorporated professionals'], ['transport', 'Transport and logistics'],
+          ['commerce', 'Restaurants and retail'], ['conseil_ti', 'Consulting and IT'], ['autre', 'Other']] },
+        { q: 'Your role in the corporation?', o: [['seul', 'Sole shareholder'], ['associes', 'Shareholder with partners'], ['autre', 'Other']] },
+        { q: 'Once your needs are paid, roughly how much does your corporation keep each year?',
+          o: [['lt15', 'Less than $15,000'], ['15_50', '$15,000 to $50,000'], ['50_150', '$50,000 to $150,000'], ['gt150', 'More than $150,000'], ['nsp', 'I don\'t know']] },
+        { q: 'Roughly how much does your corporation already hold in investments?',
+          o: [['0', 'Nothing or almost nothing'], ['lt250k', 'Less than $250,000'], ['250k_1m', '$250,000 to $1M'], ['gt1m', 'More than $1M'], ['nsp', 'I don\'t know']] },
+        { q: 'Does anyone depend on you or on the value of your business (family, partners)?', o: [['oui', 'Yes'], ['non', 'No']] },
+        { q: 'Do you have a project to fund in the next 5 to 10 years (building, investment, expansion)?', o: [['oui', 'Yes'], ['peut_etre', 'Maybe'], ['non', 'No']] },
+        { q: 'Will you need almost all of your corporation\'s surplus within 5 years?', o: [['oui', 'Yes'], ['non', 'No'], ['nsp', 'I don\'t know']] },
+        { q: 'Does your corporation already own life insurance on you?', o: [['oui', 'Yes'], ['non', 'No'], ['nsp', 'I don\'t know']] }
+      ],
+      preoccupation: { q: 'Which of these concerns you most?',
+        o: [['revenu', 'What my investments cost in tax'], ['succession', 'What will happen to my family or partners'],
+            ['liquidites', 'Accessing my money for a project'], ['nsp', 'I don\'t know yet']] },
+      exits: {
+        incorpore: { titre: 'Thank you, <em>that\'s clear.</em>',
+          texte: 'The strategies covered here apply to corporations. If you incorporate one day, take the assessment again. In the meantime, this guide may help.' },
+        besoin_5ans: { titre: 'Thank you, <em>that\'s clear.</em>',
+          texte: 'These strategies require money that can stay invested for the long term. If your surplus will be used within 5 years, they are probably not for you right now. This guide may still help.' }
+      },
+      versParticulier: 'Take the individual assessment instead',
+      petitOui: 'If a structure provided for by law could apply to your situation, would you like to look at it, with your accountant?',
+      noms: { revenu: 'Passive income', succession: 'Estate', liquidites: 'Liquidity' },
+      titresVideo: {
+        revenu: 'Passive income: what your investments may cost your business',
+        succession: 'Estate: what could happen to your corporation at death',
+        liquidites: 'Liquidity: accessing your corporation\'s money'
+      },
+      textes: {
+        revenu: {
+          elevee: 'Your corporation seems to hold significant investments. Federally, above a certain level of investment income, your business\'s small business limit can go down. It\'s worth looking at what your investments cost you.',
+          moyenne: 'Your investments could grow enough for the passive income rules to become an issue. Better to know ahead of time.',
+          faible: 'Based on your answers, this issue seems less present for now.'
+        },
+        succession: {
+          elevee: 'People depend on you or your business. At death, tax and a lack of liquidity can make things harder for them. It deserves planning.',
+          moyenne: 'Part of your situation could raise estate issues. A check with your accountant would be useful.',
+          faible: 'Based on your answers, this issue seems less present for now.'
+        },
+        liquidites: {
+          elevee: 'You have a project in sight and surplus that stays in your corporation. There is more than one way to access that money, each with its own costs and risks.',
+          moyenne: 'If a project takes shape, it can be useful to know your options for accessing your corporation\'s money, and their risks.',
+          faible: 'Based on your answers, this issue seems less present for now.'
+        }
+      },
+      methode: 'This assessment ranks issues based on your answers. It is not a financial analysis or personalized advice. Only a full analysis, validated by your accountant, can confirm whether a strategy applies.',
+      province: { on: 'The video examples use Québec rates. Your province\'s rules and rates differ.',
+                  autre: 'The video examples use Québec rates. Your province\'s rules and rates differ.' }
+    },
+    particulier: {
+      intro: {
+        titre: 'Your protection and your savings: <em>where to start?</em>',
+        sousTitre: '10 questions, 2 minutes. You see which issues seem to apply to you, then you pick the time for our meeting.',
+        bouton: 'Start the assessment'
+      },
+      questions: [
+        { q: 'How old are you?', o: [['18_29', '18 to 29'], ['30_39', '30 to 39'], ['40_49', '40 to 49'], ['50_59', '50 to 59'], ['60_plus', '60 and over']] },
+        { q: 'Which province do you live in?', o: [['qc', 'Québec'], ['on', 'Ontario'], ['autre', 'Elsewhere in Canada']] },
+        { q: 'Your family situation?', o: [['seul', 'Single, no children'], ['couple', 'In a couple, no children'], ['couple_enfants', 'In a couple, with children'], ['parent_seul', 'Single parent']] },
+        { q: 'Your work situation?', o: [['salarie', 'Employee'], ['autonome', 'Self-employed'], ['retraite', 'Retired or not working']] },
+        { q: 'Do you have a mortgage or significant debts?', o: [['hypotheque', 'Yes, a mortgage'], ['autres', 'Yes, other debts'], ['non', 'No']] },
+        { q: 'If you couldn\'t work for months, would you receive an income?',
+          o: [['employeur', 'Yes, through my employer'], ['individuelle', 'Yes, through insurance in my name'], ['non', 'No'], ['nsp', 'I don\'t know']] },
+        { q: 'Do you have life insurance?', o: [['employeur', 'Only through my employer'], ['individuelle', 'Yes, in my name'], ['aucune', 'None'], ['nsp', 'I don\'t know']] },
+        { q: 'Roughly how much can you set aside each month?', o: [['rien', 'Nothing for now'], ['lt250', 'Less than $250'], ['250_1000', '$250 to $1,000'], ['gt1000', 'More than $1,000']] },
+        { q: 'Do you already use your TFSA and RRSP?', o: [['oui', 'Yes, close to the maximum'], ['en_partie', 'Partly'], ['non', 'No'], ['nsp', 'I don\'t know']] },
+        { q: 'Is leaving something to your loved ones important to you?', o: [['oui', 'Yes, very'], ['un_peu', 'Somewhat'], ['non', 'Not really']] }
+      ],
+      preoccupation: { q: 'Which of these concerns you most?',
+        o: [['protection_revenu', 'My income if I get sick or have an accident'], ['famille', 'My family if I were no longer there'],
+            ['patrimoine', 'Growing my savings and passing them on'], ['nsp', 'I don\'t know yet']] },
+      petitOui: 'If a solution suited to your situation existed, would you like to look at it together, with no commitment?',
+      noms: { protection_revenu: 'Income protection', famille: 'Family protection', patrimoine: 'Savings and estate' },
+      titresVideo: {
+        protection_revenu: 'Income protection: if you could no longer work',
+        famille: 'Family protection: what would be left for your loved ones',
+        patrimoine: 'Savings and estate: organizing what you build'
+      },
+      textes: {
+        protection_revenu: {
+          elevee: 'Your income seems to carry a lot, and your disability coverage could be thin or uncertain. An illness or accident could put your budget under pressure. It\'s worth checking what you would receive, and for how long.',
+          moyenne: 'You may have disability coverage, but it might not cover everything your income pays for. A review of your current coverage would be useful.',
+          faible: 'Based on your answers, this issue seems less present for now.'
+        },
+        famille: {
+          elevee: 'People count on you and you have long-term commitments. If you were no longer there, your current coverage might not be enough. It deserves to be quantified.',
+          moyenne: 'Part of your situation could leave your loved ones with obligations to cover. It can be useful to compare your coverage with your real commitments.',
+          faible: 'Based on your answers, this issue seems less present for now.'
+        },
+        patrimoine: {
+          elevee: 'You already save regularly and passing something on matters to you. There are several ways to organize these long-term savings and what you leave behind, each with its own costs and limits.',
+          moyenne: 'Your savings and estate plans could benefit from being organized in a single plan. Better to think about it early.',
+          faible: 'Based on your answers, this issue seems less present for now.'
+        }
+      },
+      methode: 'This assessment ranks issues based on your answers. It is not a needs analysis or personalized advice. Only a full analysis of your situation can confirm what applies. All insurance is subject to the insurer\'s approval.',
+      province: { on: 'Some rules and public plans differ in Ontario. We take that into account at the meeting.',
+                  autre: 'I am licensed to practise in Québec and Ontario only. Depending on your province, I can point you to the right resource.' }
+    }
+  }
+};
+
 (function () {
   'use strict';
   var root = document.getElementById('diag');
   if (!root) return;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var PROFILS = Object.keys(DIAG.profils);
+  /* Langue : L = DIAG (français) ou DIAG fusionné avec DIAG_EN. Recalculé quand la langue change. */
+  function merge(base, over) {
+    if (over === undefined) return base;
+    if (Array.isArray(over)) return (base || []).map(function (b, i) { return merge(b, over[i]); });
+    if (over && typeof over === 'object' && base && typeof base === 'object' && !Array.isArray(base)) {
+      var o = {}, k; for (k in base) o[k] = base[k]; for (k in over) o[k] = merge(base[k], over[k]); return o;
+    }
+    return over;
+  }
+  var EN_MERGED = merge(DIAG, DIAG_EN);
+  function lang() { return document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'fr'; }
+  var L = lang() === 'en' ? EN_MERGED : DIAG;
   function track(n, p) { if (window.WH && WH.track) WH.track(n, p); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   var ARROW = '<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>';
 
   /* ── État, gardé dans sessionStorage pour survivre à un rafraîchissement ── */
   var st = { step: 'intro', profil: null, answers: {}, micro: null, src: {}, steps: {} };
-  function save() { try { sessionStorage.setItem(DIAG.storeKey, JSON.stringify(st)); } catch (e) {} }
-  function clear() { try { sessionStorage.removeItem(DIAG.storeKey); } catch (e) {} }
-  try { var saved = JSON.parse(sessionStorage.getItem(DIAG.storeKey) || 'null'); if (saved && saved.answers) st = saved; } catch (e) {}
+  function save() { try { sessionStorage.setItem(L.storeKey, JSON.stringify(st)); } catch (e) {} }
+  function clear() { try { sessionStorage.removeItem(L.storeKey); } catch (e) {} }
+  try { var saved = JSON.parse(sessionStorage.getItem(L.storeKey) || 'null'); if (saved && saved.answers) st = saved; } catch (e) {}
   st.steps = st.steps || {}; st.src = st.src || {};
   // Provenance : profil, niche, UTM et fbclid de l'arrivée (on garde la première valeur vue)
   var urlProfil = null;
@@ -269,13 +482,13 @@ var DIAG = {
     var pr = p.get('profil'); if (PROFILS.indexOf(pr) >= 0) urlProfil = pr;
   })();
   // Le profil vient de l'URL (?profil=), sinon d'une niche (publicités entrepreneurs), sinon du choix à l'accueil
-  if (!urlProfil && DIAG.profils.entrepreneur.niches[st.src.niche]) urlProfil = 'entrepreneur';
+  if (!urlProfil && L.profils.entrepreneur.niches[st.src.niche]) urlProfil = 'entrepreneur';
   if (urlProfil && st.step === 'intro') st.profil = urlProfil;
   var forced = !!urlProfil;
   // Le résultat n'est pas restauré (stockage vidé après l'envoi) ; un état « result » orphelin repart de l'intro
   if (st.step === 'result') st.step = 'intro';
 
-  function P() { return DIAG.profils[st.profil] || null; }
+  function P() { return L.profils[st.profil] || null; }
   function niche() { var p = P(); return p && p.niches[st.src.niche] || null; }
   function setProfil(pr) {
     st.profil = pr;
@@ -286,7 +499,7 @@ var DIAG = {
 
   /* ── Calcul (pour un profil) ── */
   function scores(a, pr) {
-    var cfg = DIAG.profils[pr || st.profil], out = {};
+    var cfg = L.profils[pr || st.profil], out = {};
     Object.keys(cfg.points).forEach(function (k) {
       var pts = 0, rules = cfg.points[k];
       for (var id in rules) { var v = rules[id][a[id]]; if (v) pts += v; }
@@ -296,9 +509,9 @@ var DIAG = {
     });
     return out;
   }
-  function level(pts) { return pts >= DIAG.seuils.elevee ? 'elevee' : pts >= DIAG.seuils.moyenne ? 'moyenne' : 'faible'; }
+  function level(pts) { return pts >= L.seuils.elevee ? 'elevee' : pts >= L.seuils.moyenne ? 'moyenne' : 'faible'; }
   function mainProblem(sc, pre, pr) {
-    var ordre = DIAG.profils[pr || st.profil].ordre;
+    var ordre = L.profils[pr || st.profil].ordre;
     var max = Math.max.apply(null, ordre.map(function (p) { return sc[p]; }));
     var tied = ordre.filter(function (p) { return sc[p] === max; });
     if (tied.length === 1) return tied[0];
@@ -308,7 +521,7 @@ var DIAG = {
   function ranking(sc, main) {
     return [main].concat(P().ordre.filter(function (p) { return p !== main; }).sort(function (x, y) { return sc[y] - sc[x]; }));
   }
-  function qualifie(a, pr) { return DIAG.profils[pr || st.profil].qualifie(a); }
+  function qualifie(a, pr) { return L.profils[pr || st.profil].qualifie(a); }
   function result() {
     var sc = scores(st.answers), main = mainProblem(sc, st.answers.preoccupation), niv = {};
     P().ordre.forEach(function (p) { niv[p] = level(sc[p]); });
@@ -329,7 +542,7 @@ var DIAG = {
     bar.setAttribute('aria-valuemax', String(total));
     barFill.style.width = ((i + 1) / total * 100) + '%';
     bar.setAttribute('aria-valuenow', String(i + 1));
-    bar.setAttribute('aria-valuetext', i < nq() ? 'Question ' + (i + 1) + ' sur ' + nq() : 'Une dernière précision');
+    bar.setAttribute('aria-valuetext', i < nq() ? L.ui.countAria(i + 1, nq()) : L.ui.derniere);
   }
 
   function optsHtml(id, opts, cur) {
@@ -342,7 +555,7 @@ var DIAG = {
     var p = P(), m;
     if (step === 'intro') {
       if (!forced || !p) {
-        var A = DIAG.accueil;
+        var A = L.accueil;
         return '<p class="eyebrow">' + esc(A.meta) + '</p>' +
           '<h1 id="dg-h" tabindex="-1">' + A.titre + '</h1>' +
           '<p class="dg-lead">' + esc(A.sousTitre) + '</p>' +
@@ -354,51 +567,51 @@ var DIAG = {
           '<p class="dg-fine">' + esc(A.avis) + '</p>';
       }
       var n = niche();
-      return '<p class="eyebrow">' + esc(DIAG.accueil.meta) + '</p>' +
+      return '<p class="eyebrow">' + esc(L.accueil.meta) + '</p>' +
         '<h1 id="dg-h" tabindex="-1">' + (n ? n.titre : p.intro.titre) + '</h1>' +
         '<p class="dg-lead">' + esc(p.intro.sousTitre) + '</p>' +
         '<button type="button" class="btn btn-gold dg-start" data-act="start">' + esc(p.intro.bouton) + ARROW + '</button>' +
-        '<p class="dg-fine">' + esc(DIAG.accueil.avis) + '</p>';
+        '<p class="dg-fine">' + esc(L.accueil.avis) + '</p>';
     }
     if ((m = /^q(\d+)$/.exec(step))) {
       var i = +m[1], q = p.questions[i];
-      return '<p class="dg-count">Question ' + (i + 1) + ' de ' + nq() + '</p>' +
+      return '<p class="dg-count">' + esc(L.ui.count(i + 1, nq())) + '</p>' +
         '<h2 id="dg-h" tabindex="-1">' + esc(q.q) + '</h2>' + optsHtml(q.id, q.o, st.answers[q.id]) + backHtml();
     }
     if (step === 'pre') {
-      return '<p class="dg-count">Une dernière précision</p><h2 id="dg-h" tabindex="-1">' + esc(p.preoccupation.q) + '</h2>' +
+      return '<p class="dg-count">' + esc(L.ui.derniere) + '</p><h2 id="dg-h" tabindex="-1">' + esc(p.preoccupation.q) + '</h2>' +
         optsHtml('preoccupation', p.preoccupation.o, st.answers.preoccupation) + backHtml();
     }
     if (step.indexOf('exit_') === 0) {
       var ex = p.exits[step.slice(5)];
       return '<h2 id="dg-h" tabindex="-1">' + ex.titre + '</h2><p class="dg-lead">' + esc(ex.texte) + '</p>' +
-        '<a class="dg-guide" href="' + esc(DIAG.guide.lien) + '"><small>Guide gratuit</small><strong>' + esc(DIAG.guide.titre) + '</strong><span>' + esc(DIAG.guide.texte) + '</span></a>' +
+        '<a class="dg-guide" href="' + esc(L.guide.lien) + '"><small>' + esc(L.ui.guideK) + '</small><strong>' + esc(L.guide.titre) + '</strong><span>' + esc(L.guide.texte) + '</span></a>' +
         (p.versParticulier ? '<button type="button" class="btn btn-line dg-switch" data-act="switch">' + esc(p.versParticulier) + ARROW + '</button>' : '') +
-        '<button type="button" class="dg-back" data-act="back">Modifier ma réponse</button>';
+        '<button type="button" class="dg-back" data-act="back">' + esc(L.ui.modifier) + '</button>';
     }
     if (step === 'micro') {
       return '<h2 id="dg-h" tabindex="-1">' + esc(p.petitOui) + '</h2>' +
         '<div class="dg-opts" role="group" aria-labelledby="dg-h">' +
-        '<button type="button" class="dg-opt" data-act="micro" data-v="oui" aria-pressed="' + (st.micro === true) + '">Oui</button>' +
-        '<button type="button" class="dg-opt" data-act="micro" data-v="non" aria-pressed="' + (st.micro === false) + '">Pas pour l\'instant</button></div>' + backHtml();
+        '<button type="button" class="dg-opt" data-act="micro" data-v="oui" aria-pressed="' + (st.micro === true) + '">' + esc(L.ui.oui) + '</button>' +
+        '<button type="button" class="dg-opt" data-act="micro" data-v="non" aria-pressed="' + (st.micro === false) + '">' + esc(L.ui.pasMaintenant) + '</button></div>' + backHtml();
     }
     if (step === 'contact') return contactHtml();
     return '';
   }
-  function backHtml() { return '<button type="button" class="dg-back" data-act="back">Question précédente</button>'; }
+  function backHtml() { return '<button type="button" class="dg-back" data-act="back">' + esc(L.ui.precedente) + '</button>'; }
 
   function contactHtml() {
-    var c = DIAG.contact, k = DIAG.consentements, v = st.contact || {};
-    var skip = DIAG.permettreSansCoordonnees && st.micro === false;
+    var c = L.contact, k = L.consentements, v = st.contact || {};
+    var skip = L.permettreSansCoordonnees && st.micro === false;
     return '<h2 id="dg-h" tabindex="-1">' + c.titre + '</h2><p class="dg-lead">' + esc(c.texte) + '</p>' +
       '<form class="dg-form" id="dg-form" novalidate>' +
         '<div class="dg-fields">' +
-          field('prenom', 'Prénom', 'text', 'given-name', true, v.prenom) +
-          field('nom', 'Nom', 'text', 'family-name', false, v.nom) +
-          field('courriel', 'Courriel', 'email', 'email', true, v.courriel) +
-          field('telephone', 'Téléphone', 'tel', 'tel', true, v.telephone) +
+          field('prenom', L.ui.champs.prenom, 'text', 'given-name', true, v.prenom) +
+          field('nom', L.ui.champs.nom, 'text', 'family-name', false, v.nom) +
+          field('courriel', L.ui.champs.courriel, 'email', 'email', true, v.courriel) +
+          field('telephone', L.ui.champs.telephone, 'tel', 'tel', true, v.telephone) +
         '</div>' +
-        '<label class="dg-check"><input type="checkbox" name="c1" required><span>' + esc(k.diagnostic.texte) + ' <a href="' + esc(DIAG.politique) + '" target="_blank" rel="noopener">Politique de confidentialité</a></span></label>' +
+        '<label class="dg-check"><input type="checkbox" name="c1" required><span>' + esc(k.diagnostic.texte) + ' <a href="' + esc(L.politique) + '" target="_blank" rel="noopener">' + esc(L.ui.politiqueTxt) + '</a></span></label>' +
         '<label class="dg-check"><input type="checkbox" name="c2"><span>' + esc(k.marketing.texte) + '</span></label>' +
         '<p class="dg-err" id="dg-err" role="alert"></p>' +
         '<button type="submit" class="btn btn-gold">' + esc(c.bouton) + ARROW + '</button>' +
@@ -408,7 +621,7 @@ var DIAG = {
       backHtml();
   }
   function field(name, label, type, ac, req, val) {
-    return '<label class="dg-field"><span>' + label + (req ? '' : ' <i>(facultatif)</i>') + '</span>' +
+    return '<label class="dg-field"><span>' + label + (req ? '' : ' <i>' + esc(L.ui.facultatif) + '</i>') + '</span>' +
       '<input type="' + type + '" name="' + name + '" autocomplete="' + ac + '"' + (req ? ' required aria-required="true"' : '') +
       (type === 'tel' ? ' inputmode="tel" placeholder="514 555-1234"' : '') + ' value="' + esc(val || '') + '"></label>';
   }
@@ -516,14 +729,14 @@ var DIAG = {
     var f = e.target, err = document.getElementById('dg-err'), bad = null, msg = '';
     [].forEach.call(f.querySelectorAll('[aria-invalid]'), function (x) { x.removeAttribute('aria-invalid'); });
     var tel = phoneCa(f.telephone.value);
-    if (!f.prenom.value.trim()) { bad = f.prenom; msg = 'Indiquez votre prénom.'; }
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.courriel.value.trim())) { bad = f.courriel; msg = 'Vérifiez votre adresse courriel.'; }
-    else if (!tel) { bad = f.telephone; msg = 'Entrez un numéro canadien à 10 chiffres, par exemple 514 555-1234.'; }
-    else if (!f.c1.checked) { bad = f.c1; msg = 'Cochez la première case pour recevoir votre diagnostic.'; }
+    if (!f.prenom.value.trim()) { bad = f.prenom; msg = L.ui.err.prenom; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.courriel.value.trim())) { bad = f.courriel; msg = L.ui.err.courriel; }
+    else if (!tel) { bad = f.telephone; msg = L.ui.err.tel; }
+    else if (!f.c1.checked) { bad = f.c1; msg = L.ui.err.c1; }
     if (bad) { err.textContent = msg; bad.setAttribute('aria-invalid', 'true'); bad.focus(); return; }
     f.telephone.value = tel;
     keepContact();
-    var now = new Date().toISOString(), k = DIAG.consentements;
+    var now = new Date().toISOString(), k = L.consentements;
     st.consent = {
       diagnostic: { date: now, version: k.diagnostic.version, texte: k.diagnostic.texte },
       marketing: f.c2.checked ? { date: now, version: k.marketing.version, texte: k.marketing.texte } : null
@@ -553,7 +766,7 @@ var DIAG = {
     var a = st.answers, c = st.contact || {}, s = st.src || {}, p = P();
     var out = {
       source: st.profil === 'particulier' ? 'diagnostic_particulier' : 'diagnostic', profil: st.profil, date: new Date().toISOString(),
-      prenom: c.prenom || '', nom: c.nom || '', courriel: c.courriel || '', telephone: c.telephone || ''
+      prenom: c.prenom || '', nom: c.nom || '', courriel: c.courriel || '', telephone: c.telephone || '', langue: lang()
     };
     p.questions.forEach(function (q) { out[q.id] = a[q.id] || ''; });
     out.preoccupation = a.preoccupation || '';
@@ -577,10 +790,10 @@ var DIAG = {
   /* ── Résultat ── */
   function hasVideos() { var v = P().videos; return Object.keys(v).some(function (k) { return !!v[k]; }) || st.profil === 'entrepreneur'; }
   function resultHtml() {
-    var r = st.result, R = DIAG.resultat, a = st.answers, p = P();
+    var r = st.result, R = L.resultat, a = st.answers, p = P(), U = L.ui;
     var cards = r.order.map(function (k, i) {
       return '<article class="dg-card' + (i === 0 ? ' main' : '') + '">' +
-        '<small><span>' + esc(p.noms[k]) + '</span><b class="lv-' + r.niveaux[k] + '">Exposition ' + esc(DIAG.niveaux[r.niveaux[k]].toLowerCase()) + '</b></small>' +
+        '<small><span>' + esc(p.noms[k]) + '</span><b class="lv-' + r.niveaux[k] + '">' + esc(U.expo(L.niveaux[r.niveaux[k]])) + '</b></small>' +
         '<p>' + esc(p.textes[k][r.niveaux[k]]) + '</p></article>';
     }).join('');
     // Entrepreneurs : le lecteur reste (« Vidéo bientôt » tant qu'un lien manque). Particuliers : seulement s'il y a une vidéo.
@@ -589,14 +802,19 @@ var DIAG = {
         '<div class="vs-t" id="vsl-t"></div><div class="vs-s" id="vsl-s"></div></div></div>' +
         '<div class="dg-vlinks"></div></div>' : '';
     var prov = p.province[a.province];
-    return '<p class="eyebrow">Résultat</p>' +
+    // Le calendrier Cal.com s'affiche directement à la fin du résultat (plus de fenêtre surgissante)
+    return '<p class="eyebrow">' + esc(U.resultatK) + '</p>' +
       '<h2 id="dg-h" tabindex="-1">' + esc(R.titre) + (st.prenom ? ', <em>' + esc(st.prenom) + '</em>' : '') + '</h2>' +
       '<p class="dg-lead">' + esc(R.ligne) + '</p>' +
       '<div class="dg-cards">' + cards + '</div>' + player +
-      '<div class="dg-book"><button type="button" class="btn btn-gold" id="dg-book">' + esc(R.reserver) + ARROW + '</button>' +
-        '<p class="dg-fine">Le calendrier ne s\'ouvre pas ? <a href="#" id="dg-cal-link" target="_blank" rel="noopener" data-no-track>Ouvrir dans un nouvel onglet</a></p></div>' +
-      '<div class="dg-booked" id="dg-booked" role="status" hidden><h3>C\'est réservé. <em>À bientôt.</em></h3><p>La confirmation est dans votre boîte courriel.' +
-        (st.profil === 'entrepreneur' ? ' Si vous voulez, invitez votre comptable.' : '') + '</p></div>' +
+      '<section class="dg-book" id="dg-book-sec" aria-labelledby="dg-book-h"' + (st.booked ? ' hidden' : '') + '>' +
+        '<h3 id="dg-book-h">' + esc(R.reserver) + '</h3>' +
+        '<p class="dg-fine">' + esc(U.calNote) + '</p>' +
+        '<div class="dg-cal" id="dg-cal" data-lenis-prevent></div>' +
+        '<p class="dg-fine">' + esc(U.calFallback) + ' <a href="#" id="dg-cal-link" target="_blank" rel="noopener" data-no-track>' + esc(U.calOpen) + '</a></p>' +
+      '</section>' +
+      '<div class="dg-booked" id="dg-booked" role="status"' + (st.booked ? '' : ' hidden') + '><h3>' + U.booked + '</h3><p>' + esc(U.bookedP) +
+        (st.profil === 'entrepreneur' ? esc(U.comptable) : '') + '</p></div>' +
       '<div class="dg-notes">' +
         '<p>' + esc(p.methode) + '</p>' +
         (prov ? '<p>' + esc(prov) + '</p>' : '') +
@@ -604,7 +822,7 @@ var DIAG = {
   }
 
   function bindResult() {
-    var r = st.result, p = P(), vsl = document.getElementById('vsl');
+    var r = st.result, p = P(), U = L.ui, vsl = document.getElementById('vsl');
     if (vsl) {
       var load = function (k) {
         var old = vsl.querySelector('iframe, video'); if (old) old.remove();
@@ -614,12 +832,12 @@ var DIAG = {
         vsl.setAttribute('data-video', url);
         vsl.classList.toggle('empty', !url);
         document.getElementById('vsl-t').textContent = p.titresVideo[k];
-        document.getElementById('vsl-s').textContent = url ? 'Regarder' : 'Vidéo bientôt';
+        document.getElementById('vsl-s').textContent = url ? U.regarder : U.bientot;
         document.querySelectorAll('.dg-vlink').forEach(function (b) { b.hidden = b.getAttribute('data-vsl') === k; });
       };
       // Liens vers les autres vidéos : on montre toujours les deux qui ne jouent pas
       var links = document.querySelector('.dg-vlinks');
-      links.innerHTML = r.order.map(function (k) { return '<button type="button" class="dg-vlink" data-vsl="' + k + '">Voir la vidéo · ' + esc(p.noms[k]) + '</button>'; }).join('');
+      links.innerHTML = r.order.map(function (k) { return '<button type="button" class="dg-vlink" data-vsl="' + k + '">' + esc(U.voirVideo + p.noms[k]) + '</button>'; }).join('');
       load(r.main);
       links.addEventListener('click', function (e) {
         var b = e.target.closest('[data-vsl]'); if (!b) return;
@@ -638,46 +856,62 @@ var DIAG = {
         if (WH.trackVsl) WH.trackVsl(node, vsl.getAttribute('data-enjeu'));
       });
     }
+    if (st.booked) return;
 
     // Réservation : nom, courriel et une note (profil, enjeu principal, niveaux) préremplis si on les a
     var c = st.contact || {};
-    var notes = 'Diagnostic ' + (st.profil === 'particulier' ? 'particulier' : 'entrepreneur') + ' · enjeu principal : ' + p.noms[r.main] + ' · niveaux : ' +
-      p.ordre.map(function (k) { return p.noms[k] + ' ' + DIAG.niveaux[r.niveaux[k]].toLowerCase(); }).join(', ');
+    var notes = U.notes(U.profilNom[st.profil], p.noms[r.main],
+      p.ordre.map(function (k) { return p.noms[k] + ' ' + L.niveaux[r.niveaux[k]].toLowerCase(); }).join(', '));
     var prefill = { notes: notes };
     if (c.prenom) prefill.name = (c.prenom + ' ' + (c.nom || '')).trim();
     if (c.courriel) prefill.email = c.courriel;
     var q = Object.keys(prefill).map(function (k) { return k + '=' + encodeURIComponent(prefill[k]); }).join('&');
     var link = document.getElementById('dg-cal-link');
-    link.href = 'https://cal.com/' + DIAG.calLink + '?' + q;
-    var booked = false;
-    function onBooked() {
-      if (booked) return; booked = true;
+    link.href = 'https://cal.com/' + L.calLink + '?' + q;
+    link.addEventListener('click', function () { bookingSeen(r); });
+
+    onBookedNow = function () {
+      if (st.booked) return; st.booked = true;
       track('diagnostic_booked', { enjeu_principal: r.main, profil: st.profil });
       document.getElementById('dg-booked').hidden = false;
-      document.querySelector('.dg-book').hidden = true;
+      document.getElementById('dg-book-sec').hidden = true;
+    };
+    // « Clic réservation » : le calendrier apparaît à l'écran (ou le lien de secours est cliqué), une fois
+    var box = document.getElementById('dg-cal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { bookingSeen(r); io.disconnect(); } }); }, { threshold: 0.35 });
+      io.observe(box);
     }
-    function clicked() { track('diagnostic_booking', { enjeu_principal: r.main, profil: st.profil }); }
-    link.addEventListener('click', clicked);
-    document.getElementById('dg-book').addEventListener('click', function () {
-      clicked();
-      if (!initCal(onBooked)) { window.open(link.href, '_blank', 'noopener'); return; }
-      Cal.ns.diag('modal', { calLink: DIAG.calLink, config: Object.assign({ theme: 'dark' }, prefill) });
-    });
+    if (!initCal()) return;
+    Cal.ns.diag('inline', { elementOrSelector: '#dg-cal', calLink: L.calLink, layout: 'month_view',
+      config: Object.assign({ theme: 'dark', layout: 'month_view' }, prefill) });
   }
+  var bookingSent = false;
+  function bookingSeen(r) { if (bookingSent) return; bookingSent = true; track('diagnostic_booking', { enjeu_principal: r.main, profil: st.profil }); }
 
-  var calReady = false;
-  function initCal(onBooked) {
+  var calReady = false, onBookedNow = null;
+  function initCal() {
     if (calReady) return true;
     try {
       (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement('script')).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
       Cal('init', 'diag', { origin: 'https://app.cal.com' });
-      Cal.ns.diag('ui', { theme: 'dark', cssVarsPerTheme: { dark: { 'cal-brand': '#C9A84C' } } });
-      Cal.ns.diag('on', { action: 'bookingSuccessful', callback: onBooked });
-      Cal.ns.diag('on', { action: 'bookingSuccessfulV2', callback: onBooked });
+      Cal.ns.diag('ui', { theme: 'dark', cssVarsPerTheme: { dark: { 'cal-brand': '#C9A84C' } }, layout: 'month_view' });
+      var done = function () { if (onBookedNow) onBookedNow(); };
+      Cal.ns.diag('on', { action: 'bookingSuccessful', callback: done });
+      Cal.ns.diag('on', { action: 'bookingSuccessfulV2', callback: done });
       calReady = true;
     } catch (e) { return false; }
     return true;
   }
+
+  /* ── Langue : la bascule FR/EN de l'en-tête réaffiche l'écran courant, réponses gardées ── */
+  document.addEventListener('wh:lang', function () {
+    var next = lang() === 'en' ? EN_MERGED : DIAG;
+    if (next === L) return;
+    if (st.step === 'contact') keepContact();
+    L = next;
+    go(st.step, { instant: true, noFocus: true });
+  });
 
   /* ── Démarrage ── */
   track('diagnostic_view', forced ? { profil: st.profil } : {});

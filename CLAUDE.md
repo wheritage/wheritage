@@ -88,9 +88,13 @@ Needs Playwright + ffmpeg; `tools/` is excluded from the deploy by `.vercelignor
 `/diagnostic` (`diagnostic.html` + `assets/diagnostic.js` + `assets/diagnostic.css`) is where every
 « Réserver » link on the site goes; the home page no longer embeds a calendar in `#reservation`. First screen:
 entrepreneur or particulier, then 10 questions for that profile → small yes → contact + consent → result
-(3 exposure levels, VSL for entrepreneurs, Cal.com booking). `?profil=entrepreneur|particulier` skips the choice;
+(3 exposure levels, VSL for entrepreneurs, inline Cal.com calendar at the end). `?profil=entrepreneur|particulier`
+skips the choice;
 `?niche=construction` (sante_pro, transport, commerce, conseil_ti) implies entrepreneur, swaps the headline and
-preselects Q3. `noindex`, out of the sitemap. All wording, points, thresholds and result texts live per profile
+preselects Q3. Bilingual: French content in `DIAG`, English overlay in `DIAG_EN` (same keys, text only); the
+language follows `?lang=en` or the site's `wh-lang` choice, and the header FR/EN toggle re-renders the current
+step with answers kept. Its funnel header (`data-funnel-exit`) links the logo and « Retour au site » to the home
+page; `/strategie-societe` keeps the closed ad header. `noindex`, out of the sitemap. All wording, points, thresholds and result texts live per profile
 in `DIAG.profils` at the top of `diagnostic.js`; VSL links in `DIAG.profils.<profil>.videos`. The lead leaves
 through one function, `sendLead(payload)` (source `diagnostic` or `diagnostic_particulier`), to the Apps Script in
 `WH.config.leadsUrl`; the script change to paste is in `tools/apps-script-diagnostic.gs`. Tracking events are in

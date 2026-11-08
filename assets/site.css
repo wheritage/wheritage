@@ -645,3 +645,10 @@ html.consent-open .quote-pill, html.consent-open .book-bar { opacity: 0; pointer
 .fl-consent:hover { color: var(--or); }
 @media (max-width: 640px) { .consent-banner { left: .75rem; right: .75rem; bottom: .75rem; width: auto; padding: 1.2rem 1.2rem 1rem; } }
 @media (prefers-reduced-motion: reduce) { .consent-banner { transform: none; } }
+
+/* En-tête du diagnostic (data-funnel-exit) : retour au site */
+.nav-funnel a.logo { cursor: pointer; text-decoration: none; }
+.nav-funnel .nav-right { display: flex; align-items: center; gap: 1.4rem; }
+.nav-back { white-space: nowrap; font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte2); text-decoration: none; padding: .5rem 0; transition: color .3s; }
+.nav-back:hover, .nav-back:focus-visible { color: var(--or); }
+@media (max-width: 700px) { .nav-funnel .nav-right { gap: .9rem; } .nav-back { letter-spacing: .14em; } }
