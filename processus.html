@@ -395,6 +395,7 @@
   function layout() {
     if (mq.matches) sec.style.height = (panels.length * 100) + 'vh';
     else { sec.style.height = ''; track.style.transform = ''; panels.forEach(function (p) { p.classList.add('active'); }); }
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
     update();
   }
   function setActive(i) {
@@ -405,73 +406,97 @@
     labels.forEach(function (l, k) { l.classList.toggle('on', Math.min(k, 3) === i); });
     count.innerHTML = '0' + (i + 1) + ' <span>/ 04</span>';
   }
-  function update() {
-    ticking = false;
+  // Rendu d'une position (0 → 1) : piste horizontale, ligne de progression, étape active
+  function render(p) {
     if (!mq.matches) return;
-    var r = sec.getBoundingClientRect();
-    var max = sec.offsetHeight - innerHeight;
-    var p = Math.min(1, Math.max(0, -r.top / max));
     var dist = track.scrollWidth - innerWidth;
     track.style.transform = 'translate3d(' + (-p * dist).toFixed(1) + 'px,0,0)';
     line.style.width = (p * 100) + '%';
     setActive(Math.min(panels.length - 1, Math.round(p * (panels.length - 1))));
   }
-  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  /* ── Aimantation : un geste = une étape, jamais coincé entre deux ── */
-  var reduceMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var animating = false, lastWheel = 0, gestureUsed = false, snapTimer = null, restIdx = 0;
-  var LAST = panels.length - 1;
-  function maxScroll() { return sec.offsetHeight - innerHeight; }
-  function panelY(k) { return sec.getBoundingClientRect().top + scrollY + (k / LAST) * maxScroll(); }
-  function curIdx() { return Math.min(1, Math.max(0, -sec.getBoundingClientRect().top / maxScroll())) * LAST; }
-  function pinned() { var r = sec.getBoundingClientRect(); return r.top <= 2 && r.bottom >= innerHeight - 2; }
-  function glide(k) {
-    var y1 = panelY(k), y0 = scrollY, d = y1 - y0, t0 = performance.now(), dur = reduceMo ? 1 : 900;
-    animating = true; gestureUsed = true;
-    var html = document.documentElement; html.style.scrollBehavior = 'auto';
-    (function f(t) {
-      var p = Math.min(1, (t - t0) / dur), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-      scrollTo(0, y0 + d * e);
-      if (p < 1) requestAnimationFrame(f);
-      else { animating = false; restIdx = k; html.style.scrollBehavior = ''; }
-    })(t0);
+  function progress() { var m = sec.offsetHeight - innerHeight; return m > 0 ? Math.min(1, Math.max(0, -sec.getBoundingClientRect().top / m)) : 0; }
+  function update() { ticking = false; render(progress()); }
+
+  /* Position lue par ScrollTrigger (que Lenis met à jour à chaque image), pas par un écouteur
+     « scroll » qui relit la mise en page. Sans GSAP : repli sur l'écouteur natif. */
+  if (window.ScrollTrigger) {
+    if (window.gsap) gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.create({ trigger: sec, start: 'top top', end: 'bottom bottom', onUpdate: function (st) { render(st.progress); }, onRefresh: function (st) { render(st.progress); } });
+  } else {
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   }
-  function step(dir, e) {
-    if (!mq.matches || !pinned()) return false;
-    var cur = curIdx();
-    var base = dir > 0 ? Math.floor(cur + 0.02) : Math.ceil(cur - 0.02), target = base + dir;
-    if (target < 0 || target > LAST) return false; // on laisse sortir de la section
-    if (e) e.preventDefault();
-    if (!animating && !gestureUsed) glide(target);
+
+  /* ── Aimantation douce, dans le sens du geste ──
+     Rien n'intercepte la molette : on défile librement (Lenis), on peut traverser plusieurs étapes d'un coup.
+     Quand le geste s'arrête entre deux étapes, la page glisse jusqu'à l'étape suivante DANS LE SENS du
+     défilement, jamais en arrière. Avec Lenis, c'est Lenis qui glisse (un seul moteur, pas de conflit). */
+  var reduceMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var LAST = panels.length - 1, snapping = false, restIdx = null, idleTimer = null, moveTimer = null;
+  var lastInput = 0, lastY = scrollY, lastT = performance.now(), speed = 0; // px/ms, lissée
+  function sectionTop() { return sec.getBoundingClientRect().top + scrollY; }
+  function pinned() { var r = sec.getBoundingClientRect(); return r.top <= 1 && r.bottom >= innerHeight - 1; }
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  // Lance la glisse ; renvoie true si elle démarre
+  function snap() {
+    if (!mq.matches || reduceMo || snapping) return false;
+    if (!pinned()) { restIdx = null; return false; }
+    var cur = progress() * LAST, near = Math.round(cur);
+    if (Math.abs(cur - near) < 0.015) { restIdx = near; return false; } // déjà posé sur une étape
+    var target;
+    if (restIdx === null) target = near;                      // on arrive dans la section : l'étape la plus proche
+    else {
+      var moved = cur - restIdx;                              // depuis l'étape où l'on était posé
+      target = Math.abs(moved) < 0.04 ? restIdx : (moved > 0 ? Math.ceil(cur) : Math.floor(cur));
+    }
+    target = Math.max(0, Math.min(LAST, target));
+    var y = sectionTop() + (target / LAST) * (sec.offsetHeight - innerHeight);
+    var dist = Math.abs(y - scrollY);
+    // La glisse démarre à la vitesse du geste (pente initiale d'easeOutCubic = 3), puis ralentit sans rebond
+    var dur = Math.max(0.55, Math.min(1.1, (3 * dist) / Math.max(speed, 0.35) / 1000));
+    var lenis = window.WH && WH.lenis, done = function () { if (snapping) { snapping = false; restIdx = target; } };
+    snapping = true;
+    if (lenis) { lenis.scrollTo(y, { duration: dur, easing: easeOutCubic, onComplete: done }); setTimeout(done, dur * 1000 + 150); }
+    else { window.scrollTo({ top: y, behavior: 'smooth' }); setTimeout(done, 750); }
     return true;
   }
-  window.addEventListener('wheel', function (e) {
-    var now = performance.now();
-    if (now - lastWheel > 220) gestureUsed = false; // nouvelle impulsion
-    lastWheel = now;
-    if (Math.abs(e.deltaY) < 2) return;
-    step(e.deltaY > 0 ? 1 : -1, e);
-  }, { passive: false });
-  window.addEventListener('keydown', function (e) {
-    if (/input|textarea|select/i.test((e.target && e.target.tagName) || '')) return;
-    var dir = { ArrowDown: 1, PageDown: 1, ' ': 1, ArrowUp: -1, PageUp: -1 }[e.key];
-    if (!dir) return;
-    gestureUsed = false;
-    step(e.shiftKey && e.key === ' ' ? -1 : dir, e);
-  });
-  // Barre de défilement, tactile, etc. : on termine le mouvement sur l'étape suivante dans le sens du geste
-  window.addEventListener('scroll', function () {
-    if (!mq.matches || animating) return;
-    clearTimeout(snapTimer);
-    snapTimer = setTimeout(function () {
-      if (animating || !pinned()) return;
-      var cur = curIdx();
-      if (Math.abs(cur - Math.round(cur)) < 0.01) { restIdx = Math.round(cur); return; }
-      var target = cur > restIdx ? Math.ceil(cur - 0.1) : Math.floor(cur + 0.1);
-      gestureUsed = false;
-      glide(Math.max(0, Math.min(LAST, target)));
-    }, 140);
-  }, { passive: true });
+
+  /* Molette et pavé tactile (via Lenis) : un geste = des événements rapprochés. Quand l'inertie du pavé
+     tactile faiblit, la glisse prend le relais tout de suite ; le reste de cette inertie est ignoré pour ne
+     pas interrompre la glisse ni relancer une étape de plus. Un nouveau geste reprend la main. */
+  var gesture = 0, consumed = -1, lastWheelT = 0, prevAbs = 0;
+  function snapNow() { if (snap()) consumed = gesture; }
+  if (window.WH) WH.scrollGate = function (d) {
+    var e = d && d.event;
+    if (!e || e.type !== 'wheel' || !mq.matches) return true;
+    var now = performance.now(), a = Math.abs(d.deltaY);
+    var fresh = now - lastWheelT > 140 || (a > prevAbs * 1.6 && a > 10);
+    lastWheelT = now; prevAbs = a;
+    if (fresh) { gesture++; if (snapping) snapping = false; }
+    if (consumed === gesture) return false;
+    lastInput = now;
+    // La pause qui déclenche la glisse (170 ms) est plus longue que l'écart qui sépare deux gestes (140 ms) :
+    // tout événement qui arrive après le départ de la glisse est un nouveau geste et reprend la main.
+    clearTimeout(idleTimer); idleTimer = setTimeout(snapNow, 170);
+    if (!fresh && a < 5 && pinned()) { snapNow(); return consumed !== gesture; }
+    return true;
+  };
+  window.addEventListener('keydown', function () { lastInput = performance.now(); gesture++; clearTimeout(idleTimer); idleTimer = setTimeout(snapNow, 160); });
+  window.addEventListener('touchend', function () { gesture++; clearTimeout(idleTimer); idleTimer = setTimeout(snapNow, 80); }, { passive: true });
+  // Sans Lenis (mouvement réduit exclu) : la molette native passe par ici
+  window.addEventListener('wheel', function () { if (window.WH && WH.lenis) return; lastInput = performance.now(); clearTimeout(idleTimer); idleTimer = setTimeout(snapNow, 140); }, { passive: true });
+
+  // Suivi de la vitesse ; repli pour la barre de défilement (aucun événement d'entrée)
+  function onMove() {
+    var now = performance.now(), y = scrollY, d = y - lastY, dt = Math.max(1, now - lastT);
+    lastY = y; lastT = now;
+    speed = speed * 0.6 + (Math.abs(d) / dt) * 0.4;
+    if (!pinned()) { if (!snapping) restIdx = null; return; }
+    if (snapping) return;
+    clearTimeout(moveTimer);
+    if (now - lastInput > 400) moveTimer = setTimeout(snapNow, 150);
+  }
+  document.addEventListener('wh:init', function () { if (window.WH && WH.lenis) WH.lenis.on('scroll', onMove); });
+  window.addEventListener('scroll', function () { if (!(window.WH && WH.lenis)) onMove(); }, { passive: true });
 
   window.addEventListener('resize', layout);
   mq.addEventListener ? mq.addEventListener('change', layout) : mq.addListener(layout);
