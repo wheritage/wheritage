@@ -22,6 +22,17 @@ var DIAG = {
     avis: 'Outil éducatif. Aucun conseil personnalisé n\'est donné ici.'
   },
 
+  // Phase 2 · liens par niche : /diagnostic?niche=construction change seulement le titre de l'intro
+  // et présélectionne Q3 (secteur), toujours modifiable. Niche inconnue ou absente : titre par défaut.
+  // [À VALIDER] les titres.
+  niches: {
+    construction: { titre: 'Entrepreneurs en construction : <em>ce que votre société garde peut vous coûter plus que prévu.</em>', secteur: 'construction' },
+    sante_pro: { titre: 'Professionnels incorporés : <em>votre société travaille-t-elle aussi bien que vous ?</em>', secteur: 'sante_pro' },
+    transport: { titre: 'Entrepreneurs en transport : <em>votre société a des surplus ? Voici les questions à vous poser.</em>', secteur: 'transport' },
+    commerce: { titre: 'Restaurateurs et commerçants incorporés : <em>le diagnostic en 2 minutes.</em>', secteur: 'commerce' },
+    conseil_ti: { titre: 'Consultants incorporés : <em>ce que vos surplus deviennent dans votre société.</em>', secteur: 'conseil_ti' }
+  },
+
   // [À VALIDER] libellés des questions et seuil de 15 000 $ (repère d'adéquation, jamais une promesse d'admissibilité)
   questions: [
     { id: 'incorpore', q: 'Votre entreprise est-elle incorporée (société par actions) ?',
@@ -155,6 +166,9 @@ var DIAG = {
     });
     if (st.src.niche) st.src.niche = st.src.niche.toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 30);
   })();
+  // Niche connue : titre propre et Q3 présélectionnée (si la personne n'a pas déjà répondu)
+  var NICHE = DIAG.niches[st.src.niche] || null;
+  if (NICHE && NICHE.secteur && !st.answers.secteur) st.answers.secteur = NICHE.secteur;
   // Le résultat n'est pas restauré (stockage vidé après l'envoi) ; un état « result » orphelin repart de l'intro
   if (st.step === 'result') st.step = 'intro';
 
@@ -214,7 +228,7 @@ var DIAG = {
   function screenHtml(step) {
     if (step === 'intro') {
       return '<p class="eyebrow">' + esc(DIAG.intro.meta) + '</p>' +
-        '<h1 id="dg-h" tabindex="-1">' + DIAG.intro.titre + '</h1>' +
+        '<h1 id="dg-h" tabindex="-1">' + (NICHE ? NICHE.titre : DIAG.intro.titre) + '</h1>' +
         '<p class="dg-lead">' + esc(DIAG.intro.sousTitre) + '</p>' +
         '<button type="button" class="btn btn-gold dg-start" data-act="start">' + esc(DIAG.intro.bouton) + ARROW + '</button>' +
         '<p class="dg-fine">' + esc(DIAG.intro.avis) + '</p>';

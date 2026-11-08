@@ -87,7 +87,8 @@ Needs Playwright + ffmpeg; `tools/` is excluded from the deploy by `.vercelignor
 
 `/diagnostic` (`diagnostic.html` + `assets/diagnostic.js` + `assets/diagnostic.css`): 10-question quiz →
 small yes → contact + consent → result (3 exposure levels, matching VSL, Cal.com booking). `noindex`, out of
-the sitemap, like `/strategie-societe`. All wording, points, thresholds and result texts live in the `DIAG`
+the sitemap, like `/strategie-societe`. `?niche=construction` (sante_pro, transport, commerce, conseil_ti) swaps
+the intro headline and preselects Q3 (`DIAG.niches`); unknown values fall back. All wording, points, thresholds and result texts live in the `DIAG`
 object at the top of `diagnostic.js`; VSL links go in `DIAG.videos`. The lead leaves through one function,
 `sendLead(payload)`, to the Apps Script in `WH.config.leadsUrl` (re-point it when the CRM is ready); the
 script change to paste is in `tools/apps-script-diagnostic.gs`. Tracking events are in `EVENTS` in `site.js`
