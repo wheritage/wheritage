@@ -96,7 +96,10 @@ language follows `?lang=en` or the site's `wh-lang` choice, and the header FR/EN
 step with answers kept. Its funnel header (`data-funnel-exit`) links the logo and « Retour au site » to the home
 page; `/strategie-societe` keeps the closed ad header. `noindex`, out of the sitemap. All wording, points, thresholds and result texts live per profile
 in `DIAG.profils` at the top of `diagnostic.js`; VSL links in `DIAG.profils.<profil>.videos`. The lead leaves
-through one function, `sendLead(payload)` (source `diagnostic` or `diagnostic_particulier`), to the Apps Script in
-`WH.config.leadsUrl`; the script change to paste is in `tools/apps-script-diagnostic.gs`. Tracking events are in
+through one function, `sendLead(payload)` (source `diagnostic` or `diagnostic_particulier`), to two places: the Apps Script in
+`WH.config.leadsUrl` (Google Sheet archive; the script change to paste is in `tools/apps-script-diagnostic.gs`)
+and an instant notification email via Web3Forms (`WH.emailLead(subject, fields, {replyto})` in `site.js`,
+key `WH.config.web3formsKey`), always in French with each question and its answer label. The
+`/strategie-societe` guide form emails the same way. Tracking events are in
 `EVENTS` in `site.js` (never answers or contact details in parameters). `WH.trackVsl(node, enjeu)` reports VSL
 play/25/50/75/100 % on both funnels.
