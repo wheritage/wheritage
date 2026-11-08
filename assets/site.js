@@ -23,7 +23,10 @@
     // Réception des leads (Google Sheets « Leads W Héritage », via Apps Script).
     // leadsToken = le TOKEN inscrit dans le script. Vide = les formulaires de guide restent masqués.
     leadsUrl: 'https://script.google.com/macros/s/AKfycbz0suPAIJYrpDjmY2IBRqwPl3VbQLg9gR93XpKJjvd5Cf0LYC1Gw3RlmnFlFmNqU9UH/exec',
-    leadsToken: '20100914'
+    leadsToken: '20100914',
+    // Avis par courriel (Web3Forms) : chaque diagnostic et chaque guide vous est envoyé par courriel.
+    // Même clé que le formulaire de contact de l'accueil. Vide = aucun courriel.
+    web3formsKey: '6a1ef05e-eb74-4517-93e3-f708369154f0'
   };
 
   var WH = window.WH = window.WH || {};
@@ -779,6 +782,23 @@
     if (consent.m && window.fbq && ev.meta) fbq(ev.custom ? 'trackCustom' : 'track', ev.meta, p);
   };
   WH.consent = function () { return consent; };
+
+  /* Courriel d'avis via Web3Forms : sujet + champs dans l'ordre donné (libellé lisible → valeur).
+     replyto = courriel du prospect, pour répondre directement. Une nouvelle tentative si le réseau échoue.
+     Ne bloque jamais l'interface ; résout à true si Web3Forms confirme l'envoi. */
+  WH.emailLead = function (subject, fields, opts) {
+    opts = opts || {};
+    if (!CONFIG.web3formsKey) return Promise.resolve(false);
+    var body = { access_key: CONFIG.web3formsKey, subject: subject, from_name: opts.fromName || 'W Héritage · site web', botcheck: '' };
+    if (opts.replyto) body.replyto = opts.replyto;
+    Object.keys(fields).forEach(function (k) { var v = fields[k]; if (v !== undefined && v !== null && v !== '') body[k] = String(v); });
+    var json = JSON.stringify(body);
+    function send() {
+      return fetch('https://api.web3forms.com/submit', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: json })
+        .then(function (r) { return r.json(); }).then(function (j) { return !!(j && j.success); });
+    }
+    return send().catch(function () { return new Promise(function (res) { setTimeout(res, 2000); }).then(send); }).catch(function () { return false; });
+  };
 
   var banner = null;
   function buildBanner() {

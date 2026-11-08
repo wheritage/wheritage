@@ -919,6 +919,13 @@
       var data = { source: 'guide', prenom: f.prenom.value.trim(), courriel: mail, consentement: true,
         structure: LABELS.structure[answers.structure] || '', surplus: LABELS.surplus[answers.surplus] || '',
         horizon: LABELS.horizon[answers.horizon] || '', depend: LABELS.depend[answers.depend] || '' };
+      // Courriel d'avis immédiat (Web3Forms), en plus de la feuille Google
+      if (window.WH && WH.emailLead) WH.emailLead('NOUVEAU LEAD · Guide L\'Argent Mort (Stratégie société) · ' + (data.prenom || mail), {
+        'Prénom': data.prenom, 'Courriel': mail, 'Consentement courriels': 'Oui, ' + new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' }),
+        'Structure': data.structure || 'Non répondu', 'Surplus par année': data.surplus || 'Non répondu', 'Horizon': data.horizon || 'Non répondu',
+        'Qui dépend de lui': data.depend || 'Non répondu', 'Enjeux regardés': enjeux.length ? enjeux.map(function (x) { return NOMS[x]; }).join(', ') : 'Aucun',
+        'Page': 'Stratégie société (formulaire du guide)'
+      }, { replyto: mail, fromName: 'W Héritage · guide' });
       // text/plain évite la requête préalable CORS, que Apps Script ne gère pas
       fetch(cfg.leadsUrl + '?k=' + encodeURIComponent(cfg.leadsToken), {
         method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data)

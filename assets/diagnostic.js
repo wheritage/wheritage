@@ -777,15 +777,48 @@ var DIAG_EN = {
   }
   function sendLead(payload) {
     var cfg = (window.WH && WH.config) || {};
-    if (!cfg.leadsUrl) return;
-    var url = cfg.leadsUrl + (cfg.leadsToken ? '?k=' + encodeURIComponent(cfg.leadsToken) : '');
-    var body = JSON.stringify(payload);
-    function attempt() {
-      return fetch(url, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: body });
+    // 1. Feuille Google (archive complète, une ligne par lead)
+    if (cfg.leadsUrl) {
+      var url = cfg.leadsUrl + (cfg.leadsToken ? '?k=' + encodeURIComponent(cfg.leadsToken) : '');
+      var body = JSON.stringify(payload);
+      var attempt = function () {
+        return fetch(url, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: body });
+      };
+      attempt().catch(function () { setTimeout(function () { attempt().catch(function () {}); }, 2000); });
     }
-    attempt().catch(function () { setTimeout(function () { attempt().catch(function () {}); }, 2000); });
+    // 2. Courriel d'avis immédiat (Web3Forms), toujours en français, réponses en toutes lettres
+    if (window.WH && WH.emailLead) { var m = leadEmail(payload); WH.emailLead(m.subject, m.fields, { replyto: payload.courriel, fromName: 'W Héritage · diagnostic' }); }
+  }
+
+  /* Courriel d'avis : coordonnées, verdict, niveaux, puis chaque question avec la réponse choisie (libellés français). */
+  function leadEmail(d) {
+    var F = DIAG, pf = F.profils[d.profil], QUAL = { 'true': 'Oui', 'false': 'Non', a_verifier: 'À vérifier' };
+    var lab = function (o, v) { for (var i = 0; i < o.length; i++) if (o[i][0] === v) return o[i][1]; return v || ''; };
+    var niv = function (k) { return F.niveaux[d.niveaux[k]] || ''; };
+    var nom = (d.prenom + ' ' + (d.nom || '')).trim();
+    var f = {};
+    f['Nom'] = nom;
+    f['Courriel'] = d.courriel;
+    f['Téléphone'] = d.telephone;
+    f['Profil'] = d.profil === 'particulier' ? 'Particulier' : 'Propriétaire d\'entreprise';
+    f['Qualifié'] = QUAL[String(d.qualifie)];
+    f['Enjeu principal'] = pf.noms[d.enjeu_principal] + ' (exposition ' + niv(d.enjeu_principal).toLowerCase() + ')';
+    pf.ordre.forEach(function (k) { f['Niveau · ' + pf.noms[k]] = niv(k); });
+    f['Ouvert à regarder une solution'] = d.micro_oui ? 'Oui' : 'Pas pour l\'instant';
+    pf.questions.forEach(function (q, i) { f['Q' + (i + 1) + '. ' + q.q] = lab(q.o, d[q.id]); });
+    f['Ce qui le préoccupe le plus'] = lab(pf.preoccupation.o, d.preoccupation);
+    f['Consentement diagnostic'] = d.consentement_diagnostic ? d.consentement_diagnostic.date + ' (' + d.consentement_diagnostic.version + ')' : '';
+    f['Consentement autres contenus'] = d.consentement_marketing ? d.consentement_marketing.date + ' (' + d.consentement_marketing.version + ')' : 'Non';
+    f['Langue du quiz'] = d.langue === 'en' ? 'Anglais' : 'Français';
+    f['Provenance'] = [d.niche && 'niche ' + d.niche, d.utm_source && 'source ' + d.utm_source, d.utm_medium && 'support ' + d.utm_medium,
+      d.utm_campaign && 'campagne ' + d.utm_campaign, d.utm_content && 'contenu ' + d.utm_content, d.fbclid && 'pub Meta'].filter(Boolean).join(' · ') || 'Directe ou site';
+    f['Reçu le'] = new Date(d.date).toLocaleString('fr-CA', { timeZone: 'America/Toronto' });
+    var subject = 'NOUVEAU DIAGNOSTIC · ' + f['Profil'] + ' · ' + nom + ' · ' + pf.noms[d.enjeu_principal] + ' ' + niv(d.enjeu_principal).toLowerCase() +
+      ' · qualifié : ' + f['Qualifié'].toLowerCase();
+    return { subject: subject, fields: f };
   }
   window.WHDiag.sendLead = sendLead;
+  window.WHDiag.leadEmail = leadEmail;
 
   /* ── Résultat ── */
   function hasVideos() { var v = P().videos; return Object.keys(v).some(function (k) { return !!v[k]; }) || st.profil === 'entrepreneur'; }
