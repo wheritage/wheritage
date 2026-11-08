@@ -593,11 +593,53 @@
   WH.embedUrl = function (u) {
     if (!u) return null;
     var m;
-    if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/))) return { type: 'iframe', src: 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0&modestbranding=1' };
+    // enablejsapi : la page peut lire la progression de la vidéo (WH.trackVsl)
+    if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/))) return { type: 'iframe', src: 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&origin=' + encodeURIComponent(location.origin) };
     if ((m = u.match(/vimeo\.com\/(\d+)/))) return { type: 'iframe', src: 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1&title=0&byline=0' };
     if ((m = u.match(/instagram\.com\/(?:reel|p)\/([\w-]+)/))) return { type: 'iframe', src: 'https://www.instagram.com/reel/' + m[1] + '/embed/' };
     if (/\.(mp4|webm|mov)(\?|$)/i.test(u)) return { type: 'video', src: u };
     return null;
+  };
+  /* Progression d'une VSL : lecture (0), 25, 50, 75, 100 %. Chaque palier une seule fois par lecteur.
+     <video> : timeupdate. YouTube et Vimeo : leur API postMessage, sans charger de script tiers.
+     Instagram n'expose rien : seule la lecture est comptée. Aucune donnée personnelle dans les paramètres. */
+  WH.trackVsl = function (node, enjeu) {
+    var sent = {};
+    function hit(pct) { if (sent[pct]) return; sent[pct] = 1; WH.track('vsl_progress', { percent: pct, enjeu: enjeu || '' }); }
+    function at(cur, dur) {
+      if (!dur || !isFinite(dur)) return;
+      var p = cur / dur * 100;
+      [25, 50, 75].forEach(function (m) { if (p >= m) hit(m); });
+      if (p >= 99) hit(100);
+    }
+    hit(0);
+    if (node.tagName === 'VIDEO') {
+      node.addEventListener('timeupdate', function () { at(node.currentTime, node.duration); });
+      node.addEventListener('ended', function () { hit(100); });
+      return;
+    }
+    var src = node.getAttribute('src') || '', yt = /youtube/.test(src), vi = /vimeo/.test(src);
+    if (!yt && !vi) return;
+    function post(msg) { try { node.contentWindow.postMessage(JSON.stringify(msg), yt ? '*' : 'https://player.vimeo.com'); } catch (e) {} }
+    function hello() {
+      if (yt) post({ event: 'listening', id: 'wh-vsl', channel: 'widget' });
+      else { post({ method: 'addEventListener', value: 'timeupdate' }); post({ method: 'addEventListener', value: 'ended' }); }
+    }
+    window.addEventListener('message', function (e) {
+      if (e.source !== node.contentWindow) return;
+      var d = e.data; if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
+      if (!d) return;
+      if (yt && d.event === 'infoDelivery' && d.info) {
+        if (d.info.playerState === 0) hit(100);
+        if (d.info.duration) node._whDur = d.info.duration;
+        if (d.info.currentTime != null) at(d.info.currentTime, node._whDur);
+      } else if (vi) {
+        if (d.event === 'ready') hello();
+        else if (d.event === 'timeupdate' && d.data) at(d.data.seconds, d.data.duration);
+        else if (d.event === 'ended') hit(100);
+      }
+    });
+    node.addEventListener('load', hello);
   };
   function initVideoSlots() {
     document.querySelectorAll('.video-slot').forEach(function (slot) {
@@ -702,7 +744,18 @@
     funnel_unlock:  { ga: 'calendrier_debloque', meta: 'CalendrierDebloque', custom: true },
     funnel_qualified: { ga: 'generate_lead', meta: 'Lead', p: { form: 'qualification' } },
     funnel_unfit:   { ga: 'qualification_non', meta: 'QualificationNon', custom: true },
-    funnel_booked:  { ga: 'rendez_vous_reserve', meta: 'Schedule' }
+    funnel_booked:  { ga: 'rendez_vous_reserve', meta: 'Schedule' },
+    // Les deux entonnoirs : progression des VSL (WH.trackVsl)
+    vsl_progress:   { ga: 'vsl_progress', meta: 'VSLProgress', custom: true },
+    // Entonnoir « Diagnostic » (diagnostic.html). Jamais de réponses ni de coordonnées dans les paramètres.
+    diagnostic_view:    { ga: 'diagnostic_view', meta: 'ViewContent', p: { content_name: 'diagnostic' } },
+    diagnostic_start:   { ga: 'diagnostic_start', meta: 'DiagnosticStart', custom: true },
+    diagnostic_step:    { ga: 'diagnostic_step' },
+    diagnostic_exit:    { ga: 'diagnostic_exit', meta: 'DiagnosticExit', custom: true },
+    micro_oui:          { ga: 'micro_oui', meta: 'MicroOui', custom: true },
+    diagnostic_lead:    { ga: 'generate_lead', meta: 'Lead', p: { form: 'diagnostic' } },
+    diagnostic_booking: { ga: 'booking_click', meta: 'BookingClick', custom: true },
+    diagnostic_booked:  { ga: 'booking_confirmed', meta: 'Schedule' }
   };
   WH.track = function (name, params) {
     var ev = EVENTS[name]; if (!ev) return;
@@ -712,7 +765,7 @@
     for (k in (params || {})) p[k] = params[k];
     p.langue = WH.lang();
     if (consent.a && window.gtag) gtag('event', ev.ga, p);
-    if (consent.m && window.fbq) fbq(ev.custom ? 'trackCustom' : 'track', ev.meta, p);
+    if (consent.m && window.fbq && ev.meta) fbq(ev.custom ? 'trackCustom' : 'track', ev.meta, p);
   };
   WH.consent = function () { return consent; };
 
@@ -780,7 +833,7 @@
     document.addEventListener('click', function (e) {
       var o = e.target.closest('[data-consent-open]');
       if (o) { e.preventDefault(); openBanner(true); return; }
-      var a = e.target.closest('a[href]'); if (!a) return;
+      var a = e.target.closest('a[href]'); if (!a || a.hasAttribute('data-no-track')) return;
       var h = a.getAttribute('href');
       if (/cal\.com|#reservation/.test(h)) WH.track('booking_click', { lien: a.textContent.trim().slice(0, 60) });
       else if (/assurance\.ia\.ca/.test(h)) WH.track('quote_click', { type: /habitation/.test(h) ? 'habitation' : 'auto' });
