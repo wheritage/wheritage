@@ -145,19 +145,30 @@
 
   /* Pages d'entonnoir (data-funnel) : aucune sortie. Logo sans lien, pas de menu,
      pied de page réduit aux mentions légales. Le seul geste possible est la réservation. */
+  /* data-funnel-exit (diagnostic) : le logo et « Retour au site » ramènent à l'accueil.
+     data-bilingual : bascule FR/EN dans l'en-tête. Sans ces attributs (pages publicitaires) : aucune sortie. */
   function buildFunnelChrome() {
+    var b = document.body, exit = b.hasAttribute('data-funnel-exit'), bil = b.hasAttribute('data-bilingual');
+    var brand = WH.logo('logo-mark') + '<span class="logo-text">W <b>Héritage</b><small>Walid Harchaoui · CSF</small></span>';
     var top = document.createElement('div');
     top.innerHTML =
       '<a class="skip-link" href="#main">' + bi('Aller au contenu', 'Skip to content') + '</a>' +
       '<div id="scroll-progress"></div>' +
       '<nav class="nav nav-funnel" id="nav" aria-label="W Héritage">' +
-        '<span class="logo">' + WH.logo('logo-mark') +
-          '<span class="logo-text">W <b>Héritage</b><small>Walid Harchaoui · CSF</small></span></span>' +
-        '<div class="nav-right"><span class="nav-reg">' + bi('Inscrit à l\'AMF', 'AMF registered') + '</span></div>' +
+        (exit ? '<a href="index.html" class="logo" aria-label="' + WH.t('W Héritage, retour à l\'accueil', 'W Héritage, back to home') + '">' + brand + '</a>'
+              : '<span class="logo">' + brand + '</span>') +
+        '<div class="nav-right">' +
+          (bil ? '<div class="lang-toggle" role="group" aria-label="Langue / Language"><button data-l="fr" type="button">FR</button><button data-l="en" type="button">EN</button></div>' : '') +
+          (exit ? '<a class="nav-back" href="index.html">' + bi('Retour au site', 'Back to site') + '</a>' : '') +
+          '<span class="nav-reg">' + bi('Inscrit à l\'AMF', 'AMF registered') + '</span>' +
+        '</div>' +
       '</nav>';
     var intro = document.getElementById('intro');
     var ref = intro ? intro.nextSibling : document.body.firstChild;
     while (top.firstChild) document.body.insertBefore(top.firstChild, ref);
+    document.querySelectorAll('.nav-funnel .lang-toggle button').forEach(function (btn) {
+      btn.addEventListener('click', function () { setLang(btn.getAttribute('data-l')); });
+    });
     var first = document.querySelector('body > header, body > main, body > section');
     if (first && !document.getElementById('main')) first.id = 'main';
     var yr = new Date().getFullYear();
@@ -199,7 +210,7 @@
         '<ul class="nav-links">' + linksHtml + '</ul>' +
         '<div class="nav-right">' +
           '<div class="lang-toggle" role="group" aria-label="Langue / Language"><button data-l="fr" type="button">FR</button><button data-l="en" type="button">EN</button></div>' +
-          '<a href="index.html#reservation" class="nav-cta">' + bi('Réserver<span class="cta-x"> une consultation</span>', 'Book<span class="cta-x"> a consultation</span>') + '</a>' +
+          '<a href="diagnostic" class="nav-cta">' + bi('Réserver<span class="cta-x"> une consultation</span>', 'Book<span class="cta-x"> a consultation</span>') + '</a>' +
           '<button class="hamburger" id="hamburger" type="button" data-aria-fr="Ouvrir le menu" data-aria-en="Open menu" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>' +
         '</div>' +
       '</nav>' +
@@ -208,7 +219,7 @@
         NAV.map(function (n) { return '<a href="' + n.href + '">' + bi(n.fr, n.en) + '</a>'; }).join('') +
         '<div class="mm-res"><span class="mm-label">' + bi('Ressources', 'Resources') + '</span>' +
           RES.map(function (n) { return '<a href="' + n.href + '" class="mm-small">' + bi(n.fr, n.en) + '</a>'; }).join('') + '</div>' +
-        '<a href="index.html#reservation" class="btn btn-gold mm-cta">' + bi('Réserver une consultation', 'Book a consultation') + '</a>' +
+        '<a href="diagnostic" class="btn btn-gold mm-cta">' + bi('Réserver une consultation', 'Book a consultation') + '</a>' +
       '</div>';
     var intro = document.getElementById('intro');
     var ref = intro ? intro.nextSibling : document.body.firstChild;
@@ -235,7 +246,7 @@
           '<li><a href="index.html#pour-qui">' + bi('Pour qui', 'Who I help') + '</a></li>' +
           '<li><a href="index.html#expertise">Expertise</a></li>' +
           '<li><a href="processus.html">' + bi('Approche', 'Approach') + '</a></li>' +
-          '<li><a href="index.html#reservation">' + bi('Consultation', 'Consultation') + '</a></li></ul></div>' +
+          '<li><a href="diagnostic">' + bi('Consultation', 'Consultation') + '</a></li></ul></div>' +
         '<div><h4>' + bi('Ressources', 'Resources') + '</h4><ul>' +
           RES.map(function (n) { return '<li><a href="' + n.href + '">' + bi(n.fr, n.en) + '</a></li>'; }).join('') +
           '<li><a href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener">' + bi('Soumission auto', 'Auto insurance quote') + '</a></li>' +
@@ -245,7 +256,7 @@
           '<li><a href="mailto:' + CONFIG.email + '">' + CONFIG.email + '</a></li>' +
           '<li><a href="' + CONFIG.instagram + '" target="_blank" rel="noopener">Instagram</a></li>' +
           '<li><a href="' + LINKEDIN + '" target="_blank" rel="noopener">LinkedIn</a></li>' +
-          '<li><a href="index.html#reservation">' + bi('Réserver une consultation', 'Book a consultation') + '</a></li></ul></div>' +
+          '<li><a href="diagnostic">' + bi('Réserver une consultation', 'Book a consultation') + '</a></li></ul></div>' +
       '</div>' +
       '<div class="footer-legal">' +
         '<p>' + bi('Walid Harchaoui est conseiller en sécurité financière, inscrit auprès de l\'Autorité des marchés financiers (AMF) et rattaché au cabinet Industrielle Alliance, Assurance et services financiers inc. Autorisé en Ontario par l\'Autorité ontarienne de réglementation des services financiers (ARSF). Le contenu de ce site est fourni à titre informatif seulement et ne constitue pas un conseil financier, fiscal ou juridique personnalisé.',
@@ -290,7 +301,7 @@
     if (!document.body.hasAttribute('data-no-bookbar')) {
       var bar = document.createElement('div');
       bar.className = 'book-bar';
-      bar.innerHTML = '<a href="index.html#reservation" class="btn btn-gold">' + bi('Réserver une consultation', 'Book a consultation') + '<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>';
+      bar.innerHTML = '<a href="diagnostic" class="btn btn-gold">' + bi('Réserver une consultation', 'Book a consultation') + '<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>';
       document.body.appendChild(bar);
       var hideFor = [].slice.call(document.querySelectorAll('#reservation, #contact, .footer, .page-hero, body > header'));
       var visible = {};
@@ -835,7 +846,7 @@
       if (o) { e.preventDefault(); openBanner(true); return; }
       var a = e.target.closest('a[href]'); if (!a || a.hasAttribute('data-no-track')) return;
       var h = a.getAttribute('href');
-      if (/cal\.com|#reservation/.test(h)) WH.track('booking_click', { lien: a.textContent.trim().slice(0, 60) });
+      if (/cal\.com|#reservation|^\/?diagnostic/.test(h)) WH.track('booking_click', { lien: a.textContent.trim().slice(0, 60) });
       else if (/assurance\.ia\.ca/.test(h)) WH.track('quote_click', { type: /habitation/.test(h) ? 'habitation' : 'auto' });
       else if (/^tel:/.test(h)) WH.track('phone_click');
     });

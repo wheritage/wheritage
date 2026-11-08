@@ -419,6 +419,21 @@
 .booking { border: 1px solid var(--ligne); background: var(--sombre); position: relative; height: 720px; }
 .booking::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--or), transparent); z-index: 2; }
 .booking iframe { width: 100%; height: 100%; border: 0; }
+.booking-start { border: 1px solid var(--ligne-fort); background: var(--sombre); position: relative; padding: 3rem 2.8rem 2.8rem; }
+.booking-start::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--or), transparent); }
+.booking-start .bs-k { font-size: .58rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); margin-bottom: 1.2rem; }
+.booking-start h3 { font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1.15; margin-bottom: 1rem; }
+.booking-start h3 em { font-style: italic; color: var(--or-vif); }
+.booking-start > p:not(.bs-k) { font-size: .88rem; color: var(--texte2); line-height: 1.8; max-width: 520px; margin-bottom: 2rem; }
+.bs-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+.bs-choices a { position: relative; display: block; background: var(--noir2); padding: 1.5rem 1.4rem 1.4rem 3rem; text-decoration: none; transition: background .4s var(--ease-out); }
+.bs-choices a::before { content: ''; position: absolute; left: 1.3rem; top: 2rem; width: 9px; height: 9px; border: 1px solid var(--or); transform: rotate(45deg); transition: background .3s; }
+.bs-choices a:hover { background: var(--sombre2); }
+.bs-choices a:hover::before { background: var(--or); }
+.bs-choices a:focus-visible { outline: 1px solid var(--or); outline-offset: -1px; }
+.bs-choices b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.4rem; color: var(--creme); line-height: 1.2; margin-bottom: .35rem; }
+.bs-choices small { display: block; font-size: .74rem; color: var(--texte3); line-height: 1.5; }
+@media (max-width: 700px) { .booking-start { padding: 2.2rem 1.2rem 1.4rem; } .bs-choices { grid-template-columns: 1fr; } }
 .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 5rem; }
 .c-row { display: flex; gap: 1.3rem; align-items: center; margin-bottom: 1.8rem; }
 .c-row .ic { width: 46px; height: 46px; border: 1px solid var(--ligne-fort); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -482,7 +497,7 @@
         <span lang="en">A financial strategy for entrepreneurs, professionals and families who want to protect what they build and prepare what they will pass on.</span>
       </p>
       <div class="hero-actions reveal" style="--d:.7">
-        <a href="#reservation" class="btn btn-gold"><span lang="fr">Réserver une consultation</span><span lang="en">Book a consultation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        <a href="diagnostic" class="btn btn-gold"><span lang="fr">Réserver une consultation</span><span lang="en">Book a consultation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
         <a href="processus.html" class="link-arrow"><span lang="fr">Découvrir mon approche</span><span lang="en">See my approach</span></a>
       </div>
     </div>
@@ -623,7 +638,7 @@
           </div>
           <p class="pl-body"><span lang="fr">Protéger votre revenu, votre famille et votre entreprise contre les imprévus. On part de vos obligations réelles pour viser la protection juste — ni trop, ni trop peu.</span><span lang="en">Protect your income, your family and your business against the unexpected. We start from your real obligations to aim for the right protection — not too much, not too little.</span></p>
           <ul class="pl-cards"><li style="--c:0"><b lang="fr">Votre revenu</b><b lang="en">Your income</b><span lang="fr">Un revenu de remplacement si vous ne pouvez plus travailler.</span><span lang="en">Replacement income if you can no longer work.</span></li><li style="--c:1"><b lang="fr">Votre famille</b><b lang="en">Your family</b><span lang="fr">Un capital pour les vôtres si vous n'êtes plus là.</span><span lang="en">Capital for your loved ones if you're no longer there.</span></li><li style="--c:2"><b lang="fr">Votre santé</b><b lang="en">Your health</b><span lang="fr">Un montant versé au diagnostic d'une maladie grave couverte.</span><span lang="en">A lump sum on diagnosis of a covered critical illness.</span></li><li style="--c:3"><b lang="fr">Votre entreprise</b><b lang="en">Your business</b><span lang="fr">Personne clé, associés, prêts : la continuité de l'entreprise.</span><span lang="en">Key person, partners, loans: business continuity.</span></li><li style="--c:4"><b lang="fr">Votre autonomie</b><b lang="en">Your independence</b><span lang="fr">Préserver votre autonomie et épargner vos proches.</span><span lang="en">Preserve your independence and spare your family.</span></li><li style="--c:5"><b lang="fr">Analyse des besoins</b><b lang="en">Needs analysis</b><span lang="fr">La couverture chiffrée selon votre réalité, pas une moyenne.</span><span lang="en">Coverage sized to your reality, not an average.</span></li></ul>
-          <a href="#reservation" class="btn btn-line pl-cta"><span lang="fr">Parler de ma protection</span><span lang="en">Talk about my protection</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+          <a href="diagnostic" class="btn btn-line pl-cta"><span lang="fr">Parler de ma protection</span><span lang="en">Talk about my protection</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
         </article>
         <article class="pl-panel" role="tabpanel" id="pl-panel-1" aria-labelledby="pl-tab-1" aria-hidden="true">
           <div class="pl-ghost" aria-hidden="true">02</div>
@@ -634,7 +649,7 @@
           </div>
           <p class="pl-body"><span lang="fr">Structurer l'accumulation de votre capital selon vos objectifs, votre horizon et votre tolérance au risque — personnel et corporatif, dans un même plan.</span><span lang="en">Structure how your capital accumulates according to your goals, time horizon and risk tolerance — personal and corporate, in one plan.</span></p>
           <ul class="pl-cards"><li style="--c:0"><b lang="fr">Bilan</b><b lang="en">Review</b><span lang="fr">Actifs, dettes, besoins et projets, sur une seule page.</span><span lang="en">Assets, debts, needs and projects, on a single page.</span></li><li style="--c:1"><b lang="fr">Profil d'investisseur</b><b lang="en">Investor profile</b><span lang="fr">Votre horizon et votre tolérance au risque, clairement établis.</span><span lang="en">Your horizon and risk tolerance, clearly established.</span></li><li style="--c:2"><b lang="fr">Une seule logique</b><b lang="en">One logic</b><span lang="fr">Comptes enregistrés et non enregistrés qui travaillent ensemble.</span><span lang="en">Registered and non-registered accounts working together.</span></li><li style="--c:3"><b lang="fr">Liquidité</b><b lang="en">Liquidity</b><span lang="fr">Garder accès au capital quand une occasion ou un imprévu arrive.</span><span lang="en">Keep access to capital when an opportunity or emergency comes up.</span></li><li style="--c:4"><b lang="fr">Surplus corporatif</b><b lang="en">Corporate surplus</b><span lang="fr">L'argent de votre société, considéré dans la stratégie.</span><span lang="en">Your company's money, considered in the strategy.</span></li><li style="--c:5"><b lang="fr">Suivi</b><b lang="en">Follow-up</b><span lang="fr">Le plan garde son cap, et s'ajuste quand votre vie change.</span><span lang="en">The plan stays on course, and adjusts when your life changes.</span></li></ul>
-          <a href="#reservation" class="btn btn-line pl-cta"><span lang="fr">Faire le point</span><span lang="en">Take stock</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+          <a href="diagnostic" class="btn btn-line pl-cta"><span lang="fr">Faire le point</span><span lang="en">Take stock</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
         </article>
         <article class="pl-panel" role="tabpanel" id="pl-panel-2" aria-labelledby="pl-tab-2" aria-hidden="true">
           <div class="pl-ghost" aria-hidden="true">03</div>
@@ -645,7 +660,7 @@
           </div>
           <p class="pl-body"><span lang="fr">Identifier les occasions de mieux coordonner vos décisions financières et fiscales — toujours avec votre comptable et vos autres professionnels.</span><span lang="en">Find opportunities to better coordinate your financial and tax decisions — always with your accountant and your other professionals.</span></p>
           <ul class="pl-cards"><li style="--c:0"><b lang="fr">Rémunération</b><b lang="en">Compensation</b><span lang="fr">Salaire et dividendes : une combinaison à évaluer avec votre comptable.</span><span lang="en">Salary and dividends: a mix to assess with your accountant.</span></li><li style="--c:1"><b lang="fr">Comptes enregistrés</b><b lang="en">Registered accounts</b><span lang="fr">L'ordre et le moment des cotisations comptent.</span><span lang="en">The order and timing of contributions matter.</span></li><li style="--c:2"><b lang="fr">Structure</b><b lang="en">Structure</b><span lang="fr">Société de gestion et liquidités corporatives : les options à envisager.</span><span lang="en">Holding company and corporate cash: options to consider.</span></li><li style="--c:3"><b lang="fr">Assurance et fiscalité</b><b lang="en">Insurance and tax</b><span lang="fr">Dans certaines situations, un outil de planification à considérer.</span><span lang="en">In some situations, a planning tool worth considering.</span></li><li style="--c:4"><b lang="fr">Décaissement</b><b lang="en">Drawdown</b><span lang="fr">Des retraits planifiés pour limiter l'impôt et la récupération des prestations.</span><span lang="en">Planned withdrawals to limit tax and benefit clawbacks.</span></li><li style="--c:5"><b lang="fr">Coordination</b><b lang="en">Coordination</b><span lang="fr">Une stratégie cohérente avec votre comptable et votre notaire.</span><span lang="en">One coherent strategy with your accountant and notary.</span></li></ul>
-          <a href="#reservation" class="btn btn-line pl-cta"><span lang="fr">Analyser ma situation</span><span lang="en">Review my situation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+          <a href="diagnostic" class="btn btn-line pl-cta"><span lang="fr">Analyser ma situation</span><span lang="en">Review my situation</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
         </article>
         <article class="pl-panel" role="tabpanel" id="pl-panel-3" aria-labelledby="pl-tab-3" aria-hidden="true">
           <div class="pl-ghost" aria-hidden="true">04</div>
@@ -681,7 +696,7 @@
       <p class="eyebrow reveal"><span lang="fr">Propriétaires d'entreprise</span><span lang="en">Business owners</span></p>
       <h2><span lang="fr" class="split">Votre entreprise peut faire partie de <em>votre stratégie.</em></span><span lang="en" class="split">Your business can be part of <em>your strategy.</em></span></h2>
       <p class="lead reveal"><span lang="fr">Pour un propriétaire d'entreprise, les décisions personnelles et corporatives sont souvent intimement liées. Une bonne stratégie doit considérer les deux.</span><span lang="en">For a business owner, personal and corporate decisions are often closely linked. A good strategy has to consider both.</span></p>
-      <a href="#reservation" class="btn btn-gold reveal"><span lang="fr">Parler de votre entreprise</span><span lang="en">Talk about your business</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+      <a href="diagnostic?profil=entrepreneur" class="btn btn-gold reveal"><span lang="fr">Parler de votre entreprise</span><span lang="en">Talk about your business</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
     </div>
     <div>
       <ul class="corp-list" data-stagger>
@@ -974,7 +989,7 @@
   <div class="wrap rdv">
     <div>
       <p class="eyebrow reveal"><span lang="fr">Consultation</span><span lang="en">Consultation</span></p>
-      <h2><span lang="fr" class="split">Environ 30 minutes. <em>Une première conversation.</em></span><span lang="en" class="split">About 30 minutes. <em>A first conversation.</em></span></h2>
+      <h2><span lang="fr" class="split">15 minutes. <em>Une première conversation.</em></span><span lang="en" class="split">15 minutes. <em>A first conversation.</em></span></h2>
       <p class="lead reveal" style="margin-top:1.2rem"><span lang="fr">Aucun besoin de préparer un dossier complexe. Nous commençons simplement par comprendre votre situation et vos objectifs.</span><span lang="en">No need to prepare a complex file. We simply start by understanding your situation and your goals.</span></p>
       <div class="modes" data-stagger>
         <div class="mode reveal"><span class="ic"><svg viewBox="0 0 15 15"><rect x="2" y="2" width="11" height="11"/><path d="M2 6h11M5 2v4M10 2v4"/></svg></span><div><b lang="fr">En personne</b><b lang="en">In person</b><span lang="fr">Bureau à Montréal — adresse confirmée par courriel</span><span lang="en">Montreal office — address confirmed by email</span></div></div>
@@ -982,7 +997,16 @@
         <div class="mode reveal"><span class="ic"><svg viewBox="0 0 15 15"><path d="M3 2H6L7.5 5.5L6 7C6.9 8.8 8.2 10 10 11L11.5 9.5L14 11V14C14 14.5 13.5 15 13 15C6 15 1 10 1 3C1 2.5 1.5 2 2 2H3Z"/></svg></span><div><b lang="fr">Appel téléphonique</b><b lang="en">Phone call</b><span lang="fr">Je vous rappelle au numéro de votre choix</span><span lang="en">I'll call you at the number of your choice</span></div></div>
       </div>
     </div>
-    <div class="booking reveal-r"><iframe data-src="https://cal.com/wheritage" title="Réserver une consultation avec Walid Harchaoui" loading="lazy"></iframe></div>
+    <!-- Plus de calendrier ici : chaque réservation passe par le diagnostic (/diagnostic), qui ouvre le calendrier à la fin -->
+    <div class="booking-start reveal-r">
+      <p class="bs-k"><span lang="fr">2 minutes · 10 questions</span><span lang="en">2 minutes · 10 questions</span></p>
+      <h3><span lang="fr">Avant de choisir votre moment, <em>quelques questions.</em></span><span lang="en">Before you pick a time, <em>a few questions.</em></span></h3>
+      <p><span lang="fr">Pour que notre rencontre parte de votre situation. À la fin, vous voyez quels enjeux semblent s'appliquer à vous, puis le calendrier s'ouvre.</span><span lang="en">So our meeting starts from your situation. At the end, you see which issues seem to apply to you, then the calendar opens.</span></p>
+      <div class="bs-choices">
+        <a href="diagnostic?profil=entrepreneur"><b><span lang="fr">Propriétaire d'entreprise</span><span lang="en">Business owner</span></b><small><span lang="fr">Votre société, ses surplus, sa relève</span><span lang="en">Your corporation, its surplus, succession</span></small></a>
+        <a href="diagnostic?profil=particulier"><b><span lang="fr">Particulier</span><span lang="en">Individual</span></b><small><span lang="fr">Vous, votre famille, votre épargne</span><span lang="en">You, your family, your savings</span></small></a>
+      </div>
+    </div>
   </div>
 </section>
 

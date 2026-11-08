@@ -40,6 +40,13 @@
 .dg-back:hover, .dg-skip:hover { color: var(--or); }
 .dg-back:focus-visible, .dg-skip:focus-visible { outline: 1px solid var(--or); outline-offset: 2px; }
 
+/* Accueil : choix du profil */
+.dg-profils { grid-template-columns: 1fr 1fr; margin-bottom: .4rem; }
+.dg-profils .dg-opt { padding-top: 1.4rem; padding-bottom: 1.4rem; font-family: var(--serif); font-size: 1.35rem; line-height: 1.2; }
+.dg-profils .dg-opt::before { top: 1.95rem; }
+.dg-profils .dg-opt small { display: block; font-family: var(--sans); font-size: .76rem; color: var(--texte3); margin-top: .35rem; line-height: 1.5; }
+.dg-switch { margin-top: 1.4rem; }
+
 /* Sortie : guide */
 .dg-guide { display: block; border: 1px solid var(--ligne-fort); background: var(--noir2); padding: 1.4rem 1.5rem; text-decoration: none; transition: background .4s var(--ease-out); }
 .dg-guide:hover { background: var(--sombre); }
@@ -93,9 +100,14 @@
 .dg-vlink[hidden] { display: none; }
 .dg-vlink:hover { color: var(--or); }
 
-.dg-book { border-top: 1px solid var(--ligne); padding-top: 2rem; }
+.dg-book { border-top: 1px solid var(--ligne); padding-top: 2.2rem; }
 .dg-book[hidden], .dg-booked[hidden] { display: none; }
-.dg-book .btn { border: 0; }
+.dg-book h3 { font-size: clamp(1.4rem, 2.8vw, 1.9rem); line-height: 1.2; margin-bottom: .4rem; }
+.dg-book > .dg-fine:first-of-type { margin: 0 0 1.4rem; }
+/* Calendrier Cal.com en ligne, à la fin du résultat */
+.dg-cal { position: relative; min-height: 640px; border: 1px solid var(--ligne-fort); background: var(--sombre); overflow: auto; }
+.dg-cal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--or), transparent); z-index: 1; }
+.dg-cal iframe { display: block; width: 100%; border: 0; }
 .dg-booked { border: 1px solid var(--ligne-fort); padding: 1.8rem; }
 .dg-booked h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .6rem; }
 .dg-booked p { font-size: .86rem; color: var(--texte2); }
@@ -115,7 +127,7 @@
   .dg-bar { margin-bottom: 1.6rem; }
   .dg-opt { font-size: .86rem; }
   .dg-opts.many .dg-opt { min-height: 46px; padding-top: .7rem; padding-bottom: .7rem; }
-  .dg-fields { grid-template-columns: 1fr; }
+  .dg-fields, .dg-profils { grid-template-columns: 1fr; }
   .dg-form .btn, .dg-book .btn, .dg-start { width: 100%; justify-content: center; }
   .nav-reg { display: none; }
 }
