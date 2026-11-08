@@ -19,6 +19,11 @@ touch stays native and nothing smooths under `prefers-reduced-motion`. Rules whe
 - Scroll-linked effects go through ScrollTrigger, not `scroll` listeners that read layout each frame.
   `[data-parallax]` already does (`initParallax()`).
 - Same-page `#` links glide through Lenis and honour `scroll-margin-top`.
+- Never move the page with `scrollTo` in a loop or `preventDefault()` the wheel to build a scroll effect:
+  it fights Lenis. Glide with `WH.lenis.scrollTo()`; to drop specific wheel events (e.g. trackpad inertia
+  during a snap) set `WH.scrollGate = function (data) { return false to ignore }` (Lenis `virtualScroll`).
+  The pinned 4-step section of `processus.html` is the reference: ScrollTrigger reads the position,
+  Lenis snaps to the next step in the direction of the gesture.
 
 ## Motion & video-edit animation skills
 

@@ -520,7 +520,10 @@
     var hasGsap = window.gsap && window.ScrollTrigger;
     if (hasGsap) gsap.registerPlugin(ScrollTrigger);
     if (reduce || !window.Lenis || !hasGsap) return;
-    var lenis = WH.lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.9, stopInertiaOnNavigate: true });
+    // WH.scrollGate(data) : une page peut ignorer certains événements de molette (retourner false),
+    // p. ex. la fin d'inertie d'un pavé tactile pendant une aimantation (processus.html).
+    var lenis = WH.lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.9, stopInertiaOnNavigate: true,
+      virtualScroll: function (d) { return !(WH.scrollGate && WH.scrollGate(d) === false); } });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
