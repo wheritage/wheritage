@@ -82,3 +82,16 @@ Export an MP4 for the edit (V2 over the talking head) with
 `node tools/render-reel.mjs text-effects.html my-clip-text-effects.mp4 [--format 16:9] [--from s --to s]`.
 It seeks the timeline frame by frame (`window.reel`), so nothing drops like a screen recording.
 Needs Playwright + ffmpeg; `tools/` is excluded from the deploy by `.vercelignore`.
+
+## Diagnostic funnel
+
+`/diagnostic` (`diagnostic.html` + `assets/diagnostic.js` + `assets/diagnostic.css`): 10-question quiz →
+small yes → contact + consent → result (3 exposure levels, matching VSL, Cal.com booking). `noindex`, out of
+the sitemap, like `/strategie-societe`. `?niche=construction` (sante_pro, transport, commerce, conseil_ti) swaps
+the intro headline and preselects Q3 (`DIAG.niches`); unknown values fall back. All wording, points, thresholds and result texts live in the `DIAG`
+object at the top of `diagnostic.js`; VSL links go in `DIAG.videos`. The lead leaves through one function,
+`sendLead(payload)`, to the Apps Script in `WH.config.leadsUrl` (re-point it when the CRM is ready); the
+script change to paste is in `tools/apps-script-diagnostic.gs`. Tracking events are in `EVENTS` in `site.js`
+(never answers or contact details in parameters). `WH.trackVsl(node, enjeu)` reports VSL play/25/50/75/100 %
+on both funnels.
+

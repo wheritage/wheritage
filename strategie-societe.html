@@ -786,6 +786,7 @@
     else { node = document.createElement('iframe'); node.src = e.src; node.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; node.allowFullscreen = true; node.title = 'Vidéo'; }
     vsl.appendChild(node);
     track('vsl_play', { enjeu: enjeux[enjeux.length - 1] || '' });
+    if (window.WH && WH.trackVsl) WH.trackVsl(node, enjeux[enjeux.length - 1] || '');
   });
 
   /* ── Porte du calendrier : 60 s de page visible ──
