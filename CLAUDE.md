@@ -83,15 +83,16 @@ Export an MP4 for the edit (V2 over the talking head) with
 It seeks the timeline frame by frame (`window.reel`), so nothing drops like a screen recording.
 Needs Playwright + ffmpeg; `tools/` is excluded from the deploy by `.vercelignore`.
 
-## Diagnostic funnel
+## Diagnostic funnel (site-wide booking door)
 
-`/diagnostic` (`diagnostic.html` + `assets/diagnostic.js` + `assets/diagnostic.css`): 10-question quiz →
-small yes → contact + consent → result (3 exposure levels, matching VSL, Cal.com booking). `noindex`, out of
-the sitemap, like `/strategie-societe`. `?niche=construction` (sante_pro, transport, commerce, conseil_ti) swaps
-the intro headline and preselects Q3 (`DIAG.niches`); unknown values fall back. All wording, points, thresholds and result texts live in the `DIAG`
-object at the top of `diagnostic.js`; VSL links go in `DIAG.videos`. The lead leaves through one function,
-`sendLead(payload)`, to the Apps Script in `WH.config.leadsUrl` (re-point it when the CRM is ready); the
-script change to paste is in `tools/apps-script-diagnostic.gs`. Tracking events are in `EVENTS` in `site.js`
-(never answers or contact details in parameters). `WH.trackVsl(node, enjeu)` reports VSL play/25/50/75/100 %
-on both funnels.
-
+`/diagnostic` (`diagnostic.html` + `assets/diagnostic.js` + `assets/diagnostic.css`) is where every
+« Réserver » link on the site goes; the home page no longer embeds a calendar in `#reservation`. First screen:
+entrepreneur or particulier, then 10 questions for that profile → small yes → contact + consent → result
+(3 exposure levels, VSL for entrepreneurs, Cal.com booking). `?profil=entrepreneur|particulier` skips the choice;
+`?niche=construction` (sante_pro, transport, commerce, conseil_ti) implies entrepreneur, swaps the headline and
+preselects Q3. `noindex`, out of the sitemap. All wording, points, thresholds and result texts live per profile
+in `DIAG.profils` at the top of `diagnostic.js`; VSL links in `DIAG.profils.<profil>.videos`. The lead leaves
+through one function, `sendLead(payload)` (source `diagnostic` or `diagnostic_particulier`), to the Apps Script in
+`WH.config.leadsUrl`; the script change to paste is in `tools/apps-script-diagnostic.gs`. Tracking events are in
+`EVENTS` in `site.js` (never answers or contact details in parameters). `WH.trackVsl(node, enjeu)` reports VSL
+play/25/50/75/100 % on both funnels.

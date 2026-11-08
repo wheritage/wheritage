@@ -40,6 +40,13 @@
 .dg-back:hover, .dg-skip:hover { color: var(--or); }
 .dg-back:focus-visible, .dg-skip:focus-visible { outline: 1px solid var(--or); outline-offset: 2px; }
 
+/* Accueil : choix du profil */
+.dg-profils { grid-template-columns: 1fr 1fr; margin-bottom: .4rem; }
+.dg-profils .dg-opt { padding-top: 1.4rem; padding-bottom: 1.4rem; font-family: var(--serif); font-size: 1.35rem; line-height: 1.2; }
+.dg-profils .dg-opt::before { top: 1.95rem; }
+.dg-profils .dg-opt small { display: block; font-family: var(--sans); font-size: .76rem; color: var(--texte3); margin-top: .35rem; line-height: 1.5; }
+.dg-switch { margin-top: 1.4rem; }
+
 /* Sortie : guide */
 .dg-guide { display: block; border: 1px solid var(--ligne-fort); background: var(--noir2); padding: 1.4rem 1.5rem; text-decoration: none; transition: background .4s var(--ease-out); }
 .dg-guide:hover { background: var(--sombre); }
@@ -115,7 +122,7 @@
   .dg-bar { margin-bottom: 1.6rem; }
   .dg-opt { font-size: .86rem; }
   .dg-opts.many .dg-opt { min-height: 46px; padding-top: .7rem; padding-bottom: .7rem; }
-  .dg-fields { grid-template-columns: 1fr; }
+  .dg-fields, .dg-profils { grid-template-columns: 1fr; }
   .dg-form .btn, .dg-book .btn, .dg-start { width: 100%; justify-content: center; }
   .nav-reg { display: none; }
 }
