@@ -652,3 +652,14 @@ html.consent-open .quote-pill, html.consent-open .book-bar { opacity: 0; pointer
 .nav-back { white-space: nowrap; font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte2); text-decoration: none; padding: .5rem 0; transition: color .3s; }
 .nav-back:hover, .nav-back:focus-visible { color: var(--or); }
 @media (max-width: 700px) { .nav-funnel .nav-right { gap: .9rem; } .nav-back { letter-spacing: .14em; } }
+
+/* Lecteur VSL affiché directement (WH.mountVideo) : balayage gauche → droite, la photo sert d'affiche */
+.vsl .vsl-media { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 4; background: #000;
+  clip-path: inset(0 100% 0 0); transition: clip-path 1.1s var(--ease-out); }
+.vsl .vsl-media.in { clip-path: inset(0 0 0 0); }
+.vsl.has-video { cursor: default; }
+.vsl.has-video .vs-ui { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .vsl .vsl-media { clip-path: none; opacity: 0; transition: opacity .3s linear; }
+  .vsl .vsl-media.in { opacity: 1; }
+}

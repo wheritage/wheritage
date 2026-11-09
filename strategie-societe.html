@@ -752,11 +752,13 @@
     cartes.forEach(function (x) { x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
     var id = c.getAttribute('data-enjeu');
     if (enjeux.indexOf(id) < 0) enjeux.push(id);
-    // On remet le lecteur à zéro si une autre vidéo jouait
-    var vieux = vsl.querySelector('iframe, video'); if (vieux) vieux.remove();
-    vsl.classList.remove('playing'); delete vsl.dataset.played;
-    vsl.setAttribute('data-video', c.getAttribute('data-video') || '');
-    vsl.classList.toggle('empty', !c.getAttribute('data-video'));
+    // La vidéo de l'enjeu s'affiche directement (balayage) ; après un clic sur la carte, elle démarre seule
+    var url = c.getAttribute('data-video') || '';
+    vsl.setAttribute('data-video', url);
+    vsl.classList.toggle('empty', !url);
+    if (url && window.WH && WH.mountVideo) WH.mountVideo(vsl, url, { autoplay: !silencieux, enjeu: id, title: c.getAttribute('data-titre'),
+      onPlay: function () { track('vsl_play', { enjeu: id }); } });
+    else { var vieux = vsl.querySelector('.vsl-media'); if (vieux) vieux.remove(); vsl.classList.remove('has-video'); }
     wrap.classList.remove('choisir');
     document.getElementById('vsl-t').textContent = c.getAttribute('data-titre');
     document.getElementById('vsl-s').textContent = c.getAttribute('data-video') ? 'Regarder' : 'Vidéo bientôt';
@@ -775,19 +777,6 @@
   var pre = (location.search.match(/[?&]enjeu=(\w+)/) || [])[1];
   cartes.forEach(function (c) { if (c.getAttribute('data-enjeu') === pre) choisir(c, true); });
 
-  vsl.addEventListener('click', function () {
-    if (!vsl.getAttribute('data-video') || vsl.dataset.played) return;
-    vsl.dataset.played = '1';
-    vsl.classList.add('playing');
-    var e = window.WH && WH.embedUrl(vsl.getAttribute('data-video'));
-    if (!e) return;
-    var node;
-    if (e.type === 'video') { node = document.createElement('video'); node.src = e.src; node.controls = true; node.autoplay = true; node.playsInline = true; }
-    else { node = document.createElement('iframe'); node.src = e.src; node.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; node.allowFullscreen = true; node.title = 'Vidéo'; }
-    vsl.appendChild(node);
-    track('vsl_play', { enjeu: enjeux[enjeux.length - 1] || '' });
-    if (window.WH && WH.trackVsl) WH.trackVsl(node, enjeux[enjeux.length - 1] || '');
-  });
 
   /* ── Porte du calendrier : 60 s de page visible ──
      ?ouvert dans l'URL (courriels, reciblage) ou une ouverture précédente dans la session : ouvert tout de suite. */
@@ -921,11 +910,13 @@
         horizon: LABELS.horizon[answers.horizon] || '', depend: LABELS.depend[answers.depend] || '' };
       // Courriel d'avis immédiat (Web3Forms), en plus de la feuille Google
       if (window.WH && WH.emailLead) WH.emailLead('NOUVEAU LEAD · Guide L\'Argent Mort (Stratégie société) · ' + (data.prenom || mail), {
-        'Prénom': data.prenom, 'Courriel': mail, 'Consentement courriels': 'Oui, ' + new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' }),
-        'Structure': data.structure || 'Non répondu', 'Surplus par année': data.surplus || 'Non répondu', 'Horizon': data.horizon || 'Non répondu',
-        'Qui dépend de lui': data.depend || 'Non répondu', 'Enjeux regardés': enjeux.length ? enjeux.map(function (x) { return NOMS[x]; }).join(', ') : 'Aucun',
-        'Page': 'Stratégie société (formulaire du guide)'
-      }, { replyto: mail, fromName: 'W Héritage · guide' });
+        prenom: data.prenom, courriel: mail,
+        message: ['Page : Stratégie société (formulaire du guide)',
+          'Consentement courriels : oui, ' + new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' }),
+          'Structure : ' + (data.structure || 'non répondu'), 'Surplus par année : ' + (data.surplus || 'non répondu'),
+          'Horizon : ' + (data.horizon || 'non répondu'), 'Qui dépend de lui : ' + (data.depend || 'non répondu'),
+          'Enjeux regardés : ' + (enjeux.length ? enjeux.map(function (x) { return NOMS[x]; }).join(', ') : 'aucun')].join('\n')
+      }, { replyto: mail, fromName: 'W Héritage guide' });
       // text/plain évite la requête préalable CORS, que Apps Script ne gère pas
       fetch(cfg.leadsUrl + '?k=' + encodeURIComponent(cfg.leadsToken), {
         method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data)

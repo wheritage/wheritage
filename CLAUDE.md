@@ -106,7 +106,12 @@ in `DIAG.profils` at the top of `diagnostic.js`; VSL links in `DIAG.profils.<pro
 through one function, `sendLead(payload)` (source `diagnostic` or `diagnostic_particulier`), to two places: the Apps Script in
 `WH.config.leadsUrl` (Google Sheet archive; the script change to paste is in `tools/apps-script-diagnostic.gs`)
 and an instant notification email via Web3Forms (`WH.emailLead(subject, fields, {replyto})` in `site.js`,
-key `WH.config.web3formsKey`), always in French with each question and its answer label. The
+key `WH.config.web3formsKey`), always in French. Same format as the home contact form, which is known to work:
+simple field keys (`nom`, `courriel`, `telephone`, ...; the helper strips anything but `a-z0-9_`, never dots or
+`?`) and every question with its answer as text in `message`. `/diagnostic?debug` prints Web3Forms' reply under
+the result. The
 `/strategie-societe` guide form emails the same way. Tracking events are in
-`EVENTS` in `site.js` (never answers or contact details in parameters). `WH.trackVsl(node, enjeu)` reports VSL
-play/25/50/75/100 % on both funnels.
+`EVENTS` in `site.js` (never answers or contact details in parameters). VSLs are shown directly, with no
+custom play button: `WH.mountVideo(box, url, {autoplay, enjeu})` drops the YouTube/Vimeo player into a `.vsl`
+box with a left-to-right `clip-path` wipe (autoplay only right after a click). `WH.trackVsl(node, enjeu,
+{waitPlay})` reports VSL play/25/50/75/100 % on both funnels, counting « play » only when playback really starts.
