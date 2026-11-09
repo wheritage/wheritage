@@ -103,7 +103,8 @@ var DIAG = {
         conseil_ti: { titre: 'Consultants incorporés : <em>ce que vos surplus deviennent dans votre société.</em>', secteur: 'conseil_ti' }
       },
       // Une VSL par enjeu : lien YouTube, Vimeo ou .mp4. Vide = « Vidéo bientôt ».
-      videos: { revenu: '', succession: '', liquidites: '' },
+      // VSL1 revenu passif (3:03) · VSL2 succession (3:22) · VSL3 liquidités (3:34) · YouTube non répertoriées
+      videos: { revenu: 'https://youtu.be/2qOi19tIxYE', succession: 'https://youtu.be/LtrgQD8yYGU', liquidites: 'https://youtu.be/NNfHQBy9MDw' },
 
       // [À VALIDER] libellés des questions et seuil de 15 000 $ (repère d'adéquation, jamais une promesse d'admissibilité)
       questions: [
