@@ -607,12 +607,12 @@
   }
 
   /* Emplacements vidéo : data-video = lien YouTube, Vimeo, Instagram ou .mp4 */
-  WH.embedUrl = function (u) {
+  WH.embedUrl = function (u, opts) {
     if (!u) return null;
-    var m;
+    var m, ap = !(opts && opts.autoplay === false) ? 1 : 0;
     // enablejsapi : la page peut lire la progression de la vidéo (WH.trackVsl)
-    if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/))) return { type: 'iframe', src: 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&origin=' + encodeURIComponent(location.origin) };
-    if ((m = u.match(/vimeo\.com\/(\d+)/))) return { type: 'iframe', src: 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1&title=0&byline=0' };
+    if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/))) return { type: 'iframe', src: 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=' + ap + '&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=' + encodeURIComponent(location.origin) };
+    if ((m = u.match(/vimeo\.com\/(\d+)/))) return { type: 'iframe', src: 'https://player.vimeo.com/video/' + m[1] + '?autoplay=' + ap + '&title=0&byline=0&dnt=1' };
     if ((m = u.match(/instagram\.com\/(?:reel|p)\/([\w-]+)/))) return { type: 'iframe', src: 'https://www.instagram.com/reel/' + m[1] + '/embed/' };
     if (/\.(mp4|webm|mov)(\?|$)/i.test(u)) return { type: 'video', src: u };
     return null;
@@ -620,17 +620,24 @@
   /* Progression d'une VSL : lecture (0), 25, 50, 75, 100 %. Chaque palier une seule fois par lecteur.
      <video> : timeupdate. YouTube et Vimeo : leur API postMessage, sans charger de script tiers.
      Instagram n'expose rien : seule la lecture est comptée. Aucune donnée personnelle dans les paramètres. */
-  WH.trackVsl = function (node, enjeu) {
+  // opts.waitPlay : la lecture (0 %) est comptée quand la vidéo démarre vraiment, pas à l'affichage du lecteur.
+  // opts.onPlay : appelé une fois, au démarrage réel.
+  WH.trackVsl = function (node, enjeu, opts) {
+    opts = opts || {};
     var sent = {};
-    function hit(pct) { if (sent[pct]) return; sent[pct] = 1; WH.track('vsl_progress', { percent: pct, enjeu: enjeu || '' }); }
+    function hit(pct) {
+      if (sent[pct]) return; sent[pct] = 1; WH.track('vsl_progress', { percent: pct, enjeu: enjeu || '' });
+      if (pct === 0 && opts.onPlay) opts.onPlay();
+    }
     function at(cur, dur) {
       if (!dur || !isFinite(dur)) return;
       var p = cur / dur * 100;
       [25, 50, 75].forEach(function (m) { if (p >= m) hit(m); });
       if (p >= 99) hit(100);
     }
-    hit(0);
+    if (!opts.waitPlay) hit(0);
     if (node.tagName === 'VIDEO') {
+      node.addEventListener('play', function () { hit(0); });
       node.addEventListener('timeupdate', function () { at(node.currentTime, node.duration); });
       node.addEventListener('ended', function () { hit(100); });
       return;
@@ -640,23 +647,48 @@
     function post(msg) { try { node.contentWindow.postMessage(JSON.stringify(msg), yt ? '*' : 'https://player.vimeo.com'); } catch (e) {} }
     function hello() {
       if (yt) post({ event: 'listening', id: 'wh-vsl', channel: 'widget' });
-      else { post({ method: 'addEventListener', value: 'timeupdate' }); post({ method: 'addEventListener', value: 'ended' }); }
+      else { post({ method: 'addEventListener', value: 'play' }); post({ method: 'addEventListener', value: 'timeupdate' }); post({ method: 'addEventListener', value: 'ended' }); }
     }
     window.addEventListener('message', function (e) {
       if (e.source !== node.contentWindow) return;
       var d = e.data; if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
       if (!d) return;
       if (yt && d.event === 'infoDelivery' && d.info) {
+        if (d.info.playerState === 1) hit(0);
         if (d.info.playerState === 0) hit(100);
         if (d.info.duration) node._whDur = d.info.duration;
         if (d.info.currentTime != null) at(d.info.currentTime, node._whDur);
       } else if (vi) {
         if (d.event === 'ready') hello();
-        else if (d.event === 'timeupdate' && d.data) at(d.data.seconds, d.data.duration);
+        else if (d.event === 'play') hit(0);
+        else if (d.event === 'timeupdate' && d.data) { hit(0); at(d.data.seconds, d.data.duration); }
         else if (d.event === 'ended') hit(100);
       }
     });
     node.addEventListener('load', hello);
+  };
+  /* Lecteur VSL affiché directement dans un conteneur .vsl (sans bouton « play » maison) :
+     le lecteur YouTube/Vimeo/<video> apparaît par un balayage gauche → droite (clip-path, --ease-out),
+     la photo du conteneur sert d'affiche le temps du chargement. opts.autoplay : démarrer tout de suite
+     (seulement après un clic de la personne). Renvoie le nœud créé. */
+  WH.mountVideo = function (box, url, opts) {
+    opts = opts || {};
+    var old = box.querySelector('.vsl-media'); if (old) old.remove();
+    box.classList.remove('has-video');
+    var e = WH.embedUrl(url, { autoplay: !!opts.autoplay });
+    if (!e) return null;
+    var node;
+    if (e.type === 'video') { node = document.createElement('video'); node.src = e.src; node.controls = true; node.playsInline = true; node.preload = 'metadata'; if (opts.autoplay) node.autoplay = true; }
+    else { node = document.createElement('iframe'); node.src = e.src; node.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; node.allowFullscreen = true; node.title = opts.title || 'Vidéo'; }
+    node.className = 'vsl-media';
+    var shown = false;
+    function reveal() { if (shown) return; shown = true; requestAnimationFrame(function () { node.classList.add('in'); }); }
+    node.addEventListener(e.type === 'video' ? 'loadeddata' : 'load', reveal);
+    setTimeout(reveal, 2500); // filet : on montre le lecteur même si le chargement ne se signale pas
+    box.classList.add('has-video');
+    box.appendChild(node);
+    if (WH.trackVsl) WH.trackVsl(node, opts.enjeu, { waitPlay: true, onPlay: opts.onPlay });
+    return node;
   };
   function initVideoSlots() {
     document.querySelectorAll('.video-slot').forEach(function (slot) {
@@ -786,21 +818,33 @@
   };
   WH.consent = function () { return consent; };
 
-  /* Courriel d'avis via Web3Forms : sujet + champs dans l'ordre donné (libellé lisible → valeur).
-     replyto = courriel du prospect, pour répondre directement. Une nouvelle tentative si le réseau échoue.
-     Ne bloque jamais l'interface ; résout à true si Web3Forms confirme l'envoi. */
+  /* Courriel d'avis via Web3Forms, au même format que le formulaire de contact de l'accueil (qui fonctionne) :
+     des clés simples (lettres, chiffres, _ : jamais de point ni de « ? », que le service peut refuser) et le
+     détail en texte dans « message ». replyto = courriel du prospect. Pas de keepalive (requête avec
+     vérification CORS), pas de botcheck. Une nouvelle tentative si le réseau échoue.
+     Résout à { ok, message } ; la réponse de Web3Forms est aussi écrite dans la console. */
   WH.emailLead = function (subject, fields, opts) {
     opts = opts || {};
-    if (!CONFIG.web3formsKey) return Promise.resolve(false);
-    var body = { access_key: CONFIG.web3formsKey, subject: subject, from_name: opts.fromName || 'W Héritage · site web', botcheck: '' };
+    if (!CONFIG.web3formsKey) return Promise.resolve({ ok: false, message: 'web3formsKey vide' });
+    var body = { access_key: CONFIG.web3formsKey, subject: subject, from_name: opts.fromName || 'W Héritage site web' };
     if (opts.replyto) body.replyto = opts.replyto;
-    Object.keys(fields).forEach(function (k) { var v = fields[k]; if (v !== undefined && v !== null && v !== '') body[k] = String(v); });
+    Object.keys(fields).forEach(function (k) {
+      var v = fields[k], key = String(k).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9_]+/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
+      if (key && v !== undefined && v !== null && v !== '') body[key] = String(v);
+    });
     var json = JSON.stringify(body);
     function send() {
-      return fetch('https://api.web3forms.com/submit', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: json })
-        .then(function (r) { return r.json(); }).then(function (j) { return !!(j && j.success); });
+      return fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: json })
+        .then(function (r) { return r.json().catch(function () { return { success: false, message: 'HTTP ' + r.status }; }); })
+        .then(function (j) {
+          var res = { ok: !!(j && j.success), message: (j && j.message) || '' };
+          if (window.console) console[res.ok ? 'info' : 'warn']('[W Héritage] Web3Forms :', res.ok ? 'envoyé' : 'refusé', res.message);
+          return res;
+        });
     }
-    return send().catch(function () { return new Promise(function (res) { setTimeout(res, 2000); }).then(send); }).catch(function () { return false; });
+    return send()
+      .catch(function () { return new Promise(function (r) { setTimeout(r, 2000); }).then(send); })
+      .catch(function (e) { if (window.console) console.warn('[W Héritage] Web3Forms : réseau', e && e.message); return { ok: false, message: 'réseau : ' + (e && e.message) }; });
   };
 
   var banner = null;

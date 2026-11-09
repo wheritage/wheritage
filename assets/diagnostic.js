@@ -788,36 +788,54 @@ var DIAG_EN = {
       attempt().catch(function () { setTimeout(function () { attempt().catch(function () {}); }, 2000); });
     }
     // 2. Courriel d'avis immédiat (Web3Forms), toujours en français, réponses en toutes lettres
-    if (window.WH && WH.emailLead) { var m = leadEmail(payload); WH.emailLead(m.subject, m.fields, { replyto: payload.courriel, fromName: 'W Héritage · diagnostic' }); }
+    if (window.WH && WH.emailLead) {
+      var m = leadEmail(payload);
+      WH.emailLead(m.subject, m.fields, { replyto: payload.courriel, fromName: 'W Héritage diagnostic' }).then(function (res) {
+        emailStatus = res;
+        // /diagnostic?debug : la réponse de Web3Forms s'affiche sous le résultat (pour tester l'envoi)
+        var el = document.getElementById('dg-debug');
+        if (el) el.textContent = 'Courriel Web3Forms : ' + (res.ok ? 'envoyé ✓' : 'refusé · ' + res.message);
+      });
+    }
   }
 
-  /* Courriel d'avis : coordonnées, verdict, niveaux, puis chaque question avec la réponse choisie (libellés français). */
+  /* Courriel d'avis : clés simples (comme le formulaire de contact), et tout le détail lisible dans « message » :
+     verdict, niveaux, puis chaque question avec la réponse choisie (libellés français). */
   function leadEmail(d) {
     var F = DIAG, pf = F.profils[d.profil], QUAL = { 'true': 'Oui', 'false': 'Non', a_verifier: 'À vérifier' };
     var lab = function (o, v) { for (var i = 0; i < o.length; i++) if (o[i][0] === v) return o[i][1]; return v || ''; };
     var niv = function (k) { return F.niveaux[d.niveaux[k]] || ''; };
     var nom = (d.prenom + ' ' + (d.nom || '')).trim();
-    var f = {};
-    f['Nom'] = nom;
-    f['Courriel'] = d.courriel;
-    f['Téléphone'] = d.telephone;
-    f['Profil'] = d.profil === 'particulier' ? 'Particulier' : 'Propriétaire d\'entreprise';
-    f['Qualifié'] = QUAL[String(d.qualifie)];
-    f['Enjeu principal'] = pf.noms[d.enjeu_principal] + ' (exposition ' + niv(d.enjeu_principal).toLowerCase() + ')';
-    pf.ordre.forEach(function (k) { f['Niveau · ' + pf.noms[k]] = niv(k); });
-    f['Ouvert à regarder une solution'] = d.micro_oui ? 'Oui' : 'Pas pour l\'instant';
-    pf.questions.forEach(function (q, i) { f['Q' + (i + 1) + '. ' + q.q] = lab(q.o, d[q.id]); });
-    f['Ce qui le préoccupe le plus'] = lab(pf.preoccupation.o, d.preoccupation);
-    f['Consentement diagnostic'] = d.consentement_diagnostic ? d.consentement_diagnostic.date + ' (' + d.consentement_diagnostic.version + ')' : '';
-    f['Consentement autres contenus'] = d.consentement_marketing ? d.consentement_marketing.date + ' (' + d.consentement_marketing.version + ')' : 'Non';
-    f['Langue du quiz'] = d.langue === 'en' ? 'Anglais' : 'Français';
-    f['Provenance'] = [d.niche && 'niche ' + d.niche, d.utm_source && 'source ' + d.utm_source, d.utm_medium && 'support ' + d.utm_medium,
+    var profil = d.profil === 'particulier' ? 'Particulier' : 'Propriétaire d\'entreprise';
+    var qual = QUAL[String(d.qualifie)];
+    var principal = pf.noms[d.enjeu_principal] + ' (exposition ' + niv(d.enjeu_principal).toLowerCase() + ')';
+    var provenance = [d.niche && 'niche ' + d.niche, d.utm_source && 'source ' + d.utm_source, d.utm_medium && 'support ' + d.utm_medium,
       d.utm_campaign && 'campagne ' + d.utm_campaign, d.utm_content && 'contenu ' + d.utm_content, d.fbclid && 'pub Meta'].filter(Boolean).join(' · ') || 'Directe ou site';
-    f['Reçu le'] = new Date(d.date).toLocaleString('fr-CA', { timeZone: 'America/Toronto' });
-    var subject = 'NOUVEAU DIAGNOSTIC · ' + f['Profil'] + ' · ' + nom + ' · ' + pf.noms[d.enjeu_principal] + ' ' + niv(d.enjeu_principal).toLowerCase() +
-      ' · qualifié : ' + f['Qualifié'].toLowerCase();
+    var L = [];
+    L.push('PROFIL : ' + profil);
+    L.push('QUALIFIÉ : ' + qual);
+    L.push('ENJEU PRINCIPAL : ' + principal);
+    L.push('Niveaux : ' + pf.ordre.map(function (k) { return pf.noms[k] + ' ' + niv(k).toLowerCase(); }).join(' · '));
+    L.push('Ouvert à regarder une solution : ' + (d.micro_oui ? 'Oui' : 'Pas pour l\'instant'));
+    L.push('');
+    L.push('RÉPONSES');
+    pf.questions.forEach(function (q, i) { L.push('Q' + (i + 1) + ' · ' + q.q); L.push('   → ' + lab(q.o, d[q.id])); });
+    L.push(pf.preoccupation.q); L.push('   → ' + lab(pf.preoccupation.o, d.preoccupation));
+    L.push('');
+    L.push('Consentement diagnostic : ' + (d.consentement_diagnostic ? d.consentement_diagnostic.date + ' (' + d.consentement_diagnostic.version + ')' : ''));
+    L.push('Consentement autres contenus : ' + (d.consentement_marketing ? d.consentement_marketing.date + ' (' + d.consentement_marketing.version + ')' : 'Non'));
+    L.push('Langue du quiz : ' + (d.langue === 'en' ? 'Anglais' : 'Français'));
+    L.push('Provenance : ' + provenance);
+    var f = {
+      nom: nom, courriel: d.courriel, telephone: d.telephone, profil: profil, qualifie: qual, enjeu_principal: principal,
+      message: L.join('\n'),
+      recu_le: new Date(d.date).toLocaleString('fr-CA', { timeZone: 'America/Toronto' })
+    };
+    var subject = 'NOUVEAU DIAGNOSTIC · ' + profil + ' · ' + nom + ' · ' + pf.noms[d.enjeu_principal] + ' ' + niv(d.enjeu_principal).toLowerCase() +
+      ' · qualifié : ' + qual.toLowerCase();
     return { subject: subject, fields: f };
   }
+  var emailStatus = null, DEBUG = /[?&]debug\b/.test(location.search);
   window.WHDiag.sendLead = sendLead;
   window.WHDiag.leadEmail = leadEmail;
 
@@ -849,6 +867,7 @@ var DIAG_EN = {
       '</section>' +
       '<div class="dg-booked" id="dg-booked" role="status"' + (st.booked ? '' : ' hidden') + '><h3>' + U.booked + '</h3><p>' + esc(U.bookedP) +
         (st.profil === 'entrepreneur' ? esc(U.comptable) : '') + '</p></div>' +
+      (DEBUG ? '<p class="dg-fine" id="dg-debug" role="status">' + (emailStatus ? 'Courriel Web3Forms : ' + (emailStatus.ok ? 'envoyé ✓' : 'refusé · ' + emailStatus.message) : 'Courriel Web3Forms : envoi en cours…') + '</p>' : '') +
       '<div class="dg-notes">' +
         '<p>' + esc(p.methode) + '</p>' +
         (prov ? '<p>' + esc(prov) + '</p>' : '') +
@@ -857,16 +876,19 @@ var DIAG_EN = {
 
   function bindResult() {
     var r = st.result, p = P(), U = L.ui, vsl = document.getElementById('vsl');
+    var dbg = document.getElementById('dg-debug');
+    if (dbg && emailStatus) dbg.textContent = 'Courriel Web3Forms : ' + (emailStatus.ok ? 'envoyé ✓' : 'refusé · ' + emailStatus.message);
     if (vsl) {
-      var load = function (k) {
-        var old = vsl.querySelector('iframe, video'); if (old) old.remove();
-        vsl.classList.remove('playing'); delete vsl.dataset.played;
+      // La vidéo s'affiche directement (balayage) ; elle démarre seule seulement après un clic sur un lien « Voir la vidéo »
+      var load = function (k, autoplay) {
         vsl.setAttribute('data-enjeu', k);
         var url = p.videos[k] || '';
         vsl.setAttribute('data-video', url);
         vsl.classList.toggle('empty', !url);
         document.getElementById('vsl-t').textContent = p.titresVideo[k];
         document.getElementById('vsl-s').textContent = url ? U.regarder : U.bientot;
+        if (url && WH.mountVideo) WH.mountVideo(vsl, url, { autoplay: !!autoplay, enjeu: k, title: p.titresVideo[k] });
+        else { var old = vsl.querySelector('.vsl-media'); if (old) old.remove(); vsl.classList.remove('has-video'); }
         document.querySelectorAll('.dg-vlink').forEach(function (b) { b.hidden = b.getAttribute('data-vsl') === k; });
       };
       // Liens vers les autres vidéos : on montre toujours les deux qui ne jouent pas
@@ -875,19 +897,9 @@ var DIAG_EN = {
       load(r.main);
       links.addEventListener('click', function (e) {
         var b = e.target.closest('[data-vsl]'); if (!b) return;
-        load(b.getAttribute('data-vsl'));
-        vsl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-      });
-      vsl.addEventListener('click', function () {
-        var url = vsl.getAttribute('data-video');
-        if (!url || vsl.dataset.played) return;
-        var e = window.WH && WH.embedUrl(url); if (!e) return;
-        vsl.dataset.played = '1'; vsl.classList.add('playing');
-        var node;
-        if (e.type === 'video') { node = document.createElement('video'); node.src = e.src; node.controls = true; node.autoplay = true; node.playsInline = true; }
-        else { node = document.createElement('iframe'); node.src = e.src; node.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; node.allowFullscreen = true; node.title = 'Vidéo'; }
-        vsl.appendChild(node);
-        if (WH.trackVsl) WH.trackVsl(node, vsl.getAttribute('data-enjeu'));
+        load(b.getAttribute('data-vsl'), true);
+        if (window.WH && WH.lenis) WH.lenis.scrollTo(vsl, { offset: -120, duration: reduce ? 0 : 1 });
+        else vsl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
       });
     }
     if (st.booked) return;
