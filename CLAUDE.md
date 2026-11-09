@@ -100,7 +100,9 @@ preselects Q3. Bilingual: French content in `DIAG`, English overlay in `DIAG_EN`
 language follows `?lang=en` or the site's `wh-lang` choice, and the header FR/EN toggle re-renders the current
 step with answers kept. Its funnel header (`data-funnel-exit`) links the logo and « Retour au site » to the home
 page; `/strategie-societe` keeps the closed ad header. `noindex`, out of the sitemap. All wording, points, thresholds and result texts live per profile
-in `DIAG.profils` at the top of `diagnostic.js`; VSL links in `DIAG.profils.<profil>.videos`. The lead leaves
+in `DIAG.profils` at the top of `diagnostic.js`; VSL links in `DIAG.profils.<profil>.videos` (entrepreneur: VSL1 revenu passif `2qOi19tIxYE`, VSL2 succession
+`LtrgQD8yYGU`, VSL3 liquidités `NNfHQBy9MDw`, unlisted YouTube via youtube-nocookie; the same three are the
+`data-video` of the three cards on `/strategie-societe`; particulier has none yet). The lead leaves
 through one function, `sendLead(payload)` (source `diagnostic` or `diagnostic_particulier`), to two places: the Apps Script in
 `WH.config.leadsUrl` (Google Sheet archive; the script change to paste is in `tools/apps-script-diagnostic.gs`)
 and an instant notification email via Web3Forms (`WH.emailLead(subject, fields, {replyto})` in `site.js`,
