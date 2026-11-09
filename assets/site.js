@@ -25,8 +25,8 @@
     leadsUrl: 'https://script.google.com/macros/s/AKfycbz0suPAIJYrpDjmY2IBRqwPl3VbQLg9gR93XpKJjvd5Cf0LYC1Gw3RlmnFlFmNqU9UH/exec',
     leadsToken: '20100914',
     // Avis par courriel (Web3Forms) : chaque diagnostic et chaque guide vous est envoyé par courriel.
-    // Même clé que le formulaire de contact de l'accueil. Vide = aucun courriel.
-    web3formsKey: '6a1ef05e-eb74-4517-93e3-f708369154f0'
+    // Clé du formulaire Web3Forms des leads (diagnostic entrepreneur + particulier, guide /strategie-societe). Vide = aucun courriel.
+    web3formsKey: '1053113c-41aa-4a54-b68b-bddcd6f3aa13'
   };
 
   var WH = window.WH = window.WH || {};
