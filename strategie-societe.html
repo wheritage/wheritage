@@ -738,6 +738,7 @@
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   function ss(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
   function track(n, p) { if (window.WH && WH.track) WH.track(n, p); }
+  track('funnel_view');
 
   var book = document.getElementById('reservation');
   var gate = document.getElementById('gate');

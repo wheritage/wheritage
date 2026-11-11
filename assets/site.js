@@ -794,6 +794,7 @@
     funnel_qualified: { ga: 'generate_lead', meta: 'Lead', p: { form: 'qualification' } },
     funnel_unfit:   { ga: 'qualification_non', meta: 'QualificationNon', custom: true },
     funnel_booked:  { ga: 'rendez_vous_reserve', meta: 'Schedule' },
+    funnel_view:    { ga: 'funnel_view', meta: 'ViewContent', p: { content_name: 'strategie_societe' } },
     // Les deux entonnoirs : progression des VSL (WH.trackVsl)
     vsl_progress:   { ga: 'vsl_progress', meta: 'VSLProgress', custom: true },
     // Entonnoir « Diagnostic » (diagnostic.html). Jamais de réponses ni de coordonnées dans les paramètres.
@@ -802,7 +803,10 @@
     diagnostic_step:    { ga: 'diagnostic_step' },
     diagnostic_exit:    { ga: 'diagnostic_exit', meta: 'DiagnosticExit', custom: true },
     micro_oui:          { ga: 'micro_oui', meta: 'MicroOui', custom: true },
+    // Meta optimise les pubs sur « Lead » : réservé aux entrepreneurs qualifiés (incorporés, 15 000 $+ de surplus).
+    // Les autres coordonnées restent un generate_lead côté GA, et un événement personnalisé côté Meta.
     diagnostic_lead:    { ga: 'generate_lead', meta: 'Lead', p: { form: 'diagnostic' } },
+    diagnostic_lead_autre: { ga: 'generate_lead', meta: 'LeadNonQualifie', custom: true, p: { form: 'diagnostic' } },
     diagnostic_booking: { ga: 'booking_click', meta: 'BookingClick', custom: true },
     diagnostic_booked:  { ga: 'booking_confirmed', meta: 'Schedule' }
   };

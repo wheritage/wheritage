@@ -751,7 +751,8 @@ var DIAG_EN = {
     if (withContact) {
       var payload = buildPayload(r);
       sendLead(payload);
-      track('diagnostic_lead', { enjeu_principal: r.main, qualifie: String(payload.qualifie), profil: st.profil });
+      var bon = payload.qualifie === true && st.profil === 'entrepreneur';
+      track(bon ? 'diagnostic_lead' : 'diagnostic_lead_autre', { enjeu_principal: r.main, qualifie: String(payload.qualifie), profil: st.profil });
     }
     var keep = { contact: withContact ? st.contact : null, prenom: withContact && st.contact ? st.contact.prenom : '' };
     clear(); // progression effacée après l'envoi ; le résultat reste à l'écran
