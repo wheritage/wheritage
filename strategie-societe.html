@@ -842,10 +842,19 @@
   back.addEventListener('click', function () { if (cur > 0) show(cur - 1); });
 
   // Les enjeux vont en dernier : la feuille Google lit les 4 premières réponses, le reste reste dans les notes
+  // Provenance (paramètres UTM de la pub) : ajoutée à la note de réservation pour savoir quel rendez-vous vient de Meta
+  var src = (function () {
+    var q = new URLSearchParams(location.search), o = [];
+    if (q.get('utm_source')) o.push('source ' + q.get('utm_source'));
+    if (q.get('utm_campaign')) o.push('campagne ' + q.get('utm_campaign'));
+    if (q.get('utm_content')) o.push('pub ' + q.get('utm_content'));
+    if (!o.length && q.get('fbclid')) o.push('pub Meta');
+    return o.length ? ' · Provenance : ' + o.join(', ') : '';
+  })();
   function notes() {
     return 'Qualification (page Stratégie société) : ' +
       ['structure', 'surplus', 'horizon', 'depend'].map(function (k) { return LABELS[k][answers[k]] || '?'; }).join(' · ') +
-      ' · Enjeux : ' + (enjeux.length ? enjeux.map(function (e) { return NOMS[e]; }).join(', ') : 'aucun choisi');
+      ' · Enjeux : ' + (enjeux.length ? enjeux.map(function (e) { return NOMS[e]; }).join(', ') : 'aucun choisi') + src;
   }
 
   function finish() {
