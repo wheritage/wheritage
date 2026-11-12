@@ -115,3 +115,30 @@ the result. The
 custom play button: `WH.mountVideo(box, url, {autoplay, enjeu})` drops the YouTube/Vimeo player into a `.vsl`
 box with a left-to-right `clip-path` wipe (autoplay only right after a click). `WH.trackVsl(node, enjeu,
 {waitPlay})` reports VSL play/25/50/75/100 % on both funnels, counting « play » only when playback really starts.
+
+## Anti-fake leads + SMS verification (all lead forms)
+
+Details, setup and costs: `LEAD-PROTECTION.md`. One validator, `assets/lead-guard.js` (UMD: browser `window.LeadGuard`,
+`require` in `/api`, pasted as `LeadGuard.gs` in Apps Script): NANP rules (Canadian area codes only, 0XX/1XX/N11 exchanges,
+555-0100..0199 fictional), fake-number patterns, fake email prefixes (`test@gmail.com`), disposable domains, typo
+suggestions, name/message gibberish, honeypot `website` + fill time. Score 0-29 CLEAN, 30-69 SUSPICIOUS, 70+ FAKE,
+honeypot = SILENT (fake success, nothing sent). Every form calls `WH.protectForm(form)` then `WH.checkLead(data, guard)`
+(local rules first, then `POST /api/verify-lead`; falls back to the local verdict if the API is down, a lead is never lost).
+Vercel functions (no npm deps, plain `fetch`): `api/verify-lead.js` (full 10k disposable list in
+`api/_lib/disposable-domains.js`, refreshed monthly by `.github/workflows/disposable-domains.yml`; MX; Twilio Lookup v2;
+optional Abstract / IPQS / Turnstile; rate limits via Upstash or memory), `api/send-otp.js` and `api/check-otp.js`
+(Twilio Verify, CASL consent required, 3 sends/phone/h, 60 s resend, 15 min lock after 3 wrong codes, HMAC proof
+signed with `LEAD_PROOF_SECRET`). Every service turns on only when its env var exists (`.env.example`). `/diagnostic`
+shows the « Étape 2 sur 2 · Vérification » step only when the API answers `otp: true`; the sheet gets a pending row,
+then the verified row (same `lead_id`), and the Web3Forms email leaves only once verified or skipped.
+`tools/apps-script-diagnostic.gs` re-judges every lead and runs Leads / Quarantaine / Blocklist tabs, callbacks in the
+« Callbacks » calendar and the 5 min / 9 h / 16 h 30 / 18 h / Friday / 3 h triggers. Tests: `node tools/test-leads.mjs`
+(writes `TEST_RESULTS_V2.md`), `node tools/test-apps-script.mjs`; local site + API with fake Twilio:
+`MOCK_TWILIO=1 node tools/dev-server.mjs` (code 123456). Never block on a whole « 444 » substring or on fixed VoIP:
+both lose real Quebec clients.
+
+## Business OS
+
+`business-os/` (not deployed): MEMORY, compliance guardrails, 55 Quebec-adapted prompts, scheduled-task prompts,
+ideal-week `.ics`, objection library, meeting templates, verified skills stack.
+

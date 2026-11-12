@@ -1,0 +1,29 @@
+# Met à jour la liste des domaines de courriel jetables (≈ 300 nouveaux par jour) une fois par mois.
+# Le commit déclenche un nouveau déploiement Vercel ; api/verify-lead.js utilise la nouvelle liste.
+name: Domaines jetables (mise à jour mensuelle)
+
+on:
+  schedule:
+    - cron: '17 7 1 * *'   # le 1er du mois, 7 h 17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/update-disposable-domains.mjs
+      - name: Commit si la liste a changé
+        run: |
+          if git diff --quiet -- api/_lib/disposable-domains.js; then echo "Aucun changement."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add api/_lib/disposable-domains.js
+          git commit -m "Domaines jetables : mise à jour mensuelle"
+          git push

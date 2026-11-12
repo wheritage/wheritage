@@ -136,3 +136,30 @@
   .dg-stage, .dg-bar i, .dg .vsl .vs-bg, .dg .vsl .play::before { transition: none; }
   .dg-stage > * { animation: none; }
 }
+
+/* ── Anti-faux leads : indice téléphone, suggestion de courriel, vérification par texto ── */
+.dg-hint { font-size: .74rem; line-height: 1.6; min-height: 1.2em; margin: -.6rem 0 1rem; color: var(--texte3); }
+.dg-hint.ok { color: var(--or-pale); }
+.dg-hint.bad { color: var(--or-pale); }
+.dg-sugg { font: inherit; color: var(--or-vif); text-decoration: underline; text-underline-offset: 3px; padding: 0; }
+.dg-link { font-size: .7rem; letter-spacing: .08em; color: var(--texte2); text-decoration: underline; text-underline-offset: 3px; padding: .4rem 0; }
+.dg-link:hover { color: var(--or); }
+.dg-link:disabled { color: var(--texte3); text-decoration: none; cursor: default; }
+.dg-link:focus-visible, .dg-sugg:focus-visible { outline: 1px solid var(--or); outline-offset: 2px; }
+.dg-otp-num { font-size: .95rem; color: var(--creme); margin: -.6rem 0 1.6rem; display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+.dg-otp-num b { font-weight: 500; letter-spacing: .04em; }
+.dg-otp-send .btn, .dg-otp .btn { border: 0; }
+.dg-otp-alt { display: block; margin-top: 1rem; }
+.dg-otp[hidden], .dg-otp-send[hidden] { display: none; }
+.dg-otp-sent { margin: 0 0 1.2rem; }
+.dg-otp-boxes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); max-width: 380px; margin: 0 0 1.4rem; padding: 0; }
+.dg-otp-box { width: 100%; background: var(--noir); border: 0; border-radius: 0; color: var(--creme); font-family: var(--serif); font-size: 1.9rem; text-align: center; padding: .55rem 0; outline: none; transition: background .35s var(--ease-out); }
+.dg-otp-box:focus { background: var(--sombre2); box-shadow: inset 0 -1px 0 var(--or); }
+.dg-otp-more { display: flex; gap: 1.6rem; flex-wrap: wrap; margin-top: 1rem; }
+.dg-otp-help { margin-top: 1.2rem; font-size: .76rem; color: var(--texte2); line-height: 1.7; }
+.dg-otp-help summary { cursor: pointer; color: var(--texte3); font-size: .7rem; letter-spacing: .08em; }
+.dg-otp-help summary:hover { color: var(--or); }
+.dg-otp-help p { margin: .6rem 0 0; max-width: 560px; }
+.dg-verified { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--or-pale); margin: -.8rem 0 1.6rem; }
+.ts-box { margin: .4rem 0 1rem; }
+@media (max-width: 700px) { .dg-otp-send .btn, .dg-otp .btn { width: 100%; justify-content: center; } }
