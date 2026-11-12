@@ -1,6 +1,6 @@
 # Résultats des tests anti-faux leads (V2)
 
-Généré par `node tools/test-leads.mjs` le 2026-11-12 21:37 UTC, avec Twilio simulé (`tools/twilio-mock.mjs`).
+Généré par `node tools/test-leads.mjs` le 2026-11-12 21:44 UTC, avec Twilio simulé (`tools/twilio-mock.mjs`).
 Les vérifications MX, Abstract, IPQualityScore et Turnstile ne sont pas actives dans ce test (pas de clés, réseau DNS du bac à sable).
 
 **31 / 31 réussis.**

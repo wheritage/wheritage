@@ -32,7 +32,7 @@ Formulaires couverts : `/diagnostic` (entrepreneur et particulier), formulaire d
 2. *Verify > Services > Create new* : nom « Walid Leads », longueur du code 6, expiration 10 min. Activer **Fraud Guard**.
 3. *Messaging > Settings > Geo permissions* et *Voice > Settings > Geo permissions* : cocher **Canada** (et États-Unis au besoin), rien d'autre. C'est la meilleure protection contre le « SMS pumping ».
 4. *Lookup* : la fonction Line Type Intelligence s'active à la première requête. Pour `sim_swap` et `call_forwarding` au Canada, il faut une approbation (demande dans la console) ; sans elle, laissez `TWILIO_LOOKUP_FIELDS` par défaut.
-5. Dans Vercel > Settings > Environment Variables : `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` (ou mieux `TWILIO_API_KEY` + `TWILIO_API_SECRET`), `TWILIO_VERIFY_SERVICE_SID`. Redéployer.
+5. Dans Vercel > Settings > Environment Variables : `TWILIO_API_KEY` + `TWILIO_API_SECRET` (ou `TWILIO_ACCOUNT_SID` + `TWILIO_AUTH_TOKEN`), `TWILIO_VERIFY_SERVICE_SID`. Redéployer.
 
 Dès que ces 3 clés existent, `/diagnostic` affiche l'étape « Étape 2 sur 2 · Vérification » (consentement LCAP, code à 6 cases, renvoi après 60 s, appel vocal, verrouillage 15 min après 3 erreurs). Rien à changer dans le code.
 

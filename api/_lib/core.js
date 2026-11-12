@@ -97,10 +97,11 @@ function sign(obj) {
 
 /* ── Twilio ── */
 function twilioConf() {
+  // Clé API (SK… + secret) recommandée : suffit seule pour Lookup et Verify. Sinon SID du compte (AC…) + jeton principal.
+  const key = env('TWILIO_API_KEY'), secret = env('TWILIO_API_SECRET');
   const sid = env('TWILIO_ACCOUNT_SID'), token = env('TWILIO_AUTH_TOKEN');
-  // Clé API (SK…) recommandée en production ; sinon SID + jeton principal
-  const user = env('TWILIO_API_KEY') || sid, pass = env('TWILIO_API_SECRET') || token;
-  return sid && user && pass ? { sid, auth: 'Basic ' + Buffer.from(user + ':' + pass).toString('base64'), verify: env('TWILIO_VERIFY_SERVICE_SID') } : null;
+  const user = key && secret ? key : sid, pass = key && secret ? secret : token;
+  return user && pass ? { sid, auth: 'Basic ' + Buffer.from(user + ':' + pass).toString('base64'), verify: env('TWILIO_VERIFY_SERVICE_SID') } : null;
 }
 async function twilio(method, url, form) {
   const c = twilioConf();
