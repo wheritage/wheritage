@@ -1,1 +1,6 @@
 tools/
+business-os/
+TEST_RESULTS_V2.md
+LEAD-PROTECTION.md
+.env.example
+.github/

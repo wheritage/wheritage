@@ -306,6 +306,7 @@
 <script src="/assets/vendor/lenis.min.js"></script>
 <script src="/assets/vendor/gsap.min.js"></script>
 <script src="/assets/vendor/ScrollTrigger.min.js"></script>
+<script src="/assets/lead-guard.js"></script>
 <script src="/assets/site.js"></script>
 
 <!-- ═══ HÉROS + VSL ═══ -->
@@ -900,23 +901,43 @@
     var gsec = document.getElementById('guide-sec'); if (gsec) gsec.hidden = false;
   }
   document.querySelectorAll('[data-guide-form]').forEach(function (f) {
+    // Anti-faux leads : pot de miel, temps de remplissage, prénom et courriel vérifiés (LeadGuard + /api/verify-lead)
+    var fGuard = WH.protectForm(f), fTypo = '';
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       var msg = f.querySelector('.msg'), mail = f.courriel.value.trim();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { msg.textContent = 'Vérifiez votre adresse courriel.'; f.courriel.focus(); return; }
       if (!f.consentement.checked) { msg.textContent = 'Cochez la case de consentement pour recevoir le guide.'; return; }
-      var btn = f.querySelector('button'); btn.disabled = true; msg.textContent = 'Envoi…';
+      var btn = f.querySelector('button'); if (btn.disabled) return;
+      btn.disabled = true; msg.textContent = 'Vérification…';
+      var dom = mail.toLowerCase().split('@')[1] || '';
+      WH.checkLead({ prenom: f.prenom.value.trim(), prenomOptional: true, courriel: mail, phoneOptional: true, acceptTypo: fTypo === dom ? dom : '', source: 'guide' }, fGuard).then(function (res) {
+        if (!res.ok) {
+          if (res.code === 'courriel_typo') fTypo = dom;
+          btn.disabled = false; msg.textContent = res.message;
+          var el = res.field && f[res.field]; if (el) el.focus();
+          return;
+        }
+        if (res.action === 'SILENT') { f.classList.add('sent'); msg.textContent = 'C\'est envoyé. Le guide arrive dans votre boîte courriel d\'ici quelques minutes (vérifiez aussi les indésirables).'; return; }
+        sendGuide(f, msg, btn, mail, res);
+      });
+    });
+  });
+  function sendGuide(f, msg, btn, mail, res) {
+      msg.textContent = 'Envoi…';
       var data = { source: 'guide', prenom: f.prenom.value.trim(), courriel: mail, consentement: true,
+        risque_score: res.score, risque_action: res.action, risque_raisons: (res.reasons || []).join(' '), preuve_risque: res.preuve || '',
         structure: LABELS.structure[answers.structure] || '', surplus: LABELS.surplus[answers.surplus] || '',
         horizon: LABELS.horizon[answers.horizon] || '', depend: LABELS.depend[answers.depend] || '' };
       // Courriel d'avis immédiat (Web3Forms), en plus de la feuille Google
-      if (window.WH && WH.emailLead) WH.emailLead('NOUVEAU LEAD · Guide L\'Argent Mort (Stratégie société) · ' + (data.prenom || mail), {
+      if (window.WH && WH.emailLead) WH.emailLead((res.action === 'CLEAN' ? '' : 'À VÉRIFIER · ') + 'NOUVEAU LEAD · Guide L\'Argent Mort (Stratégie société) · ' + (data.prenom || mail), {
         prenom: data.prenom, courriel: mail,
         message: ['Page : Stratégie société (formulaire du guide)',
           'Consentement courriels : oui, ' + new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' }),
           'Structure : ' + (data.structure || 'non répondu'), 'Surplus par année : ' + (data.surplus || 'non répondu'),
           'Horizon : ' + (data.horizon || 'non répondu'), 'Qui dépend de lui : ' + (data.depend || 'non répondu'),
-          'Enjeux regardés : ' + (enjeux.length ? enjeux.map(function (x) { return NOMS[x]; }).join(', ') : 'aucun')].join('\n')
+          'Enjeux regardés : ' + (enjeux.length ? enjeux.map(function (x) { return NOMS[x]; }).join(', ') : 'aucun'),
+          'Risque de faux lead : ' + res.score + '/100' + ((res.reasons || []).length ? ' · ' + res.reasons.join(' ') : '')].join('\n')
       }, { replyto: mail, fromName: 'W Héritage guide' });
       // text/plain évite la requête préalable CORS, que Apps Script ne gère pas
       fetch(cfg.leadsUrl + '?k=' + encodeURIComponent(cfg.leadsToken), {
@@ -929,8 +950,7 @@
         btn.disabled = false;
         msg.textContent = 'L\'envoi n\'a pas fonctionné. Réessayez dans un instant.';
       });
-    });
-  });
+  }
 
   /* ── Barres de l'exemple : se remplissent à l'apparition ── */
   var bars = document.getElementById('bars');

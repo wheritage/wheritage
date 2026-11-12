@@ -443,6 +443,11 @@
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
 .fg { margin-bottom: 1.1rem; }
 .form-err { display: none; margin-top: 1rem; padding: 1rem 1.2rem; border-left: 1px solid #c96a4c; background: rgba(201,106,76,.08); font-size: .82rem; color: var(--texte); }
+.form-check { font-size: .8rem; color: var(--or-pale); line-height: 1.6; min-height: 0; margin: 0 0 1rem; }
+.form-check:empty { display: none; }
+#contactForm [aria-invalid="true"] { border-color: var(--or-pale); }
+.lc-err { font-size: .8rem; color: var(--or-pale); line-height: 1.6; margin-top: .8rem; text-align: center; }
+.lc-err:empty { display: none; }
 .form-ok { display: none; margin-top: 1rem; padding: 1rem 1.2rem; border-left: 1px solid var(--or); background: rgba(201,168,76,.07); font-size: .82rem; color: var(--or-pale); }
 
 @media (max-width: 1024px) {
@@ -477,6 +482,7 @@
 <script src="assets/vendor/lenis.min.js"></script>
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/lead-guard.js"></script>
 <script src="assets/site.js"></script>
 
 <!-- ═══════════════ HERO ═══════════════ -->
@@ -1140,30 +1146,82 @@
     if (scroll) setTimeout(function () { guide.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 200);
   }
   try { if (localStorage.getItem('wh-guide') === '1') unlock(false); } catch (e) {}
+  // Anti-faux leads : pot de miel, temps de remplissage, courriel vérifié (LeadGuard + /api/verify-lead)
+  var leadGuard = WH.protectForm(leadForm), leadTypo = '';
+  var leadNote = document.createElement('p'); leadNote.className = 'lc-err'; leadNote.setAttribute('role', 'alert');
+  leadForm.appendChild(leadNote);
   leadForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var email = leadForm.querySelector('input[type="email"]').value;
+    var email = leadForm.querySelector('input[type="email"]').value.trim();
     var btn = leadForm.querySelector('button');
+    if (btn.disabled) return;
+    leadNote.textContent = '';
     btn.textContent = WH.t('Déverrouillage…', 'Unlocking…'); btn.disabled = true;
+    var dom = email.toLowerCase().split('@')[1] || '';
+    WH.checkLead({ courriel: email, phoneOptional: true, acceptTypo: leadTypo === dom ? dom : '', source: 'guide_accueil' }, leadGuard).then(function (res) {
+      if (!res.ok) {
+        if (res.code === 'courriel_typo') leadTypo = dom;
+        btn.textContent = WH.t('Lire le guide', 'Read the guide'); btn.disabled = false;
+        leadNote.textContent = res.message; leadForm.querySelector('input[type="email"]').focus();
+        return;
+      }
+      if (res.action === 'SILENT') { unlock(true); return; } // robot : faux succès, rien n'est envoyé
+      sendGuideLead(email, res);
+    });
+  });
+  function sendGuideLead(email, res) {
+    WH.sheetLead({ source: 'guide_accueil', courriel: email, consentement: true, langue: WH.lang(), lead_id: String(Date.now()),
+      risque_score: res.score, risque_action: res.action, risque_raisons: (res.reasons || []).join(' '), preuve_risque: res.preuve || '' });
     fetch('https://api.web3forms.com/submit', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ access_key: '6a1ef05e-eb74-4517-93e3-f708369154f0', subject: "NOUVEAU LEAD : Guide L'Empire Blindé", email: email, consentement_courriels: 'oui', langue: WH.lang(), from_name: 'W Héritage — capture guide' })
+      body: JSON.stringify({ access_key: '6a1ef05e-eb74-4517-93e3-f708369154f0', subject: (res.action === 'CLEAN' ? '' : 'À VÉRIFIER · ') + "NOUVEAU LEAD : Guide L'Empire Blindé", email: email, consentement_courriels: 'oui', langue: WH.lang(), risque: res.score + '/100 ' + (res.reasons || []).join(' '), from_name: 'W Héritage — capture guide' })
     }).catch(function () {}).finally(function () {
       try { localStorage.setItem('wh-guide', '1'); } catch (e) {}
       WH.track('guide_lead');
       unlock(true);
     });
-  });
+  }
 
   // Formulaire de contact
   var cf = document.getElementById('contactForm');
+  // Anti-faux leads : nom, courriel, téléphone (facultatif) et message vérifiés avant l'envoi
+  var cfGuard = WH.protectForm(cf), cfTypo = '';
+  var cfNote = document.createElement('p'); cfNote.className = 'form-check'; cfNote.setAttribute('role', 'alert');
+  document.getElementById('submitBtn').insertAdjacentElement('beforebegin', cfNote);
   cf.addEventListener('submit', function (e) {
     e.preventDefault();
     var btn = document.getElementById('submitBtn'), orig = btn.innerHTML;
+    if (btn.disabled) return;
+    cfNote.textContent = '';
+    [].forEach.call(cf.querySelectorAll('[aria-invalid]'), function (x) { x.removeAttribute('aria-invalid'); });
     btn.textContent = WH.t('Envoi en cours…', 'Sending…'); btn.disabled = true;
     document.getElementById('formError').style.display = 'none';
-    var obj = {}; new FormData(cf).forEach(function (v, k) { obj[k] = v; });
+    var obj = {}; new FormData(cf).forEach(function (v, k) { if (k !== 'website') obj[k] = v; });
     obj.langue = WH.lang();
+    var dom = String(obj.courriel || '').toLowerCase().split('@')[1] || '';
+    WH.checkLead({ prenom: obj.prenom, nom: obj.nom, courriel: obj.courriel, telephone: obj.telephone, phoneOptional: true, message: obj.message,
+      acceptTypo: cfTypo === dom ? dom : '', source: 'contact' }, cfGuard).then(function (res) {
+      if (!res.ok) {
+        if (res.code === 'courriel_typo') cfTypo = dom;
+        btn.innerHTML = orig; btn.disabled = false;
+        cfNote.textContent = res.message;
+        var el = res.field && cf.querySelector('[name="' + res.field + '"]');
+        if (el) { el.setAttribute('aria-invalid', 'true'); el.focus(); }
+        return;
+      }
+      if (res.action === 'SILENT') { // robot : faux succès, rien n'est envoyé
+        btn.textContent = WH.t('Message envoyé ✓', 'Message sent ✓'); document.getElementById('formSuccess').style.display = 'block'; cf.reset(); return;
+      }
+      if (res.phone && res.phone.display) obj.telephone = res.phone.display;
+      obj.risque = res.score + '/100 · ' + ({ CLEAN: 'propre', SUSPICIOUS: 'à vérifier', FAKE: 'probablement faux' }[res.action] || res.action) + ((res.reasons || []).length ? ' · ' + res.reasons.join(' ') : '');
+      if (res.action !== 'CLEAN') obj.subject = 'À VÉRIFIER · ' + obj.subject;
+      WH.sheetLead({ source: 'contact', prenom: obj.prenom, nom: obj.nom, courriel: obj.courriel, telephone: obj.telephone || '', sujet: obj.sujet,
+        langue: obj.langue, lead_id: String(Date.now()), risque_score: res.score, risque_action: res.action, risque_raisons: (res.reasons || []).join(' '),
+        preuve_risque: res.preuve || '', ip: res.meta && res.meta.ip || '' });
+      sendContact(obj, btn, orig);
+    });
+  });
+  function sendContact(obj, btn, orig) {
     fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(obj) })
       .then(function (r) { return r.json(); })
       .then(function (j) {
@@ -1174,7 +1232,7 @@
         cf.reset();
       })
       .catch(function () { btn.innerHTML = orig; btn.disabled = false; document.getElementById('formError').style.display = 'block'; });
-  });
+  }
 })();
 </script>
 </body>

@@ -26,7 +26,13 @@
     leadsToken: '20100914',
     // Avis par courriel (Web3Forms) : chaque diagnostic et chaque guide vous est envoyé par courriel.
     // Clé du formulaire Web3Forms des leads (diagnostic entrepreneur + particulier, guide /strategie-societe). Vide = aucun courriel.
-    web3formsKey: '1053113c-41aa-4a54-b68b-bddcd6f3aa13'
+    web3formsKey: '1053113c-41aa-4a54-b68b-bddcd6f3aa13',
+    // Anti-faux leads (assets/lead-guard.js + fonctions Vercel api/verify-lead, send-otp, check-otp).
+    // leadApi vide = filtre local seulement. La vérification par texto s'active d'elle-même quand les clés
+    // Twilio sont ajoutées dans Vercel (voir .env.example) ; rien à changer ici.
+    leadApi: '/api',
+    // Cloudflare Turnstile (anti-robot invisible). Vide = rien ne se charge. Mettre aussi TURNSTILE_SECRET dans Vercel.
+    turnstileSiteKey: ''
   };
 
   var WH = window.WH = window.WH || {};
@@ -849,6 +855,89 @@
     return send()
       .catch(function () { return new Promise(function (r) { setTimeout(r, 2000); }).then(send); })
       .catch(function (e) { if (window.console) console.warn('[W Héritage] Web3Forms : réseau', e && e.message); return { ok: false, message: 'réseau : ' + (e && e.message) }; });
+  };
+
+  /* ── Anti-faux leads ──
+     WH.protectForm(form) : pot de miel « website », mesure du temps de remplissage, focus/frappes/collages,
+     et Turnstile invisible (chargé au premier focus, seulement si turnstileSiteKey est rempli).
+     WH.checkLead(data, guard) : règles locales immédiates (LeadGuard) puis /api/verify-lead.
+     Résout toujours ; si l'API ne répond pas, le verdict local s'applique (le lead n'est jamais perdu). */
+  var tsLoad = null;
+  function loadTurnstile() {
+    if (tsLoad) return tsLoad;
+    tsLoad = new Promise(function (res, rej) {
+      var s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true; s.onload = function () { res(window.turnstile); }; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+    return tsLoad;
+  }
+  WH.protectForm = function (form) {
+    if (!form) return null;
+    if (form.__whGuard) return form.__whGuard;
+    var LG = window.LeadGuard, w = LG ? LG.watch(form) : null, wid = null;
+    if (CONFIG.turnstileSiteKey) {
+      var mount = function () {
+        form.removeEventListener('focusin', mount);
+        loadTurnstile().then(function (ts) {
+          var box = document.createElement('div'); box.className = 'ts-box'; form.appendChild(box);
+          wid = ts.render(box, { sitekey: CONFIG.turnstileSiteKey, appearance: 'interaction-only', language: WH.lang() === 'en' ? 'en' : 'fr' });
+        }).catch(function () {});
+      };
+      form.addEventListener('focusin', mount);
+    }
+    var g = {
+      hp: function () { return w ? w.hp() : ''; },
+      signals: function () { return w ? w.signals() : {}; },
+      token: function () { try { return wid != null && window.turnstile ? (turnstile.getResponse(wid) || '') : ''; } catch (e) { return ''; } },
+      resetToken: function () { try { if (wid != null && window.turnstile) turnstile.reset(wid); } catch (e) {} }
+    };
+    form.__whGuard = g;
+    return g;
+  };
+  WH.checkLead = function (data, guard) {
+    var LG = window.LeadGuard, lang = WH.lang(), d = {}, k;
+    for (k in data) d[k] = data[k];
+    if (guard) { d.hp = guard.hp(); d.signals = guard.signals(); d.turnstile = guard.token(); }
+    d.lang = lang;
+    var local = { ok: true, action: 'CLEAN', score: 0, reasons: [], otp: false, offline: true };
+    if (LG) {
+      var a = LG.assess({ prenom: d.prenom, nom: d.nom, courriel: d.courriel, telephone: d.telephone, message: d.message, hp: d.hp,
+        elapsed_ms: d.signals && d.signals.elapsed_ms, signals: d.signals, phoneOptional: d.phoneOptional, emailOptional: d.emailOptional,
+        prenomOptional: d.prenomOptional, acceptTypo: d.acceptTypo });
+      if (a.action === 'SILENT') return Promise.resolve({ ok: true, action: 'SILENT', score: 100, reasons: a.reasons, offline: true });
+      if (a.blocks.length) {
+        var b = a.blocks[0];
+        return Promise.resolve({ ok: false, action: 'FAKE', field: b.field, code: b.code, message: LG.blockMessage(b, lang),
+          suggestion: a.email && a.email.suggestion || null, score: a.score, reasons: a.reasons, offline: true });
+      }
+      local = { ok: true, action: a.action, score: a.score, reasons: a.reasons, otp: false, offline: true,
+        phone: a.phone && a.phone.e164 ? { e164: a.phone.e164, display: a.phone.display, province: a.phone.province || '' } : null };
+    }
+    if (!CONFIG.leadApi || !window.fetch) return Promise.resolve(local);
+    var ctrl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 9000);
+    return fetch(CONFIG.leadApi + '/verify-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d), signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (j) { clearTimeout(timer); if (!j || !j.action) throw new Error('réponse vide'); if (guard && !j.ok && j.code === 'captcha') guard.resetToken(); return j; })
+      .catch(function (e) {
+        clearTimeout(timer);
+        if (window.console) console.warn('[W Héritage] verify-lead indisponible, verdict local :', e && e.message);
+        local.reasons = local.reasons.concat('api_indisponible');
+        return local;
+      });
+  };
+  // Copie d'un lead vers la feuille Google (pipeline « Leads » du script). text/plain évite la requête CORS préalable.
+  WH.sheetLead = function (data) {
+    if (!CONFIG.leadsUrl || !CONFIG.leadsToken || !window.fetch) return;
+    fetch(CONFIG.leadsUrl + '?k=' + encodeURIComponent(CONFIG.leadsToken), { method: 'POST', mode: 'no-cors', keepalive: true,
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) }).catch(function () {});
+  };
+  // Appel JSON vers /api (send-otp, check-otp) : résout { status, data }
+  WH.leadApi = function (path, data) {
+    return fetch(CONFIG.leadApi + '/' + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, data: j }; }); })
+      .catch(function () { return { status: 0, data: {} }; });
   };
 
   var banner = null;

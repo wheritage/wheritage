@@ -52,6 +52,22 @@ var DIAG = {
   },
   politique: '/confidentialite',
 
+  // Vérification du numéro par texto (Twilio Verify). S'affiche seulement quand l'API répond otp: true.
+  // [À VALIDER] texte LCAP du consentement SMS ; changer « version » à chaque changement : elle est stockée avec le lead.
+  verif: {
+    etape: 'Étape 2 sur 2 · Vérification',
+    titre: 'Confirmez <em>votre numéro</em>',
+    pourquoi: 'Pourquoi un code ? Pour que Walid puisse vous joindre au bon numéro et éviter les erreurs. Un seul message, aucun suivi marketing par texto.',
+    consentement: { version: 'sms-otp-v1', texte: 'J\'accepte de recevoir un code de vérification par texto de Walid Harchaoui pour confirmer ma demande. 1 message. Des frais standards peuvent s\'appliquer. Répondez STOP pour arrêter. Ce consentement n\'est pas une condition d\'achat.' },
+    envoyer: 'Recevoir mon code', parAppel: 'Recevoir le code par appel vocal', modifier: 'Modifier mon numéro',
+    envoye: function (num, canal) { return (canal === 'call' ? 'Vous allez recevoir un appel au ' : 'Un code à 6 chiffres a été envoyé au ') + num + '. Il expire dans 10 minutes.'; },
+    codeLabel: 'Code reçu', verifier: 'Vérifier', renvoyer: 'Renvoyer le code', renvoyerDans: function (s) { return 'Renvoyer le code dans ' + s + ' s'; },
+    envoi: 'Envoi…', verification: 'Vérification…', consentErr: 'Cochez la case pour recevoir le code.',
+    probleme: 'Je ne reçois pas le code', aide: 'Vérifiez le numéro, attendez une minute ou recevez le code par appel vocal. Les numéros Internet (Google Voice, TextNow) ne reçoivent pas ces codes.',
+    sansVerif: 'Voir mon résultat sans vérifier mon numéro',
+    verifie: 'Numéro vérifié'
+  },
+
   resultat: {
     titre: 'Votre diagnostic',
     ligne: 'Voici les enjeux qui semblent les plus présents selon vos réponses.',
@@ -294,6 +310,19 @@ var DIAG_EN = {
   consentements: {
     diagnostic: { version: 'diag-c1-v1-en', texte: 'I agree that W Héritage may use my answers and contact details to send me my assessment and contact me about it.' },
     marketing: { version: 'diag-c2-v1-en', texte: 'I agree to receive other educational content by email or text. I can unsubscribe at any time.' }
+  },
+  verif: {
+    etape: 'Step 2 of 2 · Verification',
+    titre: 'Confirm <em>your number</em>',
+    pourquoi: 'Why a code? So Walid can reach you at the right number and avoid mistakes. One message, no marketing texts.',
+    consentement: { version: 'sms-otp-v1-en', texte: 'I agree to receive a verification code by text from Walid Harchaoui to confirm my request. 1 message. Standard rates may apply. Reply STOP to stop. Consent is not a condition of purchase.' },
+    envoyer: 'Get my code', parAppel: 'Get the code by voice call', modifier: 'Change my number',
+    envoye: function (num, canal) { return (canal === 'call' ? 'You will receive a call at ' : 'A 6-digit code was sent to ') + num + '. It expires in 10 minutes.'; },
+    codeLabel: 'Code received', verifier: 'Verify', renvoyer: 'Resend the code', renvoyerDans: function (s) { return 'Resend the code in ' + s + ' s'; },
+    envoi: 'Sending…', verification: 'Checking…', consentErr: 'Check the box to receive the code.',
+    probleme: 'I am not getting the code', aide: 'Check the number, wait a minute or get the code by voice call. Internet numbers (Google Voice, TextNow) cannot receive these codes.',
+    sansVerif: 'See my result without verifying my number',
+    verifie: 'Number verified'
   },
   resultat: {
     titre: 'Your assessment',
@@ -597,6 +626,7 @@ var DIAG_EN = {
         '<button type="button" class="dg-opt" data-act="micro" data-v="non" aria-pressed="' + (st.micro === false) + '">' + esc(L.ui.pasMaintenant) + '</button></div>' + backHtml();
     }
     if (step === 'contact') return contactHtml();
+    if (step === 'verify') return verifyHtml();
     return '';
   }
   function backHtml() { return '<button type="button" class="dg-back" data-act="back">' + esc(L.ui.precedente) + '</button>'; }
@@ -612,6 +642,7 @@ var DIAG_EN = {
           field('courriel', L.ui.champs.courriel, 'email', 'email', true, v.courriel) +
           field('telephone', L.ui.champs.telephone, 'tel', 'tel', true, v.telephone) +
         '</div>' +
+        '<p class="dg-hint" id="dg-tel-hint" aria-live="polite"></p>' +
         '<label class="dg-check"><input type="checkbox" name="c1" required><span>' + esc(k.diagnostic.texte) + ' <a href="' + esc(L.politique) + '" target="_blank" rel="noopener">' + esc(L.ui.politiqueTxt) + '</a></span></label>' +
         '<label class="dg-check"><input type="checkbox" name="c2"><span>' + esc(k.marketing.texte) + '</span></label>' +
         '<p class="dg-err" id="dg-err" role="alert"></p>' +
@@ -646,6 +677,8 @@ var DIAG_EN = {
     var swap = function () {
       stage.innerHTML = html;
       if (step === 'result') bindResult();
+      if (step === 'contact') bindContact();
+      if (step === 'verify') bindVerify();
       stage.classList.remove('out');
       var h = document.getElementById('dg-h');
       if (h && !opts.noFocus) h.focus({ preventScroll: true });
@@ -683,6 +716,7 @@ var DIAG_EN = {
     if (s === 'pre') return go('q' + (nq() - 1));
     if (s === 'micro') return go('pre');
     if (s === 'contact') { keepContact(); return go('micro'); }
+    if (s === 'verify') return go('contact');
   }
 
   stage.addEventListener('click', function (e) {
@@ -719,30 +753,229 @@ var DIAG_EN = {
     save();
   }
   function phoneCa(v) {
+    var p = window.LeadGuard ? LeadGuard.phone(v) : null;
+    if (p) return p.ok ? p.area + ' ' + p.exchange + '-' + p.national.slice(6) : null;
     var d = v.replace(/\D/g, '');
     if (d.length === 11 && d[0] === '1') d = d.slice(1);
     if (d.length !== 10 || /^[01]/.test(d) || /^.{3}[01]/.test(d)) return null;
     return d.slice(0, 3) + ' ' + d.slice(3, 6) + '-' + d.slice(6);
   }
+  /* Anti-faux leads : vérification du téléphone à la sortie du champ (✓ ou message), mise en forme pendant la
+     saisie, suggestion cliquable pour les fautes de domaine (gmai.com → gmail.com). */
+  var guard = null, typoKept = '';
+  function bindContact() {
+    var f = document.getElementById('dg-form'); if (!f) return;
+    guard = window.WH && WH.protectForm ? WH.protectForm(f) : null;
+    var hint = document.getElementById('dg-tel-hint');
+    f.telephone.addEventListener('input', function () {
+      var d = f.telephone.value.replace(/\D/g, '');
+      if (d.length === 11 && d[0] === '1') d = d.slice(1);
+      if (d.length === 10 && !/[^\d\s().+-]/.test(f.telephone.value)) f.telephone.value = d.slice(0, 3) + ' ' + d.slice(3, 6) + '-' + d.slice(6);
+      hint.textContent = ''; hint.className = 'dg-hint';
+    });
+    f.telephone.addEventListener('blur', function () {
+      if (!window.LeadGuard || !f.telephone.value.trim()) return;
+      var p = LeadGuard.phone(f.telephone.value);
+      if (p.ok) { hint.textContent = '✓ ' + p.display; hint.className = 'dg-hint ok'; f.telephone.removeAttribute('aria-invalid'); }
+      else { hint.textContent = LeadGuard.blockMessage(p.block, lang()); hint.className = 'dg-hint bad'; f.telephone.setAttribute('aria-invalid', 'true'); }
+    });
+  }
+  function showErr(f, field, text, suggestion) {
+    var err = document.getElementById('dg-err');
+    err.textContent = text;
+    if (suggestion) {
+      err.textContent = '';
+      var parts = text.split(suggestion);
+      err.appendChild(document.createTextNode(parts[0]));
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'dg-sugg'; b.textContent = suggestion;
+      b.addEventListener('click', function () { f.courriel.value = suggestion; err.textContent = ''; f.courriel.removeAttribute('aria-invalid'); f.courriel.focus(); });
+      err.appendChild(b); err.appendChild(document.createTextNode(parts[1] || ''));
+    }
+    var el = field && f[field];
+    if (el) { el.setAttribute('aria-invalid', 'true'); el.focus(); }
+  }
   stage.addEventListener('submit', function (e) {
     if (e.target.id !== 'dg-form') return;
     e.preventDefault();
     var f = e.target, err = document.getElementById('dg-err'), bad = null, msg = '';
+    if (f.getAttribute('aria-busy') === 'true') return;
     [].forEach.call(f.querySelectorAll('[aria-invalid]'), function (x) { x.removeAttribute('aria-invalid'); });
+    err.textContent = '';
     var tel = phoneCa(f.telephone.value);
     if (!f.prenom.value.trim()) { bad = f.prenom; msg = L.ui.err.prenom; }
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.courriel.value.trim())) { bad = f.courriel; msg = L.ui.err.courriel; }
-    else if (!tel) { bad = f.telephone; msg = L.ui.err.tel; }
+    else if (!tel && !window.LeadGuard) { bad = f.telephone; msg = L.ui.err.tel; }
     else if (!f.c1.checked) { bad = f.c1; msg = L.ui.err.c1; }
     if (bad) { err.textContent = msg; bad.setAttribute('aria-invalid', 'true'); bad.focus(); return; }
-    f.telephone.value = tel;
-    keepContact();
-    var now = new Date().toISOString(), k = L.consentements;
-    st.consent = {
-      diagnostic: { date: now, version: k.diagnostic.version, texte: k.diagnostic.texte },
-      marketing: f.c2.checked ? { date: now, version: k.marketing.version, texte: k.marketing.texte } : null
+    // Faute de domaine gardée volontairement : au 2e envoi identique, on accepte (avec points de risque)
+    var mail = f.courriel.value.trim(), dom = mail.toLowerCase().split('@')[1] || '';
+    var btn = f.querySelector('button[type=submit]'), label = btn.innerHTML;
+    f.setAttribute('aria-busy', 'true'); btn.disabled = true; btn.textContent = lang() === 'en' ? 'Checking…' : 'Vérification…';
+    var data = { prenom: f.prenom.value.trim(), nom: f.nom.value.trim(), courriel: mail, telephone: f.telephone.value.trim(),
+      acceptTypo: typoKept === dom ? dom : '', otp_possible: true, lead_id: leadId(), source: st.profil === 'particulier' ? 'diagnostic_particulier' : 'diagnostic' };
+    var check = window.WH && WH.checkLead ? WH.checkLead(data, guard) : Promise.resolve({ ok: true, action: 'CLEAN', score: 0, reasons: [], offline: true });
+    check.then(function (res) {
+      f.removeAttribute('aria-busy'); btn.disabled = false; btn.innerHTML = label;
+      if (!res.ok) {
+        if (res.code === 'courriel_typo') typoKept = dom;
+        track('lead_blocked', { raison: String(res.code || 'inconnu').slice(0, 40), profil: st.profil });
+        return showErr(f, res.field, res.message, res.code === 'courriel_typo' ? res.suggestion : null);
+      }
+      if (tel) f.telephone.value = tel;
+      keepContact();
+      var now = new Date().toISOString(), k = L.consentements;
+      st.consent = {
+        diagnostic: { date: now, version: k.diagnostic.version, texte: k.diagnostic.texte },
+        marketing: f.c2.checked ? { date: now, version: k.marketing.version, texte: k.marketing.texte } : null
+      };
+      // Pot de miel : faux succès, rien n'est envoyé
+      if (res.action === 'SILENT') { st.contact = null; return showResult(false); }
+      st.risk = { score: res.score, action: res.action, reasons: res.reasons || [], preuve: res.preuve || '', meta: res.meta || {}, phone: res.phone || null, offline: !!res.offline };
+      if (res.otp) {
+        st.otp = { statut: 'en_attente', canal: res.canal || 'sms', sent: false };
+        sendLead(buildPayload(result()), { pending: true }); // ligne « en attente » dans la feuille, sans courriel
+        track('otp_view', { profil: st.profil });
+        return go('verify');
+      }
+      st.otp = { statut: 'non_requis' };
+      showResult(true);
+    });
+  });
+
+  /* ── Vérification du numéro par texto (Twilio Verify via /api/send-otp et /api/check-otp) ── */
+  function leadId() {
+    if (!st.leadId) st.leadId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    return st.leadId;
+  }
+  function telDisplay() { var p = window.LeadGuard && st.contact ? LeadGuard.phone(st.contact.telephone) : null; return p && p.ok ? p.display : (st.contact && st.contact.telephone) || ''; }
+  function verifyHtml() {
+    var V = L.verif, o = st.otp || {};
+    var boxes = '';
+    for (var i = 0; i < 6; i++) boxes += '<input class="dg-otp-box" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"' + (i === 0 ? ' autocomplete="one-time-code"' : ' autocomplete="off"') + ' aria-label="' + esc(V.codeLabel) + ' ' + (i + 1) + '/6">';
+    return '<p class="dg-count">' + esc(V.etape) + '</p>' +
+      '<h2 id="dg-h" tabindex="-1">' + V.titre + '</h2>' +
+      '<p class="dg-lead">' + esc(V.pourquoi) + '</p>' +
+      '<p class="dg-otp-num"><b>' + esc(telDisplay()) + '</b> <button type="button" class="dg-link" data-act="otp-edit">' + esc(V.modifier) + '</button></p>' +
+      '<div class="dg-otp-send"' + (o.sent ? ' hidden' : '') + '>' +
+        '<label class="dg-check"><input type="checkbox" id="dg-sms-ok"' + (o.consent ? ' checked' : '') + '><span>' + esc(V.consentement.texte) + '</span></label>' +
+        '<button type="button" class="btn btn-gold" data-act="otp-send" data-canal="' + esc(o.canal === 'call' ? 'call' : 'sms') + '">' + esc(o.canal === 'call' ? V.parAppel : V.envoyer) + ARROW + '</button>' +
+        (o.canal === 'call' ? '' : '<button type="button" class="dg-link dg-otp-alt" data-act="otp-send" data-canal="call">' + esc(V.parAppel) + '</button>') +
+      '</div>' +
+      '<form class="dg-otp" id="dg-otp" novalidate' + (o.sent ? '' : ' hidden') + '>' +
+        '<p class="dg-fine dg-otp-sent" id="dg-otp-sent" role="status">' + (o.sent ? esc(V.envoye(telDisplay(), o.lastCanal)) : '') + '</p>' +
+        '<fieldset class="dg-otp-boxes"><legend class="sr-only">' + esc(V.codeLabel) + '</legend>' + boxes + '</fieldset>' +
+        '<button type="submit" class="btn btn-gold">' + esc(V.verifier) + ARROW + '</button>' +
+        '<div class="dg-otp-more">' +
+          '<button type="button" class="dg-link" data-act="otp-resend" id="dg-otp-resend" disabled>' + esc(V.renvoyer) + '</button>' +
+          '<button type="button" class="dg-link" data-act="otp-send" data-canal="call">' + esc(V.parAppel) + '</button>' +
+        '</div>' +
+      '</form>' +
+      '<p class="dg-err" id="dg-err" role="alert"></p>' +
+      '<details class="dg-otp-help"><summary>' + esc(V.probleme) + '</summary><p>' + esc(V.aide) + '</p>' +
+        '<button type="button" class="dg-skip" data-act="otp-skip">' + esc(V.sansVerif) + '</button></details>' +
+      backHtml();
+  }
+  var resendTimer = null;
+  function bindVerify() {
+    var boxes = [].slice.call(document.querySelectorAll('.dg-otp-box'));
+    boxes.forEach(function (b, i) {
+      b.addEventListener('input', function () {
+        var v = b.value.replace(/\D/g, '');
+        if (v.length > 1) { fillCode(v); return; }
+        b.value = v;
+        if (v && boxes[i + 1]) boxes[i + 1].focus();
+        if (codeValue().length === 6) document.getElementById('dg-otp').requestSubmit ? document.getElementById('dg-otp').requestSubmit() : submitOtp();
+      });
+      b.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace' && !b.value && boxes[i - 1]) { boxes[i - 1].focus(); boxes[i - 1].value = ''; }
+        if (e.key === 'ArrowLeft' && boxes[i - 1]) boxes[i - 1].focus();
+        if (e.key === 'ArrowRight' && boxes[i + 1]) boxes[i + 1].focus();
+      });
+      b.addEventListener('paste', function (e) {
+        var t = (e.clipboardData || window.clipboardData).getData('text');
+        if (t) { e.preventDefault(); fillCode(t); }
+      });
+    });
+    if (st.otp && st.otp.sent) { countdown(); if (boxes[0]) boxes[0].focus(); }
+  }
+  function codeValue() { return [].map.call(document.querySelectorAll('.dg-otp-box'), function (b) { return b.value; }).join(''); }
+  function fillCode(t) {
+    var d = String(t).replace(/\D/g, '').slice(0, 6), boxes = document.querySelectorAll('.dg-otp-box');
+    [].forEach.call(boxes, function (b, i) { b.value = d[i] || ''; });
+    var next = boxes[Math.min(d.length, 5)]; if (next) next.focus();
+    if (d.length === 6) submitOtp();
+  }
+  function countdown() {
+    var V = L.verif, btn = document.getElementById('dg-otp-resend');
+    clearInterval(resendTimer);
+    var tick = function () {
+      btn = document.getElementById('dg-otp-resend'); if (!btn) return clearInterval(resendTimer);
+      var left = Math.ceil(((st.otp.cooldownUntil || 0) - Date.now()) / 1000);
+      if (left > 0) { btn.disabled = true; btn.textContent = V.renvoyerDans(left); }
+      else { btn.disabled = false; btn.textContent = V.renvoyer; clearInterval(resendTimer); }
     };
-    showResult(true);
+    tick(); resendTimer = setInterval(tick, 1000);
+  }
+  function otpErr(text) { var e = document.getElementById('dg-err'); if (e) e.textContent = text || ''; }
+  function sendOtp(canal) {
+    var V = L.verif, ok = document.getElementById('dg-sms-ok');
+    if (ok && !ok.checked && !(st.otp && st.otp.consent)) { otpErr(V.consentErr); ok.focus(); return; }
+    st.otp.consent = st.otp.consent || { date: new Date().toISOString(), version: V.consentement.version, texte: V.consentement.texte };
+    otpErr(V.envoi);
+    WH.leadApi('send-otp', { telephone: st.contact.telephone, canal: canal, lang: lang(), consent: true, lead_id: leadId() }).then(function (r) {
+      var j = r.data || {};
+      if (r.status === 200 && j.ok) {
+        st.otp.sent = true; st.otp.lastCanal = j.canal; st.otp.cooldownUntil = Date.now() + (j.retry_after || 60) * 1000;
+        if (j.carrier) st.otp.carrier = j.carrier;
+        if (j.type) st.otp.type = j.type;
+        save(); track('otp_sent', { canal: j.canal, profil: st.profil });
+        document.querySelector('.dg-otp-send').hidden = true;
+        var form = document.getElementById('dg-otp'); form.hidden = false;
+        document.getElementById('dg-otp-sent').textContent = V.envoye(telDisplay(), j.canal);
+        otpErr(''); countdown();
+        var first = document.querySelector('.dg-otp-box'); if (first) first.focus();
+        return;
+      }
+      if (j.suggest === 'call') { st.otp.canal = 'call'; save(); }
+      if (r.status === 503 || r.status === 0 || j.code === 'service') return otpUnavailable();
+      otpErr(j.message || V.envoi);
+      if (j.retry_after) { st.otp.cooldownUntil = Date.now() + j.retry_after * 1000; countdown(); }
+    });
+  }
+  function submitOtp() {
+    var V = L.verif, code = codeValue(), form = document.getElementById('dg-otp');
+    if (!/^\d{6}$/.test(code) || !form || form.getAttribute('aria-busy') === 'true') return;
+    form.setAttribute('aria-busy', 'true'); otpErr(V.verification);
+    WH.leadApi('check-otp', { telephone: st.contact.telephone, code: code, lead_id: leadId(), courriel: st.contact.courriel, lang: lang() }).then(function (r) {
+      form.removeAttribute('aria-busy');
+      var j = r.data || {};
+      if (j.approved) {
+        st.otp.statut = 'verifie'; st.otp.verifie_le = j.verifie_le; st.otp.preuve = j.preuve || '';
+        track('otp_verified', { profil: st.profil });
+        return showResult(true);
+      }
+      [].forEach.call(document.querySelectorAll('.dg-otp-box'), function (b) { b.value = ''; });
+      var first = document.querySelector('.dg-otp-box'); if (first) first.focus();
+      if (r.status === 503 || r.status === 0 || j.code === 'service') return otpUnavailable();
+      if (j.expired) { st.otp.cooldownUntil = 0; countdown(); }
+      if (j.locked) track('otp_locked', { profil: st.profil });
+      otpErr(j.message || '');
+    });
+  }
+  // Service indisponible : on ne perd pas le lead, il arrive marqué « non vérifié (service indisponible) »
+  function otpUnavailable() { st.otp.statut = 'indisponible'; showResult(true); }
+
+  stage.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b || st.step !== 'verify') return;
+    var act = b.getAttribute('data-act');
+    if (act === 'otp-send') sendOtp(b.getAttribute('data-canal') || 'sms');
+    else if (act === 'otp-resend') sendOtp(st.otp.lastCanal || 'sms');
+    else if (act === 'otp-edit') { st.otp = null; go('contact'); }
+    else if (act === 'otp-skip') { st.otp.statut = 'non_verifie'; track('otp_skipped', { profil: st.profil }); showResult(true); }
+  });
+  stage.addEventListener('submit', function (e) {
+    if (e.target.id !== 'dg-otp') return;
+    e.preventDefault(); submitOtp();
   });
 
   function showResult(withContact) {
@@ -754,9 +987,9 @@ var DIAG_EN = {
       var bon = payload.qualifie === true && st.profil === 'entrepreneur';
       track(bon ? 'diagnostic_lead' : 'diagnostic_lead_autre', { enjeu_principal: r.main, qualifie: String(payload.qualifie), profil: st.profil });
     }
-    var keep = { contact: withContact ? st.contact : null, prenom: withContact && st.contact ? st.contact.prenom : '' };
+    var keep = { contact: withContact ? st.contact : null, prenom: withContact && st.contact ? st.contact.prenom : '', verifie: withContact && st.otp && st.otp.statut === 'verifie' };
     clear(); // progression effacée après l'envoi ; le résultat reste à l'écran
-    st = { step: 'result', started: st.started, profil: st.profil, answers: st.answers, micro: st.micro, src: st.src, steps: st.steps, contact: keep.contact, prenom: keep.prenom, result: r };
+    st = { step: 'result', started: st.started, profil: st.profil, answers: st.answers, micro: st.micro, src: st.src, steps: st.steps, contact: keep.contact, prenom: keep.prenom, verifie: keep.verifie, result: r };
     go('result');
   }
 
@@ -775,9 +1008,25 @@ var DIAG_EN = {
     out.niveaux = r.niveaux; out.enjeu_principal = r.main; out.qualifie = qualifie(a); out.micro_oui = st.micro === true;
     out.consentement_diagnostic = st.consent && st.consent.diagnostic; out.consentement_marketing = st.consent ? st.consent.marketing : null;
     ['niche', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'].forEach(function (k) { out[k] = s[k] || ''; });
+    // Anti-faux leads : pointage, raisons, preuve signée du serveur et vérification par texto
+    var rk = st.risk || {}, o = st.otp || {};
+    out.lead_id = st.leadId || '';
+    out.risque_score = rk.score == null ? '' : rk.score;
+    out.risque_action = rk.action || '';
+    out.risque_raisons = (rk.reasons || []).join(' ');
+    out.preuve_risque = rk.preuve || '';
+    out.otp_statut = o.statut || 'non_requis';
+    out.otp_verifie_le = o.verifie_le || '';
+    out.preuve_otp = o.preuve || '';
+    out.consentement_sms = o.consent || null;
+    out.operateur = o.carrier || (rk.phone && rk.phone.carrier) || '';
+    out.type_ligne = o.type || (rk.phone && rk.phone.type) || '';
+    out.ip = rk.meta && rk.meta.ip || '';
+    out.pays_ip = rk.meta && rk.meta.pays || '';
     return out;
   }
-  function sendLead(payload) {
+  function sendLead(payload, opts) {
+    opts = opts || {};
     var cfg = (window.WH && WH.config) || {};
     // 1. Feuille Google (archive complète, une ligne par lead)
     if (cfg.leadsUrl) {
@@ -788,7 +1037,10 @@ var DIAG_EN = {
       };
       attempt().catch(function () { setTimeout(function () { attempt().catch(function () {}); }, 2000); });
     }
-    // 2. Courriel d'avis immédiat (Web3Forms), toujours en français, réponses en toutes lettres
+    // 2. Courriel d'avis immédiat (Web3Forms), toujours en français, réponses en toutes lettres.
+    //    Pas de courriel pour une ligne « en attente » de vérification : il part quand le numéro est vérifié
+    //    (ou quand la personne passe la vérification). Les abandons sont dans le rapport de 18 h (Apps Script).
+    if (opts.pending) return;
     if (window.WH && WH.emailLead) {
       var m = leadEmail(payload);
       WH.emailLead(m.subject, m.fields, { replyto: payload.courriel, fromName: 'W Héritage diagnostic' }).then(function (res) {
@@ -826,16 +1078,25 @@ var DIAG_EN = {
     L.push('Consentement diagnostic : ' + (d.consentement_diagnostic ? d.consentement_diagnostic.date + ' (' + d.consentement_diagnostic.version + ')' : ''));
     L.push('Consentement autres contenus : ' + (d.consentement_marketing ? d.consentement_marketing.date + ' (' + d.consentement_marketing.version + ')' : 'Non'));
     L.push('Langue du quiz : ' + (d.langue === 'en' ? 'Anglais' : 'Français'));
+    L.push('');
+    L.push('VÉRIFICATION');
+    L.push('Téléphone : ' + OTP_TXT[d.otp_statut || 'non_requis'] + (d.otp_verifie_le ? ' le ' + new Date(d.otp_verifie_le).toLocaleString('fr-CA', { timeZone: 'America/Toronto' }) : ''));
+    if (d.operateur || d.type_ligne) L.push('Ligne : ' + [d.operateur, d.type_ligne].filter(Boolean).join(' · '));
+    L.push('Risque de faux lead : ' + (d.risque_score === '' ? 'non évalué' : d.risque_score + '/100 (' + (RISK_TXT[d.risque_action] || d.risque_action) + ')') + (d.risque_raisons ? ' · ' + d.risque_raisons : ''));
     L.push('Provenance : ' + provenance);
     var f = {
       nom: nom, courriel: d.courriel, telephone: d.telephone, profil: profil, qualifie: qual, enjeu_principal: principal,
       message: L.join('\n'),
       recu_le: new Date(d.date).toLocaleString('fr-CA', { timeZone: 'America/Toronto' })
     };
-    var subject = 'NOUVEAU DIAGNOSTIC · ' + profil + ' · ' + nom + ' · ' + pf.noms[d.enjeu_principal] + ' ' + niv(d.enjeu_principal).toLowerCase() +
+    var tag = d.otp_statut === 'verifie' ? '✓ VÉRIFIÉ · ' : (d.risque_action === 'SUSPICIOUS' || d.risque_action === 'FAKE' || d.otp_statut === 'non_verifie' ? 'À VÉRIFIER · ' : '');
+    var subject = tag + 'NOUVEAU DIAGNOSTIC · ' + profil + ' · ' + nom + ' · ' + pf.noms[d.enjeu_principal] + ' ' + niv(d.enjeu_principal).toLowerCase() +
       ' · qualifié : ' + qual.toLowerCase();
     return { subject: subject, fields: f };
   }
+  var OTP_TXT = { verifie: '✓ numéro vérifié par code', en_attente: 'vérification en attente', non_verifie: 'NON vérifié (la personne a passé l\'étape)',
+    indisponible: 'non vérifié (service de texto indisponible)', non_requis: 'vérification par texto non active' };
+  var RISK_TXT = { CLEAN: 'propre', SUSPICIOUS: 'à vérifier', FAKE: 'probablement faux' };
   var emailStatus = null, DEBUG = /[?&]debug\b/.test(location.search);
   window.WHDiag.sendLead = sendLead;
   window.WHDiag.leadEmail = leadEmail;
@@ -859,6 +1120,7 @@ var DIAG_EN = {
     return '<p class="eyebrow">' + esc(U.resultatK) + '</p>' +
       '<h2 id="dg-h" tabindex="-1">' + esc(R.titre) + (st.prenom ? ', <em>' + esc(st.prenom) + '</em>' : '') + '</h2>' +
       '<p class="dg-lead">' + esc(R.ligne) + '</p>' +
+      (st.verifie ? '<p class="dg-verified" role="status">✓ ' + esc(L.verif.verifie) + '</p>' : '') +
       '<div class="dg-cards">' + cards + '</div>' + player +
       '<section class="dg-book" id="dg-book-sec" aria-labelledby="dg-book-h"' + (st.booked ? ' hidden' : '') + '>' +
         '<h3 id="dg-book-h">' + esc(R.reserver) + '</h3>' +
