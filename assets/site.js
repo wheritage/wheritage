@@ -32,7 +32,10 @@
     // Twilio sont ajoutées dans Vercel (voir .env.example) ; rien à changer ici.
     leadApi: '/api',
     // Cloudflare Turnstile (anti-robot invisible). Vide = rien ne se charge. Mettre aussi TURNSTILE_SECRET dans Vercel.
-    turnstileSiteKey: ''
+    turnstileSiteKey: '',
+    // true une fois le nouvel Apps Script installé (tools/apps-script-diagnostic.gs) : le formulaire de contact et le
+    // guide de l'accueil sont alors aussi copiés dans l'onglet « Leads ». false = seulement le courriel Web3Forms.
+    sheetPipeline: false
   };
 
   var WH = window.WH = window.WH || {};
@@ -929,7 +932,7 @@
   };
   // Copie d'un lead vers la feuille Google (pipeline « Leads » du script). text/plain évite la requête CORS préalable.
   WH.sheetLead = function (data) {
-    if (!CONFIG.leadsUrl || !CONFIG.leadsToken || !window.fetch) return;
+    if (!CONFIG.sheetPipeline || !CONFIG.leadsUrl || !CONFIG.leadsToken || !window.fetch) return;
     fetch(CONFIG.leadsUrl + '?k=' + encodeURIComponent(CONFIG.leadsToken), { method: 'POST', mode: 'no-cors', keepalive: true,
       headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) }).catch(function () {});
   };

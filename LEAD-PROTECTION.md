@@ -48,7 +48,7 @@ Mettre la valeur dans Vercel (`LEAD_PROOF_SECRET`) **et** dans Apps Script > Par
 
 ### 3. Apps Script (feuille « Leads W Héritage »)
 
-Suivre l'en-tête de `tools/apps-script-diagnostic.gs` : coller le fichier, coller `assets/lead-guard.js` dans un fichier `LeadGuard.gs`, remplacer la ligne de `doPost`, exécuter `installTriggers()` une fois, redéployer **le même** déploiement. Déclencheurs créés :
+Suivre l'en-tête de `tools/apps-script-diagnostic.gs` : coller le fichier, coller `assets/lead-guard.js` dans un fichier `LeadGuard.gs`, remplacer la ligne de `doPost`, exécuter `installTriggers()` une fois, redéployer **le même** déploiement, puis mettre `sheetPipeline: true` dans `assets/site.js` (le contact et le guide de l'accueil arrivent alors aussi dans l'onglet Leads). Déclencheurs créés :
 
 | Quand | Fonction | Effet |
 |---|---|---|
