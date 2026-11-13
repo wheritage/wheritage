@@ -46,13 +46,31 @@ Vercel, Twilio Verify (code par texto), GA4, Meta Pixel. Claude : projets « Bus
 
 ## Objectifs 2026
 
-- Revenu mensuel visé : **[À COMPLÉTER]**
-- Nombre de rencontres découverte par semaine : **[À COMPLÉTER]**
-- Nombre de nouveaux clients par mois : **[À COMPLÉTER]**
-- Autre : **[À COMPLÉTER]**
+Revenu et objectifs personnels : **gardés hors de ce dépôt (public)**, dans les instructions privées du projet
+Claude « Business OS - Walid ».
+
+- **Pipeline : 20 personnes qualifiées à appeler chaque semaine**, minimum. Sources : leads du site (vérifiés),
+  références, centres d'influence, clients existants.
+- **Revues semestrielles des clients existants** (tous les 6 mois) avec 3 objectifs : une nouvelle vente,
+  le transfert de leurs placements, des références.
+- **Nouveaux clients : au moins 10 clients « moyens » par mois**, en visant une majorité de gros clients
+  (propriétaires incorporés, gros placements).
+- **Placements** : le revenu recherché vient des commissions ET des renouvellements, donc ramener des actifs
+  (transferts REER / CELI / non enregistré, surplus de société) compte autant que l'assurance.
+
+### Ce que ça veut dire pour la semaine
+
+| Indicateur | Cible |
+|---|---|
+| Personnes qualifiées appelées | 20 / semaine (≈ 4 par jour ouvrable) |
+| Revues semestrielles faites | (nombre de clients ÷ 26) / semaine |
+| Demandes de références | à chaque revue et chaque fermeture |
+| Nouveaux clients | ≥ 10 / mois (≈ 2 à 3 / semaine) |
+| Actifs ramenés | à suivre dans la feuille (colonne à ajouter) |
 
 ## Décisions
 
 | Date | Décision |
 |---|---|
 | 2026-11-12 | Tous les leads du site passent par le filtre anti-faux leads ; seuls les numéros vérifiés par code créent un rappel automatique. |
+| 2026-11-13 | Objectifs 2026 fixés : 20 appels qualifiés / semaine, revues semestrielles, ≥ 10 nouveaux clients / mois, priorité aux gros clients et aux placements. |
