@@ -61,3 +61,25 @@ Chaque prompt est écrit pour démarrer d'une page blanche (une tâche planifié
 ## Créer une tâche planifiée
 
 Dans claude.ai : Personnaliser > Tâches planifiées, ou demandez à Claude dans une conversation : « Crée une tâche planifiée chaque jour ouvrable à 7 h 30 avec ce prompt : … ». Les tâches qui lisent Gmail, l'Agenda ou Sheets ont besoin de ces connecteurs.
+
+## À créer dans claude.ai (Personnaliser > Routines / Tâches planifiées)
+
+Une tâche créée depuis Claude Code ne reçoit pas vos connecteurs Gmail / Agenda / Sheets sur ce compte : elle
+tournerait à vide. Créez donc ces 6 tâches dans l'interface claude.ai, en cochant **Gmail, Google Calendar et
+Google Sheets** (Gmail seulement pour LinkedIn), « nouvelle session à chaque exécution ». Heures de Montréal,
+décalées de quelques minutes pour éviter les files d'attente de l'heure pile.
+
+Les blocs de la semaine idéale sont déjà dans votre agenda principal, marqués « Libre » (Cal.com vous voit
+disponible) et décrits par « [Business OS] » : les prompts les ignorent.
+
+| Tâche | Quand | Prompt |
+|---|---|---|
+| Brief du matin | lun-ven 7 h 17 | 1 ci-dessus, en ajoutant : « Ignore les événements dont la description commence par [Business OS]. Si l'onglet Leads n'existe pas, passe sans erreur. » |
+| Préparation de l'après-midi | lun-ven 12 h 13 | 2 ci-dessus (+ même ajout ; n'envoie rien s'il n'y a aucune rencontre) |
+| Fermeture | lun-ven 16 h 47 | 3 ci-dessus (+ même ajout) |
+| Monday brief | lundi 7 h 43 | 4 ci-dessus (+ même ajout) |
+| 3 brouillons LinkedIn | lundi 8 h 21 | 9 ci-dessus |
+| Préparation de la semaine | dimanche 17 h 41 | P50 de PROMPTS.md, résultat envoyé par courriel à vous-même |
+
+Les tâches 6 (dépenses), 10 (trésorerie), 11 (commissions) et 12 (anniversaires) attendent : le lien du dossier de
+reçus, un logiciel comptable connecté, le relevé de commissions, et des anniversaires dans vos contacts Google.
