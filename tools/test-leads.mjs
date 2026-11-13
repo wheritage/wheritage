@@ -104,6 +104,22 @@ await test(23, 'Appel d\'un autre site (Origin étranger)', 'Refusé (403)', asy
 });
 await test(24, 'SMS pumping élevé (Lookup)', 'BLOQUÉ, aucun code envoyé', async () => { const r = await call(verify, lead({ telephone: '514 700-0003' })); return [v(r), !r.data.ok]; });
 await test(25, 'VoIP fixe (téléphone résidentiel Internet)', 'Accepté +15, code par appel vocal', async () => { const r = await call(verify, lead({ telephone: '514 700-0002' })); return [v(r) + ' · canal ' + r.data.canal, r.data.ok && r.data.canal === 'call']; });
+await test(30, 'Numéro hors Québec / Ontario : 604 (C.-B.), 403 (Alberta), 212 (New York)', 'BLOQUÉ (zone desservie)', async () => {
+  const out = []; for (const t of ['604 555-1234', '403 555-1234', '212 555-1234']) out.push(await call(verify, lead({ telephone: t })));
+  return [out.map((r) => r.data.code).join(', '), out.every((r) => !r.data.ok && r.data.code === 'tel_hors_zone')];
+});
+await test(31, 'Terminaisons inhabituelles : x@site.xyz, x@mail.ru, x@promo.top', 'BLOQUÉ (courriel suspect)', async () => {
+  const out = []; for (const e of ['x.roy@site.xyz', 'luc.roy@mail.ru', 'ana.roy@promo.top']) out.push(await call(verify, lead({ courriel: e })));
+  return [out.map((r) => r.data.code).join(', '), out.every((r) => !r.data.ok && r.data.code === 'courriel_suspect')];
+});
+await test(32, 'Commence par « test » ou « fake » : test.jean@, test_1@, fake-email@', 'BLOQUÉ', async () => {
+  const out = []; for (const e of ['test.jean@gmail.com', 'test_1@hotmail.com', 'fake-email@gmail.com']) out.push(await call(verify, lead({ courriel: e })));
+  return [out.map((r) => r.data.code).join(', '), out.every((r) => !r.data.ok && r.data.field === 'courriel')];
+});
+await test(33, 'Adresse d\'entreprise : jean@constructionabc.ca, info@cpa-tremblay.com', 'PASSE', async () => {
+  const a = await call(verify, lead({ courriel: 'jean@constructionabc.ca', telephone: '613 555-7788' })), b = await call(verify, lead({ courriel: 'info@cpa-tremblay.com', telephone: '819 821-2333' }));
+  return [v(a) + ' | ' + v(b), a.data.ok && b.data.ok];
+});
 for (const [n, c] of [['26', { prenom: 'Ève', nom: 'Côté-Nguyen', courriel: 'eve.cote@hotmail.ca', telephone: '819 821-2121' }], ['27', { prenom: 'Li', nom: '', courriel: 'li.wang@outlook.com', telephone: '+1 (416) 555-2368' }],
   ['28', { prenom: 'Jean-François', nom: "O'Brien", courriel: 'jf.obrien+site@gmail.com', telephone: '1-581-300-4412' }], ['29', { prenom: 'Paul', nom: 'Testard', courriel: 'paul.testard@sympatico.ca', telephone: '450 430-1212' }]]) {
   await test(n, 'Vrai lead : ' + c.prenom + ' ' + c.nom + ', ' + c.courriel + ', ' + c.telephone, 'PASSE', async () => { const r = await call(verify, lead(c)); return [v(r), r.data.ok && r.data.action !== 'FAKE']; });

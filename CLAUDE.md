@@ -119,7 +119,7 @@ box with a left-to-right `clip-path` wipe (autoplay only right after a click). `
 ## Anti-fake leads + SMS verification (all lead forms)
 
 Details, setup and costs: `LEAD-PROTECTION.md`. One validator, `assets/lead-guard.js` (UMD: browser `window.LeadGuard`,
-`require` in `/api`, pasted as `LeadGuard.gs` in Apps Script): NANP rules (Canadian area codes only, 0XX/1XX/N11 exchanges,
+`require` in `/api`, pasted as `LeadGuard.gs` in Apps Script): NANP rules (Quebec and Ontario area codes only, every other area code refused; unusual email endings such as .xyz/.top/.ru refused, business domains in .ca/.com/etc. accepted; 0XX/1XX/N11 exchanges,
 555-0100..0199 fictional), fake-number patterns, fake email prefixes (`test@gmail.com`), disposable domains, typo
 suggestions, name/message gibberish, honeypot `website` + fill time. Score 0-29 CLEAN, 30-69 SUSPICIOUS, 70+ FAKE,
 honeypot = SILENT (fake success, nothing sent). Every form calls `WH.protectForm(form)` then `WH.checkLead(data, guard)`

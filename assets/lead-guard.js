@@ -91,6 +91,11 @@
   var KNOWN_SET = {};
   KNOWN_DOMAINS.forEach(function (d) { KNOWN_SET[d] = 1; });
   var TYPO_TLD = { con: 'com', cmo: 'com', comm: 'com', coom: 'com', ocm: 'com', vom: 'com', xom: 'com', cpm: 'com', cim: 'com', comn: 'com', cm: 'com', om: 'com', co: 'com', cxa: 'ca', caa: 'ca', ac: 'ca', ner: 'net', nte: 'net', bet: 'net' };
+  // Zone desservie : permis au Québec et en Ontario seulement. Tout autre indicatif est refusé.
+  var ZONE = { QC: 1, ON: 1 };
+  // Terminaisons de courriel acceptées : les fournisseurs courants + les adresses d'entreprise normales.
+  // Tout le reste (.xyz, .top, .ru, .click, .online…) est refusé : c'est là que vivent les adresses jetables et le pourriel.
+  var OK_TLD = /^(ca|com|net|org|me|info|biz|co|us|fr|be|ch|quebec|io|edu|gov|gouv)$/;
   var BAD_TLD = /^(local|localhost|localdomain|test|example|invalid|lan|internal|home|corp|domain|fake|none)$/;
 
   /* ── Nom ── */
@@ -111,7 +116,9 @@
   var MSG = {
     tel_vide: ['Entrez votre numéro de téléphone.', 'Enter your phone number.'],
     tel_longueur: ['Un numéro canadien a 10 chiffres, par exemple 514 296-7511.', 'A Canadian number has 10 digits, for example 514 296-7511.'],
-    tel_hors_canada: ['Entrez un numéro canadien à 10 chiffres. Si vous êtes à l\'étranger, écrivez-moi plutôt à walid.harchaoui@agc.ia.ca.', 'Enter a 10-digit Canadian number. If you are abroad, email me instead at walid.harchaoui@agc.ia.ca.'],
+    tel_hors_canada: ['Entrez un numéro du Québec ou de l\'Ontario à 10 chiffres. Si vous êtes ailleurs, écrivez-moi plutôt à walid.harchaoui@agc.ia.ca.', 'Enter a 10-digit Quebec or Ontario number. If you are elsewhere, email me instead at walid.harchaoui@agc.ia.ca.'],
+    tel_hors_zone: ['J\'accompagne les clients du Québec et de l\'Ontario seulement : entrez un numéro avec un indicatif de ces provinces (514, 438, 450, 418, 819, 416, 613…). Si vous êtes ailleurs, écrivez-moi à walid.harchaoui@agc.ia.ca.', 'I serve clients in Quebec and Ontario only: enter a number with an area code from these provinces (514, 438, 450, 418, 819, 416, 613…). If you are elsewhere, email me at walid.harchaoui@agc.ia.ca.'],
+    courriel_suspect: ['Utilisez votre adresse courriel habituelle (par exemple @gmail.com, @hotmail.com, @outlook.com ou l\'adresse de votre entreprise en .ca ou .com).', 'Use your usual email address (for example @gmail.com, @hotmail.com, @outlook.com or your business address ending in .ca or .com).'],
     tel_indicatif: ['L\'indicatif régional {a} n\'existe pas au Canada. Vérifiez les 3 premiers chiffres.', 'Area code {a} does not exist in Canada. Check the first 3 digits.'],
     tel_sans_frais: ['Entrez un numéro personnel (cellulaire ou résidence), pas un numéro sans frais.', 'Enter a personal number (mobile or home), not a toll-free number.'],
     tel_central: ['Ce numéro n\'est pas valide : les chiffres 4 à 6 ne peuvent pas commencer par 0 ou 1, ni être 211, 311, 411, 511, 611, 711, 811 ou 911.', 'This number is not valid: digits 4 to 6 cannot start with 0 or 1, or be 211, 311, 411, 511, 611, 711, 811 or 911.'],
@@ -202,7 +209,8 @@
     if (/^[01]/.test(a)) add(r, 'tel_indicatif_0_1', 50, true, 'telephone', { a: a });
     else if (/^[2-9]11$/.test(a)) add(r, 'tel_indicatif_n11', 50, true, 'telephone', { a: a });
     else if (NON_PERSONNEL.test(a)) add(r, 'tel_sans_frais', 30, true, 'telephone');
-    else if (!AREA_PROV[a]) add(r, a === '444' ? 'tel_indicatif_444' : (a === '555' ? 'tel_indicatif_555' : 'tel_indicatif_inconnu'), 50, true, 'telephone', { a: a });
+    else if (a === '444' || a === '555') add(r, 'tel_indicatif_' + a, 50, true, 'telephone', { a: a });
+    else if (!AREA_PROV[a] || !ZONE[AREA_PROV[a]]) add(r, 'tel_hors_zone', 50, true, 'telephone', { a: a });
     else r.province = AREA_PROV[a];
     if (/^[01]/.test(x)) add(r, 'tel_central_0_1', 50, true, 'telephone');
     else if (/^[2-9]11$/.test(x)) add(r, 'tel_central_n11', 50, true, 'telephone');
@@ -247,7 +255,10 @@
     // Préfixes bidons : test@gmail.com, test123@, t.e.s.t@, fake_1@
     var core = local.replace(/\+.*$/, '').replace(/[._\-]/g, '');
     var letters = core.replace(/\d+$/, '');
-    if (FAKE_LOCAL_SET[core] || FAKE_LOCAL_SET[letters] || FAKE_LOCAL_RX.test(core) || /^(.)\1{3,}$/.test(core) ||
+    // Commence par un mot bidon suivi d'un séparateur ou de chiffres : test.jean@, test_1@, fake-email@, asdf123@
+    // (« testard.paul@ » reste accepté : un vrai nom de famille)
+    var startsFake = /^(test|tests|testing|fake|faux|asdf|qwer|azer|zxcv|spam|junk|trash|temp|dummy|sample|example|exemple|nobody|noreply|no-reply|donotreply)([._\-+0-9]|$)/.test(local);
+    if (startsFake || FAKE_LOCAL_SET[core] || FAKE_LOCAL_SET[letters] || FAKE_LOCAL_RX.test(core) || /^(.)\1{3,}$/.test(core) ||
         /^(test|fake|asdf|qwerty|azerty)+\d*$/.test(core)) {
       add(r, 'courriel_prefixe_test', 50, true, 'courriel', { e: s });
     }
@@ -272,6 +283,8 @@
         else add(r, 'courriel_typo', 30, true, 'courriel', { s: local + '@' + sug });
       }
     }
+    // Terminaison inhabituelle (.xyz, .top, .ru…) : refusée, sauf si une suggestion de faute vient d'être faite
+    if (!r.suggestion && !disp && !OK_TLD.test(tld)) add(r, 'courriel_suspect', 50, true, 'courriel');
     // Signaux de charabia (points seulement : un vrai courriel peut être bizarre)
     var alpha = core.replace(/[^a-z]/g, '');
     if (WALKS.test(core)) add(r, 'courriel_clavier', 20);
