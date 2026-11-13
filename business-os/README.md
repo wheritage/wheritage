@@ -29,7 +29,7 @@ Samedi famille et « aucune notification de 21 h à 7 h » : à régler à la ma
 | Jour | À faire | État |
 |---|---|---|
 | 1 · Fondation | Créer le projet Claude « Business OS - Walid » (MEMORY.md + GARDE-FOUS.md), vérifier les connecteurs : « Qu'est-ce que j'ai à l'agenda demain ? » | Fichiers prêts ; connecteurs Google déjà branchés |
-| 2 · Agenda | Importer `semaine-ideale.ics`, créer l'agenda « Callbacks » (fait automatiquement par `installTriggers()`), tâche « Brief du matin » | Fichiers et prompt prêts |
+| 2 · Agenda | Semaine idéale + agenda personnel, tâche « Brief du matin » | **Fait** : 27 événements récurrents dans l'agenda principal (Libre, « [Business OS] »), à partir du 16 novembre ; tâches à créer dans claude.ai |
 | 3 · Leads | Feuille Leads, intake, rappels de 9 h et 16 h 30 | **Fait** : Apps Script (installer selon LEAD-PROTECTION.md) |
 | 4 · Rencontres | Prompts 16, 17, 18 + modèles | **Fait** : `PROMPTS.md`, `modeles/` |
 | 5 · Contenu | Calendrier de 30 jours (P32), 3 publications (P33), tâche du lundi | Prompts prêts |
