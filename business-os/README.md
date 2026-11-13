@@ -11,6 +11,7 @@ Dossier privé : exclu du déploiement (`.vercelignore`), il n'apparaît pas sur
 | `TACHES-PLANIFIEES.md` | Prompt 53, partie 5 | Les 15 automatisations : 6 déjà écrites (Apps Script, GitHub Actions), les autres avec un prompt autonome prêt. |
 | `semaine-ideale.ics` | Partie 3 B | Semaine idéale de 45 h, récurrente, à importer dans un agenda Google dédié. |
 | `efficacite-personnelle.ics` | Prompt 13 | Entraînement, formation continue (UFC), repas, préparation du dimanche. |
+| `PLAN-PROSPECTION.md` | Objectifs 2026 | Calcul à rebours (20 conversations → 10 clients / mois), 6 moteurs avec quotas, gros clients, revues semestrielles, scripts, démarrage en 90 jours. |
 | `objections.md` | Prompt 30 | 15 objections québécoises. |
 | `modeles/` | Jour 4 du plan | Note CRM, courriel de récapitulatif, ordre du jour de revue, brief de découverte. |
 | `SKILLS.md` | Parties 1 et 2 | Pile de skills vérifiée (3 dépôts du document n'existent pas : corrigés). |

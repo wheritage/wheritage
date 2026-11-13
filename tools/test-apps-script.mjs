@@ -12,13 +12,13 @@ const SECRET = 'secret-test';
 
 /* ── Simulacres ── */
 function makeSheet(name) {
-  const sh = { name, data: [], bg: {} };
+  const sh = { name, data: [], bg: {}, getName: () => name };
   const range = (r, c, nr = 1, nc = 1) => ({
     getValues: () => Array.from({ length: nr }, (_, i) => Array.from({ length: nc }, (_, j) => (sh.data[r - 1 + i] || [])[c - 1 + j] ?? '')),
     getValue: () => (sh.data[r - 1] || [])[c - 1] ?? '',
     setValues: (v) => { v.forEach((row, i) => row.forEach((x, j) => { (sh.data[r - 1 + i] ||= [])[c - 1 + j] = x; })); },
-    setValue: (x) => { (sh.data[r - 1] ||= [])[c - 1] = x; },
-    setBackground: (b) => { sh.bg[r] = b; }, setFontWeight() {}, setDataValidation() {}, insertCheckboxes() {}
+    setValue(x) { (sh.data[r - 1] ||= [])[c - 1] = x; return this; },
+    setBackground: (b) => { sh.bg[r] = b; }, setFontWeight() { return this; }, setDataValidation() {}, insertCheckboxes() {}, setNumberFormat() {}
   });
   Object.assign(sh, {
     getLastRow: () => sh.data.length,
@@ -122,6 +122,26 @@ check('18 h et vendredi : rapports envoyés', mails.length === 2, mails.map((m) 
 lr[1][H.indexOf('Date entrée')] = new Date(Date.now() - 40 * 86400000); lr[1][H.indexOf('IP')] = '1.2.3.4';
 ctx.anonymiserIp();
 check('IP effacée après 30 jours (Loi 25)', sheets.Leads.data[1][H.indexOf('IP')] === '');
+// 12. Objectifs 2026 : journal d'appels, client gagné, revues semestrielles, tableau de bord du vendredi
+const L = sheets.Leads, HH = L.data[0], col = (k) => HH.indexOf(k) + 1;
+check('Nouvelles colonnes dans Leads', ['Taille client', 'Date gagné', 'Actifs ramenés ($)', 'Dernière revue', 'Prochaine revue semestrielle'].every((k) => HH.includes(k)));
+const edit = (row, k, v) => { L.data[row - 1][col(k) - 1] = v; ctx.onEditLeads({ value: v, range: { getSheet: () => L, getRow: () => row, getColumn: () => col(k) } }); };
+edit(2, 'Dernier contact', new Date()); edit(3, 'Dernier contact', new Date());
+check('Dernier contact rempli → Journal appels', rows('Journal appels').length === 2, rows('Journal appels').map((r) => r.Nom).join(', '));
+edit(2, 'Statut', 'Gagné');
+const g = L.data[1];
+check('Statut Gagné → Date gagné + revue dans 6 mois', g[col('Date gagné') - 1] instanceof Date && g[col('Prochaine revue semestrielle') - 1] instanceof Date &&
+  Math.round((g[col('Prochaine revue semestrielle') - 1] - g[col('Date gagné') - 1]) / 86400000) > 170, formatDate(g[col('Prochaine revue semestrielle') - 1], 'America/Toronto', 'yyyy-MM-dd'));
+L.data[1][col('Taille client') - 1] = 'Gros'; L.data[1][col('Actifs ramenés ($)') - 1] = 250000;
+const rev = new Date(Date.now() - 200 * 86400000); edit(2, 'Dernière revue', rev);
+const next = L.data[1][col('Prochaine revue semestrielle') - 1];
+check('Dernière revue → prochaine = +6 mois (ici déjà dépassée)', next < new Date(), formatDate(next, 'America/Toronto', 'yyyy-MM-dd'));
+const m0 = mails.length; ctx.revuesDuMois();
+check('1er du mois : courriel des revues dues', mails.length === m0 + 1 && /EN RETARD/.test(mails.at(-1).body), mails.at(-1).subj);
+ctx.rapportHebdo();
+const hb = mails.at(-1);
+check('Vendredi : appels / 20, clients / 10, placements', /2\/20 appels/.test(hb.subj) && /1\/10 clients/.test(hb.subj) && /250/.test(hb.body), hb.subj);
+console.log(hb.body.split('\n').slice(0, 8).join('\n'));
 // 11. Ancienne feuille Diagnostic sans colonnes de risque : colonnes ajoutées
 check('Colonnes anti-faux leads présentes dans Diagnostic', ['lead_id', 'otp_statut', 'risque_score', 'preuve_valide'].every((k) => sheets.Diagnostic.data[0].includes(k)));
 check('Une ligne par lead dans Diagnostic (mise à jour par lead_id)', new Set(rows('Diagnostic').map((r) => r.lead_id)).size === rows('Diagnostic').length);

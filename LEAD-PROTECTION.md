@@ -56,8 +56,10 @@ Suivre l'en-tête de `tools/apps-script-diagnostic.gs` : coller le fichier, coll
 | 9 h | `callbackCheck` | Lead ouvert sans contact depuis 3 jours (ou jamais rappelé après 24 h) → événement « CALLBACK » à 10 h le prochain jour ouvrable ; retard > 7 jours en rouge |
 | 16 h 30 | `followUpPlan` | Lead contacté aujourd'hui → relance dans 3 jours ouvrables |
 | 18 h | `rapportQuotidien` | Courriel : leads du jour, quarantaine et raisons, rappels en retard |
-| Vendredi 15 h | `rapportHebdo` | Semaine vs semaine précédente, écarts de plus de 10 % signalés |
+| Vendredi 15 h | `rapportHebdo` | Tableau de bord des objectifs (appels / 20, clients du mois / 10 par taille, placements ramenés, revues) + leads de la semaine vs la précédente |
 | 3 h | `anonymiserIp` | Loi 25 : IP effacée après 30 jours |
+| À chaque modification de l'onglet Leads | `onEditLeads` | « Dernier contact » → ligne dans « Journal appels » ; Statut Gagné → Date gagné + revue dans 6 mois ; « Dernière revue » → prochaine revue + 6 mois |
+| 1er du mois, 8 h | `revuesDuMois` | Courriel : revues semestrielles dues ou en retard, avec les 3 buts de la revue |
 
 Un lead vérifié crée tout de suite un événement « CALLBACK: Prénom Nom - VÉRIFIÉ » dans l'agenda « Callbacks » (2 h plus tard pendant les heures ouvrables, sinon 10 h le prochain jour ouvrable), avec le script d'appel.
 

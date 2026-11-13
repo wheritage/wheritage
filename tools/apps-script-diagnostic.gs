@@ -67,7 +67,11 @@ var RISK_COLUMNS = ['lead_id', 'risque_score', 'risque_action', 'risque_raisons'
 
 var LEADS_COLUMNS = ['Nom', 'Téléphone', 'Courriel', 'Source', 'Besoin', 'Date entrée', 'Dernier contact', 'Statut', 'Priorité',
   'Prochaine action', 'Heure rappel', 'OTP vérifié', 'OTP horodatage', 'Opérateur', 'Type de ligne', 'Risque', 'Raisons', 'Lead ID',
-  'Rappel créé', 'Activité', 'IP'];
+  'Rappel créé', 'Activité', 'IP', 'Taille client', 'Date gagné', 'Actifs ramenés ($)', 'Dernière revue', 'Prochaine revue semestrielle'];
+// Objectifs 2026 (business-os/MEMORY.md) : utilisés par le rapport du vendredi et le rappel mensuel des revues
+var CIBLES = { appelsSemaine: 20, nouveauxClientsMois: 10 };
+var TAILLES = ['Gros', 'Moyen', 'Petit'];
+var JOURNAL_COLUMNS = ['Date', 'Nom', 'Téléphone', 'Statut au moment de l\'appel', 'Client ?', 'Lead ID'];
 var QUAR_COLUMNS = LEADS_COLUMNS.concat(['Raison quarantaine', 'Mis en quarantaine le']);
 var BLOCK_COLUMNS = ['Type', 'Valeur', 'Raison', 'Ajouté le'];
 var STATUTS = ['Nouveau', 'En attente vérif', 'À vérifier', 'Contacté', 'Découverte', 'Proposition', 'Fermé', 'Gagné', 'Perdu'];
@@ -243,7 +247,7 @@ function pipeline_(d, v) {
 /* ═════════════ DÉCLENCHEURS ═════════════ */
 function installTriggers() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
-    if (['quarantinePending', 'callbackCheck', 'followUpPlan', 'rapportQuotidien', 'rapportHebdo', 'anonymiserIp'].indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
+    if (['quarantinePending', 'callbackCheck', 'followUpPlan', 'rapportQuotidien', 'rapportHebdo', 'anonymiserIp', 'onEditLeads', 'revuesDuMois'].indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
   });
   ScriptApp.newTrigger('quarantinePending').timeBased().everyMinutes(5).create();
   ScriptApp.newTrigger('callbackCheck').timeBased().atHour(9).everyDays(1).inTimezone(CFG_.tz).create();
@@ -251,7 +255,9 @@ function installTriggers() {
   ScriptApp.newTrigger('rapportQuotidien').timeBased().atHour(18).everyDays(1).inTimezone(CFG_.tz).create();
   ScriptApp.newTrigger('rapportHebdo').timeBased().onWeekDay(ScriptApp.WeekDay.FRIDAY).atHour(15).inTimezone(CFG_.tz).create();
   ScriptApp.newTrigger('anonymiserIp').timeBased().atHour(3).everyDays(1).inTimezone(CFG_.tz).create();
-  sheet_('Leads', LEADS_COLUMNS); sheet_('Quarantaine', QUAR_COLUMNS); sheet_('Blocklist', BLOCK_COLUMNS);
+  ScriptApp.newTrigger('onEditLeads').forSpreadsheet(SpreadsheetApp.getActiveSpreadsheet()).onEdit().create();
+  ScriptApp.newTrigger('revuesDuMois').timeBased().onMonthDay(1).atHour(8).inTimezone(CFG_.tz).create();
+  sheet_('Leads', LEADS_COLUMNS); sheet_('Quarantaine', QUAR_COLUMNS); sheet_('Blocklist', BLOCK_COLUMNS); sheet_('Journal appels', JOURNAL_COLUMNS);
   calendar_();
 }
 
@@ -339,27 +345,102 @@ function rapportQuotidien() {
   MailApp.sendEmail(CFG_.email, 'W Héritage · rapport leads du ' + today, L.join('\n'));
 }
 
-/* Vendredi 15 h : rapport de la semaine vs semaine précédente, écarts de plus de 10 % signalés. */
+/* ═════════════ OBJECTIFS 2026 : appels, revues semestrielles, placements ═════════════
+   Quand vous modifiez l'onglet Leads à la main :
+   - « Dernier contact » rempli → une ligne dans « Journal appels » (c'est ce qui compte vos 20 appels / semaine)
+   - « Statut » = Gagné → « Date gagné » = aujourd'hui et « Prochaine revue semestrielle » = dans 6 mois (si vides)
+   - « Dernière revue » remplie → « Prochaine revue semestrielle » = 6 mois plus tard
+   Déclencheur installable (installTriggers), pas un simple onEdit : il peut écrire dans les autres onglets. */
+function onEditLeads(e) {
+  if (!e || !e.range) return;
+  var sh = e.range.getSheet();
+  if (sh.getName() !== 'Leads' || e.range.getRow() < 2) return;
+  var head = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  var col = head[e.range.getColumn() - 1], r = e.range.getRow(), I = function (k) { return head.indexOf(k) + 1; };
+  var get = function (k) { return I(k) ? sh.getRange(r, I(k)).getValue() : ''; };
+  var set = function (k, v) { if (I(k)) sh.getRange(r, I(k)).setValue(v); };
+  var today = new Date();
+  if (col === 'Dernier contact' && e.value) {
+    var j = sheet_('Journal appels', JOURNAL_COLUMNS);
+    j.appendRow([get('Dernier contact') || today, get('Nom'), get('Téléphone'), get('Statut'), get('Statut') === 'Gagné' ? 'oui' : 'non', get('Lead ID')]);
+    set('Activité', String(get('Activité') || '') + '\n' + fmt_(today) + ' · appel');
+  }
+  if (col === 'Statut' && e.value === 'Gagné') {
+    if (!get('Date gagné')) set('Date gagné', today);
+    if (!get('Prochaine revue semestrielle')) set('Prochaine revue semestrielle', addMonths_(today, 6));
+  }
+  if (col === 'Dernière revue' && get('Dernière revue') instanceof Date) set('Prochaine revue semestrielle', addMonths_(get('Dernière revue'), 6));
+}
+function addMonths_(d, n) { var x = new Date(d.getTime()); x.setMonth(x.getMonth() + n); return x; }
+
+/* 1er du mois, 8 h : clients dont la revue semestrielle tombe ce mois-ci (ou est en retard), par courriel,
+   avec les 3 buts de chaque revue : une vente de plus, leurs placements, des références. */
+function revuesDuMois() {
+  var leads = rows_(SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Leads'));
+  var now = new Date(), fin = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  var dues = leads.filter(function (x) { var d = x['Prochaine revue semestrielle']; return x['Statut'] === 'Gagné' && d instanceof Date && d < fin; })
+    .sort(function (a, b) { return a['Prochaine revue semestrielle'] - b['Prochaine revue semestrielle']; });
+  if (!dues.length) return;
+  var L = ['REVUES SEMESTRIELLES À FAIRE EN ' + Utilities.formatDate(now, CFG_.tz, 'MM/yyyy') + ' : ' + dues.length, '',
+    'Pour chaque revue : 1) un besoin non couvert (vente) 2) les placements détenus ailleurs (transfert) 3) deux noms (références).', ''];
+  dues.forEach(function (x) {
+    var d = x['Prochaine revue semestrielle'], late = d < now;
+    L.push('• ' + x['Nom'] + ' · ' + x['Téléphone'] + ' · ' + (x['Taille client'] || 'taille ?') + ' · prévue ' + fmtDay_(d) + (late ? ' (EN RETARD)' : ''));
+  });
+  L.push(''); L.push('Une fois la revue faite, inscrivez la date dans « Dernière revue » : la suivante se planifie seule (6 mois).');
+  L.push('Feuille : ' + SpreadsheetApp.getActiveSpreadsheet().getUrl());
+  MailApp.sendEmail(CFG_.email, 'W Héritage · ' + dues.length + ' revue(s) semestrielle(s) ce mois-ci', L.join('\n'));
+}
+
+/* Vendredi 15 h : tableau de bord des objectifs + leads de la semaine vs semaine précédente (écarts > 10 % signalés). */
 function rapportHebdo() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet(), week = 7 * 86400000, now = Date.now();
-  var all = rows_(ss.getSheetByName('Leads')).concat(rows_(ss.getSheetByName('Quarantaine')));
-  var inWin = function (x, a, b) { var t = x['Date entrée'] instanceof Date ? x['Date entrée'].getTime() : 0; return t >= a && t < b; };
+  var ss = SpreadsheetApp.getActiveSpreadsheet(), week = 7 * 86400000, now = Date.now(), today = new Date();
+  var leads = rows_(ss.getSheetByName('Leads')), all = leads.concat(rows_(ss.getSheetByName('Quarantaine')));
+  var journal = rows_(ss.getSheetByName('Journal appels'));
+  var t = function (v) { return v instanceof Date ? v.getTime() : (Date.parse(v) || 0); };
+  var lundi = new Date(today.getTime()); lundi.setHours(0, 0, 0, 0); lundi.setDate(lundi.getDate() - ((lundi.getDay() + 6) % 7));
+  var mois = new Date(today.getFullYear(), today.getMonth(), 1);
+  var L = ['OBJECTIFS · semaine du ' + fmtDay_(lundi), ''];
+
+  // 1. Appels qualifiés (cible 20 / semaine)
+  var appels = journal.filter(function (x) { return t(x['Date']) >= lundi.getTime(); });
+  var noms = {}; appels.forEach(function (x) { noms[x['Nom'] + '|' + x['Téléphone']] = 1; });
+  var nb = Object.keys(noms).length, clientsAppeles = appels.filter(function (x) { return x['Client ?'] === 'oui'; }).length;
+  L.push((nb >= CIBLES.appelsSemaine ? '✓ ' : '✗ ') + 'Personnes appelées : ' + nb + ' / ' + CIBLES.appelsSemaine + ' (dont ' + clientsAppeles + ' appels à des clients)');
+  var ouverts = leads.filter(function (x) { return !FERMES[x['Statut']] && x['Statut'] !== 'En attente vérif'; }).length;
+  L.push('  Pipeline ouvert à appeler : ' + ouverts + (ouverts < CIBLES.appelsSemaine ? '  ⚑ moins que la cible : ajoutez des références et des centres d\'influence (plan de prospection)' : ''));
+
+  // 2. Nouveaux clients du mois (cible 10), par taille
+  var gagnes = leads.filter(function (x) { return x['Statut'] === 'Gagné' && t(x['Date gagné']) >= mois.getTime(); });
+  var parTaille = {}; gagnes.forEach(function (x) { var k = x['Taille client'] || 'non précisé'; parTaille[k] = (parTaille[k] || 0) + 1; });
+  L.push((gagnes.length >= CIBLES.nouveauxClientsMois ? '✓ ' : '· ') + 'Nouveaux clients ce mois-ci : ' + gagnes.length + ' / ' + CIBLES.nouveauxClientsMois +
+    (gagnes.length ? ' (' + Object.keys(parTaille).map(function (k) { return k + ' ' + parTaille[k]; }).join(', ') + ')' : ''));
+
+  // 3. Placements ramenés (mois en cours)
+  var actifs = leads.filter(function (x) { return t(x['Date gagné']) >= mois.getTime() || t(x['Dernière revue']) >= mois.getTime(); })
+    .reduce(function (s, x) { return s + (Number(x['Actifs ramenés ($)']) || 0); }, 0);
+  L.push('Placements ramenés ce mois-ci (clients gagnés ou revus ce mois) : ' + actifs.toLocaleString('fr-CA') + ' $');
+
+  // 4. Revues semestrielles
+  var enRetard = leads.filter(function (x) { return x['Statut'] === 'Gagné' && x['Prochaine revue semestrielle'] instanceof Date && x['Prochaine revue semestrielle'] < today; }).length;
+  var faites = leads.filter(function (x) { return t(x['Dernière revue']) >= lundi.getTime(); }).length;
+  L.push('Revues semestrielles : ' + faites + ' faite(s) cette semaine, ' + enRetard + ' en retard');
+
+  // 5. Leads du site : semaine vs semaine précédente
+  var inWin = function (x, a, b) { var v = t(x['Date entrée']); return v >= a && v < b; };
   var stats = function (a, b) {
     var w = all.filter(function (x) { return inWin(x, a, b); });
-    return { total: w.length, verifies: w.filter(function (x) { return x['OTP vérifié'] === true; }).length,
-      quarantaine: w.filter(function (x) { return x['Statut'] === 'Quarantaine'; }).length,
-      hot: w.filter(function (x) { return x['Priorité'] === 'Hot'; }).length,
-      gagnes: w.filter(function (x) { return x['Statut'] === 'Gagné'; }).length };
+    return { leads: w.length, verifies: w.filter(function (x) { return x['OTP vérifié'] === true; }).length,
+      quarantaine: w.filter(function (x) { return x['Statut'] === 'Quarantaine'; }).length, hot: w.filter(function (x) { return x['Priorité'] === 'Hot'; }).length };
   };
-  var cur = stats(now - week, now), prev = stats(now - 2 * week, now - week), L = ['SEMAINE se terminant le ' + fmtDay_(new Date()), ''];
+  var cur = stats(now - week, now), prev = stats(now - 2 * week, now - week);
+  L.push(''); L.push('LEADS ENTRANTS (7 derniers jours vs 7 jours précédents)');
   Object.keys(cur).forEach(function (k) {
     var d = prev[k] ? Math.round((cur[k] - prev[k]) / prev[k] * 100) : (cur[k] ? 100 : 0);
-    L.push(k + ' : ' + cur[k] + ' (semaine précédente ' + prev[k] + (Math.abs(d) > 10 ? ', ⚑ ' + (d > 0 ? '+' : '') + d + ' %' : '') + ')');
+    L.push(k + ' : ' + cur[k] + ' (avant : ' + prev[k] + (Math.abs(d) > 10 ? ', ⚑ ' + (d > 0 ? '+' : '') + d + ' %' : '') + ')');
   });
-  var taux = cur.total ? Math.round(cur.quarantaine / cur.total * 100) : 0;
-  L.push(''); L.push('Part de faux leads filtrés : ' + taux + ' %');
-  L.push('Feuille : ' + ss.getUrl());
-  MailApp.sendEmail(CFG_.email, 'W Héritage · rapport hebdo des leads', L.join('\n'));
+  L.push(''); L.push('Feuille : ' + ss.getUrl());
+  MailApp.sendEmail(CFG_.email, 'W Héritage · objectifs de la semaine : ' + nb + '/' + CIBLES.appelsSemaine + ' appels, ' + gagnes.length + '/' + CIBLES.nouveauxClientsMois + ' clients ce mois', L.join('\n'));
 }
 
 /* 3 h : Loi 25, l'adresse IP (preuve du consentement LCAP) est effacée après 30 jours. */
@@ -382,13 +463,24 @@ function sheet_(name, cols) {
   if (!sh) sh = ss.insertSheet(name);
   if (sh.getLastRow() === 0) {
     sh.appendRow(cols); sh.setFrozenRows(1); sh.getRange(1, 1, 1, cols.length).setFontWeight('bold');
-    if (name === 'Leads') {
-      var rule = SpreadsheetApp.newDataValidation().requireValueInList(STATUTS, true).setAllowInvalid(false).build();
-      sh.getRange(2, cols.indexOf('Statut') + 1, 999, 1).setDataValidation(rule);
-      sh.getRange(2, cols.indexOf('OTP vérifié') + 1, 999, 1).insertCheckboxes();
-    }
+    if (name === 'Leads') leadsFormat_(sh, cols);
+  } else {
+    // Feuille existante : ajouter à la fin les colonnes qui manquent (ex. suivi des placements et des revues)
+    var head = sh.getRange(1, 1, 1, Math.max(1, sh.getLastColumn())).getValues()[0], added = false;
+    cols.forEach(function (k) { if (head.indexOf(k) < 0) { head.push(k); sh.getRange(1, head.length).setValue(k).setFontWeight('bold'); added = true; } });
+    if (added && name === 'Leads') leadsFormat_(sh, head);
   }
   return sh;
+}
+function leadsFormat_(sh, cols) {
+  var list = function (vals) { return SpreadsheetApp.newDataValidation().requireValueInList(vals, true).setAllowInvalid(false).build(); };
+  sh.getRange(2, cols.indexOf('Statut') + 1, 999, 1).setDataValidation(list(STATUTS));
+  sh.getRange(2, cols.indexOf('OTP vérifié') + 1, 999, 1).insertCheckboxes();
+  if (cols.indexOf('Taille client') >= 0) sh.getRange(2, cols.indexOf('Taille client') + 1, 999, 1).setDataValidation(list(TAILLES));
+  ['Date gagné', 'Dernière revue', 'Prochaine revue semestrielle'].forEach(function (k) {
+    if (cols.indexOf(k) >= 0) sh.getRange(2, cols.indexOf(k) + 1, 999, 1).setNumberFormat('yyyy-mm-dd');
+  });
+  if (cols.indexOf('Actifs ramenés ($)') >= 0) sh.getRange(2, cols.indexOf('Actifs ramenés ($)') + 1, 999, 1).setNumberFormat('#,##0 $');
 }
 function rows_(sh) {
   if (!sh || sh.getLastRow() < 2) return [];
