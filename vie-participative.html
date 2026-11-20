@@ -92,7 +92,7 @@
 .profiles button { padding: 1.5rem 1.4rem; text-align: left; border-right: 1px solid var(--ligne); position: relative; transition: background .4s; }
 .profiles button:last-child { border-right: 0; }
 .profiles button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--or); transform: scaleX(0); transition: transform .6s var(--ease-out); }
-.profiles button.on { background: rgba(201,168,76,.06); }
+.profiles button.on { background: rgba(180,154,112,.06); }
 .profiles button.on::after { transform: scaleX(1); }
 .profiles small { display: block; font-size: .54rem; letter-spacing: .24em; color: var(--or); margin-bottom: .35rem; }
 .profiles b { display: block; font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--creme); line-height: 1.2; }
@@ -110,7 +110,7 @@
 .num-box.mini.wide { width: 150px; }
 .num-box.mini input { padding: .45rem .6rem; font-size: .9rem; font-family: var(--serif); }
 .seg.small button { padding: .55rem .6rem; font-size: .56rem; }
-.quote-box { border: 1px solid var(--ligne-fort); background: rgba(201,168,76,.06); padding: 1rem 1.1rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 1rem; }
+.quote-box { border: 1px solid var(--ligne-fort); background: rgba(180,154,112,.06); padding: 1rem 1.1rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 1rem; }
 .quote-box small { display: block; font-size: .54rem; letter-spacing: .2em; text-transform: uppercase; color: var(--texte3); margin-bottom: .2rem; }
 .quote-box b { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--creme); }
 .quote-box b.gold { color: var(--or); }
@@ -126,7 +126,7 @@
 .legend-btns button { display: inline-flex; align-items: center; gap: .55rem; font-size: .7rem; color: var(--texte2); padding: .25rem 0; transition: opacity .3s; }
 .legend-btns button i { width: 18px; height: 0; border-top: 2px solid; }
 .legend-btns button.off { opacity: .35; text-decoration: line-through; }
-.insight { margin-top: 1.4rem; padding: 1.2rem 1.4rem; border-left: 1px solid var(--or); background: rgba(201,168,76,.05); font-family: var(--serif); font-size: 1.2rem; line-height: 1.5; color: var(--texte); }
+.insight { margin-top: 1.4rem; padding: 1.2rem 1.4rem; border-left: 1px solid var(--or); background: rgba(180,154,112,.05); font-family: var(--serif); font-size: 1.2rem; line-height: 1.5; color: var(--texte); }
 .insight b { color: var(--or-vif); font-weight: 500; }
 .stat-row.four { grid-template-columns: repeat(4, 1fr); margin-top: 1.4rem; }
 .stat-row small em { font-style: normal; color: var(--or-pale); }
@@ -143,7 +143,7 @@
 .use li { display: grid; grid-template-columns: 22px 1fr; gap: .6rem; padding: .95rem 0; border-bottom: 1px solid var(--ligne); font-size: .84rem; color: var(--texte2); line-height: 1.7; }
 .use li::before { content: ''; width: 6px; height: 6px; border: 1px solid var(--or); transform: rotate(45deg); margin-top: .5rem; }
 .use li b { color: var(--creme); font-weight: 500; }
-.visual { border: 1px solid var(--ligne); background: linear-gradient(160deg, rgba(201,168,76,.05), transparent 55%); padding: 2.6rem 2.2rem; }
+.visual { border: 1px solid var(--ligne); background: linear-gradient(160deg, rgba(180,154,112,.05), transparent 55%); padding: 2.6rem 2.2rem; }
 .visual small.t { display: block; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-bottom: 1.8rem; }
 
 /* Visuel succession : deux barres */
@@ -152,7 +152,7 @@
 .estate .bar { display: flex; flex-direction: column-reverse; height: 82%; border: 1px solid var(--ligne); }
 .estate .seg { display: flex; align-items: center; justify-content: center; text-align: center; font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; padding: .3rem; transform: scaleY(0); transform-origin: bottom; transition: transform 1.2s var(--ease-out); }
 .visual.in .estate .seg { transform: scaleY(1); }
-.estate .seg.heirs { background: rgba(201,168,76,.18); color: var(--or-pale); }
+.estate .seg.heirs { background: rgba(180,154,112,.18); color: var(--or-pale); }
 .estate .seg.tax { background: repeating-linear-gradient(135deg, rgba(237,232,223,.08) 0 6px, transparent 6px 12px); color: var(--texte2); }
 .estate .seg.ins { background: var(--or); color: var(--noir); font-weight: 500; }
 .estate .col > b { display: block; text-align: center; font-family: var(--serif); font-weight: 400; font-size: 1.1rem; color: var(--creme); margin-top: 1rem; }
@@ -165,14 +165,14 @@
 .cflow .n .d { width: 46px; height: 46px; position: relative; display: flex; align-items: center; justify-content: center; }
 .cflow .n .d::before { content: ''; position: absolute; inset: 7px; border: 1px solid var(--or); transform: rotate(45deg); background: var(--noir2); }
 .cflow .n .d span { position: relative; font-family: var(--serif); font-size: .95rem; color: var(--or); }
-.cflow .n:not(:last-child)::after { content: ''; position: absolute; left: 22.5px; top: calc(50% + 23px); height: calc(100% - 46px); width: 1px; background: linear-gradient(var(--or), rgba(201,168,76,.2)); }
+.cflow .n:not(:last-child)::after { content: ''; position: absolute; left: 22.5px; top: calc(50% + 23px); height: calc(100% - 46px); width: 1px; background: linear-gradient(var(--or), rgba(180,154,112,.2)); }
 .cflow .n b { display: block; font-size: .84rem; font-weight: 500; color: var(--creme); }
 .cflow .n p { font-size: .74rem; color: var(--texte2); margin: 0; line-height: 1.6; }
 .cflow .n.hl b { color: var(--or-vif); }
 
 /* Visuel enfants : ligne du temps */
 .tl { position: relative; padding: 1rem 0 0; }
-.tl .axis { position: relative; height: 1px; background: rgba(201,168,76,.15); margin: 3.8rem 0 0; }
+.tl .axis { position: relative; height: 1px; background: rgba(180,154,112,.15); margin: 3.8rem 0 0; }
 .tl .axis i { position: absolute; inset: 0; background: var(--or); transform: scaleX(0); transform-origin: left; transition: transform 2.4s var(--ease-out) .2s; }
 .visual.in .tl .axis i { transform: scaleX(1); }
 .tl .pt { position: absolute; top: -5px; width: 11px; height: 11px; margin-left: -5.5px; border: 1px solid var(--or); background: var(--noir2); transform: rotate(45deg) scale(0); transition: transform .6s var(--ease-out); transition-delay: calc(.3s + var(--k) * .45s); }
@@ -192,8 +192,8 @@
 .cmp thead th { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; color: var(--creme); background: var(--sombre); }
 .cmp tbody th { font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--texte3); font-weight: 500; width: 16%; }
 .cmp td { color: var(--texte2); }
-.cmp .hl { background: rgba(201,168,76,.07); color: var(--or-pale); }
-.cmp thead .hl { color: var(--or); background: rgba(201,168,76,.12); }
+.cmp .hl { background: rgba(180,154,112,.07); color: var(--or-pale); }
+.cmp thead .hl { color: var(--or); background: rgba(180,154,112,.12); }
 .cmp tr:last-child th, .cmp tr:last-child td { border-bottom: 0; }
 .cmp tr.cons th { color: var(--or); }
 .cmp tr.cons td { font-size: .74rem; }
@@ -249,8 +249,8 @@
     </div>
     <div class="mech" data-stagger>
       <svg class="flow" viewBox="0 0 1000 4" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="0" y1="2" x2="1000" y2="2" stroke="rgba(201,168,76,.25)" stroke-width="1"/>
-        <circle r="3" cy="2" fill="#DDBE68"><animate attributeName="cx" from="0" to="1000" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="5s" repeatCount="indefinite"/></circle>
+        <line x1="0" y1="2" x2="1000" y2="2" stroke="rgba(180,154,112,.25)" stroke-width="1"/>
+        <circle r="3" cy="2" fill="#CDBB98"><animate attributeName="cx" from="0" to="1000" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="5s" repeatCount="indefinite"/></circle>
       </svg>
       <div class="m reveal"><div class="ring"><svg viewBox="0 0 20 20"><path d="M3 10h14M10 3v14"/></svg></div><small>01</small>
         <h3 lang="fr">Les primes</h3><h3 lang="en">Premiums</h3>
@@ -552,9 +552,9 @@
 
   var SERIES = [
     { key: 'db',   color: '#EDE8DF', width: 1.6, opacity: .85, fr: 'Capital-décès total', en: 'Total death benefit' },
-    { key: 'csv',  color: '#C9A84C', width: 2.4, fill: .22, fr: 'Valeur de rachat totale', en: 'Total cash value' },
-    { key: 'cap',  color: '#EAD6A2', width: 1.4, dash: '1 5', fr: 'Capacité d\'emprunt (jusqu\'à 90 %)', en: 'Borrowing capacity (up to 90%)' },
-    { key: 'gcsv', color: '#C9A84C', width: 1.4, dash: '6 5', opacity: .8, fr: 'Valeur de rachat garantie', en: 'Guaranteed cash value' },
+    { key: 'csv',  color: '#B49A70', width: 2.4, fill: .22, fr: 'Valeur de rachat totale', en: 'Total cash value' },
+    { key: 'cap',  color: '#DCCFB6', width: 1.4, dash: '1 5', fr: 'Capacité d\'emprunt (jusqu\'à 90 %)', en: 'Borrowing capacity (up to 90%)' },
+    { key: 'gcsv', color: '#B49A70', width: 1.4, dash: '6 5', opacity: .8, fr: 'Valeur de rachat garantie', en: 'Guaranteed cash value' },
     { key: 'prem', color: 'rgba(237,232,223,.45)', width: 1.4, dash: '3 4', fr: 'Primes versées (cumul)', en: 'Premiums paid (total)' }
   ];
 

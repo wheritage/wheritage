@@ -36,7 +36,7 @@
 
 /* ── Héros ── */
 .f-hero { position: relative; padding: 9.5rem var(--pad-x) 3.5rem; background: #060504; overflow: hidden; text-align: center; }
-.f-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 60% at 50% 0%, rgba(201,168,76,.1), transparent 70%); pointer-events: none; }
+.f-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 60% at 50% 0%, rgba(180,154,112,.1), transparent 70%); pointer-events: none; }
 .f-hero > div { position: relative; max-width: 940px; margin: 0 auto; }
 .f-hero .eyebrow { justify-content: center; margin-bottom: 1.6rem; }
 .f-hero h1 { font-size: clamp(2.3rem, 5.4vw, 4.3rem); line-height: 1.05; margin-bottom: 1.4rem; }
@@ -55,7 +55,7 @@
 .vsl .vs-ui { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.1rem; text-align: center; padding: 1.5rem; }
 .vsl .play { width: 74px; height: 74px; position: relative; display: flex; align-items: center; justify-content: center; }
 .vsl .play::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--or); transform: rotate(45deg); transition: transform .6s var(--ease-out), background .4s; }
-.vsl:hover .play::before { transform: rotate(135deg); background: rgba(201,168,76,.12); }
+.vsl:hover .play::before { transform: rotate(135deg); background: rgba(180,154,112,.12); }
 .vsl .play svg { position: relative; width: 18px; height: 18px; fill: var(--or); margin-left: 3px; }
 .vsl .vs-t { font-family: var(--serif); font-size: clamp(1.2rem, 2.4vw, 1.6rem); color: var(--creme); line-height: 1.2; max-width: 520px; }
 .vsl .vs-s { font-size: .56rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
@@ -201,7 +201,7 @@
 .pillar p { font-size: .84rem; color: var(--texte2); line-height: 1.8; }
 .formula { margin-top: 1px; border: 1px solid var(--ligne); border-top: 0; background: var(--noir); padding: 1.6rem 2rem; text-align: center; font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); color: var(--creme); font-weight: 300; line-height: 1.5; }
 .formula b { color: var(--or-vif); font-weight: 400; }
-.notthis { margin-top: 2.4rem; border-left: 1px solid var(--or); background: rgba(201,168,76,.05); padding: 1.5rem 1.8rem; }
+.notthis { margin-top: 2.4rem; border-left: 1px solid var(--or); background: rgba(180,154,112,.05); padding: 1.5rem 1.8rem; }
 .notthis b { display: block; font-size: .6rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); font-weight: 500; margin-bottom: .8rem; }
 .notthis p { font-size: .86rem; color: var(--texte2); line-height: 1.8; }
 
@@ -895,7 +895,7 @@
     (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement('script')).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
     Cal('init', 'wh', { origin: 'https://app.cal.com' });
     Cal.ns.wh('inline', { elementOrSelector: '#cal-inline', calLink: CAL_LINK, layout: 'month_view', config: { notes: n, theme: 'dark', layout: 'month_view' } });
-    Cal.ns.wh('ui', { theme: 'dark', cssVarsPerTheme: { dark: { 'cal-brand': '#C9A84C' } }, hideEventTypeDetails: false, layout: 'month_view' });
+    Cal.ns.wh('ui', { theme: 'dark', cssVarsPerTheme: { dark: { 'cal-brand': '#B49A70' } }, hideEventTypeDetails: false, layout: 'month_view' });
     Cal.ns.wh('on', { action: 'bookingSuccessful', callback: onBooked });
     Cal.ns.wh('on', { action: 'bookingSuccessfulV2', callback: onBooked });
     // Filet : si le calendrier n'apparaît pas (bloqueur, réseau), on montre le lien direct.

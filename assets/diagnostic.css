@@ -87,7 +87,7 @@
 .dg .vsl .vs-ui { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.1rem; text-align: center; padding: 1.5rem; }
 .dg .vsl .play { width: 74px; height: 74px; position: relative; display: flex; align-items: center; justify-content: center; }
 .dg .vsl .play::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--or); transform: rotate(45deg); transition: transform .6s var(--ease-out), background .4s; }
-.dg .vsl:hover .play::before { transform: rotate(135deg); background: rgba(201,168,76,.12); }
+.dg .vsl:hover .play::before { transform: rotate(135deg); background: rgba(180,154,112,.12); }
 .dg .vsl .play svg { position: relative; width: 18px; height: 18px; fill: var(--or); margin-left: 3px; }
 .dg .vsl .vs-t { font-family: var(--serif); font-size: clamp(1.2rem, 2.4vw, 1.6rem); color: var(--creme); line-height: 1.2; max-width: 520px; }
 .dg .vsl .vs-s { font-size: .56rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
