@@ -171,21 +171,15 @@ body::after {
 #intro.open { pointer-events: none; }
 #intro.gone { display: none; }
 
-/* Rideau de sortie (changement de page) */
-#curtain {
-  position: fixed; inset: 0; z-index: 9999; pointer-events: none;
-  display: flex; align-items: center; justify-content: center;
+/* Changement de page : transition de vue native entre documents (remplace l'ancien rideau en JS, qui retardait
+   chaque clic de 560 ms). Fondu bref ; sans prise en charge (Firefox), navigation instantanée. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: .22s cubic-bezier(.55,0,1,.45) both wh-vt-out; }
+  ::view-transition-new(root) { animation: .38s var(--ease-out) both wh-vt-in; }
 }
-#curtain .c-panel {
-  position: absolute; left: 0; right: 0; height: 50.5%; background: var(--noir);
-  transition: transform .6s var(--ease);
-}
-#curtain .c-panel.top { top: 0; transform: translateY(-101%); }
-#curtain .c-panel.bot { bottom: 0; transform: translateY(101%); }
-#curtain .c-mark { position: relative; z-index: 2; width: 44px; opacity: 0; transition: opacity .3s .25s; }
-body.leaving #curtain { pointer-events: all; }
-body.leaving #curtain .c-panel { transform: translateY(0); }
-body.leaving #curtain .c-mark { opacity: 1; }
+@keyframes wh-vt-out { to { opacity: 0; } }
+@keyframes wh-vt-in { from { opacity: 0; } }
 
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes jewel { to { transform: scale(1) rotate(45deg); } }
@@ -787,3 +781,14 @@ html.consent-open .quote-pill, html.consent-open .book-bar { opacity: 0; pointer
 .form-check:empty { display: none; }
 input[aria-invalid="true"], textarea[aria-invalid="true"], select[aria-invalid="true"] { border-color: #A0503A; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ── Pratiques web modernes (modern-web-guidance, 2026-11) ── */
+/* Titres équilibrés, paragraphes sans mot orphelin (ignoré sans prise en charge) */
+h1, h2, h3, .display, .signature-line { text-wrap: balance; }
+p, li, blockquote, figcaption { text-wrap: pretty; }
+/* Polices de secours (Georgia, Arial) ramenées à la hauteur d'x des polices du site : moins de saut au chargement */
+body { font-size-adjust: from-font; }
+/* La navigation reste en place pendant le fondu entre deux pages */
+.nav { view-transition-name: site-nav; }
+/* Champ en rouge seulement après interaction (pas dès l'ouverture du formulaire) */
+input:user-invalid, textarea:user-invalid, select:user-invalid { border-color: #A0503A; }

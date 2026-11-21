@@ -58,6 +58,7 @@ exported into an edit. Goal: motion that reads as directed, not as a generic AI 
 | Reverse-engineer a reference style (layout, type, palette) into tokens | `design-dna` | [zanwei/design-dna](https://github.com/zanwei/design-dna) |
 | Timing, easing, choreography, Disney principles, Lottie/SVG motion | `motion-design` | [lottiefiles/motion-design-skill](https://github.com/lottiefiles/motion-design-skill) |
 | Creative direction, premium polish, AI-tell audit | `cast` (one interface moves), `paint` (whole look), `bunshin` (whole site, multi-agent, costly) + shared modules in `_jutsu/` | [AThevon/genjutsu](https://github.com/AThevon/genjutsu) |
+| Modern HTML/CSS/JS practice for the site itself (forms, a11y, performance, transitions, security) | `modern-web-guidance` (read `guides/<area>/<topic>.md` directly; its `npx` search tool is optional) | [googlechrome/modern-web-guidance](https://github.com/googlechrome/modern-web-guidance) |
 
 Note: the Instagram post (@ai.theshift) spelled the Three.js repo `ClaudeAI-X`; the real one is
 `CloudAI-X/threejs-skills`. Pinned commits are listed in `.claude/skills/SOURCES.md`.

@@ -107,6 +107,13 @@ const PAGES = ['/', '/expertise', '/entrepreneurs', '/contact', '/guide-entrepre
   await p.reload(); await p.waitForTimeout(800);
   check('Accueil : la langue choisie est retenue', await p.evaluate(() => document.documentElement.lang) === 'en');
   await p.click('.lang-toggle button[data-l="fr"]');
+  const vt = await p.evaluate(() => [...document.styleSheets].some(ss => { try { return [...ss.cssRules].some(r => /view-transition/.test(r.cssText)); } catch (e) { return false; } }));
+  check('Transitions entre pages natives (@view-transition), plus de rideau JS', vt && !(await p.$('#curtain')));
+  const t0 = Date.now();
+  await Promise.all([p.waitForURL(/expertise/), p.click('.nav-links a[href="expertise.html"]')]);
+  check('Clic de navigation : départ immédiat (aucun délai artificiel)', Date.now() - t0 < 450, (Date.now() - t0) + ' ms');
+  check('Intro du logo : seulement à la première page de la visite', !(await p.$('#intro')));
+  await p.goBack(); await p.waitForTimeout(500);
   for (const [hash, target] of [['#guide', '/guide-entrepreneur'], ['#contact', '/contact'], ['#reservation', '/diagnostic']]) {
     const q = await ctx.newPage(); await q.goto(BASE + '/' + hash); await q.waitForURL(u => u.pathname.replace(/\.html$/, '') === target, { timeout: 5000 }).catch(() => {});
     check(`Ancienne ancre /${hash} redirige vers ${target}`, new URL(q.url()).pathname.replace(/\.html$/, '') === target, q.url()); await q.close();
@@ -230,10 +237,11 @@ async function runDiagnostic(profil, vp, email, tel) {
   if (await p.$('[data-act="otp-send"]')) {
     await p.check('#dg-sms-ok').catch(() => {});
     await p.click('[data-act="otp-send"]'); await p.waitForTimeout(1200);
-    const boxes = await p.$$('.dg-otp-box');
-    for (let i = 0; i < boxes.length; i++) await boxes[i].fill('123456'[i]);
+    const field = await p.evaluate(() => { const i = document.getElementById('dg-otp-code'); return i && { n: document.querySelectorAll('#dg-otp input').length, ac: i.autocomplete, im: i.inputMode, type: i.type, label: !!document.querySelector('label[for="dg-otp-code"]'), focused: document.activeElement === i }; });
+    check(`Diagnostic ${profil} : code texto = un seul champ (one-time-code, clavier numérique, étiquette, focus)`, field && field.n === 1 && field.ac === 'one-time-code' && field.im === 'numeric' && field.type === 'text' && field.label && field.focused, JSON.stringify(field));
+    await p.fill('#dg-otp-code', '12 34 56'); // collage avec espaces : nettoyé puis envoyé seul
     await p.waitForTimeout(2500);
-    check(`Diagnostic ${profil} : vérification par texto (Twilio simulé, code 123456)`, !(await p.$('.dg-otp-box')));
+    check(`Diagnostic ${profil} : vérification par texto (Twilio simulé, code 123456 collé)`, !(await p.$('#dg-otp-code')));
   }
   const res = await p.evaluate(() => ({ cal: !!document.getElementById('dg-cal'), text: document.querySelector('#dg-h') ? document.querySelector('#dg-h').innerText : '' }));
   check(`Diagnostic ${profil} : résultat + calendrier Cal.com intégré`, res.cal, res.text);

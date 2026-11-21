@@ -152,3 +152,28 @@ All external services were intercepted during tests: no email reached the inbox,
 4. **Protection, Patrimoine, Transmission** dedicated pages, as `/expertise` sections grow.
 5. Migrate the articles, simulators and legal pages to the light editorial layout.
 6. New OG images; `/en/` URLs if English search traffic matters.
+
+---
+
+## 8. Modern web guidance pass (2026-11-21)
+
+Source: [googlechrome/modern-web-guidance](https://github.com/googlechrome/modern-web-guidance) (commit `64a6d70`),
+installed as a project skill in `.claude/skills/modern-web-guidance/` (see `SOURCES.md`). Guides applied:
+
+| Guide | Change |
+|---|---|
+| `forms/sms-otp-form` | `/diagnostic` SMS step: six one-digit boxes replaced by **one** labelled field (`type="text"`, `inputmode="numeric"`, `autocomplete="one-time-code"`), so iOS/Android code suggestions and pasting work. WebOTP (`navigator.credentials.get`) fills and submits the code on Chrome Android, aborted on submit, resend and leaving the step. No `maxlength`, so a pasted « 123 456 » is cleaned instead of truncated. |
+| `ui-behaviors/cross-document-transitions` | The JS curtain (every internal click waited 560 ms) is gone. Pages cross-fade with CSS `@view-transition`, the nav stays in place; unsupported browsers navigate instantly. The logo intro now shows once per visit. |
+| `visual-design/improve-text-layout-and-legibility` | `text-wrap: balance` on headings, `pretty` on paragraphs and list items. |
+| `visual-design/visually-stable-font-fallbacks` | `font-size-adjust: from-font` on `body`: less text jump while Google Fonts load. |
+| `performance/optimize-image-priority` | `/entrepreneurs` hero photo now `fetchpriority="high"` (it was the only hero without it). |
+| `forms/validate-input-after-interaction` | Fields turn red with `:user-invalid`, only after the visitor has interacted. |
+
+**Needs you (Twilio):** for WebOTP and Safari's domain-bound autofill, the SMS must end with the line
+`@wheritage.vercel.app #123456` (your final domain if it changes). Twilio Verify sends its own template, so this needs a
+custom Verify message template in the Twilio console (then its `TemplateSid` in `api/send-otp.js`). Without it, the
+single field still gets keyboard suggestions and paste.
+
+Checked and left as is: script priority (the four scripts must run before first paint for the intro and Lenis),
+mobile menu as a `<dialog>` (works today; worth doing with the next nav change), GA4/Meta already load only after consent.
+`tools/test-redesign.mjs`: 156/156 (adds the single code field, pasted code, native transitions, no click delay, intro once).

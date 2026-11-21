@@ -106,9 +106,21 @@
   var introTotal = 0;
   (function buildIntro() {
     if (!document.body) return;
-    // Refonte v2 : toujours la version courte (moins de 1 s). Le contenu passe avant la mise en scène.
-    var quick = true;
+    // Refonte v2 : version courte (moins de 1 s), seulement à la première page de la visite.
+    // Les pages suivantes s'enchaînent par une transition de vue native (@view-transition dans site.css).
+    var quick = true, seen = sstore('wh-seen') === '1';
     store('wh-intro', '1'); sstore('wh-seen', '1');
+    function ready() {
+      document.documentElement.classList.add('ready');
+      document.documentElement.classList.add('wh-ready');
+      document.dispatchEvent(new CustomEvent('wh:ready'));
+    }
+    if (seen) {
+      // Après onReady (même événement DOMContentLoaded), pour que les écouteurs de wh:ready soient posés
+      var later = function () { setTimeout(ready, 0); };
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', later); else later();
+      return;
+    }
     var word = 'W HÉRITAGE', letters = '';
     for (var i = 0; i < word.length; i++) {
       var ch = word[i];
@@ -130,9 +142,7 @@
     setTimeout(function () {
       el.classList.add('open');
       lockScroll(false);
-      document.documentElement.classList.add('ready');
-      document.documentElement.classList.add('wh-ready');
-      document.dispatchEvent(new CustomEvent('wh:ready'));
+      ready();
     }, introTotal + 260);
     setTimeout(function () { el.classList.add('gone'); }, introTotal + 1500);
   })();
@@ -332,10 +342,6 @@
       }
     }
 
-    var curtain = document.createElement('div');
-    curtain.id = 'curtain';
-    curtain.innerHTML = '<div class="c-panel top"></div><div class="c-panel bot"></div>' + WH.logo('c-mark');
-    document.body.appendChild(curtain);
 
   }
 
@@ -386,27 +392,6 @@
   }
 
   /* Transition de sortie vers une autre page du site */
-  function initTransitions() {
-    document.addEventListener('click', function (e) {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var a = e.target.closest && e.target.closest('a[href]');
-      if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
-      var href = a.getAttribute('href');
-      if (!href || href.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
-      var url;
-      try { url = new URL(a.href, location.href); } catch (err) { return; }
-      if (url.origin !== location.origin) return;
-      var here = location.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
-      var there = url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
-      if (there === here && url.hash) return; // ancre sur la même page
-      if (reduce) return;
-      e.preventDefault();
-      document.body.classList.add('leaving');
-      setTimeout(function () { location.href = url.href; }, 560);
-    });
-    window.addEventListener('pageshow', function (e) { if (e.persisted) document.body.classList.remove('leaving'); });
-  }
-
   /* Texte fractionné mot par mot (garde <em>, <br>, <span lang>) */
   function splitText(root) {
     var idx = 0;
@@ -1017,7 +1002,6 @@
     initConsent();
     initNav();
     setLang(document.documentElement.getAttribute('data-lang') || 'fr');
-    initTransitions();
     initReveals();
     initPointerFx();
     initSmoothScroll();
