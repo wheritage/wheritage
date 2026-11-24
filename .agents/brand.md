@@ -9,7 +9,7 @@ Source: the site's design system v2 (`assets/site.css`, redesign approved by Wal
 - **Name:** W Heritage (on the site and in French copy: W Héritage).
 - **Positioning:** *Stratège, pas vendeur.* Strategic, calm, premium; never pushy, never TikTok-aggressive.
 - **Look (v2 + 2026-11-25 "vivant"):** black and ivory, stone tones, a **vibrant amber gold** for accents,
-  title italics and the primary button; a living background of drifting gold particles. Black & white photography.
+  title italics and the primary button; a living background of drifting gold particles. Color photography (Walid, 2026-11-25: no black & white).
   No rounded corners, generous space, never gradients or neon glow.
 - **Voice:** vouvoiement on the website; tutoiement in social content. French-first (Quebec), English for Ontario.
   One concept = two native versions; never mix languages in one video.
@@ -49,7 +49,7 @@ Retired: pre-v2 gold `#C9A84C`, muted v2 gold `#B49A70`, brown-tinted blacks. Th
 
 - `assets/favicon.svg`, `assets/apple-touch-icon.png`, `assets/icon-192.png`, `assets/icon-512.png`
 - Social share images: `assets/og.jpg`, `assets/og/*.jpg` (one per page)
-- Portraits: `walid-photo.jpg` / `.webp`; black & white versions `assets/photos/*-nb`
+- Portraits: `walid-photo.jpg` / `.webp`; color crops `assets/photos/walid-portrait|buste|bureau` (B&W versions removed 2026-11-25)
 - `[TO CONFIRM: master logo files (SVG/PNG, light and dark) — not found as standalone files in the repo]`
 
 ## Never

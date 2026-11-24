@@ -1,7 +1,7 @@
 # W Héritage — wheritage.vercel.app
 
 Static site (plain HTML/CSS/JS, deployed on Vercel with `cleanUrls`). No build step, no package.json.
-Shared design system lives in `assets/site.css` (v2, Nov 2026, "modern luxury black & white"): noir `#080808`,
+Shared design system lives in `assets/site.css` (v2, Nov 2026, "modern luxury", color photos): noir `#080808`,
 ivoire `#F5F4F0`, pierre `#D5D1C8`, charbon `#202020`, **vibrant amber gold `#E5AE45`** (`--or` / `--vif`; deep
 `#8A5C0A` inside light sections) for accents, title italics and the primary button (Walid, 2026-11-25: "the site
 looked dead"). Secondary text `--texte2` / `--texte3` was brightened (≥9:1 on black); never go back to pale greys. Cormorant Garamond (titles) + Montserrat (body), **no rounded
@@ -9,7 +9,8 @@ corners**, film grain on `body::after`, signature curve `--ease-out: cubic-bezie
 Dark sections are the default (`bg-noir`, `bg-noir2`, `bg-sombre`); light sections use `bg-ivoire` / `bg-pierre`,
 which redefine the colour variables so every component adapts (never hard-code colours inside a light section).
 Primary button `.btn-gold` (historic name, alias `.btn-primary`) is ivory on dark and black on light; gold only on hover.
-Photos are black & white (`assets/photos/*-nb.{jpg,webp}`, made from the originals with PIL). Selectors that style a
+Photos are in their **natural color** (Walid, 2026-11-25: no black & white): `assets/photos/walid-portrait|buste|bureau|
+ville|rencontrez.{jpg,webp}`; never add grayscale versions or filters. Selectors that style a
 `<span>` must target direct children (`li > span`): titles contain nested `<span lang>` and would shrink otherwise.
 Pages are bilingual through `[lang="fr"]` / `[lang="en"]` spans toggled by `html[data-lang]`.
 Positioning: *Stratège, pas vendeur.* Brand line: « Bâtir avec intention. Protéger avec stratégie. Transmettre avec

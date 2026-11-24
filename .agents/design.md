@@ -8,7 +8,7 @@ motion house style: `CLAUDE.md` (it wins if anything here disagrees).
 - Dark sections by default (noir `#080808`), light sections in ivoire `#F5F4F0` / pierre `#D5D1C8` for rhythm.
 - **No rounded corners** anywhere (site, thumbnails, ad frames).
 - Vibrant amber gold `#E5AE45` (deep `#8A5C0A` on light sections) for accents, title italics and the primary button. No gradients, no neon glow.
-- Thin hairlines instead of boxes and shadows; black & white photography.
+- Thin hairlines instead of boxes and shadows; photos in their natural color (no black & white).
 - Serif titles (Cormorant Garamond, light), small uppercase Montserrat eyebrows with wide tracking.
 - Calm motion: no splash screen, custom cursor, particle dust or auto-rotating panels (removed in v2).
 
