@@ -36,6 +36,7 @@ Incorporated business owners ($300k+ income/revenue), entrepreneurs, high-net-wo
 ## 4. Offer and funnel
 
 - **Core offer:** complimentary 90-minute Wealth Strategy Session, booked via Cal.com. Qualification matters (asset/income bands, spouse attends) — model it on the verified Guerra Wealth funnel, not on a generic "book a call" page.
+- **Booking decision (Walid, 2026-11-24):** the site books the **15-minute call** (`cal.com/wheritage/rencontre-strategique-15min`). Walid books the 90-minute session himself after that call. Copy must not promise the 90-minute session as the first step.
 - **Entry point:** the diagnostic quiz funnel at `/diagnostic` — 10 questions → result page with VSL + Cal.com booking → instant email follow-up. The quiz is also the free tool (see `free-tools`): the "Score de protection de ton entreprise" concept — no competitor has a diagnostic, that is the opening.
 - **Second page:** `/strategie-societe` — carries the VSLs, sends `ViewContent` on load; Meta pixel fires `Lead` only for qualified business owners.
 - **Email:** Web3Forms instant email for every diagnostic and guide submission (same key as the home contact form). Quiz email is always in French and includes all 10 answers, qualification, consent timestamps, UTMs, and niche. Reply-to goes to the visitor. No email if the visitor skips contact.
@@ -49,7 +50,7 @@ Incorporated business owners ($300k+ income/revenue), entrepreneurs, high-net-wo
 - **Retention rule:** a visual change every 2–3 seconds (visual, sound, or movement — one of each per video, rotate combinations across the week). Open on a readable claim with the number already visible (e.g. whiteboard "10 000 $/mois" as frame 1). Hold the answer/mix as an open loop until the end.
 - **DM keywords (comment keyword → DM automation is the best-converting mechanism among peers, 9+ creators use it):** `CLÉ`/`KEY`, `CONVENTION`/`AGREEMENT`, `HÉRITAGE`/`LEGACY`, `RETRAITE`/`RETIREMENT`, `ÉQUIPE`/`TEAM`, `HOLDING`, `RELÈVE`/`SUCCESSION`, plus `PROTÉGER`, `STRUCTURE`, `RACHAT`, `AVANTAGES`.
 - **Cadence (Morocco sprint, Nov 24 – Dec 20, 2026):** film Tue + Thu 9:00–11:00 Casablanca (2 reels per session), edit Tue/Thu nights, post Wed / Fri / Sat / Sun 12:00 Montreal (starting slot, adjust on results). 16 reels: 7 ready (HOLDING, Personne clé, Convention entre actionnaires, Patrimoine/transfert, Retraite sans régime d'employeur, Société de gestion, Relève d'entreprise familiale) + 9 new from the creator-breakdown gaps (buy-sell #1–2, group benefits #1–3, holdco/creditor-protection whiteboard, IPP vs RRSP, Relève #2, HOLDING English version Dec 20). The 9 new ones are themes + hooks only — write the conversational scripts before filming; the first new one films Tue Dec 1. If a week slips, cut a NEW reel, never a ready one.
-- **Hook bank:** 30 bilingual FR/EN hooks across the 7 pillars (the repo's hook-bank file is the source — reuse its exact hooks, do not rewrite them). The original was lost; a new bank was created 2026-11-24 in `docs/hook-bank.md` — every hook is `NOUVEAU` until Walid approves it.
+- **Hook bank:** 30 bilingual FR/EN hooks across the 7 pillars (the repo's hook-bank file is the source — reuse its exact hooks, do not rewrite them). The original was lost; a new bank was created 2026-11-24 in `docs/hook-bank.md`; all 30 hooks were approved by Walid the same day (compliance notes per hook still apply).
 - **Production:** CapCut Pro, phone filming, 8-video batch method, target 25–35 min per video, night-editing workflow.
 
 ## 6. Verified figures — and the rule about all other figures
@@ -109,5 +110,5 @@ These come from reading the repo, not from the setup document. Do not resolve th
 - **Twilio:** no longer used (Walid, 2026-11-24). The SMS-verification code is still in the repo but stays off
   without its Vercel env vars; the diagnostic skips the verification step.
 - **Apps Script:** the current `tools/apps-script-diagnostic.gs` is probably NOT pasted/redeployed (Walid, 2026-11-24).
-- **ElevenLabs Starter:** Walid decided to cancel (2026-11-24); cancel before Nov 25 EST.
+- **ElevenLabs Starter:** cancelled by Walid (2026-11-24).
 - **Tone (from `CLAUDE.md`):** *Stratège, pas vendeur.* Tutoiement in social content, vouvoiement on the site.
