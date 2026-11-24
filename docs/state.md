@@ -16,8 +16,8 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
   `claude/emil-kowalski-skills-0vmefz`. Status unknown; nothing deleted.
 - **#28 merged 2026-11-24** (`setup/claude-operating-system`): Claude Code setup + 3 HIGH fixes. Live: internal
   files return 404, `lead-guard.js` 2.0.1 served. Apps Script part waits for Walid to paste + redeploy.
-- **Branch `fix/utm-provenance`** (not merged): ad provenance kept for the whole visit and written into the
-  Cal.com note on /strategie-societe AND /diagnostic (`assets/provenance.js`).
+- **#29 merged 2026-11-24** (`fix/utm-provenance`): ad provenance kept for the whole visit and written into the
+  Cal.com note on /strategie-societe AND /diagnostic (`assets/provenance.js`). Verified live (see log).
 
 ## Test results
 
@@ -32,7 +32,10 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
   - Missing/stale/foreign server proof now means « À vérifier » and no automatic callback, when `LEAD_PROOF_SECRET` is set.
 - **Still open — MEDIUM:** send-otp not gated by a verify-lead proof (moot while Twilio is off); per-instance rate
   limits without KV; per-email limit trips on contact form + diagnostic within an hour; `remindProspect_` can email
-  any address if `RAPPEL_PROSPECT=1`; no CSP/HSTS headers. (UTM provenance: fixed on `fix/utm-provenance`.)
+  any address if `RAPPEL_PROSPECT=1`. (UTM provenance: fixed in #29.)
+- **Headers:** HSTS (2 y, preload), X-Frame-Options, nosniff, Referrer-Policy and Permissions-Policy are already
+  sent (the review was wrong about HSTS). Only a Content-Security-Policy is missing — LOW; if added, start with
+  `Content-Security-Policy-Report-Only` (Cal.com, YouTube, GA, Meta pixel, Web3Forms, Apps Script must stay allowed).
 - **Known trade-off of the proof fix:** if `/api/verify-lead` is down, a real lead lands in « À vérifier » with no
   automatic callback while the Web3Forms email still reads like a clean lead — check that tab daily.
   (Journal appels + Blocklist writes are escaped too.)
@@ -59,7 +62,8 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
    Deploy → Manage deployments → edit the web app → New version. Until then leads may not land in the Sheet.
 3. **`LEAD_PROOF_SECRET`**: the same long random value in Vercel (env var) AND Apps Script (Script Properties).
    Both or neither: set in only the Apps Script, every lead becomes « À vérifier ».
-4. ~~Merge #28~~ done 2026-11-24. Merge `fix/utm-provenance`, then run the live checks in `docs/verification-log.md`.
+4. ~~Merge #28 and #29~~ done 2026-11-24. After steps 2–3, run the live checks in `docs/verification-log.md`
+   (test lead into the Sheet, test booking with the provenance line in the Cal.com note).
 5. Approve or edit the 30 hooks in `docs/hook-bank.md` (H13 needs an EN keyword).
 
 ## Open questions
