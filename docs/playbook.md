@@ -112,7 +112,7 @@ Total: about 31 min. Stay inside 25-35 by not polishing the speech. Lighter edit
 
 ### Caption style (from `brand.md` and `design.md`)
 
-- Ivory text (`#F5F4F0`) on black (`#080808`); muted gold (`#B49A70`) for the key number or word only.
+- Ivory text (`#F5F4F0`) on black (`#080808`); vibrant amber gold (`#E5AE45`) for the key number or word only.
 - Serif for titles (Cormorant Garamond), Montserrat for body text. If those fonts are not in CapCut, use the closest available and do not add decoration. Palette = site redesign v2 (approved 2026-11-24), see `.agents/brand.md`.
 - No rounded corners on caption boxes. No glow, no gradient text, no glass effect, no emoji, no em dashes in on-screen copy.
 - Keep captions inside the 9:16 safe area, above the bottom Instagram UI zone.
@@ -230,6 +230,6 @@ If something is uncertain, flag it to Walid. Do not smooth it over.
 
 - `docs/hook-bank.md` now exists (30 NEW bilingual hooks, created 2026-11-24, each waiting for Walid's approval).
 - Lower-third title: confirmed by Walid, but still to be checked against the firm's required disclosure wording. Update `product-marketing.md` §1, `brand.md` and `design.md` once settled.
-- Brand: site redesign v2 approved 2026-11-24 (black / ivory / muted gold `#B49A70`, Cormorant Garamond + Montserrat).
+- Brand: site redesign v2 approved 2026-11-24 (black / ivory / vibrant amber gold `#E5AE45`, Cormorant Garamond + Montserrat).
 - Which reels have already been filmed (`sprint-plan.md`). `[TO CONFIRM]`
 - DM automation tool and its consent wording. `[TO CONFIRM]`

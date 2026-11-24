@@ -2,8 +2,9 @@
 
 Static site (plain HTML/CSS/JS, deployed on Vercel with `cleanUrls`). No build step, no package.json.
 Shared design system lives in `assets/site.css` (v2, Nov 2026, "modern luxury black & white"): noir `#080808`,
-ivoire `#F5F4F0`, pierre `#D5D1C8`, charbon `#202020`, muted gold `#B49A70` **for small accents only**
-(eyebrows, hairlines, hovers; never big fills). Cormorant Garamond (titles) + Montserrat (body), **no rounded
+ivoire `#F5F4F0`, pierre `#D5D1C8`, charbon `#202020`, **vibrant amber gold `#E5AE45`** (`--or` / `--vif`; deep
+`#8A5C0A` inside light sections) for accents, title italics and the primary button (Walid, 2026-11-25: "the site
+looked dead"). Secondary text `--texte2` / `--texte3` was brightened (≥9:1 on black); never go back to pale greys. Cormorant Garamond (titles) + Montserrat (body), **no rounded
 corners**, film grain on `body::after`, signature curve `--ease-out: cubic-bezier(.16,1,.3,1)`.
 Dark sections are the default (`bg-noir`, `bg-noir2`, `bg-sombre`); light sections use `bg-ivoire` / `bg-pierre`,
 which redefine the colour variables so every component adapts (never hard-code colours inside a light section).
@@ -82,6 +83,10 @@ Note: the Instagram post (@ai.theshift) spelled the Three.js repo `ClaudeAI-X`; 
 - Slow, confident rhythm. No 0.5 s jump cuts, no shakes, no emoji pops (brand: never TikTok-aggressive).
 - Text reveals: lines rising out of a mask, staggered 60–100 ms. Not letter-by-letter typewriter.
 - Ambient layer moves at most ~1/3 the speed of the primary layer.
+- Living background (2026-11-25, Walid's request): one fixed `canvas.ambient` (initAmbient in `site.js`) of slowly
+  drifting amber particles that link up, react to the pointer and speed up a little on scroll. Opt-in motion only
+  (`prefers-reduced-motion`), paused when the tab is hidden, and a pause button in every footer
+  (`data-ambient-toggle`, WCAG 2.2.2). Eyebrow hairlines draw themselves with a scroll-driven `view()` timeline.
 - Banned (genjutsu tells): infinite pulsing loops with no state behind them, neon glow /
   `box-shadow: 0 0 40px`, blurred colour blobs, gradient text, glassmorphism, invented figures
   or "since 20XX" badges, numbered section eyebrows, scroll cues, em dashes in on-screen copy.

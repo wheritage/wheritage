@@ -8,9 +8,9 @@ Source: the site's design system v2 (`assets/site.css`, redesign approved by Wal
 
 - **Name:** W Heritage (on the site and in French copy: W Héritage).
 - **Positioning:** *Stratège, pas vendeur.* Strategic, calm, premium; never pushy, never TikTok-aggressive.
-- **Look (v2, "modern luxury black & white"):** black and ivory, stone tones, a **muted warm gold for small
-  accents only** (eyebrows, hairlines, hovers; never big fills, never gradients). Black & white photography.
-  No rounded corners, generous space.
+- **Look (v2 + 2026-11-25 "vivant"):** black and ivory, stone tones, a **vibrant amber gold** for accents,
+  title italics and the primary button; a living background of drifting gold particles. Black & white photography.
+  No rounded corners, generous space, never gradients or neon glow.
 - **Voice:** vouvoiement on the website; tutoiement in social content. French-first (Quebec), English for Ontario.
   One concept = two native versions; never mix languages in one video.
 - **Lower third (confirmed):** « Conseiller en sécurité financière · Industrielle Alliance » /
@@ -19,8 +19,8 @@ Source: the site's design system v2 (`assets/site.css`, redesign approved by Wal
 
 ## Colour (v2)
 
-Walid asked for "a warm but premium gold" (2026-11-24), then approved the redesign the same day: gold is
-now the muted warm `#B49A70`, used sparingly.
+Walid asked for "a warm but premium gold" (2026-11-24), approved the redesign, then (2026-11-25) asked for a
+vibrant colour because the site "looked dead": the accent is now the **vibrant amber gold `#E5AE45`**.
 
 | Token | Value | Use |
 |---|---|---|
@@ -28,12 +28,14 @@ now the muted warm `#B49A70`, used sparingly.
 | Ivoire | `#F5F4F0` | light sections, primary button on dark, text on black |
 | Pierre | `#D5D1C8` (+ `#EAE7E1` light tone) | light section variant |
 | Charbon | `#202020` | dark surfaces |
-| Or (accent) | `#B49A70` | small accents only: eyebrows, hairlines, hover |
-| Or vif / pâle / sombre | `#CDBB98` / `#DCCFB6` / `#7A6544` | rare accent variants |
+| Or ambré vif (accent) | `#E5AE45` | primary button, eyebrows, title italics, hairlines, focus |
+| Or profond (sections claires) | `#8A5C0A` | the same roles on ivory/stone (5.3:1) |
+| Or clair / pâle | `#F0C76E` / `#F6DDA6` | highlights, particles |
 | Texte sur noir | `#ECEAE5` | body text on dark |
+| Texte secondaire | `#CBC6BC` / `#B2ADA3` | small print on dark (≥9:1) |
 | Ligne | `rgba(245,244,240,0.10)` / strong `0.24` | hairlines |
 
-Previous (pre-v2) gold `#C9A84C` and brown-tinted blacks are retired. The video tools (`motion-lab`,
+Retired: pre-v2 gold `#C9A84C`, muted v2 gold `#B49A70`, brown-tinted blacks. The video tools (`motion-lab`,
 `text-effects`) keep their own palette.
 
 ## Type
@@ -53,6 +55,6 @@ Previous (pre-v2) gold `#C9A84C` and brown-tinted blacks are retired. The video 
 ## Never
 
 - No invented figures, results, "since 20XX" badges or client stories in any visual.
-- No big gold fills, gold gradients or glows (v2 rule).
+- No gold gradients or neon glows; solid gold is for the primary button only.
 - Banned visual tells (from `CLAUDE.md`): neon glow, blurred colour blobs, gradient text, glassmorphism,
   infinite pulsing loops, em dashes in on-screen copy.
