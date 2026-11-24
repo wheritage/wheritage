@@ -4,3 +4,9 @@ TEST_RESULTS_V2.md
 LEAD-PROTECTION.md
 .env.example
 .github/
+CLAUDE.md
+README.md
+.claude/
+.agents/
+.mcp.json
+docs/

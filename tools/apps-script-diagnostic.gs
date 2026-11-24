@@ -125,11 +125,20 @@ function judge_(d) {
       var good = po && po.otp === 'verifie' && po.tel === telE && (!d.lead_id || po.id === d.lead_id) && Date.now() - po.t < 6 * 3600 * 1000;
       v.preuve = good ? 'oui' : 'NON (vérification SMS non prouvée)';
       if (!good) { v.otp = 'non_verifie'; v.score += 30; v.reasons.push('preuve_otp_invalide'); }
-    } else if (pr) {
-      v.preuve = pr.tel === telE || !telE ? 'oui' : 'NON';
-      if (pr.score > v.score) v.score = pr.score;
-    } else if (d.risque_score !== undefined && d.risque_score !== '') {
-      v.preuve = 'absente'; v.score += 10; v.reasons.push('sans_preuve_serveur');
+    } else {
+      // La preuve du serveur doit exister, être récente et concerner CE lead (revue sécurité 2026-11-24).
+      // Sans elle, le lead n'est jamais « CLEAN » : statut « À vérifier », aucun rappel automatique.
+      var em = String(d.courriel || '').trim().toLowerCase();
+      var valid = pr && Date.now() - Number(pr.t || 0) < 6 * 3600 * 1000 &&
+        (!telE || pr.tel === telE) && (!d.lead_id || !pr.id || pr.id === d.lead_id) &&
+        (!pr.courriel || String(pr.courriel).toLowerCase() === em);
+      if (valid) {
+        v.preuve = 'oui';
+        if (pr.score > v.score) v.score = pr.score;
+      } else {
+        v.preuve = pr ? 'NON (preuve invalide, périmée ou d\'un autre lead)' : 'absente';
+        v.score = Math.max(v.score + 10, 30); v.reasons.push('sans_preuve_serveur');
+      }
     }
   }
   // 4. Vitesse : même courriel ou téléphone plus de 2 fois par heure (mises à jour du même lead exclues)
@@ -216,7 +225,7 @@ function pipeline_(d, v) {
     var dup = findDuplicate_(sh, head, d.courriel, d.telephone, 30);
     if (dup) {
       var act = head.indexOf('Activité') + 1;
-      sh.getRange(dup, act).setValue(String(sh.getRange(dup, act).getValue()) + '\n' + fmt_(now) + ' · à nouveau via ' + d.source + (besoin ? ' (' + besoin + ')' : ''));
+      sh.getRange(dup, act).setValue(esc_(String(sh.getRange(dup, act).getValue()) + '\n' + fmt_(now) + ' · à nouveau via ' + d.source + (besoin ? ' (' + besoin + ')' : '')));
       if (v.otp === 'verifie') { sh.getRange(dup, head.indexOf('OTP vérifié') + 1).setValue(true); sh.getRange(dup, head.indexOf('OTP horodatage') + 1).setValue(rec['OTP horodatage']); }
       return;
     }
@@ -226,9 +235,9 @@ function pipeline_(d, v) {
     rec['Date entrée'] = cur[head.indexOf('Date entrée')] || now;
     rec['Activité'] = String(cur[head.indexOf('Activité')] || '') + '\n' + fmt_(now) + ' · ' + (v.otp === 'verifie' ? 'numéro vérifié par code' : 'mise à jour (' + v.otp + ')');
     rec['Rappel créé'] = cur[head.indexOf('Rappel créé')] || '';
-    sh.getRange(r, 1, 1, head.length).setValues([head.map(function (k) { return k in rec ? rec[k] : ''; })]);
+    sh.getRange(r, 1, 1, head.length).setValues([head.map(function (k) { return k in rec ? esc_(rec[k]) : ''; })]);
   } else {
-    sh.appendRow(head.map(function (k) { return k in rec ? rec[k] : ''; }));
+    sh.appendRow(head.map(function (k) { return k in rec ? esc_(rec[k]) : ''; }));
     r = sh.getLastRow();
   }
   colorRow_(sh, r, statut);
@@ -362,7 +371,8 @@ function onEditLeads(e) {
   var today = new Date();
   if (col === 'Dernier contact' && e.value) {
     var j = sheet_('Journal appels', JOURNAL_COLUMNS);
-    j.appendRow([get('Dernier contact') || today, get('Nom'), get('Téléphone'), get('Statut'), get('Statut') === 'Gagné' ? 'oui' : 'non', get('Lead ID')]);
+    // esc_ : Sheets rend « =… » sans l'apostrophe à la lecture ; on réarme la protection en recopiant.
+    j.appendRow([get('Dernier contact') || today, get('Nom'), get('Téléphone'), get('Statut'), get('Statut') === 'Gagné' ? 'oui' : 'non', get('Lead ID')].map(esc_));
     set('Activité', String(get('Activité') || '') + '\n' + fmt_(today) + ' · appel');
   }
   if (col === 'Statut' && e.value === 'Gagné') {
@@ -522,7 +532,7 @@ function quarantine_(rec, raison) {
 }
 function block_(type, val, raison) {
   if (!val || blocklisted_(type === 'courriel' ? val : '', type === 'telephone' ? val : '')) return;
-  sheet_('Blocklist', BLOCK_COLUMNS).appendRow([type, String(val).toLowerCase(), raison, new Date()]);
+  sheet_('Blocklist', BLOCK_COLUMNS).appendRow([type, esc_(String(val).toLowerCase()), esc_(raison), new Date()]);
 }
 function blocklisted_(email, tel) {
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Blocklist');
@@ -555,8 +565,12 @@ function cell_(v) {
   if (v === undefined || v === null) return '';
   if (v instanceof Date || typeof v === 'number' || typeof v === 'boolean') return v;
   if (typeof v === 'object') v = JSON.stringify(v);
-  v = String(v).slice(0, 500);
-  return /^[=+\-@]/.test(v) ? "'" + v : v; // empêche une cellule de commencer par une formule
+  return esc_(String(v).slice(0, 500));
+}
+// Empêche une cellule de devenir une formule, même précédée d'espaces ou de tabulations (sans tronquer).
+function esc_(v) {
+  if (typeof v !== 'string') return v;
+  return /^\s*[=+\-@]/.test(v) ? "'" + v : v;
 }
 function colorRow_(sh, r, statut) {
   var c = statut === 'À vérifier' ? '#fff2cc' : statut === 'En attente vérif' ? '#efefef' : null;

@@ -1,6 +1,6 @@
 # Résultats des tests anti-faux leads (V2)
 
-Généré par `node tools/test-leads.mjs` le 2026-11-13 18:00 UTC, avec Twilio simulé (`tools/twilio-mock.mjs`).
+Généré par `node tools/test-leads.mjs` le 2026-11-24 20:20 UTC, avec Twilio simulé (`tools/twilio-mock.mjs`).
 Les vérifications MX, Abstract, IPQualityScore et Turnstile ne sont pas actives dans ce test (pas de clés, réseau DNS du bac à sable).
 
 **35 / 35 réussis.**
@@ -26,7 +26,7 @@ Les vérifications MX, Abstract, IPQualityScore et Turnstile ne sont pas actives
 | 15 | 4 envois de la même IP en 5 min | Le 4e est BLOQUÉ | ok → ok → ok → trop_essais | ✅ |
 | 16 | Nom « xkzj qwrp » | BLOQUÉ (charabia) | BLOQUÉ (nom_format) « Vérifiez votre nom. » | ✅ |
 | 17 | asdf@gmail.com | BLOQUÉ (clavier) | BLOQUÉ (courriel_prefixe_test) « Entrez votre vraie adresse courriel personnelle : « asdf@gmail.com » n'est pas acceptée. » | ✅ |
-| 18 | info@company.com | Signalé +20, accepté avec code SMS | CLEAN 20/100, code SMS requis · courriel_role | ✅ |
+| 18 | info@company.com | Signalé +20, accepté avec code SMS | SUSPICIOUS 40/100, code SMS requis · courriel_role courriel_sans_mx | ✅ |
 | 19 | Code SMS erroné 3 fois | Numéro verrouillé 15 min | « Code incorrect, 2 essais restants. » → « Code incorrect, 1 essai restant. » → verrouillé 900 s; bon code ensuite : 429; nouvel envoi : 429 | ✅ |
 | 20 | Bon code SMS | Approuvé, preuve signée | approved: true, preuve eyJ2IjoxLCJpZCI6Im… | ✅ |
 | 21 | Envoi de code sans consentement LCAP | Refusé (400) | 400 consentement | ✅ |
@@ -37,7 +37,7 @@ Les vérifications MX, Abstract, IPQualityScore et Turnstile ne sont pas actives
 | 30 | Numéro hors Québec / Ontario : 604 (C.-B.), 403 (Alberta), 212 (New York) | BLOQUÉ (zone desservie) | tel_hors_zone, tel_hors_zone, tel_hors_zone | ✅ |
 | 31 | Terminaisons inhabituelles : x@site.xyz, x@mail.ru, x@promo.top | BLOQUÉ (courriel suspect) | courriel_suspect, courriel_suspect, courriel_suspect | ✅ |
 | 32 | Commence par « test » ou « fake » : test.jean@, test_1@, fake-email@ | BLOQUÉ | courriel_prefixe_test, courriel_prefixe_test, courriel_prefixe_test | ✅ |
-| 33 | Adresse d'entreprise : jean@constructionabc.ca, info@cpa-tremblay.com | PASSE | CLEAN 20/100, code SMS requis / CLEAN 20/100, code SMS requis | ✅ |
+| 33 | Adresse d'entreprise (domaines réels) : jean@desjardins.com, info@ia.ca | PASSE | CLEAN 20/100, code SMS requis / CLEAN 20/100, code SMS requis | ✅ |
 | 26 | Vrai lead : Ève Côté-Nguyen, eve.cote@hotmail.ca, 819 821-2121 | PASSE | CLEAN 0/100, code SMS requis | ✅ |
 | 27 | Vrai lead : Li , li.wang@outlook.com, +1 (416) 555-2368 | PASSE | CLEAN 20/100, code SMS requis | ✅ |
 | 28 | Vrai lead : Jean-François O'Brien, jf.obrien+site@gmail.com, 1-581-300-4412 | PASSE | CLEAN 0/100, code SMS requis | ✅ |

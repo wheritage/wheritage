@@ -42,12 +42,12 @@
   // Préfixes bidons : comparés à la partie locale sans chiffres ni séparateurs (test, test123, t.e.s.t, test_1 …)
   var FAKE_LOCAL = ['test', 'tests', 'testing', 'testtest', 'tester', 'testeur', 'essai', 'fake', 'faked', 'faketest', 'fakeemail', 'fakemail',
     'faux', 'asdf', 'asdfasdf', 'asdfg', 'asdfgh', 'qwerty', 'qwert', 'qwertz', 'azerty', 'zxcv', 'zxcvb', 'zxcvbn', 'qazwsx', 'qaz', 'wsx',
-    'password', 'motdepasse', 'admin', 'administrator', 'administrateur', 'root', 'user', 'username', 'utilisateur', 'name', 'nom', 'prenom',
+    'password', 'motdepasse', 'administrator', 'administrateur', 'root', 'user', 'username', 'utilisateur', 'name', 'nom', 'prenom',
     'first', 'last', 'firstlast', 'firstname', 'lastname', 'johndoe', 'janedoe', 'johnsmith', 'sample', 'example', 'exemple',
     'temp', 'temporary', 'temporaire', 'disposable', 'trash', 'garbage', 'junk', 'invalid', 'null', 'undefined', 'void', 'none', 'nobody', 'nothing',
     'spam', 'spammer', 'bot', 'robot', 'noreply', 'donotreply', 'nepasrepondre', 'postmaster', 'hostmaster', 'webmaster', 'abuse', 'mailerdaemon',
     'abc', 'abcd', 'abcdef', 'abcdefg', 'xyz', 'xxx', 'xxxx', 'aaa', 'foo', 'bar', 'foobar', 'blah', 'blabla', 'lorem', 'loremipsum', 'nope',
-    'nonono', 'jeanmichel', 'nomail', 'noemail', 'pasdecourriel', 'aucun', 'rien', 'email', 'courriel', 'mail', 'monemail', 'moncourriel', 'myemail'];
+    'nonono', 'nomail', 'noemail', 'pasdecourriel', 'aucun', 'rien', 'email', 'courriel', 'mail', 'monemail', 'moncourriel', 'myemail'];
   var FAKE_LOCAL_SET = {};
   FAKE_LOCAL.forEach(function (w) { FAKE_LOCAL_SET[w] = 1; });
   // Purement numériques ou suites évidentes : 123456@, 123123@, 111111@
@@ -95,17 +95,18 @@
   var ZONE = { QC: 1, ON: 1 };
   // Terminaisons de courriel acceptées : les fournisseurs courants + les adresses d'entreprise normales.
   // Tout le reste (.xyz, .top, .ru, .click, .online…) est refusé : c'est là que vivent les adresses jetables et le pourriel.
-  var OK_TLD = /^(ca|com|net|org|me|info|biz|co|us|fr|be|ch|quebec|io|edu|gov|gouv)$/;
+  // + terminaisons d'entreprise courantes chez les propriétaires (revue 2026-11-24 : .ai, .dev, .pro… étaient refusés à tort).
+  var OK_TLD = /^(ca|com|net|org|me|info|biz|co|us|fr|be|ch|quebec|io|edu|gov|gouv|ai|app|dev|tech|design|agency|pro|shop|studio|consulting|group|solutions|law|uk)$/;
   var BAD_TLD = /^(local|localhost|localdomain|test|example|invalid|lan|internal|home|corp|domain|fake|none)$/;
 
   /* ── Nom ── */
   var FAKE_NAMES = ['test', 'tests', 'tester', 'essai', 'fake', 'faux', 'asdf', 'asdfasdf', 'qwerty', 'azerty', 'zxcv', 'john doe', 'jane doe',
     'user', 'username', 'name', 'nom', 'prenom', 'prénom', 'first last', 'firstname', 'lastname', 'first', 'last', 'aaa', 'bbb', 'xxx',
     'abc', 'abcd', 'xyz', 'foo', 'bar', 'foo bar', 'null', 'undefined', 'none', 'nobody', 'personne', 'anonyme', 'anonymous', 'mickey mouse',
-    'donald duck', 'batman', 'superman', 'lorem', 'lorem ipsum', 'blabla', 'bla bla', 'admin', 'bot', 'robot', 'spam', 'n/a', 'na', 'nil'];
+    'donald duck', 'batman', 'superman', 'lorem', 'lorem ipsum', 'blabla', 'bla bla', 'admin', 'bot', 'robot', 'spam', 'n/a', 'nil'];
   var FAKE_NAME_SET = {};
   FAKE_NAMES.forEach(function (w) { FAKE_NAME_SET[w] = 1; });
-  var WALKS = /(qwert|wert|asdf|sdfg|zxcv|xcvb|qazw|wsxe|yxcv|azert|qsdf|wxcv|uiop|hjkl|jkl;|1qaz|2wsx)/;
+  var WALKS = /(qwert|asdf|sdfg|zxcv|xcvb|qazw|wsxe|yxcv|azert|qsdf|wxcv|uiop|hjkl|jkl;|1qaz|2wsx)/;
   var VOWELS = /[aeiouyàâäéèêëîïôöùûüÿæœ]/gi;
 
   /* ── Message ── */
@@ -433,7 +434,7 @@
   }
 
   return {
-    version: '2.0.0',
+    version: '2.0.1',
     phone: phone, email: email, name: name, message: message, behavior: behavior,
     assess: assess, action: action, msg: msg, blockMessage: blockMessage, watch: watch,
     CA_AREA: CA_AREA, AREA_PROV: AREA_PROV, DISPOSABLE: DISPOSABLE, KNOWN_DOMAINS: KNOWN_DOMAINS
