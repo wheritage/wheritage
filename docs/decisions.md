@@ -25,6 +25,8 @@ content work get added here. `[TO CONFIRM: export scope — W Heritage funnel on
 - **Marketing skills:** keep all of them (including aso, paywalls, churn-prevention, directory-submissions,
   popups, public-relations) until a use is found.
 - **ElevenLabs Starter:** cancelled.
+- **2026-11-25 photos :** back to their natural color everywhere (no black & white). Color bust re-cut from
+  `walid-rencontrez.jpg` at the same framing (520×650 at 301,237).
 - **2026-11-25 « site vivant » (Walid: « on dirait que le site est mort ») :** accent = vibrant amber gold `#E5AE45`
   (deep `#8A5C0A` on light sections), gold primary buttons, brighter secondary text (≥9:1 on black), living
   particle background on every page with a footer pause button.
