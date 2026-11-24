@@ -7,7 +7,7 @@ not a pass. Format: date · check · how · expected · observed · result. Newe
 
 | # | Check | Status |
 |---|---|---|
-| 1 | Merge decision for #25/#26/#27 | **Moot**: all merged (2026-11-13 / 11-19). Post-merge review running. |
+| 1 | Merge decision for #25/#26/#27 | **Moot**: all merged (2026-11-13 / 11-19); review fixes merged in #28 (2026-11-24) |
 | 2 | Apps Script pasted + redeployed as a new version | OPEN — needs Walid |
 | 3 | Live checks after #19/#20 (VSL playback + progress events, `/diagnostic?debug` email line) | OPEN |
 | 4 | One real test booking with UTM provenance in the Cal.com note + one real test lead in the Sheet | OPEN — needs Walid's go-ahead and a test identity |
@@ -26,6 +26,9 @@ not a pass. Format: date · check · how · expected · observed · result. Newe
 | 2026-11-24 | Twilio Verify wired | code review | — | Code fully wired; active only with Twilio env vars. Walid: Twilio no longer used | N/A (off by decision) |
 | 2026-11-24 | Lead tests after HIGH fixes | `node tools/test-leads.mjs` (test 33 now uses real domains) | 35/35 | 35/35 | PASS |
 | 2026-11-24 | Real prospects accepted / fakes blocked | `node --test tools/test-lead-guard.mjs` (new, no DNS) | 26/26 | 26/26 (was 12/26 before the fix) | PASS |
+| 2026-11-24 | Internal files no longer public (after #28) | `curl` `/CLAUDE.md`, `/docs/state.md`, `/.agents/product-marketing.md`, `/.mcp.json`, `/.claude/skills/SOURCES.md` | 404 | 404 on all five | PASS |
+| 2026-11-24 | Fixed validator is live | `curl` `/assets/lead-guard.js` | version 2.0.1 | `version: '2.0.1'` | PASS |
+| 2026-11-24 | UTM provenance across pages (`fix/utm-provenance`, local dev server) | land on `/?utm_source=meta&…&utm_content=AD2_v3`, then open `/strategie-societe` and `/diagnostic` without params | provenance line on both | `· Provenance : source meta, campagne W Héritage \| Leads \| 3e porte \| VSL, pub AD2_v3` on both; direct visit `''`; fbclid-only `pub Meta`; no console errors; `test-provenance.mjs` 8/8 | PASS (local; live after merge, then confirm with a real booking) |
 | 2026-11-24 | Sheet formula injection + server proof | `node tools/test-apps-script.mjs` (5 new checks) | all pass | 28/28 (new checks failed before the fix) | PASS (code; live only after the Apps Script is pasted + redeployed) |
 
 ## Still to run (each needs a real, observed result)

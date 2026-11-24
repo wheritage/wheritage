@@ -307,6 +307,7 @@
 <script src="/assets/vendor/gsap.min.js"></script>
 <script src="/assets/vendor/ScrollTrigger.min.js"></script>
 <script src="/assets/lead-guard.js"></script>
+<script src="/assets/provenance.js"></script>
 <script src="/assets/site.js"></script>
 
 <!-- ═══ HÉROS + VSL ═══ -->
@@ -844,7 +845,8 @@
 
   // Les enjeux vont en dernier : la feuille Google lit les 4 premières réponses, le reste reste dans les notes
   // Provenance (paramètres UTM de la pub) : ajoutée à la note de réservation pour savoir quel rendez-vous vient de Meta
-  var src = (function () {
+  // Provenance de toute la visite (assets/provenance.js) : survit si le visiteur est arrivé par une autre page
+  var src = window.WH && WH.provenance ? WH.provenance() : (function () {
     var q = new URLSearchParams(location.search), o = [];
     if (q.get('utm_source')) o.push('source ' + q.get('utm_source'));
     if (q.get('utm_campaign')) o.push('campagne ' + q.get('utm_campaign'));

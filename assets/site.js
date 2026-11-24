@@ -53,6 +53,17 @@
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
   function sstore(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
 
+  /* ── Provenance de la visite (UTM de la pub) : retenue sur chaque page, lue au moment de réserver ── */
+  function sessionStore() { try { return window.sessionStorage; } catch (e) { return null; } }
+  // Défini seulement si provenance.js est chargé : sinon les pages gardent leur ancien repli (UTM de l'URL).
+  if (window.WHProvenance) {
+    var visitSource = WHProvenance.remember(sessionStore(), location.search);
+    // ' · Provenance : source meta, campagne …, pub …' (ou '' pour une visite directe), pour la note Cal.com
+    WH.provenance = function () { return WHProvenance.text(visitSource); };
+    // Les paramètres eux-mêmes (copie), pour la feuille Google
+    WH.visitSource = function () { return Object.assign({}, visitSource); };
+  }
+
   /* ── Langue ── */
   WH.lang = function () { return document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'fr'; };
   WH.t = function (fr, en) { return WH.lang() === 'en' ? en : fr; };
