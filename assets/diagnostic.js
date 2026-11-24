@@ -509,6 +509,13 @@ var DIAG_EN = {
       var v = p.get(k); if (v && !st.src[k]) st.src[k] = v.slice(0, 200);
     });
     if (st.src.niche) st.src.niche = st.src.niche.toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 30);
+    // Arrivé par une autre page depuis la pub : on reprend la provenance de la visite (feuille ET note Cal.com)
+    var adKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'];
+    var hasAd = adKeys.some(function (k) { return st.src[k]; });
+    if (!hasAd && window.WH && WH.visitSource) {
+      var vs = WH.visitSource();
+      adKeys.forEach(function (k) { if (vs[k]) st.src[k] = String(vs[k]).slice(0, 200); });
+    }
     var pr = p.get('profil'); if (PROFILS.indexOf(pr) >= 0) urlProfil = pr;
   })();
   // Le profil vient de l'URL (?profil=), sinon d'une niche (publicités entrepreneurs), sinon du choix à l'accueil
@@ -1171,7 +1178,16 @@ var DIAG_EN = {
     var c = st.contact || {};
     var notes = U.notes(U.profilNom[st.profil], p.noms[r.main],
       p.ordre.map(function (k) { return p.noms[k] + ' ' + L.niveaux[r.niveaux[k]].toLowerCase(); }).join(', '));
-    var prefill = { notes: notes };
+    // Provenance de la pub dans la note (comme /strategie-societe), tirée de st.src : mêmes valeurs que la feuille
+    var prov = window.WHProvenance ? WHProvenance.text(st.src) : (function (s) {
+      var o = [];
+      if (s.utm_source) o.push('source ' + s.utm_source);
+      if (s.utm_campaign) o.push('campagne ' + s.utm_campaign);
+      if (s.utm_content) o.push('pub ' + s.utm_content);
+      if (!o.length && s.fbclid) o.push('pub Meta');
+      return o.length ? ' · Provenance : ' + o.join(', ').replace(/[\r\n]+/g, ' ') : '';
+    })(st.src || {});
+    var prefill = { notes: notes + prov };
     if (c.prenom) prefill.name = (c.prenom + ' ' + (c.nom || '')).trim();
     if (c.courriel) prefill.email = c.courriel;
     var q = Object.keys(prefill).map(function (k) { return k + '=' + encodeURIComponent(prefill[k]); }).join('&');

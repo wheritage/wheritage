@@ -14,8 +14,10 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
   248 files. Changes the brand away from black and gold. Not reviewed.
 - **Old unmerged branches (Sep–Oct):** `ccr-5f808459-p2d0n0`, `ccr-61f7522e-y6xzon`, `ccr-c03a9951-n8f5cv`,
   `claude/emil-kowalski-skills-0vmefz`. Status unknown; nothing deleted.
-- **This branch:** `setup/claude-operating-system` — Claude Code setup files + the 3 HIGH fixes below.
-  Not committed, not deployed.
+- **#28 merged 2026-11-24** (`setup/claude-operating-system`): Claude Code setup + 3 HIGH fixes. Live: internal
+  files return 404, `lead-guard.js` 2.0.1 served. Apps Script part waits for Walid to paste + redeploy.
+- **Branch `fix/utm-provenance`** (not merged): ad provenance kept for the whole visit and written into the
+  Cal.com note on /strategie-societe AND /diagnostic (`assets/provenance.js`).
 
 ## Test results
 
@@ -24,14 +26,13 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
 
 ## Review findings (2026-11-24, code-reviewer + security-reviewer)
 
-- **FIXED on this branch (not live yet):**
+- **FIXED in #28 (lead-guard live; Apps Script part live once pasted):**
   - Real prospects refused by `assets/lead-guard.js` (Jean-Michel, admin@, .ai/.dev/.pro/…, surnames Ewert/Schwertz/Na).
   - Google Sheet formula injection in the Leads tab (`esc_` on every value in `pipeline_`).
   - Missing/stale/foreign server proof now means « À vérifier » and no automatic callback, when `LEAD_PROOF_SECRET` is set.
 - **Still open — MEDIUM:** send-otp not gated by a verify-lead proof (moot while Twilio is off); per-instance rate
   limits without KV; per-email limit trips on contact form + diagnostic within an hour; `remindProspect_` can email
-  any address if `RAPPEL_PROSPECT=1`; **UTM provenance**: `/strategie-societe` loses UTMs if the visitor lands
-  elsewhere first, and `/diagnostic` bookings carry no provenance in the Cal.com note; no CSP/HSTS headers.
+  any address if `RAPPEL_PROSPECT=1`; no CSP/HSTS headers. (UTM provenance: fixed on `fix/utm-provenance`.)
 - **Known trade-off of the proof fix:** if `/api/verify-lead` is down, a real lead lands in « À vérifier » with no
   automatic callback while the Web3Forms email still reads like a clean lead — check that tab daily.
   (Journal appels + Blocklist writes are escaped too.)
@@ -58,7 +59,7 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
    Deploy → Manage deployments → edit the web app → New version. Until then leads may not land in the Sheet.
 3. **`LEAD_PROOF_SECRET`**: the same long random value in Vercel (env var) AND Apps Script (Script Properties).
    Both or neither: set in only the Apps Script, every lead becomes « À vérifier ».
-4. Merge this branch (internal files stop being public, fixes go live), then run the live checks in `docs/verification-log.md`.
+4. ~~Merge #28~~ done 2026-11-24. Merge `fix/utm-provenance`, then run the live checks in `docs/verification-log.md`.
 5. Approve or edit the 30 hooks in `docs/hook-bank.md` (H13 needs an EN keyword).
 
 ## Open questions
