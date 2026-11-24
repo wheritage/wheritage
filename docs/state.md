@@ -66,6 +66,15 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
 - `LEAD_PROOF_SECRET`: Vercel signs proofs (checked live); Apps Script value set by Walid — confirmed only when a
   real lead shows `preuve_valide = oui` in the Diagnostic tab.
 
+## Live test lead (2026-11-24 21:11 UTC) — PASS
+
+Email « envoyé ✓ », Diagnostic row with UTMs, `preuve_valide = oui` (secrets match), Leads row Nouveau/Hot,
+callback in « Callbacks » for 2026-11-25 10:00. **Clean-up for Walid:** delete the test rows (Diagnostic row 2,
+Leads row 1001) and the « CALLBACK: Walid Harchaoui » event.
+**Bug found:** the Leads tab's checkbox column (« OTP vérifié ») is filled down to row 1000, so `appendRow`
+puts every new lead at row 1001+, far below the old « Test » row. To fix in `pipeline_` (write to the first empty
+row) or by trimming the checkboxes.
+
 ## Next steps for Walid (in order)
 
 1. **Cancel ElevenLabs Starter** today (renews Nov 26; cancel before Nov 25 EST).
