@@ -116,8 +116,8 @@ await test(32, 'Commence par « test » ou « fake » : test.jean@, test_1@, fak
   const out = []; for (const e of ['test.jean@gmail.com', 'test_1@hotmail.com', 'fake-email@gmail.com']) out.push(await call(verify, lead({ courriel: e })));
   return [out.map((r) => r.data.code).join(', '), out.every((r) => !r.data.ok && r.data.field === 'courriel')];
 });
-await test(33, 'Adresse d\'entreprise : jean@constructionabc.ca, info@cpa-tremblay.com', 'PASSE', async () => {
-  const a = await call(verify, lead({ courriel: 'jean@constructionabc.ca', telephone: '613 555-7788' })), b = await call(verify, lead({ courriel: 'info@cpa-tremblay.com', telephone: '819 821-2333' }));
+await test(33, 'Adresse d\'entreprise (domaines réels) : jean@desjardins.com, info@ia.ca', 'PASSE', async () => {
+  const a = await call(verify, lead({ courriel: 'jean@desjardins.com', telephone: '613 555-7788' })), b = await call(verify, lead({ courriel: 'info@ia.ca', telephone: '819 821-2333' }));
   return [v(a) + ' | ' + v(b), a.data.ok && b.data.ok];
 });
 for (const [n, c] of [['26', { prenom: 'Ève', nom: 'Côté-Nguyen', courriel: 'eve.cote@hotmail.ca', telephone: '819 821-2121' }], ['27', { prenom: 'Li', nom: '', courriel: 'li.wang@outlook.com', telephone: '+1 (416) 555-2368' }],
