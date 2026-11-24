@@ -8,7 +8,7 @@ not a pass. Format: date · check · how · expected · observed · result. Newe
 | # | Check | Status |
 |---|---|---|
 | 1 | Merge decision for #25/#26/#27 | **Moot**: all merged (2026-11-13 / 11-19); review fixes merged in #28 (2026-11-24) |
-| 2 | Apps Script pasted + redeployed as a new version | OPEN — needs Walid |
+| 2 | Apps Script pasted + redeployed as a new version | DONE 2026-11-24: site deployment v2 → v6, triggers installed |
 | 3 | Live checks after #19/#20 (VSL playback + progress events, `/diagnostic?debug` email line) | OPEN |
 | 4 | One real test booking with UTM provenance in the Cal.com note + one real test lead in the Sheet | OPEN — needs Walid's go-ahead and a test identity |
 | 5 | Privacy text mentions diagnostic answers + Google Sheet | Text present since PR #23; wording `[À VALIDER]` by Walid/firm |
@@ -31,6 +31,10 @@ not a pass. Format: date · check · how · expected · observed · result. Newe
 | 2026-11-24 | UTM provenance across pages (`fix/utm-provenance`, local dev server) | land on `/?utm_source=meta&…&utm_content=AD2_v3`, then open `/strategie-societe` and `/diagnostic` without params | provenance line on both | `· Provenance : source meta, campagne W Héritage \| Leads \| 3e porte \| VSL, pub AD2_v3` on both; direct visit `''`; fbclid-only `pub Meta`; no console errors; `test-provenance.mjs` 8/8 | PASS (local; live after merge, then confirm with a real booking) |
 | 2026-11-24 | UTM provenance live (after #29) | live site: `/?utm_source=meta&utm_medium=paid&utm_campaign=verification-live&utm_content=AD2_v3` → `/strategie-societe`, read `WH.provenance()` | provenance line | `· Provenance : source meta, campagne verification-live, pub AD2_v3`; no console errors | PASS (page logic; a real Cal.com booking still to confirm) |
 | 2026-11-24 | Security headers | `curl -I` live `/` | HSTS, anti-framing, nosniff | HSTS `max-age=63072000; includeSubDomains; preload`, `X-Frame-Options: SAMEORIGIN`, nosniff, Referrer-Policy, Permissions-Policy; no CSP | PASS (CSP: LOW, open) |
+| 2026-11-24 | Apps Script code = repo | checksum of the 3 editor files after reload | match | diagnostic.gs + LeadGuard.gs match repo; Code.gs routes + `legacySheet_` | PASS |
+| 2026-11-24 | Apps Script triggers | Déclencheurs page | 8 | 8 (quarantinePending, callbackCheck, followUpPlan, rapportQuotidien, rapportHebdo, anonymiserIp, revuesDuMois, onEditLeads) | PASS |
+| 2026-11-24 | Site deployment updated | Gérer les déploiements, ID `AKfycbz0suP…` | new version | version 6 du 24 nov. 2026, 16:07 | PASS |
+| 2026-11-24 | Vercel signs proofs | `POST /api/verify-lead` (Walid's own details, nothing stored) | signed `preuve` | 312-char `payload.hmac` proof | PASS (Apps Script side: confirm with first real lead) |
 | 2026-11-24 | Sheet formula injection + server proof | `node tools/test-apps-script.mjs` (5 new checks) | all pass | 28/28 (new checks failed before the fix) | PASS (code; live only after the Apps Script is pasted + redeployed) |
 
 ## Still to run (each needs a real, observed result)

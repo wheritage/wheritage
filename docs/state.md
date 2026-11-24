@@ -54,13 +54,25 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
 - 2026-11-24: hook bank, playbook and creators report were lost; new versions created in `docs/` (hooks all NOUVEAU).
 - 2026-11-24: internal files (`CLAUDE.md`, `.claude/`, `.agents/`, `docs/`, `.mcp.json`) excluded from deploys via `.vercelignore`.
 
+## Apps Script (done 2026-11-24, 16:07)
+
+- Found: `doPost` (Code.gs) answered `inconnu` to every diagnostic/contact lead — they never reached the Sheet;
+  `diagnostic.gs` (pasted Nov 13) was never called; no `LeadGuard.gs`; `sheet_` defined in both files.
+- Done: `diagnostic.gs` = repo file (checksum match), `LeadGuard.gs` = `assets/lead-guard.js`, Code.gs routes to
+  `routeLead_` before its own lock and uses `legacySheet_()`. 8 triggers installed. The site's deployment
+  (`AKfycbz0suP…`, the one in `site.js`) moved from **version 2 (Nov 2)** to **version 6 (Nov 24 16:07)**.
+- Watch out: an editor tab opened before the change overwrote it once. Only edit/deploy from a freshly loaded tab.
+- Other active deployments (`AKfycbyynz…` v5, `AKfycbzbYNs…`, `AKfycbxK-N_…`) are not used by the site.
+- `LEAD_PROOF_SECRET`: Vercel signs proofs (checked live); Apps Script value set by Walid — confirmed only when a
+  real lead shows `preuve_valide = oui` in the Diagnostic tab.
+
 ## Next steps for Walid (in order)
 
 1. **Cancel ElevenLabs Starter** today (renews Nov 26; cancel before Nov 25 EST).
-2. **Apps Script** (probably never pasted): open the Sheet → Extensions → Apps Script; replace the code with
+2. ~~**Apps Script**~~ done 2026-11-24 (see above). Was: open the Sheet → Extensions → Apps Script; replace the code with
    `tools/apps-script-diagnostic.gs` AND add/replace a `LeadGuard.gs` file with `assets/lead-guard.js`;
    Deploy → Manage deployments → edit the web app → New version. Until then leads may not land in the Sheet.
-3. **`LEAD_PROOF_SECRET`**: the same long random value in Vercel (env var) AND Apps Script (Script Properties).
+3. ~~**`LEAD_PROOF_SECRET`**~~ set by Walid 2026-11-24. Was: the same long random value in Vercel (env var) AND Apps Script (Script Properties).
    Both or neither: set in only the Apps Script, every lead becomes « À vérifier ».
 4. ~~Merge #28 and #29~~ done 2026-11-24. After steps 2–3, run the live checks in `docs/verification-log.md`
    (test lead into the Sheet, test booking with the provenance line in the Cal.com note).
