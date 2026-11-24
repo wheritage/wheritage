@@ -106,9 +106,9 @@
   /* ── Logo (monogramme losange + W + joyau) ── */
   WH.logo = function (cls) {
     return '<svg class="' + cls + '" viewBox="0 0 40 40" fill="none" aria-hidden="true">' +
-      '<path class="d" d="M20 2 L38 20 L20 38 L2 20 Z" stroke="#C9A84C" stroke-width="1"/>' +
-      '<path class="w" d="M11 14 L15.5 27 L20 17.5 L24.5 27 L29 14" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="miter" stroke-linecap="square"/>' +
-      '<rect class="j" x="18.4" y="2.9" width="3.2" height="3.2" fill="#DDBE68" transform="rotate(45 20 4.5)"/></svg>';
+      '<path class="d" d="M20 2 L38 20 L20 38 L2 20 Z" stroke="#B49A70" stroke-width="1"/>' +
+      '<path class="w" d="M11 14 L15.5 27 L20 17.5 L24.5 27 L29 14" stroke="#B49A70" stroke-width="1.5" stroke-linejoin="miter" stroke-linecap="square"/>' +
+      '<rect class="j" x="18.4" y="2.9" width="3.2" height="3.2" fill="#CDBB98" transform="rotate(45 20 4.5)"/></svg>';
   };
 
   /* ==========================================================================
@@ -117,9 +117,21 @@
   var introTotal = 0;
   (function buildIntro() {
     if (!document.body) return;
-    // Version complète seulement à la toute première visite ; version courte ensuite
-    var quick = store('wh-intro') === '1' || sstore('wh-seen') === '1' || document.body.hasAttribute('data-funnel');
+    // Refonte v2 : version courte (moins de 1 s), seulement à la première page de la visite.
+    // Les pages suivantes s'enchaînent par une transition de vue native (@view-transition dans site.css).
+    var quick = true, seen = sstore('wh-seen') === '1';
     store('wh-intro', '1'); sstore('wh-seen', '1');
+    function ready() {
+      document.documentElement.classList.add('ready');
+      document.documentElement.classList.add('wh-ready');
+      document.dispatchEvent(new CustomEvent('wh:ready'));
+    }
+    if (seen) {
+      // Après onReady (même événement DOMContentLoaded), pour que les écouteurs de wh:ready soient posés
+      var later = function () { setTimeout(ready, 0); };
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', later); else later();
+      return;
+    }
     var word = 'W HÉRITAGE', letters = '';
     for (var i = 0; i < word.length; i++) {
       var ch = word[i];
@@ -141,9 +153,7 @@
     setTimeout(function () {
       el.classList.add('open');
       lockScroll(false);
-      document.documentElement.classList.add('ready');
-      document.documentElement.classList.add('wh-ready');
-      document.dispatchEvent(new CustomEvent('wh:ready'));
+      ready();
     }, introTotal + 260);
     setTimeout(function () { el.classList.add('gone'); }, introTotal + 1500);
   })();
@@ -153,13 +163,16 @@
      ========================================================================== */
   var NAV = [
     { href: 'a-propos.html', key: 'about', fr: 'À propos', en: 'About' },
-    { href: 'index.html#pour-qui', key: 'pourqui', fr: 'Pour qui', en: 'Who I help' },
-    { href: 'index.html#expertise', key: 'expertise', fr: 'Expertise', en: 'Expertise' },
-    { href: 'processus.html', key: 'processus', fr: 'Approche', en: 'Approach' }
+    { href: 'expertise.html', key: 'expertise', fr: 'Expertise', en: 'Expertise' },
+    { href: 'entrepreneurs.html', key: 'entrepreneurs', fr: 'Entrepreneurs', en: 'Business owners' },
+    { href: 'processus.html', key: 'processus', fr: 'Processus', en: 'Process' }
+  ];
+  var NAV_END = [
+    { href: 'contact.html', key: 'contact', fr: 'Contact', en: 'Contact' }
   ];
   var RES = [
     { href: 'ressources.html', key: 'ressources', fr: 'Articles et ressources', en: 'Articles &amp; resources' },
-    { href: 'index.html#guide', key: 'guide', fr: 'Guide — L\'Empire Blindé', en: 'Guide — The Armored Empire' },
+    { href: 'guide-entrepreneur.html', key: 'guide', fr: 'Guide : L\'Empire Blindé', en: 'Guide: The Armored Empire' },
     { href: 'calculateur.html', key: 'calc', fr: 'Simulateur d\'épargne', en: 'Savings simulator' },
     { href: 'calculateur.html#besoin', key: 'besoin', fr: 'Besoin en assurance vie', en: 'Life insurance needs' },
     { href: 'vie-participative.html', key: 'par', fr: 'Vie participative', en: 'Participating life' }
@@ -203,7 +216,7 @@
                    'Walid Harchaoui is a financial security advisor registered with the Autorité des marchés financiers (AMF) and attached to the firm Industrielle Alliance, Assurance et services financiers inc. Licensed in Ontario by FSRA. This page is for information only and does not constitute personalized financial, tax or legal advice.') + '</p>' +
       '</div>' +
       '<div class="footer-bottom">' +
-        '<span>© ' + yr + ' W Héritage — Walid Harchaoui, CSF</span>' +
+        '<span>© ' + yr + ' W Héritage · Walid Harchaoui, CSF</span>' +
         '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button></span>' +
         '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">Chambre de la sécurité financière</a></span>' +
       '</div>';
@@ -213,15 +226,16 @@
   function buildChrome() {
     if (document.body.hasAttribute('data-funnel')) { buildFunnelChrome(); return; }
     var page = document.body.getAttribute('data-page') || '';
-    var resActive = page === 'calc' || page === 'par' || page === 'ressources' || page === 'article';
-    var linksHtml = NAV.map(function (n) {
+    var resActive = page === 'calc' || page === 'par' || page === 'ressources' || page === 'article' || page === 'guide';
+    function navLink(n) {
       return '<li><a href="' + n.href + '"' + (n.key === page ? ' class="active" aria-current="page"' : '') + '>' + bi(n.fr, n.en) + '</a></li>';
-    }).join('') +
+    }
+    var linksHtml = NAV.map(navLink).join('') +
       '<li class="has-sub"><button type="button" class="sub-toggle' + (resActive ? ' active' : '') + '" aria-expanded="false" aria-haspopup="true">' + bi('Ressources', 'Resources') +
         '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5"/></svg></button>' +
         '<ul class="sub">' + RES.map(function (n) {
           return '<li><a href="' + n.href + '"' + (n.key === page ? ' aria-current="page"' : '') + '>' + bi(n.fr, n.en) + '</a></li>';
-        }).join('') + '</ul></li>';
+        }).join('') + '</ul></li>' + NAV_END.map(navLink).join('');
 
     var top = document.createElement('div');
     top.innerHTML =
@@ -239,7 +253,7 @@
       '</nav>' +
       '<div class="mobile-menu" id="mobileMenu" data-lenis-prevent>' +
         '<a href="index.html">' + bi('Accueil', 'Home') + '</a>' +
-        NAV.map(function (n) { return '<a href="' + n.href + '">' + bi(n.fr, n.en) + '</a>'; }).join('') +
+        NAV.concat(NAV_END).map(function (n) { return '<a href="' + n.href + '"' + (n.key === page ? ' aria-current="page"' : '') + '>' + bi(n.fr, n.en) + '</a>'; }).join('') +
         '<div class="mm-res"><span class="mm-label">' + bi('Ressources', 'Resources') + '</span>' +
           RES.map(function (n) { return '<a href="' + n.href + '" class="mm-small">' + bi(n.fr, n.en) + '</a>'; }).join('') + '</div>' +
         '<a href="diagnostic" class="btn btn-gold mm-cta">' + bi('Réserver une consultation', 'Book a consultation') + '</a>' +
@@ -262,14 +276,11 @@
       '<div class="footer-grid">' +
         '<div class="footer-brand"><a href="index.html" class="logo" aria-label="W Héritage — accueil">' + WH.logo('logo-mark') + '<span class="logo-text">W <b>Héritage</b></span></a>' +
           '<p class="fb-id"><b>Walid Harchaoui, CSF</b>' + bi('Conseiller en sécurité financière', 'Financial security advisor') + '<span>Québec · Ontario</span></p>' +
-          '<p>' + bi('Protéger ce que vous construisez. Préparer ce que vous transmettrez.', 'Protect what you build. Prepare what you will pass on.') + '</p></div>' +
+          '<p class="fb-tag">' + bi('Bâtir avec intention. Protéger avec stratégie. Transmettre avec vision.', 'Build with intention. Protect with strategy. Pass on with vision.') + '</p></div>' +
         '<div><h4>' + bi('Explorer', 'Explore') + '</h4><ul>' +
           '<li><a href="index.html">' + bi('Accueil', 'Home') + '</a></li>' +
-          '<li><a href="a-propos.html">' + bi('À propos', 'About') + '</a></li>' +
-          '<li><a href="index.html#pour-qui">' + bi('Pour qui', 'Who I help') + '</a></li>' +
-          '<li><a href="index.html#expertise">Expertise</a></li>' +
-          '<li><a href="processus.html">' + bi('Approche', 'Approach') + '</a></li>' +
-          '<li><a href="diagnostic">' + bi('Consultation', 'Consultation') + '</a></li></ul></div>' +
+          NAV.concat(NAV_END).map(function (n) { return '<li><a href="' + n.href + '">' + bi(n.fr, n.en) + '</a></li>'; }).join('') +
+          '<li><a href="diagnostic">' + bi('Réserver une consultation', 'Book a consultation') + '</a></li></ul></div>' +
         '<div><h4>' + bi('Ressources', 'Resources') + '</h4><ul>' +
           RES.map(function (n) { return '<li><a href="' + n.href + '">' + bi(n.fr, n.en) + '</a></li>'; }).join('') +
           '<li><a href="' + CONFIG.quoteAutoUrl + '" target="_blank" rel="noopener">' + bi('Soumission auto', 'Auto insurance quote') + '</a></li>' +
@@ -279,14 +290,14 @@
           '<li><a href="mailto:' + CONFIG.email + '">' + CONFIG.email + '</a></li>' +
           '<li><a href="' + CONFIG.instagram + '" target="_blank" rel="noopener">Instagram</a></li>' +
           '<li><a href="' + LINKEDIN + '" target="_blank" rel="noopener">LinkedIn</a></li>' +
-          '<li><a href="diagnostic">' + bi('Réserver une consultation', 'Book a consultation') + '</a></li></ul></div>' +
+          '<li><a href="contact.html">' + bi('Écrire un message', 'Send a message') + '</a></li></ul></div>' +
       '</div>' +
       '<div class="footer-legal">' +
         '<p>' + bi('Walid Harchaoui est conseiller en sécurité financière, inscrit auprès de l\'Autorité des marchés financiers (AMF) et rattaché au cabinet Industrielle Alliance, Assurance et services financiers inc. Autorisé en Ontario par l\'Autorité ontarienne de réglementation des services financiers (ARSF). Le contenu de ce site est fourni à titre informatif seulement et ne constitue pas un conseil financier, fiscal ou juridique personnalisé.',
                    'Walid Harchaoui is a financial security advisor registered with the Autorité des marchés financiers (AMF) and attached to the firm Industrielle Alliance, Assurance et services financiers inc. Licensed in Ontario by the Financial Services Regulatory Authority of Ontario (FSRA). The content of this site is for information only and does not constitute personalized financial, tax or legal advice.') + '</p>' +
       '</div>' +
       '<div class="footer-bottom">' +
-        '<span>© ' + yr + ' W Héritage — Walid Harchaoui, CSF</span>' +
+        '<span>© ' + yr + ' W Héritage · Walid Harchaoui, CSF</span>' +
         '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button></span>' +
         '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.fsrao.ca" target="_blank" rel="noopener">' + bi('ARSF', 'FSRA') + '</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">' + bi('Chambre de la sécurité financière', 'Chambre de la sécurité financière') + '</a></span>' +
       '</div>';
@@ -326,7 +337,7 @@
       bar.className = 'book-bar';
       bar.innerHTML = '<a href="diagnostic" class="btn btn-gold">' + bi('Réserver une consultation', 'Book a consultation') + '<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>';
       document.body.appendChild(bar);
-      var hideFor = [].slice.call(document.querySelectorAll('#reservation, #contact, .footer, .page-hero, body > header'));
+      var hideFor = [].slice.call(document.querySelectorAll('#reservation, #contact, .footer, .page-hero, .sub-hero, .cta-band, [data-no-bookbar-zone], body > header'));
       var visible = {};
       if ('IntersectionObserver' in window) {
         var bio = new IntersectionObserver(function (en) {
@@ -342,33 +353,7 @@
       }
     }
 
-    var curtain = document.createElement('div');
-    curtain.id = 'curtain';
-    curtain.innerHTML = '<div class="c-panel top"></div><div class="c-panel bot"></div>' + WH.logo('c-mark');
-    document.body.appendChild(curtain);
 
-    if (finePointer && !reduce) {
-      var ring = document.createElement('div'); ring.className = 'cursor-ring';
-      var dot = document.createElement('div'); dot.className = 'cursor-dot';
-      document.body.appendChild(ring); document.body.appendChild(dot);
-      var mx = -100, my = -100, rx = -100, ry = -100, started = false;
-      window.addEventListener('mousemove', function (e) {
-        mx = e.clientX; my = e.clientY;
-        dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
-        if (!started) { started = true; rx = mx; ry = my; document.body.classList.add('has-cursor'); loop(); }
-      }, { passive: true });
-      document.addEventListener('mouseleave', function () { document.body.classList.remove('has-cursor'); });
-      document.addEventListener('mouseenter', function () { if (started) document.body.classList.add('has-cursor'); });
-      function loop() {
-        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
-        ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) rotate(45deg)';
-        requestAnimationFrame(loop);
-      }
-      document.addEventListener('mouseover', function (e) {
-        var hit = e.target.closest && e.target.closest('a, button, input, select, textarea, label, .spot, [data-hover]');
-        document.body.classList.toggle('cursor-hover', !!hit);
-      });
-    }
   }
 
   /* ==========================================================================
@@ -418,27 +403,6 @@
   }
 
   /* Transition de sortie vers une autre page du site */
-  function initTransitions() {
-    document.addEventListener('click', function (e) {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var a = e.target.closest && e.target.closest('a[href]');
-      if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
-      var href = a.getAttribute('href');
-      if (!href || href.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
-      var url;
-      try { url = new URL(a.href, location.href); } catch (err) { return; }
-      if (url.origin !== location.origin) return;
-      var here = location.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
-      var there = url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
-      if (there === here && url.hash) return; // ancre sur la même page
-      if (reduce) return;
-      e.preventDefault();
-      document.body.classList.add('leaving');
-      setTimeout(function () { location.href = url.href; }, 560);
-    });
-    window.addEventListener('pageshow', function (e) { if (e.persisted) document.body.classList.remove('leaving'); });
-  }
-
   /* Texte fractionné mot par mot (garde <em>, <br>, <span lang>) */
   function splitText(root) {
     var idx = 0;
@@ -516,21 +480,12 @@
     requestAnimationFrame(f);
   }
 
-  /* Projecteur doré sur cartes + boutons magnétiques */
+  /* Projecteur sur cartes .spot (les boutons magnétiques et le curseur personnalisé sont retirés en v2) */
   function initPointerFx() {
     document.addEventListener('pointermove', function (e) {
       var s = e.target.closest && e.target.closest('.spot');
       if (s) { var r = s.getBoundingClientRect(); s.style.setProperty('--mx', (e.clientX - r.left) + 'px'); s.style.setProperty('--my', (e.clientY - r.top) + 'px'); }
     }, { passive: true });
-    if (!finePointer || reduce) return;
-    document.querySelectorAll('.btn, .nav-cta').forEach(function (b) {
-      b.addEventListener('pointermove', function (e) {
-        var r = b.getBoundingClientRect();
-        var x = (e.clientX - r.left - r.width / 2) / r.width, y = (e.clientY - r.top - r.height / 2) / r.height;
-        b.style.transform = 'translate(' + (x * 8).toFixed(1) + 'px,' + (y * 6).toFixed(1) + 'px)';
-      });
-      b.addEventListener('pointerleave', function () { b.style.transform = ''; });
-    });
   }
 
   /* Défilement fluide (Lenis) synchronisé avec GSAP ScrollTrigger.
@@ -603,7 +558,7 @@
           if (p.y < -5) { p.y = h + 5; p.x = Math.random() * w; }
           var tw = p.a * (0.6 + 0.4 * Math.sin(t / 900 + p.ph));
           ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283);
-          ctx.fillStyle = 'rgba(221,190,104,' + tw.toFixed(3) + ')'; ctx.fill();
+          ctx.fillStyle = 'rgba(205,187,152,' + tw.toFixed(3) + ')'; ctx.fill();
         });
         if (running) raf = requestAnimationFrame(frame);
       }
@@ -828,7 +783,15 @@
     diagnostic_lead:    { ga: 'generate_lead', meta: 'Lead', p: { form: 'diagnostic' } },
     diagnostic_lead_autre: { ga: 'generate_lead', meta: 'LeadNonQualifie', custom: true, p: { form: 'diagnostic' } },
     diagnostic_booking: { ga: 'booking_click', meta: 'BookingClick', custom: true },
-    diagnostic_booked:  { ga: 'booking_confirmed', meta: 'Schedule' }
+    diagnostic_booked:  { ga: 'booking_confirmed', meta: 'Schedule' },
+    // Vérification par texto et filtre anti-faux leads (diagnostic) : GA seulement, aucun signal publicitaire.
+    // Ils étaient appelés par diagnostic.js mais absents de cette table, donc jamais envoyés.
+    lead_blocked:       { ga: 'lead_bloque' },
+    otp_view:           { ga: 'otp_view' },
+    otp_sent:           { ga: 'otp_sent' },
+    otp_verified:       { ga: 'otp_verified' },
+    otp_skipped:        { ga: 'otp_skipped' },
+    otp_locked:         { ga: 'otp_locked' }
   };
   WH.track = function (name, params) {
     var ev = EVENTS[name]; if (!ev) return;
@@ -1012,6 +975,14 @@
     banner.classList.remove('show');
     document.documentElement.classList.remove('consent-open');
   }
+  // Emplacement d'un clic de réservation (id de la section, ou nav / pied de page / barre mobile)
+  function zoneOf(a) {
+    if (a.closest('.nav, .mobile-menu')) return 'navigation';
+    if (a.closest('.footer')) return 'pied_de_page';
+    if (a.closest('.book-bar')) return 'barre_mobile';
+    var s = a.closest('section[id], header[id], [data-zone]');
+    return s ? (s.getAttribute('data-zone') || s.id) : (document.body.getAttribute('data-page') || '');
+  }
   function initConsent() {
     consent = readConsent();
     var preview = /[?&]consent=preview/.test(location.search);
@@ -1020,7 +991,7 @@
       if (o) { e.preventDefault(); openBanner(true); return; }
       var a = e.target.closest('a[href]'); if (!a || a.hasAttribute('data-no-track')) return;
       var h = a.getAttribute('href');
-      if (/cal\.com|#reservation|^\/?diagnostic/.test(h)) WH.track('booking_click', { lien: a.textContent.trim().slice(0, 60) });
+      if (/cal\.com|#reservation|^\/?diagnostic/.test(h)) WH.track('booking_click', { lien: (a.innerText || a.textContent).trim().replace(/\s+/g, ' ').slice(0, 60), zone: zoneOf(a) });
       else if (/assurance\.ia\.ca/.test(h)) WH.track('quote_click', { type: /habitation/.test(h) ? 'habitation' : 'auto' });
       else if (/^tel:/.test(h)) WH.track('phone_click');
     });
@@ -1042,7 +1013,6 @@
     initConsent();
     initNav();
     setLang(document.documentElement.getAttribute('data-lang') || 'fr');
-    initTransitions();
     initReveals();
     initPointerFx();
     initSmoothScroll();

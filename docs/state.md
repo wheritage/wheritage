@@ -50,7 +50,7 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
 - 2026-11-24: Claude Code setup follows `claude-code-setup-w-heritage.md`; W Heritage rules and custom
   agents live in this repo's `.claude/`, not globally.
 - 2026-11-24 (Walid): lower third « Conseiller en sécurité financière · Industrielle Alliance ».
-- 2026-11-24 (Walid): gold = "a warm but premium gold" → working value `#C9A84C` (live site).
+- 2026-11-24 (Walid): gold = "a warm but premium gold"; then redesign v2 approved → muted warm gold `#B49A70`, accents only.
 - 2026-11-24 (Walid): Twilio is no longer used. SMS-verification code stays in the repo, inactive without env vars.
 - 2026-11-24 (Walid): cancel ElevenLabs Starter (before Nov 25 EST). Walid cancels it in his account.
 - 2026-11-24: hook bank, playbook and creators report were lost; new versions created in `docs/` (hooks all NOUVEAU).
@@ -99,12 +99,7 @@ Leads-row fix (#31): the test-row and checkbox clean-up are done; next lead land
 
 ## Open questions
 
-- **Redesign v2** (`claude/youthful-davinci-t65vec`, 2026-11-20/21, described in that branch's `REFONTE-V2.md`):
-  black/ivory/stone palette with a muted gold `#B49A70` for small accents only, new home page, new pages
-  Expertise / Entrepreneurs / Contact / Guide, lighter motion. Not deployed. Its Vercel preview needs a Vercel
-  sign-in. It branched before #28–#33, so merging it now means resolving conflicts. Going ahead? (Walid to decide
-  after looking at it.)
-- Final type pairing (live site: Cormorant Garamond + Montserrat).
+- ~~Redesign v2~~ approved by Walid 2026-11-24; merged onto #28–#33 on branch `feat/redesign-v2` (not yet live).
 - The firm's required disclosure wording for ads and emails (beyond the lower third).
 - Set `GITHUB_PAT` (env var) for the GitHub MCP; sign in to the Vercel MCP via `/mcp`.
 - Canva Pro (gaming project): restart cancellation or let it end Dec 6?

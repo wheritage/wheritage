@@ -183,6 +183,12 @@ ctx.routeLead_(base({ lead_id: 'L24', courriel: 'luc.gagnon@bell.net', telephone
 const good = rows('Leads').find((r) => r['Lead ID'] === 'L24') || {};
 check('Preuve valide → Nouveau + rappel créé', good.Statut === 'Nouveau' && events.length === ev0 + 1, good.Statut + ' · rappels ' + (events.length - ev0));
 
+// 17. Refonte v2 : la page Guide envoie source « guide_entrepreneur » — elle doit arriver dans Leads (sinon « inconnu »)
+const gr = ctx.routeLead_({ source: 'guide_entrepreneur', courriel: 'nadia.ouellet@videotron.ca', consentement: true, langue: 'fr', lead_id: 'L30',
+  risque_score: 0, risque_action: 'CLEAN', preuve_risque: sign({ v: 1, id: 'L30', t: Date.now(), tel: '', courriel: 'nadia.ouellet@videotron.ca', score: 0, action: 'CLEAN' }) });
+const gl = rows('Leads').find((r) => r['Lead ID'] === 'L30') || {};
+check('Guide (refonte) : source guide_entrepreneur → Leads, besoin « Guide »', !!gr && gl.Besoin === 'Guide' && /guide_entrepreneur/.test(gl.Source), (gl.Source || 'absent') + ' · ' + (gl.Besoin || ''));
+
 console.log('\n' + mails[0]?.body.split('\n').slice(0, 8).join('\n'));
 console.log(fails ? '\n' + fails + ' échec(s)' : '\nTout passe.');
 process.exit(fails ? 1 : 0);

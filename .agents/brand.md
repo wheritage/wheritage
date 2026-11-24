@@ -1,61 +1,58 @@
 # W Heritage — Brand
 
 Read by `image`, `ad-creative`, `video`, `social` and `sales-enablement` for colours, type and logo files.
-Written by hand from the setup document §2.1 and the live site (`assets/site.css`), because the
-design-skills library is not installed. Values marked `[TO CONFIRM]` are open; do not pick one yourself.
-
-> **Pending redesign:** branch `claude/youthful-davinci-t65vec` (2026-11-20/21, not merged) is a
-> "Refonte v2: système noir et blanc". If Walid merges it, the gold values below stop being the
-> site's brand. `[TO CONFIRM: is the black-and-white redesign going ahead?]`
+Source: the site's design system v2 (`assets/site.css`, redesign approved by Walid 2026-11-24, details in
+`REFONTE-V2.md` and `CLAUDE.md`). If anything here disagrees with `assets/site.css`, the stylesheet wins.
 
 ## Identity
 
 - **Name:** W Heritage (on the site and in French copy: W Héritage).
 - **Positioning:** *Stratège, pas vendeur.* Strategic, calm, premium; never pushy, never TikTok-aggressive.
-- **Look:** black and gold. Film grain, no rounded corners, generous space.
+- **Look (v2, "modern luxury black & white"):** black and ivory, stone tones, a **muted warm gold for small
+  accents only** (eyebrows, hairlines, hovers; never big fills, never gradients). Black & white photography.
+  No rounded corners, generous space.
 - **Voice:** vouvoiement on the website; tutoiement in social content. French-first (Quebec), English for Ontario.
   One concept = two native versions; never mix languages in one video.
-- Lower third (confirmed): « Conseiller en sécurité financière · Industrielle Alliance » / "Financial Security Advisor · Industrielle Alliance".
+- **Lower third (confirmed):** « Conseiller en sécurité financière · Industrielle Alliance » /
+  "Financial Security Advisor · Industrielle Alliance".
+- **Booking CTA wording (site):** « Réserver une consultation » everywhere.
 
-## Colour
+## Colour (v2)
 
-**Gold direction confirmed by Walid (2026-11-24): "a warm but premium gold".** Working value: the live site's
-`#C9A84C`, which is the warmer, deeper of the two candidates. `#D5B65A` (setup document) is lighter and
-brighter. Two sets existed:
+Walid asked for "a warm but premium gold" (2026-11-24), then approved the redesign the same day: gold is
+now the muted warm `#B49A70`, used sparingly.
 
-| Token | Live site (`assets/site.css`) | Setup document §2.1 (provisional) |
+| Token | Value | Use |
 |---|---|---|
-| Gold (primary) | `#C9A84C` (`--or`) | `#D5B65A` |
-| Black (background) | `#080808` (`--noir`) | `#090A0C` |
-| Gold vivid | `#DDBE68` (`--or-vif`) | — |
-| Gold pale | `#EAD6A2` (`--or-pale`) | — |
-| Gold dark | `#8E7431` (`--or-sombre`) | — |
-| Dark surface | `#151310` (`--sombre`) | — |
-| Ink | `#29251F` (`--encre`) | — |
-| Body text on black | `#EDE8DF` (`--texte`) | — |
-| Cream | `#F7F2EA` (`--creme`) | — |
-| Hairline | `rgba(201,168,76,0.14)` / strong `0.35` | — |
+| Noir | `#080808` | default background |
+| Ivoire | `#F5F4F0` | light sections, primary button on dark, text on black |
+| Pierre | `#D5D1C8` (+ `#EAE7E1` light tone) | light section variant |
+| Charbon | `#202020` | dark surfaces |
+| Or (accent) | `#B49A70` | small accents only: eyebrows, hairlines, hover |
+| Or vif / pâle / sombre | `#CDBB98` / `#DCCFB6` / `#7A6544` | rare accent variants |
+| Texte sur noir | `#ECEAE5` | body text on dark |
+| Ligne | `rgba(245,244,240,0.10)` / strong `0.24` | hairlines |
 
-**Use the live-site set** (`#C9A84C` gold, `#080808` black) for everything, so visuals match the website.
+Previous (pre-v2) gold `#C9A84C` and brown-tinted blacks are retired. The video tools (`motion-lab`,
+`text-effects`) keep their own palette.
 
 ## Type
 
-`[TO CONFIRM: final pairing]`
-
-| Use | Live site | Setup document (provisional) |
-|---|---|---|
-| Titles | Cormorant Garamond, weight 300–400 | Montserrat |
-| Body / UI / eyebrows | Montserrat (eyebrows: uppercase, letter-spacing ~.2em) | Inter |
+| Use | Face |
+|---|---|
+| Titles | Cormorant Garamond, light (300–400) |
+| Body / UI / eyebrows | Montserrat (eyebrows uppercase, wide tracking) |
 
 ## Logo and image files (in the repo)
 
 - `assets/favicon.svg`, `assets/apple-touch-icon.png`, `assets/icon-192.png`, `assets/icon-512.png`
 - Social share images: `assets/og.jpg`, `assets/og/*.jpg` (one per page)
-- Portrait: `walid-photo.jpg` / `walid-photo.webp`; more in `assets/photos/`
+- Portraits: `walid-photo.jpg` / `.webp`; black & white versions `assets/photos/*-nb`
 - `[TO CONFIRM: master logo files (SVG/PNG, light and dark) — not found as standalone files in the repo]`
 
 ## Never
 
 - No invented figures, results, "since 20XX" badges or client stories in any visual.
+- No big gold fills, gold gradients or glows (v2 rule).
 - Banned visual tells (from `CLAUDE.md`): neon glow, blurred colour blobs, gradient text, glassmorphism,
   infinite pulsing loops, em dashes in on-screen copy.

@@ -1,11 +1,31 @@
 # W Héritage — wheritage.vercel.app
 
 Static site (plain HTML/CSS/JS, deployed on Vercel with `cleanUrls`). No build step, no package.json.
-Shared design system lives in `assets/site.css`: noir `#080808`, or `#C9A84C`, Cormorant Garamond
-(titles) + Montserrat (body), **no rounded corners**, film grain on `body::after`, signature curve
-`--ease-out: cubic-bezier(.16,1,.3,1)`. Pages are bilingual through `[lang="fr"]` / `[lang="en"]`
-spans toggled by `html[data-lang]`. Positioning: *Stratège, pas vendeur.* Tutoiement in social
-content, vouvoiement on the site.
+Shared design system lives in `assets/site.css` (v2, Nov 2026, "modern luxury black & white"): noir `#080808`,
+ivoire `#F5F4F0`, pierre `#D5D1C8`, charbon `#202020`, muted gold `#B49A70` **for small accents only**
+(eyebrows, hairlines, hovers; never big fills). Cormorant Garamond (titles) + Montserrat (body), **no rounded
+corners**, film grain on `body::after`, signature curve `--ease-out: cubic-bezier(.16,1,.3,1)`.
+Dark sections are the default (`bg-noir`, `bg-noir2`, `bg-sombre`); light sections use `bg-ivoire` / `bg-pierre`,
+which redefine the colour variables so every component adapts (never hard-code colours inside a light section).
+Primary button `.btn-gold` (historic name, alias `.btn-primary`) is ivory on dark and black on light; gold only on hover.
+Photos are black & white (`assets/photos/*-nb.{jpg,webp}`, made from the originals with PIL). Selectors that style a
+`<span>` must target direct children (`li > span`): titles contain nested `<span lang>` and would shrink otherwise.
+Pages are bilingual through `[lang="fr"]` / `[lang="en"]` spans toggled by `html[data-lang]`.
+Positioning: *Stratège, pas vendeur.* Brand line: « Bâtir avec intention. Protéger avec stratégie. Transmettre avec
+vision. » Tutoiement in social content, vouvoiement on the site.
+
+## Site map (v2)
+
+Nav (`NAV` / `NAV_END` in `site.js`): À propos · Expertise · Entrepreneurs · Processus · Ressources ▾ · Contact,
+plus « Réserver une consultation » (the one primary CTA wording everywhere, always to `/diagnostic`).
+- `index.html`: 9 sections only (hero, credentials strip, who I help, 5 expertise pillars, entrepreneurs, Walid,
+  4-step process, 3 resources + guide preview, final CTA). Old anchors `#guide`, `#contact`, `#reservation` redirect.
+- `expertise.html` (`#protection`, `#croissance`, `#fiscalite`, `#retraite`, `#transmission`): the detail that used to
+  sit in the homepage tabs. `entrepreneurs.html`: the business-owner journey. `contact.html`: the Web3Forms contact
+  form + auto/home quotes. `guide-entrepreneur.html`: L'Empire Blindé landing page (email gate, same lead pipeline).
+- Redesign report and next phases: `REFONTE-V2.md` (not deployed). End-to-end check of pages, forms, diagnostic,
+  analytics and links: `MOCK_TWILIO=1 node tools/dev-server.mjs` then `node tools/test-redesign.mjs` (all external
+  services are intercepted; restart the dev server between runs, its rate limits are in memory).
 
 ## Smooth scroll (site-wide)
 
@@ -38,6 +58,7 @@ exported into an edit. Goal: motion that reads as directed, not as a generic AI 
 | Reverse-engineer a reference style (layout, type, palette) into tokens | `design-dna` | [zanwei/design-dna](https://github.com/zanwei/design-dna) |
 | Timing, easing, choreography, Disney principles, Lottie/SVG motion | `motion-design` | [lottiefiles/motion-design-skill](https://github.com/lottiefiles/motion-design-skill) |
 | Creative direction, premium polish, AI-tell audit | `cast` (one interface moves), `paint` (whole look), `bunshin` (whole site, multi-agent, costly) + shared modules in `_jutsu/` | [AThevon/genjutsu](https://github.com/AThevon/genjutsu) |
+| Modern HTML/CSS/JS practice for the site itself (forms, a11y, performance, transitions, security) | `modern-web-guidance` (read `guides/<area>/<topic>.md` directly; its `npx` search tool is optional) | [googlechrome/modern-web-guidance](https://github.com/googlechrome/modern-web-guidance) |
 
 Note: the Instagram post (@ai.theshift) spelled the Three.js repo `ClaudeAI-X`; the real one is
 `CloudAI-X/threejs-skills`. Pinned commits are listed in `.claude/skills/SOURCES.md`.
