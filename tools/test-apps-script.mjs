@@ -18,7 +18,9 @@ function makeSheet(name) {
     getValue: () => (sh.data[r - 1] || [])[c - 1] ?? '',
     setValues: (v) => { v.forEach((row, i) => row.forEach((x, j) => { (sh.data[r - 1 + i] ||= [])[c - 1 + j] = x; })); },
     setValue(x) { (sh.data[r - 1] ||= [])[c - 1] = x; return this; },
-    setBackground: (b) => { sh.bg[r] = b; }, setFontWeight() { return this; }, setDataValidation() {}, insertCheckboxes() {}, setNumberFormat() {}
+    setBackground: (b) => { sh.bg[r] = b; }, setFontWeight() { return this; }, setDataValidation() {}, setNumberFormat() {},
+    // Comme Sheets : insertCheckboxes écrit FALSE dans chaque cellule, ce qui compte dans getLastRow()
+    insertCheckboxes() { for (let i = 0; i < nr; i++) { (sh.data[r - 1 + i] ||= [])[c - 1] = false; } }
   });
   Object.assign(sh, {
     getLastRow: () => sh.data.length,
@@ -46,7 +48,7 @@ function formatDate(d, tz, fmt) {
 const ctx = {
   console, Date, JSON, Math, String, Number, Object, Array, RegExp,
   PropertiesService: { getScriptProperties: () => ({ getProperty: (k) => ({ LEAD_PROOF_SECRET: SECRET, NOTIF_EMAIL: 'walid@test' })[k] || null }) },
-  SpreadsheetApp: { getActiveSpreadsheet: () => ss, newDataValidation: () => { const b = { requireValueInList: () => b, setAllowInvalid: () => b, build: () => ({}) }; return b; } },
+  SpreadsheetApp: { getActiveSpreadsheet: () => ss, newDataValidation: () => { const b = { requireValueInList: () => b, requireCheckbox: () => b, setAllowInvalid: () => b, build: () => ({}) }; return b; } },
   LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
   CacheService: { getScriptCache: () => ({ get: (k) => cache.get(k) || null, put: (k, v) => cache.set(k, v) }) },
   ContentService: { createTextOutput: (t) => ({ text: t }) },
@@ -145,6 +147,9 @@ console.log(hb.body.split('\n').slice(0, 8).join('\n'));
 // 11. Ancienne feuille Diagnostic sans colonnes de risque : colonnes ajoutées
 check('Colonnes anti-faux leads présentes dans Diagnostic', ['lead_id', 'otp_statut', 'risque_score', 'preuve_valide'].every((k) => sheets.Diagnostic.data[0].includes(k)));
 check('Une ligne par lead dans Diagnostic (mise à jour par lead_id)', new Set(rows('Diagnostic').map((r) => r.lead_id)).size === rows('Diagnostic').length);
+
+// 11b. Les leads s'ajoutent juste sous les données, pas sous 1 000 cases à cocher vides (bogue vu en direct le 2026-11-24)
+check('Leads : premier lead en ligne 2 (aucune case FALSE pré-remplie)', sheets.Leads.data.length < 50 && rows('Leads')[0]?.['Lead ID'] === 'L1', 'lignes ' + sheets.Leads.data.length);
 
 // 12. Revue sécurité 2026-11-24 : aucune valeur du client ne peut devenir une formule dans « Leads »
 const okProof = (id, tel, courriel) => sign({ v: 1, id, t: Date.now(), tel, courriel, score: 0, action: 'CLEAN' });
