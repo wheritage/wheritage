@@ -75,6 +75,14 @@ Leads row 1001) and the « CALLBACK: Walid Harchaoui » event.
 puts every new lead at row 1001+, far below the old « Test » row. To fix in `pipeline_` (write to the first empty
 row) or by trimming the checkboxes.
 
+## Live test booking (2026-11-24) — PASS
+
+Direct link `…/rencontre-strategique-15min?utm_source=meta&utm_medium=formulaire`: booking confirmed, Cal.com stores
+the UTMs (« Paramètres UTM »), the webhook wrote Leads row 2 (« Calendrier »). **Clean-up for Walid:** cancel the
+Dec 12 14:15 test booking, then delete Leads row 2. Ideas for later: have `fromCal_` copy the booking's UTMs into
+the Sheet; the bookable event is the 15-min call, while the setup document's core offer is the 90-min session.
+Leads-row fix (#31): the test-row and checkbox clean-up are done; next lead lands right under the data.
+
 ## Next steps for Walid (in order)
 
 1. **Cancel ElevenLabs Starter** today (renews Nov 26; cancel before Nov 25 EST).
