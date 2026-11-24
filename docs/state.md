@@ -99,7 +99,8 @@ Leads-row fix (#31): the test-row and checkbox clean-up are done; next lead land
 
 ## Open questions
 
-- ~~Redesign v2~~ approved by Walid 2026-11-24; merged onto #28–#33 on branch `feat/redesign-v2` (not yet live).
+- ~~Redesign v2~~ approved by Walid 2026-11-24; **live since PR #35** (verified, see verification log). Apps Script
+  accepts `guide_entrepreneur` (deployed before the site). Not yet tested with a real submission: Contact and Guide forms.
 - The firm's required disclosure wording for ads and emails (beyond the lower third).
 - Set `GITHUB_PAT` (env var) for the GitHub MCP; sign in to the Vercel MCP via `/mcp`.
 - Canva Pro (gaming project): restart cancellation or let it end Dec 6?
