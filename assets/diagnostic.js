@@ -33,7 +33,7 @@ var DIAG = {
   niveaux: { faible: 'Faible', moyenne: 'Moyenne', elevee: 'Élevée' },
 
   // [DÉCISION] lien du guide L'Empire Blindé (formulaire existant de la page d'accueil)
-  guide: { titre: 'L\'Empire Blindé', texte: 'Les angles morts les plus fréquents chez les entrepreneurs incorporés. Guide gratuit.', lien: '/#guide' },
+  guide: { titre: 'L\'Empire Blindé', texte: 'Les angles morts les plus fréquents chez les entrepreneurs incorporés. Guide gratuit.', lien: '/guide-entrepreneur' },
 
   // [DÉCISION] permettre de voir le résultat sans coordonnées quand la réponse est « Pas pour l'instant » (défaut : oui)
   permettreSansCoordonnees: true,
@@ -676,6 +676,7 @@ var DIAG_EN = {
   function go(step, opts) {
     opts = opts || {};
     st.step = step;
+    if (step !== 'verify') stopWebOtp();
     if (step !== 'result') save(); // après l'envoi, plus rien n'est gardé
     var html = step === 'result' ? resultHtml() : screenHtml(step);
     root.setAttribute('data-step', step.replace(/\d+$/, ''));
@@ -857,8 +858,6 @@ var DIAG_EN = {
   function telDisplay() { var p = window.LeadGuard && st.contact ? LeadGuard.phone(st.contact.telephone) : null; return p && p.ok ? p.display : (st.contact && st.contact.telephone) || ''; }
   function verifyHtml() {
     var V = L.verif, o = st.otp || {};
-    var boxes = '';
-    for (var i = 0; i < 6; i++) boxes += '<input class="dg-otp-box" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"' + (i === 0 ? ' autocomplete="one-time-code"' : ' autocomplete="off"') + ' aria-label="' + esc(V.codeLabel) + ' ' + (i + 1) + '/6">';
     return '<p class="dg-count">' + esc(V.etape) + '</p>' +
       '<h2 id="dg-h" tabindex="-1">' + V.titre + '</h2>' +
       '<p class="dg-lead">' + esc(V.pourquoi) + '</p>' +
@@ -869,8 +868,11 @@ var DIAG_EN = {
         (o.canal === 'call' ? '' : '<button type="button" class="dg-link dg-otp-alt" data-act="otp-send" data-canal="call">' + esc(V.parAppel) + '</button>') +
       '</div>' +
       '<form class="dg-otp" id="dg-otp" novalidate' + (o.sent ? '' : ' hidden') + '>' +
+        '<label class="dg-otp-label" for="dg-otp-code">' + esc(V.codeLabel) + '</label>' +
         '<p class="dg-fine dg-otp-sent" id="dg-otp-sent" role="status">' + (o.sent ? esc(V.envoye(telDisplay(), o.lastCanal)) : '') + '</p>' +
-        '<fieldset class="dg-otp-boxes"><legend class="sr-only">' + esc(V.codeLabel) + '</legend>' + boxes + '</fieldset>' +
+        // Un seul champ (pas six cases) : la saisie automatique du code reçu par texto (iOS, Android) et le collage fonctionnent.
+        // Pas de maxlength : un code collé avec espaces (« 123 456 ») serait tronqué avant le nettoyage ; bindVerify garde 6 chiffres.
+        '<input class="dg-otp-code" id="dg-otp-code" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="\\d{6}" required aria-describedby="dg-otp-sent">' +
         '<button type="submit" class="btn btn-gold">' + esc(V.verifier) + ARROW + '</button>' +
         '<div class="dg-otp-more">' +
           '<button type="button" class="dg-link" data-act="otp-resend" id="dg-otp-resend" disabled>' + esc(V.renvoyer) + '</button>' +
@@ -884,33 +886,30 @@ var DIAG_EN = {
   }
   var resendTimer = null;
   function bindVerify() {
-    var boxes = [].slice.call(document.querySelectorAll('.dg-otp-box'));
-    boxes.forEach(function (b, i) {
-      b.addEventListener('input', function () {
-        var v = b.value.replace(/\D/g, '');
-        if (v.length > 1) { fillCode(v); return; }
-        b.value = v;
-        if (v && boxes[i + 1]) boxes[i + 1].focus();
-        if (codeValue().length === 6) document.getElementById('dg-otp').requestSubmit ? document.getElementById('dg-otp').requestSubmit() : submitOtp();
-      });
-      b.addEventListener('keydown', function (e) {
-        if (e.key === 'Backspace' && !b.value && boxes[i - 1]) { boxes[i - 1].focus(); boxes[i - 1].value = ''; }
-        if (e.key === 'ArrowLeft' && boxes[i - 1]) boxes[i - 1].focus();
-        if (e.key === 'ArrowRight' && boxes[i + 1]) boxes[i + 1].focus();
-      });
-      b.addEventListener('paste', function (e) {
-        var t = (e.clipboardData || window.clipboardData).getData('text');
-        if (t) { e.preventDefault(); fillCode(t); }
-      });
+    var input = document.getElementById('dg-otp-code');
+    if (!input) return;
+    input.addEventListener('input', function () {
+      var v = input.value.replace(/\D/g, '').slice(0, 6);
+      if (v !== input.value) input.value = v;
+      if (v.length === 6) submitOtp();
     });
-    if (st.otp && st.otp.sent) { countdown(); if (boxes[0]) boxes[0].focus(); }
+    if (st.otp && st.otp.sent) { countdown(); input.focus(); startWebOtp(); }
   }
-  function codeValue() { return [].map.call(document.querySelectorAll('.dg-otp-box'), function (b) { return b.value; }).join(''); }
-  function fillCode(t) {
-    var d = String(t).replace(/\D/g, '').slice(0, 6), boxes = document.querySelectorAll('.dg-otp-box');
-    [].forEach.call(boxes, function (b, i) { b.value = d[i] || ''; });
-    var next = boxes[Math.min(d.length, 5)]; if (next) next.focus();
-    if (d.length === 6) submitOtp();
+  function codeValue() { var i = document.getElementById('dg-otp-code'); return i ? i.value.replace(/\D/g, '') : ''; }
+  // WebOTP (Chrome Android) : lit le code du texto et l'envoie seul. Fonctionne si la dernière ligne du texto est
+  // « @wheritage.vercel.app #123456 » (gabarit Twilio Verify). Sans prise en charge : saisie automatique du clavier ou saisie manuelle.
+  var webOtp = null;
+  function stopWebOtp() { if (webOtp) { webOtp.abort(); webOtp = null; } }
+  function startWebOtp() {
+    if (!('OTPCredential' in window)) return;
+    stopWebOtp();
+    var ac = webOtp = new AbortController();
+    navigator.credentials.get({ otp: { transport: ['sms'] }, signal: ac.signal }).then(function (otp) {
+      var input = document.getElementById('dg-otp-code');
+      if (!otp || !input || ac.signal.aborted) return;
+      input.value = String(otp.code || '').replace(/\D/g, '').slice(0, 6);
+      if (input.value.length === 6) submitOtp();
+    }).catch(function () {}); // annulé (envoi manuel, renvoi, sortie de l'étape) ou refusé par le visiteur
   }
   function countdown() {
     var V = L.verif, btn = document.getElementById('dg-otp-resend');
@@ -940,7 +939,8 @@ var DIAG_EN = {
         var form = document.getElementById('dg-otp'); form.hidden = false;
         document.getElementById('dg-otp-sent').textContent = V.envoye(telDisplay(), j.canal);
         otpErr(''); countdown();
-        var first = document.querySelector('.dg-otp-box'); if (first) first.focus();
+        var code = document.getElementById('dg-otp-code'); if (code) code.focus();
+        startWebOtp();
         return;
       }
       if (j.suggest === 'call') { st.otp.canal = 'call'; save(); }
@@ -952,6 +952,7 @@ var DIAG_EN = {
   function submitOtp() {
     var V = L.verif, code = codeValue(), form = document.getElementById('dg-otp');
     if (!/^\d{6}$/.test(code) || !form || form.getAttribute('aria-busy') === 'true') return;
+    stopWebOtp();
     form.setAttribute('aria-busy', 'true'); otpErr(V.verification);
     WH.leadApi('check-otp', { telephone: st.contact.telephone, code: code, lead_id: leadId(), courriel: st.contact.courriel, lang: lang() }).then(function (r) {
       form.removeAttribute('aria-busy');
@@ -961,8 +962,8 @@ var DIAG_EN = {
         track('otp_verified', { profil: st.profil });
         return showResult(true);
       }
-      [].forEach.call(document.querySelectorAll('.dg-otp-box'), function (b) { b.value = ''; });
-      var first = document.querySelector('.dg-otp-box'); if (first) first.focus();
+      var input = document.getElementById('dg-otp-code'); if (input) { input.value = ''; input.focus(); }
+      startWebOtp();
       if (r.status === 503 || r.status === 0 || j.code === 'service') return otpUnavailable();
       if (j.expired) { st.otp.cooldownUntil = 0; countdown(); }
       if (j.locked) track('otp_locked', { profil: st.profil });
@@ -1220,7 +1221,7 @@ var DIAG_EN = {
     try {
       (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement('script')).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
       Cal('init', 'diag', { origin: 'https://app.cal.com' });
-      Cal.ns.diag('ui', { theme: 'dark', cssVarsPerTheme: { dark: { 'cal-brand': '#C9A84C' } }, layout: 'month_view' });
+      Cal.ns.diag('ui', { theme: 'dark', cssVarsPerTheme: { dark: { 'cal-brand': '#B49A70' } }, layout: 'month_view' });
       var done = function () { if (onBookedNow) onBookedNow(); };
       Cal.ns.diag('on', { action: 'bookingSuccessful', callback: done });
       Cal.ns.diag('on', { action: 'bookingSuccessfulV2', callback: done });

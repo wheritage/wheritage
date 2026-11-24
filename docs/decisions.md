@@ -25,6 +25,8 @@ content work get added here. `[TO CONFIRM: export scope — W Heritage funnel on
 - **Marketing skills:** keep all of them (including aso, paywalls, churn-prevention, directory-submissions,
   popups, public-relations) until a use is found.
 - **ElevenLabs Starter:** cancelled.
+- **Redesign v2:** approved — black / ivory / stone, muted gold `#B49A70` for accents only, new pages
+  Expertise / Entrepreneurs / Contact / Guide. Merged onto #28–#33 on `feat/redesign-v2`.
 - **Title / gold / Twilio:** see `.agents/product-marketing.md` §1 and §12.
 
 ## Claude Code setup (2026-11-24)
@@ -32,4 +34,4 @@ content work get added here. `[TO CONFIRM: export scope — W Heritage funnel on
 - W Heritage rules and the 5 custom agents live in this repo's `.claude/`, not globally, so they never
   apply to other projects (e.g. the gaming project).
 - Hooks: SessionStart loads `docs/state.md`; SessionEnd/PreCompact log to it. Repo is on the allow list.
-- `brand.md` uses the live site's tokens until Walid settles the brand (setup document has different provisional values).
+- `brand.md` follows the site's design system v2 (approved 2026-11-24).

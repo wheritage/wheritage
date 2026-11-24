@@ -13,11 +13,11 @@ leave them exactly as written and ask.
 ## 1. Business
 
 - **Person:** Walid Harchaoui, financial security advisor (conseiller en sécurité financière), licensed in Quebec and Ontario.
-- **Brand:** W Heritage. Visual identity: black and gold. Provisional gold `#D5B65A`, black `#090A0C` — `[TO CONFIRM: exact gold shade]`. Type: Montserrat + Inter (provisional). *(See §12: the live site uses different values.)*
+- **Brand:** W Heritage. Visual identity: black and gold. Provisional gold `#D5B65A`, black `#090A0C` — `[TO CONFIRM: exact gold shade]`. Type: Montserrat + Inter (provisional). *(Superseded: see §1 « Visual system » and `.agents/brand.md`.)*
 - **Professional Instagram:** `walidh.csf` (use the professional account only).
 - **Languages:** French-first for Quebec, English for Ontario. One concept is recorded as two native-language versions — never mix French and English in one video.
 - **Professional title and firm for video lower thirds (confirmed by Walid 2026-11-24):** FR « Conseiller en sécurité financière · Industrielle Alliance », EN "Financial Security Advisor · Industrielle Alliance". `[TO CONFIRM: the firm's exact required disclosure wording, if any, for ads and emails]`.
-- **Gold (direction confirmed 2026-11-24):** "a warm but premium gold". Working value: the live site's `#C9A84C` (see §12 and `.agents/brand.md`).
+- **Visual system (2026-11-24):** Walid approved the redesign v2: black `#080808` / ivory `#F5F4F0` / stone `#D5D1C8`, muted warm gold `#B49A70` for small accents only, Cormorant Garamond + Montserrat. Details: `.agents/brand.md`.
 
 ## 2. Audience
 
@@ -104,7 +104,7 @@ Incorporated business owners ($300k+ income/revenue), entrepreneurs, high-net-wo
 
 These come from reading the repo, not from the setup document. Do not resolve them yourself.
 
-- **Brand tokens on the live site** (`assets/site.css`, `CLAUDE.md`): gold `#C9A84C` (with `#DDBE68` vivid, `#EAD6A2` pale, `#8E7431` dark), black `#080808`, text `#EDE8DF`, cream `#F7F2EA`; type **Cormorant Garamond** (titles) + **Montserrat** (body). The setup document's provisional values (`#D5B65A`, `#090A0C`, Montserrat + Inter) are not used anywhere on the site. `[TO CONFIRM: which set is the brand]`
+- **Brand tokens:** settled 2026-11-24 — redesign v2 (see §1 and `.agents/brand.md`). The setup document's provisional values (`#D5B65A`, `#090A0C`, Montserrat + Inter) and the pre-v2 gold `#C9A84C` are not used.
 - **PR #27:** the latest commit on `main` is "Merge pull request #27 from wheritage/claude/gallant-volta-r3f2of" (2026-11-19). The setup document lists #27 as not merged. To be verified in Phase 5.
 - **Title:** confirmed 2026-11-24, see §1.
 - **Twilio:** no longer used (Walid, 2026-11-24). The SMS-verification code is still in the repo but stays off

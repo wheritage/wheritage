@@ -13,7 +13,7 @@
         var routed = routeLead_(data); if (routed) return routed;
 
       (« data » = le nom de la variable qui contient le JSON reçu dans le script actuel.)
-      routeLead_ traite diagnostic, diagnostic_particulier, contact et guide_accueil ; pour « guide »
+      routeLead_ traite diagnostic, diagnostic_particulier, contact, guide_accueil et guide_entrepreneur ; pour « guide »
       (/strategie-societe) il ajoute la ligne au pipeline « Leads » puis laisse le code existant continuer.
    4. Paramètres du projet (roue dentée) > Propriétés du script :
         LEAD_PROOF_SECRET = la même valeur que dans Vercel (vérifie les preuves signées du serveur)
@@ -81,7 +81,8 @@ var FERMES = { 'Fermé': 1, 'Gagné': 1, 'Perdu': 1 };
 function routeLead_(d) {
   var src = d && d.source;
   if (!src) return null;
-  var known = { diagnostic: 1, diagnostic_particulier: 1, contact: 1, guide_accueil: 1, guide: 1 };
+  // guide_entrepreneur : page /guide-entrepreneur de la refonte v2 (sinon ces leads finissaient en « inconnu »)
+  var known = { diagnostic: 1, diagnostic_particulier: 1, contact: 1, guide_accueil: 1, guide_entrepreneur: 1, guide: 1 };
   if (!known[src]) return null;
   var lock = LockService.getScriptLock();
   lock.waitLock(15000);
@@ -191,7 +192,7 @@ function appendDiagnostic_(d, v) {
 function pipeline_(d, v) {
   var now = new Date();
   var nom = ((d.prenom || '') + ' ' + (d.nom || '')).trim() || String(d.courriel || '').split('@')[0];
-  var besoin = d.enjeu_principal || d.sujet || (d.source === 'guide' || d.source === 'guide_accueil' ? 'Guide' : '');
+  var besoin = d.enjeu_principal || d.sujet || (d.source === 'guide' || d.source === 'guide_accueil' || d.source === 'guide_entrepreneur' ? 'Guide' : '');
   var statut = v.otp === 'en_attente' ? 'En attente vérif' : (v.action === 'SUSPICIOUS' || v.otp === 'non_verifie') ? 'À vérifier' : 'Nouveau';
   var hot = !!d.telephone && (v.otp === 'verifie' || (v.action === 'CLEAN' && v.otp !== 'en_attente')) && d.qualifie !== false;
   var rec = {
