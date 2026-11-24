@@ -18,6 +18,15 @@ content work get added here. `[TO CONFIRM: export scope — W Heritage funnel on
 - **Morocco–Montreal gap is 5 hours** (Morocco on permanent UTC+0 since 2026-09-20). Source: setup document §2.11.
 - **Supabase project `mcioxeabylusmrvbmxgs` is not W Heritage**: leave it alone. Source: setup document §4.
 
+## Walid's decisions (2026-11-24)
+
+- **Booking:** the site keeps the 15-minute call; Walid books the 90-minute session after talking to the prospect.
+- **Hooks:** the 30 hooks in `docs/hook-bank.md` are approved (wording); compliance notes per hook still apply.
+- **Marketing skills:** keep all of them (including aso, paywalls, churn-prevention, directory-submissions,
+  popups, public-relations) until a use is found.
+- **ElevenLabs Starter:** cancelled.
+- **Title / gold / Twilio:** see `.agents/product-marketing.md` §1 and §12.
+
 ## Claude Code setup (2026-11-24)
 
 - W Heritage rules and the 5 custom agents live in this repo's `.claude/`, not globally, so they never

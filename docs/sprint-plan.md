@@ -40,6 +40,6 @@ Wed Dec 9 · Fri Dec 11 · Sat Dec 12 · Sun Dec 13 · Wed Dec 16 · Fri Dec 18 
 
 ## Hook bank and playbook
 
-- `docs/hook-bank.md` (30 NEW FR/EN hooks, mapped to the 16 reels, each waiting for Walid's approval) and
+- `docs/hook-bank.md` (30 FR/EN hooks mapped to the 16 reels, approved by Walid 2026-11-24) and
   `docs/playbook.md` (filming, CapCut, posting, compliance gate) were created 2026-11-24 to replace the lost originals.
   Once a hook is approved, reuse it word for word.

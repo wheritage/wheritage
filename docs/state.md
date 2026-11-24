@@ -87,7 +87,7 @@ Leads-row fix (#31): the test-row and checkbox clean-up are done; next lead land
 
 ## Next steps for Walid (in order)
 
-1. **Cancel ElevenLabs Starter** today (renews Nov 26; cancel before Nov 25 EST).
+1. ~~Cancel ElevenLabs Starter~~ done by Walid 2026-11-24.
 2. ~~**Apps Script**~~ done 2026-11-24 (see above). Was: open the Sheet → Extensions → Apps Script; replace the code with
    `tools/apps-script-diagnostic.gs` AND add/replace a `LeadGuard.gs` file with `assets/lead-guard.js`;
    Deploy → Manage deployments → edit the web app → New version. Until then leads may not land in the Sheet.
@@ -95,15 +95,18 @@ Leads-row fix (#31): the test-row and checkbox clean-up are done; next lead land
    Both or neither: set in only the Apps Script, every lead becomes « À vérifier ».
 4. ~~Merge #28 and #29~~ done 2026-11-24. After steps 2–3, run the live checks in `docs/verification-log.md`
    (test lead into the Sheet, test booking with the provenance line in the Cal.com note).
-5. Approve or edit the 30 hooks in `docs/hook-bank.md` (H13 needs an EN keyword).
+5. ~~Approve the 30 hooks~~ approved 2026-11-24. Still open: H13 needs an EN DM keyword.
 
 ## Open questions
 
-- Is the black-and-white redesign (`claude/youthful-davinci-t65vec`) going ahead? It decides the brand.
+- **Redesign v2** (`claude/youthful-davinci-t65vec`, 2026-11-20/21, described in that branch's `REFONTE-V2.md`):
+  black/ivory/stone palette with a muted gold `#B49A70` for small accents only, new home page, new pages
+  Expertise / Entrepreneurs / Contact / Guide, lighter motion. Not deployed. Its Vercel preview needs a Vercel
+  sign-in. It branched before #28–#33, so merging it now means resolving conflicts. Going ahead? (Walid to decide
+  after looking at it.)
 - Final type pairing (live site: Cormorant Garamond + Montserrat).
 - The firm's required disclosure wording for ads and emails (beyond the lower third).
 - Set `GITHUB_PAT` (env var) for the GitHub MCP; sign in to the Vercel MCP via `/mcp`.
-- Prune marketing skills not used here (aso, paywalls, churn-prevention, directory-submissions, popups, public-relations)?
 - Canva Pro (gaming project): restart cancellation or let it end Dec 6?
 - Claude export scope; did the Monday Nov 23 calls happen; have any of the 7 ready reels been filmed;
   is the outreach stack for the 153 "Lead entrant" leads?
