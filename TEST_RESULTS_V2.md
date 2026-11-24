@@ -1,9 +1,9 @@
 # Résultats des tests anti-faux leads (V2)
 
-Généré par `node tools/test-leads.mjs` le 2026-11-24 20:20 UTC, avec Twilio simulé (`tools/twilio-mock.mjs`).
+Généré par `node tools/test-leads.mjs` le 2026-11-24 22:53 UTC, avec Twilio simulé (`tools/twilio-mock.mjs`).
 Les vérifications MX, Abstract, IPQualityScore et Turnstile ne sont pas actives dans ce test (pas de clés, réseau DNS du bac à sable).
 
-**35 / 35 réussis.**
+**37 / 37 réussis.**
 
 | # | Cas | Attendu | Obtenu | |
 |---|---|---|---|---|
@@ -42,6 +42,8 @@ Les vérifications MX, Abstract, IPQualityScore et Turnstile ne sont pas actives
 | 27 | Vrai lead : Li , li.wang@outlook.com, +1 (416) 555-2368 | PASSE | CLEAN 20/100, code SMS requis | ✅ |
 | 28 | Vrai lead : Jean-François O'Brien, jf.obrien+site@gmail.com, 1-581-300-4412 | PASSE | CLEAN 0/100, code SMS requis | ✅ |
 | 29 | Vrai lead : Paul Testard, paul.testard@sympatico.ca, 450 430-1212 | PASSE | CLEAN 0/100, code SMS requis | ✅ |
+| 34 | Même personne : contact + diagnostic + guide dans l'heure (3 envois) | PASSE les 3 fois | ok, ok, ok | ✅ |
+| 35 | Même courriel envoyé 6 fois dans l'heure (robot) | BLOQUÉ au 6e (trop_essais) | ok, ok, ok, ok, ok, trop_essais | ✅ |
 
 ## Écarts volontaires par rapport au document
 

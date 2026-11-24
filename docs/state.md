@@ -31,7 +31,7 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
   - Google Sheet formula injection in the Leads tab (`esc_` on every value in `pipeline_`).
   - Missing/stale/foreign server proof now means « À vérifier » and no automatic callback, when `LEAD_PROOF_SECRET` is set.
 - **Still open — MEDIUM:** send-otp not gated by a verify-lead proof (moot while Twilio is off); per-instance rate
-  limits without KV; per-email limit trips on contact form + diagnostic within an hour; `remindProspect_` can email
+  limits without KV; `remindProspect_` can email
   any address if `RAPPEL_PROSPECT=1`. (UTM provenance: fixed in #29.)
 - **Headers:** HSTS (2 y, preload), X-Frame-Options, nosniff, Referrer-Policy and Permissions-Policy are already
   sent (the review was wrong about HSTS). Only a Content-Security-Policy is missing — LOW; if added, start with
@@ -39,7 +39,9 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
 - **Known trade-off of the proof fix:** if `/api/verify-lead` is down, a real lead lands in « À vérifier » with no
   automatic callback while the Web3Forms email still reads like a clean lead — check that tab daily.
   (Journal appels + Blocklist writes are escaped too.)
-- **Still open — LOW:** phone extensions refused; `?debug` innerHTML unescaped; OTP proof reusable 6 h without
+- **Fixed 2026-11-24 (`fix/email-rate-limit`):** same email/phone limit raised 2/h → 5/h (contact + diagnostic +
+  guide in one hour was refused); `?debug` message escaped. Tests: test-leads 37/37.
+- **Still open — LOW:** phone extensions refused; OTP proof reusable 6 h without
   `lead_id`; any row overwritable by `lead_id`.
 - **Account settings (Walid):** turn off Meta "Automatic advanced matching"; enable Web3Forms domain restriction.
 

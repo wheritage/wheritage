@@ -1137,7 +1137,7 @@ var DIAG_EN = {
       '</section>' +
       '<div class="dg-booked" id="dg-booked" role="status"' + (st.booked ? '' : ' hidden') + '><h3>' + U.booked + '</h3><p>' + esc(U.bookedP) +
         (st.profil === 'entrepreneur' ? esc(U.comptable) : '') + '</p></div>' +
-      (DEBUG ? '<p class="dg-fine" id="dg-debug" role="status">' + (emailStatus ? 'Courriel Web3Forms : ' + (emailStatus.ok ? 'envoyé ✓' : 'refusé · ' + emailStatus.message) : 'Courriel Web3Forms : envoi en cours…') + '</p>' : '') +
+      (DEBUG ? '<p class="dg-fine" id="dg-debug" role="status">' + (emailStatus ? 'Courriel Web3Forms : ' + (emailStatus.ok ? 'envoyé ✓' : 'refusé · ' + esc(emailStatus.message)) : 'Courriel Web3Forms : envoi en cours…') + '</p>' : '') +
       '<div class="dg-notes">' +
         '<p>' + esc(p.methode) + '</p>' +
         (prov ? '<p>' + esc(prov) + '</p>' : '') +

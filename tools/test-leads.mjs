@@ -125,6 +125,15 @@ for (const [n, c] of [['26', { prenom: 'Ève', nom: 'Côté-Nguyen', courriel: '
   await test(n, 'Vrai lead : ' + c.prenom + ' ' + c.nom + ', ' + c.courriel + ', ' + c.telephone, 'PASSE', async () => { const r = await call(verify, lead(c)); return [v(r), r.data.ok && r.data.action !== 'FAKE']; });
 }
 
+await test(34, 'Même personne : contact + diagnostic + guide dans l\'heure (3 envois)', 'PASSE les 3 fois', async () => {
+  const out = []; for (let i = 0; i < 3; i++) out.push(await call(verify, lead({ courriel: 'sophie.gagnon@videotron.ca', telephone: '450 671-2288' })));
+  return [out.map((r) => (r.data.ok ? 'ok' : r.data.code)).join(', '), out.every((r) => r.data.ok)];
+});
+await test(35, 'Même courriel envoyé 6 fois dans l\'heure (robot)', 'BLOQUÉ au 6e (trop_essais)', async () => {
+  const out = []; for (let i = 0; i < 6; i++) out.push(await call(verify, lead({ courriel: 'luc.bouchard@bell.net', telephone: '418 622-3344' })));
+  return [out.map((r) => (r.data.ok ? 'ok' : r.data.code)).join(', '), out.slice(0, 5).every((r) => r.data.ok) && out[5].data.code === 'trop_essais'];
+});
+
 const ok = rows.filter((r) => r.pass).length;
 const md = ['# Résultats des tests anti-faux leads (V2)', '',
   'Généré par `node tools/test-leads.mjs` le ' + new Date().toISOString().slice(0, 16).replace('T', ' ') + ' UTC, avec Twilio simulé (`tools/twilio-mock.mjs`).',
