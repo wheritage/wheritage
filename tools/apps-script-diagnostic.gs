@@ -485,7 +485,10 @@ function sheet_(name, cols) {
 function leadsFormat_(sh, cols) {
   var list = function (vals) { return SpreadsheetApp.newDataValidation().requireValueInList(vals, true).setAllowInvalid(false).build(); };
   sh.getRange(2, cols.indexOf('Statut') + 1, 999, 1).setDataValidation(list(STATUTS));
-  sh.getRange(2, cols.indexOf('OTP vérifié') + 1, 999, 1).insertCheckboxes();
+  // Règle « case à cocher » sans écrire FALSE : les lignes vides restent vides, appendRow écrit juste sous les données
+  // (insertCheckboxes remplissait 999 lignes, et chaque nouveau lead arrivait en ligne 1001).
+  sh.getRange(2, cols.indexOf('OTP vérifié') + 1, 999, 1)
+    .setDataValidation(SpreadsheetApp.newDataValidation().requireCheckbox().build());
   if (cols.indexOf('Taille client') >= 0) sh.getRange(2, cols.indexOf('Taille client') + 1, 999, 1).setDataValidation(list(TAILLES));
   ['Date gagné', 'Dernière revue', 'Prochaine revue semestrielle'].forEach(function (k) {
     if (cols.indexOf(k) >= 0) sh.getRange(2, cols.indexOf(k) + 1, 999, 1).setNumberFormat('yyyy-mm-dd');
