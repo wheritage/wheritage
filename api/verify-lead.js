@@ -105,13 +105,14 @@ module.exports = async function handler(req, res) {
   }
   if (geo.pays && geo.pays !== 'CA' && geo.pays !== 'US') { score += 20; reasons.push('geo_pays_' + geo.pays); }
 
-  // 6. Limites par soumission acceptée (IP 3/10 min, 5/h, 10/jour ; même courriel ou téléphone 2/h)
+  // 6. Limites par soumission acceptée (IP 3/10 min, 5/h, 10/jour ; même courriel ou téléphone 5/h).
+  //    5/h et non 2/h : une vraie personne peut envoyer contact + diagnostic + guide dans l'heure (revue 2026-11-24).
   const h = { ip: addr ? C.hash(addr) : '', em: email ? C.hash(email) : '', tel: e164 ? C.hash(e164) : '' };
   const counts = await Promise.all([
     h.ip ? C.hit('sub:ip:10m:' + h.ip, 600) : 0, h.ip ? C.hit('sub:ip:1h:' + h.ip, 3600) : 0, h.ip ? C.hit('sub:ip:1d:' + h.ip, 86400) : 0,
     h.em ? C.hit('sub:em:1h:' + h.em, 3600) : 0, h.tel ? C.hit('sub:tel:1h:' + h.tel, 3600) : 0
   ]);
-  if (counts[0] > 3 || counts[1] > 5 || counts[2] > 10 || counts[3] > 2 || counts[4] > 2) {
+  if (counts[0] > 3 || counts[1] > 5 || counts[2] > 10 || counts[3] > 5 || counts[4] > 5) {
     return fail('trop_essais', null, { score: Math.min(100, score + 20), reasons: reasons.concat('limite_debit'), retry_after: 600 });
   }
 
