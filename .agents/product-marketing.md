@@ -17,7 +17,7 @@ leave them exactly as written and ask.
 - **Professional Instagram:** `walidh.csf` (use the professional account only).
 - **Languages:** French-first for Quebec, English for Ontario. One concept is recorded as two native-language versions — never mix French and English in one video.
 - **Professional title and firm for video lower thirds (confirmed by Walid 2026-11-24):** FR « Conseiller en sécurité financière · Industrielle Alliance », EN "Financial Security Advisor · Industrielle Alliance". `[TO CONFIRM: the firm's exact required disclosure wording, if any, for ads and emails]`.
-- **Visual system (2026-11-24):** Walid approved the redesign v2: black `#080808` / ivory `#F5F4F0` / stone `#D5D1C8`, muted warm gold `#B49A70` for small accents only, Cormorant Garamond + Montserrat. Details: `.agents/brand.md`.
+- **Visual system (2026-11-24):** Walid approved the redesign v2: black `#080808` / ivory `#F5F4F0` / stone `#D5D1C8`, vibrant amber gold `#E5AE45` (since 2026-11-25), Cormorant Garamond + Montserrat. Details: `.agents/brand.md`.
 
 ## 2. Audience
 

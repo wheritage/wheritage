@@ -74,7 +74,7 @@
 <script>(function(){var l='fr';try{var q=new URLSearchParams(location.search).get('lang');l=q||localStorage.getItem('wh-lang')||'fr';}catch(e){}l=l==='en'?'en':'fr';var h=document.documentElement;h.setAttribute('data-lang',l);h.lang=l;})();</script>
 <style>
 .calc-hero { padding: 11rem var(--pad-x) 4.5rem; text-align: center; position: relative; overflow: hidden; background: #060504; }
-.calc-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 70% at 50% 0%, rgba(180,154,112,.13), transparent 70%); }
+.calc-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 70% at 50% 0%, rgba(229,174,69,.13), transparent 70%); }
 .calc-hero canvas.dust { position: absolute; inset: 0; width: 100%; height: 100%; }
 .calc-hero > * { position: relative; }
 .calc-hero .k { font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--or); font-weight: 500; margin-bottom: 1rem; }
@@ -106,7 +106,7 @@
 .stat-row .sub { display: block; font-size: .64rem; color: var(--texte3); margin-top: .3rem; }
 .foot-note { text-align: center; }
 .disclaimer.center.foot-note { margin-top: 1.8rem; }
-.calc-cta { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; margin-top: 3.5rem; border: 1px solid var(--ligne-fort); padding: 2.2rem 2.4rem; background: linear-gradient(110deg, rgba(180,154,112,.07), transparent 60%); }
+.calc-cta { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; margin-top: 3.5rem; border: 1px solid var(--ligne-fort); padding: 2.2rem 2.4rem; background: linear-gradient(110deg, rgba(229,174,69,.07), transparent 60%); }
 .calc-cta h3 { margin-bottom: .3rem; }
 .calc-cta p { font-size: .8rem; color: var(--texte2); }
 
@@ -114,9 +114,9 @@
 .tool-tabs button { position: relative; text-align: left; padding: 1.4rem 1.6rem 1.4rem 4rem; border-right: 1px solid var(--ligne); transition: background .4s; }
 .tool-tabs button:last-child { border-right: 0; }
 .tool-tabs button::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--or); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease-out); }
-.tool-tabs button.on { background: rgba(180,154,112,.07); }
+.tool-tabs button.on { background: rgba(229,174,69,.07); }
 .tool-tabs button.on::after { transform: scaleX(1); }
-.tool-tabs small { position: absolute; left: 1.5rem; top: 1.45rem; font-family: var(--serif); font-size: 1.3rem; color: rgba(180,154,112,.45); }
+.tool-tabs small { position: absolute; left: 1.5rem; top: 1.45rem; font-family: var(--serif); font-size: 1.3rem; color: rgba(229,174,69,.45); }
 .tool-tabs button.on small { color: var(--or); }
 .tool-tabs b { display: block; font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--texte2); }
 .tool-tabs button.on b { color: var(--creme); }
@@ -125,7 +125,7 @@
 .tool { scroll-margin-top: 6rem; }
 .tool-intro { font-size: .92rem; color: var(--texte2); line-height: 1.85; margin-bottom: 2.2rem; max-width: 640px; }
 h3.blk { font-size: 1.35rem; margin-bottom: 1.4rem; color: var(--or-pale); }
-.need-out { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2.4rem; align-items: center; border: 1px solid var(--ligne-fort); background: linear-gradient(110deg, rgba(180,154,112,.07), transparent 65%); padding: 2.2rem 2rem; margin-top: 1.2rem; }
+.need-out { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2.4rem; align-items: center; border: 1px solid var(--ligne-fort); background: linear-gradient(110deg, rgba(229,174,69,.07), transparent 65%); padding: 2.2rem 2rem; margin-top: 1.2rem; }
 .need-big small { display: block; font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--texte3); margin-bottom: .6rem; }
 .need-big b { display: block; font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 400; color: var(--or); line-height: 1; }
 .need-big .sub { display: block; font-size: .74rem; color: var(--texte2); margin-top: .7rem; line-height: 1.6; }
@@ -428,7 +428,7 @@ h3.blk { font-size: 1.35rem; margin-bottom: 1.4rem; color: var(--or-pale); }
     height: 380,
     series: [
       { key: 'deps', color: 'rgba(237,232,223,.3)', width: 1.3, dash: '3 5' },
-      { key: 'prot', color: '#B49A70', width: 2.4, fill: .18 },
+      { key: 'prot', color: '#E5AE45', width: 2.4, fill: .18 },
       { key: 'base', color: '#EDE8DF', width: 2.2 }
     ],
     yFmt: function (v) { return WH.moneyShort(v); },
@@ -442,7 +442,7 @@ h3.blk { font-size: 1.35rem; margin-bottom: 1.4rem; color: var(--or-pale); }
     tip: function (i) {
       var h = '<div class="tt-h">' + WH.t('Année ', 'Year ') + i + '</div>';
       h += row(S.prot ? WH.t('Épargne seule (imprévu)', 'Savings only (setback)') : WH.t('Épargne seule', 'Savings only'), data.base.vals[i], '#EDE8DF');
-      if (S.prot) h += row(WH.t('Avec protection', 'With protection'), data.prot.vals[i], '#B49A70');
+      if (S.prot) h += row(WH.t('Avec protection', 'With protection'), data.prot.vals[i], '#E5AE45');
       h += row(WH.t('Dépôts cumulés', 'Total deposits'), data.base.deps[i], 'rgba(237,232,223,.45)');
       return h;
     }
@@ -460,7 +460,7 @@ h3.blk { font-size: 1.35rem; margin-bottom: 1.4rem; color: var(--or-pale); }
 
     // légende
     var lg = '<span><i style="background:#EDE8DF"></i>' + (S.prot ? WH.t('Épargne seule (imprévu)', 'Savings only (setback)') : WH.t('Épargne seule', 'Savings only')) + ' — <b class="v">' + WH.money(base.final) + '</b></span>';
-    if (prot) lg += '<span><i style="background:#B49A70"></i>' + WH.t('Avec protection', 'With protection') + ' — <b class="v">' + WH.money(prot.final) + '</b></span>';
+    if (prot) lg += '<span><i style="background:#E5AE45"></i>' + WH.t('Avec protection', 'With protection') + ' — <b class="v">' + WH.money(prot.final) + '</b></span>';
     lg += '<span><i style="background:rgba(237,232,223,.35)"></i>' + WH.t('Dépôts cumulés', 'Total deposits') + '</span>';
     $('legend').innerHTML = lg;
 

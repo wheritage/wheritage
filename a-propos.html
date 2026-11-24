@@ -83,7 +83,7 @@
 <script>(function(){var l='fr';try{var q=new URLSearchParams(location.search).get('lang');l=q||localStorage.getItem('wh-lang')||'fr';}catch(e){}l=l==='en'?'en':'fr';var h=document.documentElement;h.setAttribute('data-lang',l);h.lang=l;})();</script>
 <style>
 .about-hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1.15fr .85fr; gap: 4rem; align-items: end; padding: 9rem var(--pad-x) 5rem; overflow: hidden; background: #060504; }
-.about-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 75% 35%, rgba(180,154,112,.14), transparent 65%); }
+.about-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 75% 35%, rgba(229,174,69,.14), transparent 65%); }
 .about-hero canvas.dust { position: absolute; inset: 0; width: 100%; height: 100%; }
 .about-hero > * { position: relative; z-index: 2; }
 .name { font-family: var(--serif); font-weight: 300; color: var(--creme); line-height: .9; letter-spacing: -.01em; font-size: clamp(3.6rem, 9.5vw, 9.2rem); margin-bottom: 2.2rem; }
@@ -96,7 +96,7 @@
 .tags { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 2.4rem; }
 .tags span { border: 1px solid var(--ligne-fort); padding: .5rem .9rem; font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--or-pale); }
 .portrait { position: relative; align-self: center; }
-.portrait .frame { aspect-ratio: 4/5; overflow: hidden; border: 1px solid rgba(180,154,112,.25); }
+.portrait .frame { aspect-ratio: 4/5; overflow: hidden; border: 1px solid rgba(229,174,69,.25); }
 .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: contrast(1.06) brightness(.94); transform: scale(1.15); transition: transform 2.8s var(--ease-out); }
 .portrait .frame.in img { transform: scale(1); }
 .portrait .sign { position: absolute; right: -1rem; bottom: -1.6rem; font-family: var(--serif); font-style: italic; font-size: 2.4rem; color: var(--or); opacity: .85; transform: rotate(-6deg); }
@@ -130,7 +130,7 @@
 .principle:hover .ln i { width: 100%; }
 
 .beyond { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.bcard { border: 1px solid var(--ligne); padding: 2.8rem 2.2rem; position: relative; background: linear-gradient(180deg, rgba(180,154,112,.04), transparent 50%); }
+.bcard { border: 1px solid var(--ligne); padding: 2.8rem 2.2rem; position: relative; background: linear-gradient(180deg, rgba(229,174,69,.04), transparent 50%); }
 .bcard .ic { width: 52px; height: 52px; margin-bottom: 2rem; }
 .bcard .ic svg { width: 100%; height: 100%; stroke: var(--or); fill: none; stroke-width: 1; }
 .bcard .ic svg * { stroke-dasharray: 200; stroke-dashoffset: 200; transition: stroke-dashoffset 2s var(--ease-out) .3s; }

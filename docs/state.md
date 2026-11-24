@@ -51,6 +51,8 @@ PR queue, test results, decisions, open questions. Business context: `.agents/pr
   agents live in this repo's `.claude/`, not globally.
 - 2026-11-24 (Walid): lower third « Conseiller en sécurité financière · Industrielle Alliance ».
 - 2026-11-24 (Walid): gold = "a warm but premium gold"; then redesign v2 approved → muted warm gold `#B49A70`, accents only.
+- 2026-11-25 (Walid): site « mort » → vibrant amber gold `#E5AE45`, brighter small text, living particle background
+  (branch `feat/site-vivant`).
 - 2026-11-24 (Walid): Twilio is no longer used. SMS-verification code stays in the repo, inactive without env vars.
 - 2026-11-24 (Walid): cancel ElevenLabs Starter (before Nov 25 EST). Walid cancels it in his account.
 - 2026-11-24: hook bank, playbook and creators report were lost; new versions created in `docs/` (hooks all NOUVEAU).

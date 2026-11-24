@@ -7,7 +7,7 @@ motion house style: `CLAUDE.md` (it wins if anything here disagrees).
 
 - Dark sections by default (noir `#080808`), light sections in ivoire `#F5F4F0` / pierre `#D5D1C8` for rhythm.
 - **No rounded corners** anywhere (site, thumbnails, ad frames).
-- Gold `#B49A70` only for small accents: eyebrows, hairlines, hovers. No gold fills, no gradients, no glow.
+- Vibrant amber gold `#E5AE45` (deep `#8A5C0A` on light sections) for accents, title italics and the primary button. No gradients, no neon glow.
 - Thin hairlines instead of boxes and shadows; black & white photography.
 - Serif titles (Cormorant Garamond, light), small uppercase Montserrat eyebrows with wide tracking.
 - Calm motion: no splash screen, custom cursor, particle dust or auto-rotating panels (removed in v2).
@@ -28,7 +28,7 @@ motion house style: `CLAUDE.md` (it wins if anything here disagrees).
 
 ## Thumbnails and ad creatives
 
-- One claim, one number, one face or object. Ivory text on black; the key number may take the accent gold `#B49A70`.
+- One claim, one number, one face or object. Ivory text on black; the key number may take the amber gold `#E5AE45`.
 - Show "illustrative example" wording on any figure that is not the verified RRSP limit
   (see product-marketing §6).
 - Leo (auto insurance) is a separate brand: it does not use the W Heritage black/gold system.

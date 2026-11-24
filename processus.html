@@ -78,7 +78,7 @@
 .h-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .h-track { display: flex; height: 100%; will-change: transform; }
 .h-panel { flex: 0 0 100vw; height: 100%; display: grid; grid-template-columns: 1.15fr .85fr; gap: 4rem; align-items: center; padding: 8rem var(--pad-x) 6rem; position: relative; overflow: hidden; }
-.h-panel .bignum { position: absolute; left: var(--pad-x); bottom: -4vw; font-family: var(--serif); font-weight: 300; font-size: 34vw; line-height: .8; color: transparent; -webkit-text-stroke: 1px rgba(180,154,112,.06); pointer-events: none; }
+.h-panel .bignum { position: absolute; left: var(--pad-x); bottom: -4vw; font-family: var(--serif); font-weight: 300; font-size: 34vw; line-height: .8; color: transparent; -webkit-text-stroke: 1px rgba(229,174,69,.06); pointer-events: none; }
 .h-panel .content { position: relative; max-width: 640px; }
 .h-panel .code { display: inline-flex; align-items: center; gap: 1rem; font-size: .62rem; letter-spacing: .32em; color: var(--or); margin-bottom: 1.4rem; }
 .h-panel .code i { width: 40px; height: 1px; background: var(--or); }
@@ -86,7 +86,7 @@
 .h-panel .desc { font-size: .92rem; color: var(--texte2); line-height: 1.95; margin-bottom: 2rem; }
 .h-panel .get small { display: block; font-size: .58rem; letter-spacing: .24em; text-transform: uppercase; color: var(--texte3); margin-bottom: .9rem; }
 .h-panel .get ul { list-style: none; }
-.h-panel .get li { display: flex; gap: .9rem; padding: .6rem 0; border-bottom: 1px solid rgba(180,154,112,.08); font-size: .84rem; color: var(--texte); }
+.h-panel .get li { display: flex; gap: .9rem; padding: .6rem 0; border-bottom: 1px solid rgba(229,174,69,.08); font-size: .84rem; color: var(--texte); }
 .h-panel .get li::before { content: ''; width: 5px; height: 5px; border: 1px solid var(--or); transform: rotate(45deg); flex-shrink: 0; margin-top: .5rem; }
 .h-panel .when { margin-top: 1.8rem; font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--or-pale); display: flex; align-items: center; gap: .8rem; }
 .h-panel .when::before { content: ''; width: 18px; height: 18px; border: 1px solid var(--ligne-fort); border-radius: 50%; background: radial-gradient(circle, var(--or) 0 2px, transparent 3px); }
@@ -106,8 +106,8 @@
 .video-slot .vs-ui { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; text-align: center; padding: 1.5rem; }
 .video-slot .play { width: 70px; height: 70px; position: relative; display: flex; align-items: center; justify-content: center; }
 .video-slot .play::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--or); transform: rotate(45deg); transition: transform .6s var(--ease-out), background .4s; }
-.video-slot:hover .play::before { transform: rotate(135deg); background: rgba(180,154,112,.12); }
-.video-slot .play::after { content: ''; position: absolute; inset: -12px; border: 1px solid rgba(180,154,112,.35); transform: rotate(45deg); }
+.video-slot:hover .play::before { transform: rotate(135deg); background: rgba(229,174,69,.12); }
+.video-slot .play::after { content: ''; position: absolute; inset: -12px; border: 1px solid rgba(229,174,69,.35); transform: rotate(45deg); }
 .video-slot .play svg { position: relative; width: 18px; height: 18px; fill: var(--or); margin-left: 3px; }
 .video-slot .vs-t { font-family: var(--serif); font-size: 1.25rem; color: var(--creme); line-height: 1.2; }
 .video-slot .vs-s { font-size: .56rem; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
@@ -123,11 +123,11 @@
 .h-progress { position: absolute; top: 6.4rem; left: var(--pad-x); right: var(--pad-x); z-index: 5; display: flex; align-items: center; gap: 1.6rem; }
 .h-progress .count { font-family: var(--serif); font-size: 1.1rem; color: var(--or); min-width: 70px; }
 .h-progress .count span { color: var(--texte3); font-size: .9rem; }
-.h-progress .line { flex: 1; height: 1px; background: rgba(180,154,112,.15); position: relative; }
+.h-progress .line { flex: 1; height: 1px; background: rgba(229,174,69,.15); position: relative; }
 .h-progress .line i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--or); width: 0; }
 .h-progress .dots { position: absolute; inset: 0; display: flex; justify-content: space-between; align-items: center; }
 .h-progress .dots b { width: 9px; height: 9px; border: 1px solid var(--or); background: var(--noir); transform: rotate(45deg); transition: background .4s, box-shadow .4s; }
-.h-progress .dots b.on { background: var(--or); box-shadow: 0 0 12px rgba(180,154,112,.6); }
+.h-progress .dots b.on { background: var(--or); box-shadow: 0 0 12px rgba(229,174,69,.6); }
 .h-progress .labels { display: flex; gap: 1.6rem; font-size: .56rem; letter-spacing: .2em; color: var(--texte3); }
 .h-progress .labels span.on { color: var(--or-pale); }
 
@@ -135,11 +135,11 @@
 .pyr-wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 5rem; align-items: center; }
 .pyramid { position: relative; width: 100%; max-width: 540px; aspect-ratio: 1 / .92; margin: 0 auto; }
 .pyr { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; cursor: pointer;
-  background: rgba(180,154,112,calc(.1 + var(--k) * .035));
+  background: rgba(229,174,69,calc(.1 + var(--k) * .035));
   transform: scaleX(0); transform-origin: center;
   transition: transform 1s var(--ease-out) calc(var(--k) * .14s), background .35s ease; }
 .pyramid.in .pyr { transform: scaleX(1); }
-.pyr:hover { background: rgba(180,154,112,.32); }
+.pyr:hover { background: rgba(229,174,69,.32); }
 .pyr.on { background: var(--or); }
 .pyr span { position: relative; font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; color: var(--creme); font-weight: 500; transition: color .3s; white-space: nowrap; padding-left: .22em; }
 .pyr.on span { color: var(--noir); }

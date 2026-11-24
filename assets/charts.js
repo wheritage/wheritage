@@ -112,9 +112,9 @@
         var mx0 = X(m.i, n); row = (mx0 - lastX < 110) ? (row + 1) % 2 : 0; lastX = mx0;
         var ly = pad.t + 12 + row * 15;
         var x = X(m.i, n);
-        mk('line', { x1: x, x2: x, y1: pad.t + 14, y2: H - pad.b, stroke: 'rgba(180,154,112,.35)', 'stroke-dasharray': '2 4' }, gMark);
-        mk('rect', { x: x - 3, y: pad.t + 5, width: 6, height: 6, fill: '#B49A70', transform: 'rotate(45 ' + x + ' ' + (pad.t + 8) + ')' }, gMark);
-        var t = mk('text', { x: x + 8, y: ly, fill: '#DCCFB6', 'font-size': 10.5, 'font-family': 'Montserrat, sans-serif', 'letter-spacing': '.06em' }, gMark);
+        mk('line', { x1: x, x2: x, y1: pad.t + 14, y2: H - pad.b, stroke: 'rgba(229,174,69,.35)', 'stroke-dasharray': '2 4' }, gMark);
+        mk('rect', { x: x - 3, y: pad.t + 5, width: 6, height: 6, fill: '#E5AE45', transform: 'rotate(45 ' + x + ' ' + (pad.t + 8) + ')' }, gMark);
+        var t = mk('text', { x: x + 8, y: ly, fill: '#F6DDA6', 'font-size': 10.5, 'font-family': 'Montserrat, sans-serif', 'letter-spacing': '.06em' }, gMark);
         if (x > W - 150) { t.setAttribute('x', x - 8); t.setAttribute('text-anchor', 'end'); }
         t.textContent = m.label;
       });

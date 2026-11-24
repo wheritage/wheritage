@@ -106,9 +106,9 @@
   /* ── Logo (monogramme losange + W + joyau) ── */
   WH.logo = function (cls) {
     return '<svg class="' + cls + '" viewBox="0 0 40 40" fill="none" aria-hidden="true">' +
-      '<path class="d" d="M20 2 L38 20 L20 38 L2 20 Z" stroke="#B49A70" stroke-width="1"/>' +
-      '<path class="w" d="M11 14 L15.5 27 L20 17.5 L24.5 27 L29 14" stroke="#B49A70" stroke-width="1.5" stroke-linejoin="miter" stroke-linecap="square"/>' +
-      '<rect class="j" x="18.4" y="2.9" width="3.2" height="3.2" fill="#CDBB98" transform="rotate(45 20 4.5)"/></svg>';
+      '<path class="d" d="M20 2 L38 20 L20 38 L2 20 Z" stroke="#E5AE45" stroke-width="1"/>' +
+      '<path class="w" d="M11 14 L15.5 27 L20 17.5 L24.5 27 L29 14" stroke="#E5AE45" stroke-width="1.5" stroke-linejoin="miter" stroke-linecap="square"/>' +
+      '<rect class="j" x="18.4" y="2.9" width="3.2" height="3.2" fill="#F0C76E" transform="rotate(45 20 4.5)"/></svg>';
   };
 
   /* ==========================================================================
@@ -217,7 +217,7 @@
       '</div>' +
       '<div class="footer-bottom">' +
         '<span>© ' + yr + ' W Héritage · Walid Harchaoui, CSF</span>' +
-        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button></span>' +
+        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button> · <button type="button" class="fl-consent" data-ambient-toggle>' + bi('Mettre l\'animation en pause', 'Pause animation') + '</button></span>' +
         '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">Chambre de la sécurité financière</a></span>' +
       '</div>';
     document.body.appendChild(foot);
@@ -298,7 +298,7 @@
       '</div>' +
       '<div class="footer-bottom">' +
         '<span>© ' + yr + ' W Héritage · Walid Harchaoui, CSF</span>' +
-        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button></span>' +
+        '<span class="fl-links"><a href="confidentialite.html">' + bi('Confidentialité', 'Privacy') + '</a> · <a href="conditions.html">' + bi('Conditions d\'utilisation', 'Terms of use') + '</a> · <a href="conditions.html#divulgations">' + bi('Avis et divulgations', 'Notices &amp; disclosures') + '</a> · <button type="button" class="fl-consent" data-consent-open>' + bi('Préférences de témoins', 'Cookie preferences') + '</button> · <button type="button" class="fl-consent" data-ambient-toggle>' + bi('Mettre l\'animation en pause', 'Pause animation') + '</button></span>' +
         '<span><a href="https://lautorite.qc.ca" target="_blank" rel="noopener">AMF</a> · <a href="https://www.fsrao.ca" target="_blank" rel="noopener">' + bi('ARSF', 'FSRA') + '</a> · <a href="https://www.chambresf.com" target="_blank" rel="noopener">' + bi('Chambre de la sécurité financière', 'Chambre de la sécurité financière') + '</a></span>' +
       '</div>';
     document.body.appendChild(foot);
@@ -558,7 +558,7 @@
           if (p.y < -5) { p.y = h + 5; p.x = Math.random() * w; }
           var tw = p.a * (0.6 + 0.4 * Math.sin(t / 900 + p.ph));
           ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283);
-          ctx.fillStyle = 'rgba(205,187,152,' + tw.toFixed(3) + ')'; ctx.fill();
+          ctx.fillStyle = 'rgba(240,199,110,' + tw.toFixed(3) + ')'; ctx.fill();
         });
         if (running) raf = requestAnimationFrame(frame);
       }
@@ -568,6 +568,89 @@
         running = en[0].isIntersecting;
         if (running) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
       }).observe(cv);
+    });
+  }
+
+  /* Fond vivant (toutes les pages) : particules d'or ambré qui dérivent lentement, se relient quand elles
+     se rapprochent, s'écartent du pointeur et accélèrent un peu au défilement. Un seul canvas fixe,
+     en mode « screen » : il brille sur les sections sombres et disparaît presque sur l'ivoire.
+     Rien en mouvement réduit ; pause automatique onglet caché ; bouton pause dans le pied de page (WCAG 2.2.2). */
+  function initAmbient() {
+    if (reduce || !window.requestAnimationFrame) { hideAmbientToggles(); return; }
+    var cv = document.createElement('canvas');
+    cv.className = 'ambient'; cv.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(cv);
+    var ctx = cv.getContext('2d'), dpr = Math.min(1.5, window.devicePixelRatio || 1), w = 0, h = 0, parts = [], raf = 0;
+    var mx = -9999, my = -9999, px = 0, py = 0, boost = 0, lastY = window.scrollY;
+    var paused = store('wh-ambient') === 'off';
+    var LINK = 130;
+    function size() {
+      w = window.innerWidth; h = window.innerHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.round(Math.min(90, Math.max(28, (w * h) / 17000)));
+      parts = [];
+      for (var i = 0; i < n; i++) parts.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.6 + .5,
+        vx: (Math.random() - .5) * .22, vy: -(Math.random() * .22 + .05), a: Math.random() * .5 + .3,
+        ph: Math.random() * 6.283, ivory: Math.random() < .25 });
+    }
+    function frame(t) {
+      ctx.clearRect(0, 0, w, h);
+      px += ((mx > -1 ? (mx / w - .5) * -14 : 0) - px) * .04;
+      py += ((my > -1 ? (my / h - .5) * -10 : 0) - py) * .04;
+      boost *= .92;
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.x += p.vx * (1 + boost); p.y += p.vy * (1 + boost * 2.5);
+        var dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
+        if (d2 < 19600 && d2 > 1) { var f = (19600 - d2) / 19600 * .9, d = Math.sqrt(d2); p.x += dx / d * f; p.y += dy / d * f; }
+        if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+        if (p.y > h + 10) p.y = -10;
+        if (p.x < -10) p.x = w + 10; else if (p.x > w + 10) p.x = -10;
+      }
+      ctx.lineWidth = .6;
+      for (var a = 0; a < parts.length; a++) {
+        for (var b = a + 1; b < parts.length; b++) {
+          var ex = parts[a].x - parts[b].x, ey = parts[a].y - parts[b].y, dd = ex * ex + ey * ey;
+          if (dd < LINK * LINK) {
+            ctx.strokeStyle = 'rgba(229,174,69,' + ((1 - Math.sqrt(dd) / LINK) * .22).toFixed(3) + ')';
+            ctx.beginPath(); ctx.moveTo(parts[a].x + px, parts[a].y + py); ctx.lineTo(parts[b].x + px, parts[b].y + py); ctx.stroke();
+          }
+        }
+      }
+      for (var k = 0; k < parts.length; k++) {
+        var q = parts[k], tw = q.a * (.65 + .35 * Math.sin(t / 1100 + q.ph));
+        ctx.beginPath(); ctx.arc(q.x + px, q.y + py, q.r, 0, 6.283);
+        ctx.fillStyle = (q.ivory ? 'rgba(245,244,240,' : 'rgba(240,199,110,') + tw.toFixed(3) + ')';
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    function play() { if (!raf && !paused && !document.hidden) raf = requestAnimationFrame(frame); cv.style.opacity = paused ? '0' : ''; }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+    function label() {
+      document.querySelectorAll('[data-ambient-toggle]').forEach(function (btn) {
+        btn.innerHTML = paused ? bi('Relancer l\'animation', 'Play animation') : bi('Mettre l\'animation en pause', 'Pause animation');
+      });
+    }
+    size(); label(); play();
+    window.addEventListener('resize', function () { size(); }, { passive: true });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else play(); });
+    window.addEventListener('pointermove', function (e) { if (e.pointerType !== 'touch') { mx = e.clientX; my = e.clientY; } }, { passive: true });
+    document.addEventListener('pointerleave', function () { mx = my = -9999; });
+    window.addEventListener('scroll', function () { var y = window.scrollY; boost = Math.min(4, boost + Math.abs(y - lastY) / 60); lastY = y; }, { passive: true });
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-ambient-toggle]');
+      if (!btn) return;
+      paused = !paused; store('wh-ambient', paused ? 'off' : 'on');
+      if (paused) { stop(); cv.style.opacity = '0'; } else play();
+      label();
+    });
+    document.addEventListener('wh:lang', label);
+  }
+  function hideAmbientToggles() {
+    document.querySelectorAll('[data-ambient-toggle]').forEach(function (btn) {
+      var prev = btn.previousSibling; if (prev && prev.nodeType === 3) prev.textContent = prev.textContent.replace(/ · $/, '');
+      btn.remove();
     });
   }
 
@@ -1018,6 +1101,7 @@
     initSmoothScroll();
     initParallax();
     initDust();
+    initAmbient();
     initLazyFrames();
     initVideoSlots();
     initRanges();
